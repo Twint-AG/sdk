@@ -1,0 +1,1221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:merchant="http://service.twint.ch/merchant/types/v8_6"
+        xmlns:header="http://service.twint.ch/header/types/v8_6"
+        xmlns:fault="http://service.twint.ch/fault/types/v8_6"
+        xmlns="http://service.twint.ch/merchant/v8_6"
+        targetNamespace="http://service.twint.ch/merchant/v8_6">
+
+    <wsdl:types>
+        <xs:schema>
+            <xs:import schemaLocation="twint_merchant_service_v8.6.xsd"
+                       namespace="http://service.twint.ch/merchant/types/v8_6"/>
+            <xs:import schemaLocation="twint_header_types_v8.6.xsd"
+                       namespace="http://service.twint.ch/header/types/v8_6"/>
+            <xs:import schemaLocation="twint_fault_types_v8.6.xsd"
+                       namespace="http://service.twint.ch/fault/types/v8_6"/>
+        </xs:schema>
+    </wsdl:types>
+
+    <!-- RequestCheckInToken -->
+    <wsdl:message name="RequestCheckInRequest">
+        <wsdl:part name="request" element="merchant:RequestCheckInRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="RequestCheckInResponse">
+        <wsdl:part name="response" element="merchant:RequestCheckInResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="RequestCheckInRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="RequestCheckInResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- MonitorCheckIn -->
+    <wsdl:message name="MonitorCheckInRequest">
+        <wsdl:part name="request" element="merchant:MonitorCheckInRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorCheckInResponse">
+        <wsdl:part name="response" element="merchant:MonitorCheckInResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorCheckInRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorCheckInResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- CancelCheckIn -->
+    <wsdl:message name="CancelCheckInRequest">
+        <wsdl:part name="request" element="merchant:CancelCheckInRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelCheckInResponse">
+        <wsdl:part name="response" element="merchant:CancelCheckInResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelCheckInRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelCheckInResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- StartOrder -->
+    <wsdl:message name="StartOrderRequest">
+        <wsdl:part name="request" element="merchant:StartOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderResponse">
+        <wsdl:part name="response" element="merchant:StartOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- MonitorOrderStatus -->
+    <wsdl:message name="MonitorOrderRequest">
+        <wsdl:part name="request" element="merchant:MonitorOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderResponse">
+        <wsdl:part name="response" element="merchant:MonitorOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- IsUofConnectionActive -->
+    <wsdl:message name="IsUofConnectionActiveRequest">
+        <wsdl:part name="request" element="merchant:IsUofConnectionActiveRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="IsUofConnectionActiveResponse">
+        <wsdl:part name="response" element="merchant:IsUofConnectionActiveResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="IsUofConnectionActiveRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="IsUofConnectionActiveResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- ConfirmOrderStatus -->
+    <wsdl:message name="ConfirmOrderRequest">
+        <wsdl:part name="request" element="merchant:ConfirmOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderResponse">
+        <wsdl:part name="response" element="merchant:ConfirmOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- CancelOrderStatus -->
+    <wsdl:message name="CancelOrderRequest">
+        <wsdl:part name="request" element="merchant:CancelOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderResponse">
+        <wsdl:part name="response" element="merchant:CancelOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- FindOrder -->
+    <wsdl:message name="FindOrderRequest">
+        <wsdl:part name="request" element="merchant:FindOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="FindOrderResponse">
+        <wsdl:part name="response" element="merchant:FindOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="FindOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="FindOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- EnrollCashRegister -->
+    <wsdl:message name="EnrollCashRegisterRequest">
+        <wsdl:part name="request" element="merchant:EnrollCashRegisterRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="EnrollCashRegisterResponse">
+        <wsdl:part name="response" element="merchant:EnrollCashRegisterResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="EnrollCashRegisterRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="EnrollCashRegisterResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- CheckSystemStatus -->
+    <wsdl:message name="CheckSystemStatusRequest">
+        <wsdl:part name="request" element="merchant:CheckSystemStatusRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="CheckSystemStatusResponse">
+        <wsdl:part name="response" element="merchant:CheckSystemStatusResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="CheckSystemStatusRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="CheckSystemStatusResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- GetCertificateValidity -->
+    <wsdl:message name="GetCertificateValidityRequest">
+        <wsdl:part name="request" element="merchant:GetCertificateValidityRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetCertificateValidityResponse">
+        <wsdl:part name="response" element="merchant:GetCertificateValidityResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetCertificateValidityRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetCertificateValidityResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- RenewCertificate -->
+    <wsdl:message name="RenewCertificateRequest">
+        <wsdl:part name="request" element="merchant:RenewCertificateRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="RenewCertificateResponse">
+        <wsdl:part name="response" element="merchant:RenewCertificateResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="RenewCertificateRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="RenewCertificateResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- StartOrderAndUofRegistration -->
+    <wsdl:message name="StartOrderAndUofRegistrationRequest">
+        <wsdl:part name="request" element="merchant:StartOrderAndUofRegistrationRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderAndUofRegistrationResponse">
+        <wsdl:part name="response" element="merchant:StartOrderAndUofRegistrationResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderAndUofRegistrationRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="StartOrderAndUofRegistrationResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- MonitorOrderAndUofRegistration -->
+    <wsdl:message name="MonitorOrderAndUofRegistrationRequest">
+        <wsdl:part name="request" element="merchant:MonitorOrderAndUofRegistrationRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderAndUofRegistrationResponse">
+        <wsdl:part name="response" element="merchant:MonitorOrderAndUofRegistrationResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderAndUofRegistrationRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="MonitorOrderAndUofRegistrationResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- ConfirmOrderAndUofRegistration -->
+    <wsdl:message name="ConfirmOrderAndUofRegistrationRequest">
+        <wsdl:part name="request" element="merchant:ConfirmOrderAndUofRegistrationRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderAndUofRegistrationResponse">
+        <wsdl:part name="response" element="merchant:ConfirmOrderAndUofRegistrationResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderAndUofRegistrationRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="ConfirmOrderAndUofRegistrationResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- CancelOrderAndUofRegistration -->
+    <wsdl:message name="CancelOrderAndUofRegistrationRequest">
+        <wsdl:part name="request" element="merchant:CancelOrderAndUofRegistrationRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderAndUofRegistrationResponse">
+        <wsdl:part name="response" element="merchant:CancelOrderAndUofRegistrationResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderAndUofRegistrationRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="CancelOrderAndUofRegistrationResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <!-- RequestFastCheckoutCheckIn -->
+    <wsdl:message name="RequestFastCheckoutCheckInRequest">
+        <wsdl:part name="request" element="merchant:RequestFastCheckoutCheckInRequestElement" />
+    </wsdl:message>
+    <wsdl:message name="RequestFastCheckoutCheckInResponse">
+        <wsdl:part name="response" element="merchant:RequestFastCheckoutCheckInResponseElement" />
+    </wsdl:message>
+    <wsdl:message name="RequestFastCheckoutCheckInRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement" />
+    </wsdl:message>
+    <wsdl:message name="RequestFastCheckoutCheckInResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement" />
+    </wsdl:message>
+
+    <!-- MonitorFastCheckoutCheckIn -->
+    <wsdl:message name="MonitorFastCheckoutCheckInRequest">
+        <wsdl:part name="request" element="merchant:MonitorFastCheckoutCheckInRequestElement" />
+    </wsdl:message>
+    <wsdl:message name="MonitorFastCheckoutCheckInResponse">
+        <wsdl:part name="response" element="merchant:MonitorFastCheckoutCheckInResponseElement" />
+    </wsdl:message>
+    <wsdl:message name="MonitorFastCheckoutCheckInRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement" />
+    </wsdl:message>
+    <wsdl:message name="MonitorFastCheckoutCheckInResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement" />
+    </wsdl:message>
+
+    <!-- Exceptions -->
+    <wsdl:message name="SystemException">
+        <wsdl:part name="fault" element="fault:SystemError"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidParameterException">
+        <wsdl:part name="fault" element="fault:InvalidParameter"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidMerchantException">
+        <wsdl:part name="fault" element="fault:InvalidMerchant"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidCashRegisterException">
+        <wsdl:part name="fault" element="fault:InvalidCashRegister"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidAmountException">
+        <wsdl:part name="fault" element="fault:InvalidAmount"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidCurrencyException">
+        <wsdl:part name="fault" element="fault:InvalidCurrency"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidOfflineAuthorizationException">
+        <wsdl:part name="fault" element="fault:InvalidOfflineAuthorization"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidOrderException">
+        <wsdl:part name="fault" element="fault:InvalidOrder"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidCustomerRelationKeyException">
+        <wsdl:part name="fault" element="fault:InvalidCustomerRelationKey"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidVoucherCategoryException">
+        <wsdl:part name="fault" element="fault:InvalidVoucherCategory"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidVoucherException">
+        <wsdl:part name="fault" element="fault:InvalidVoucher"/>
+    </wsdl:message>
+    <wsdl:message name="StatusTransitionErrorException">
+        <wsdl:part name="fault" element="fault:StatusTransitionError"/>
+    </wsdl:message>
+    <wsdl:message name="ActiveOrderErrorException">
+        <wsdl:part name="fault" element="fault:ActiveOrderError"/>
+    </wsdl:message>
+    <wsdl:message name="AuthorizationErrorException">
+        <wsdl:part name="fault" element="fault:AuthorizationError"/>
+    </wsdl:message>
+    <wsdl:message name="TimeoutErrorException">
+        <wsdl:part name="fault" element="fault:TimeoutError"/>
+    </wsdl:message>
+    <wsdl:message name="ReversalErrorException">
+        <wsdl:part name="fault" element="fault:ReversalError"/>
+    </wsdl:message>
+    <wsdl:message name="ActivePairingErrorException">
+        <wsdl:part name="fault" element="fault:ActivePairingError"/>
+    </wsdl:message>
+    <wsdl:message name="UnspecifiedPairingErrorException">
+        <wsdl:part name="fault" element="fault:UnspecifiedPairingError"/>
+    </wsdl:message>
+    <wsdl:message name="AccountLockedErrorException">
+        <wsdl:part name="fault" element="fault:AccountLockedError"/>
+    </wsdl:message>
+    <wsdl:message name="PairingErrorException">
+        <wsdl:part name="fault" element="fault:PairingError"/>
+    </wsdl:message>
+    <wsdl:message name="FundsErrorException">
+        <wsdl:part name="fault" element="fault:FundsError"/>
+    </wsdl:message>
+    <wsdl:message name="CashregisterAccessErrorException">
+        <wsdl:part name="fault" element="fault:CashregisterAccessError"/>
+    </wsdl:message>
+    <wsdl:message name="BusinessErrorException">
+        <wsdl:part name="fault" element="fault:BusinessError"/>
+    </wsdl:message>
+    <wsdl:message name="CertificateRenewalNotAllowedException">
+        <wsdl:part name="fault" element="fault:CertificateRenewalRefused"/>
+    </wsdl:message>
+    <wsdl:message name="ExpressConnectionCanceledException">
+        <wsdl:part name="fault" element="fault:ExpressConnectionCanceled"/>
+    </wsdl:message>
+    <wsdl:message name="ExpressCheckoutCredentialsInvalidException">
+        <wsdl:part name="fault" element="fault:ExpressCheckoutCredentialsInvalid"/>
+    </wsdl:message>
+    <wsdl:message name="UofNotAllowedException">
+        <wsdl:part name="fault" element="fault:UofNotAllowed"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidOperationForCombinedOrderException">
+        <wsdl:part name="fault" element="fault:InvalidOperationForCombinedOrder"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidRegistrationIdException">
+        <wsdl:part name="fault" element="fault:InvalidOrder"/>
+    </wsdl:message>
+    <wsdl:message name="MerchantConfirmationRequiredException">
+        <wsdl:part name="fault" element="fault:InvalidCombinedOrder"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidPreAuthOrderException">
+        <wsdl:part name="fault" element="fault:InvalidPreAuthOrder"/>
+    </wsdl:message>
+    <wsdl:message name="InvalidShippingMethodException">
+        <wsdl:part name="fault" element="fault:InvalidShippingMethod" />
+    </wsdl:message>
+    <wsdl:message name="InvalidCustomerDataScopeException">
+        <wsdl:part name="fault" element="fault:InvalidCustomerDataScope" />
+    </wsdl:message>
+
+    <!-- GetOrder -->
+    <wsdl:message name="GetOrderRequest">
+        <wsdl:part name="request" element="merchant:GetOrderRequestElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetOrderResponse">
+        <wsdl:part name="response" element="merchant:GetOrderResponseElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetOrderRequestHeader">
+        <wsdl:part name="requestHeader" element="header:RequestHeaderElement"/>
+    </wsdl:message>
+    <wsdl:message name="GetOrderResponseHeader">
+        <wsdl:part name="responseHeader" element="header:ResponseHeaderElement"/>
+    </wsdl:message>
+
+    <wsdl:portType name="TWINTMerchantPort">
+
+        <wsdl:operation name="RequestCheckIn">
+            <wsdl:input message="RequestCheckInRequest"/>
+            <wsdl:output message="RequestCheckInResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidOfflineAuthorizationException" message="InvalidOfflineAuthorizationException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorCheckIn">
+            <wsdl:input message="MonitorCheckInRequest"/>
+            <wsdl:output message="MonitorCheckInResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidCustomerRelationKeyException" message="InvalidCustomerRelationKeyException"/>
+            <wsdl:fault name="UnspecifiedPairingErrorException" message="UnspecifiedPairingErrorException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="CancelCheckIn">
+            <wsdl:input message="CancelCheckInRequest"/>
+            <wsdl:output message="CancelCheckInResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="UnspecifiedPairingErrorException" message="UnspecifiedPairingErrorException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="StartOrder">
+            <wsdl:input message="StartOrderRequest"/>
+            <wsdl:output message="StartOrderResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidAmountException" message="InvalidAmountException"/>
+            <wsdl:fault name="InvalidCurrencyException" message="InvalidCurrencyException"/>
+            <wsdl:fault name="InvalidOrderException" message="InvalidOrderException"/>
+            <wsdl:fault name="InvalidOfflineAuthorizationException" message="InvalidOfflineAuthorizationException"/>
+            <wsdl:fault name="InvalidCustomerRelationKeyException" message="InvalidCustomerRelationKeyException"/>
+            <wsdl:fault name="ExpressConnectionCanceledException" message="ExpressConnectionCanceledException"/>
+            <wsdl:fault name="ExpressCheckoutCredentialsInvalidException"
+                        message="ExpressCheckoutCredentialsInvalidException"/>
+            <wsdl:fault name="InvalidPreAuthOrderException" message="InvalidPreAuthOrderException"/>
+            <wsdl:fault name="MerchantConfirmationRequiredException" message="MerchantConfirmationRequiredException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorOrder">
+            <wsdl:input message="MonitorOrderRequest"/>
+            <wsdl:output message="MonitorOrderResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidOrderException" message="InvalidOrderException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="IsUofConnectionActive">
+            <wsdl:input message="IsUofConnectionActiveRequest"/>
+            <wsdl:output message="IsUofConnectionActiveResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCustomerRelationKeyException" message="InvalidCustomerRelationKeyException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="ConfirmOrder">
+            <wsdl:input message="ConfirmOrderRequest"/>
+            <wsdl:output message="ConfirmOrderResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidAmountException" message="InvalidAmountException"/>
+            <wsdl:fault name="InvalidOrderException" message="InvalidOrderException"/>
+            <wsdl:fault name="InvalidCurrencyException" message="InvalidCurrencyException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="CancelOrder">
+            <wsdl:input message="CancelOrderRequest"/>
+            <wsdl:output message="CancelOrderResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="StatusTransitionErrorException" message="StatusTransitionErrorException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="InvalidOrderException" message="InvalidOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindOrder">
+            <wsdl:input message="FindOrderRequest"/>
+            <wsdl:output message="FindOrderResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="CashregisterAccessErrorException" message="CashregisterAccessErrorException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="EnrollCashRegister">
+            <wsdl:input message="EnrollCashRegisterRequest"/>
+            <wsdl:output message="EnrollCashRegisterResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="CheckSystemStatus">
+            <wsdl:input message="CheckSystemStatusRequest"/>
+            <wsdl:output message="CheckSystemStatusResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="GetCertificateValidity">
+            <wsdl:input message="GetCertificateValidityRequest"/>
+            <wsdl:output message="GetCertificateValidityResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="RenewCertificate">
+            <wsdl:input message="RenewCertificateRequest"/>
+            <wsdl:output message="RenewCertificateResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="CertificateRenewalNotAllowedException" message="CertificateRenewalNotAllowedException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="GetOrder">
+            <wsdl:input message="GetOrderRequest"/>
+            <wsdl:output message="GetOrderResponse"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidOrderException" message="InvalidOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="StartOrderAndUofRegistration">
+            <wsdl:input message="StartOrderAndUofRegistrationRequest"/>
+            <wsdl:output message="StartOrderAndUofRegistrationResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidAmountException" message="InvalidAmountException"/>
+            <wsdl:fault name="InvalidCurrencyException" message="InvalidCurrencyException"/>
+            <wsdl:fault name="InvalidRegistrationIdException" message="InvalidRegistrationIdException"/>
+            <wsdl:fault name="MerchantConfirmationRequiredException" message="MerchantConfirmationRequiredException"/>
+            <wsdl:fault name="InvalidPreAuthOrderException" message="InvalidPreAuthOrderException"/>
+            <wsdl:fault name="UofNotAllowedException" message="UofNotAllowedException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorOrderAndUofRegistration">
+            <wsdl:input message="MonitorOrderAndUofRegistrationRequest"/>
+            <wsdl:output message="MonitorOrderAndUofRegistrationResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="UofNotAllowedException" message="UofNotAllowedException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="ConfirmOrderAndUofRegistration">
+            <wsdl:input message="ConfirmOrderAndUofRegistrationRequest"/>
+            <wsdl:output message="ConfirmOrderAndUofRegistrationResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidAmountException" message="InvalidAmountException"/>
+            <wsdl:fault name="InvalidCurrencyException" message="InvalidCurrencyException"/>
+            <wsdl:fault name="StatusTransitionErrorException" message="StatusTransitionErrorException"/>
+            <wsdl:fault name="UofNotAllowedException" message="UofNotAllowedException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="CancelOrderAndUofRegistration">
+            <wsdl:input message="CancelOrderAndUofRegistrationRequest"/>
+            <wsdl:output message="CancelOrderAndUofRegistrationResponse"/>
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException"/>
+            <wsdl:fault name="InvalidParameterException" message="InvalidParameterException"/>
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException"/>
+            <wsdl:fault name="StatusTransitionErrorException" message="StatusTransitionErrorException"/>
+            <wsdl:fault name="UofNotAllowedException" message="UofNotAllowedException"/>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException"
+                        message="InvalidOperationForCombinedOrderException"/>
+            <wsdl:fault name="SystemException" message="SystemException"/>
+        </wsdl:operation>
+
+        <wsdl:operation name="RequestFastCheckoutCheckIn">
+            <wsdl:input message="RequestFastCheckoutCheckInRequest" />
+            <wsdl:output message="RequestFastCheckoutCheckInResponse" />
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException" />
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException" />
+            <wsdl:fault name="InvalidCustomerDataScopeException" message="InvalidCustomerDataScopeException" />
+            <wsdl:fault name="SystemException" message="SystemException" />
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorFastCheckoutCheckIn">
+            <wsdl:input message="MonitorFastCheckoutCheckInRequest" />
+            <wsdl:output message="MonitorFastCheckoutCheckInResponse" />
+            <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException" />
+            <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException" />
+            <wsdl:fault name="SystemException" message="SystemException" />
+        </wsdl:operation>
+
+    </wsdl:portType>
+
+    <wsdl:binding name="TWINTMerchantSOAPBinding" type="TWINTMerchantPort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="RequestCheckIn">
+            <soap:operation soapAction="RequestCheckIn"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="RequestCheckInRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="RequestCheckInResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOfflineAuthorizationException">
+                <soap:fault use="literal" name="InvalidOfflineAuthorizationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorCheckIn">
+            <soap:operation soapAction="MonitorCheckIn"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="MonitorCheckInRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="MonitorCheckInResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCustomerRelationKeyException">
+                <soap:fault use="literal" name="InvalidCustomerRelationKeyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UnspecifiedPairingErrorException">
+                <soap:fault use="literal" name="UnspecifiedPairingErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+		<wsdl:operation name="IsUofConnectionActive">
+			<soap:operation soapAction="IsUofConnectionActive" />
+			<wsdl:input>
+				<soap:header use="literal" part="requestHeader" message="IsUofConnectionActiveRequestHeader" />
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:header use="literal" part="responseHeader" message="IsUofConnectionActiveResponseHeader" />
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="InvalidMerchantException">
+				<soap:fault use="literal" name="InvalidMerchantException" />
+			</wsdl:fault>
+			<wsdl:fault name="InvalidCustomerRelationKeyException">
+				<soap:fault use="literal" name="InvalidCustomerRelationKeyException" />
+			</wsdl:fault>
+			<wsdl:fault name="SystemException">
+				<soap:fault use="literal" name="SystemException" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+        <wsdl:operation name="CancelCheckIn">
+            <soap:operation soapAction="CancelCheckIn"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="CancelCheckInRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="CancelCheckInResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UnspecifiedPairingErrorException">
+                <soap:fault use="literal" name="UnspecifiedPairingErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="StartOrder">
+            <soap:operation soapAction="StartOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="StartOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="StartOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidAmountException">
+                <soap:fault use="literal" name="InvalidAmountException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCurrencyException">
+                <soap:fault use="literal" name="InvalidCurrencyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOrderException">
+                <soap:fault use="literal" name="InvalidOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOfflineAuthorizationException">
+                <soap:fault use="literal" name="InvalidOfflineAuthorizationException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCustomerRelationKeyException">
+                <soap:fault use="literal" name="InvalidCustomerRelationKeyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="ExpressConnectionCanceledException">
+                <soap:fault use="literal" name="ExpressConnectionCanceledException"/>
+            </wsdl:fault>
+            <wsdl:fault name="ExpressCheckoutCredentialsInvalidException">
+                <soap:fault use="literal" name="ExpressCheckoutCredentialsInvalidException"/>
+            </wsdl:fault>
+            <wsdl:fault name="MerchantConfirmationRequiredException">
+                <soap:fault use="literal" name="MerchantConfirmationRequiredException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidPreAuthOrderException">
+                <soap:fault use="literal" name="InvalidPreAuthOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorOrder">
+            <soap:operation soapAction="MonitorOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="MonitorOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="MonitorOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOrderException">
+                <soap:fault use="literal" name="InvalidOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="ConfirmOrder">
+            <soap:operation soapAction="ConfirmOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="ConfirmOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="ConfirmOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidAmountException">
+                <soap:fault use="literal" name="InvalidAmountException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOrderException">
+                <soap:fault use="literal" name="InvalidOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCurrencyException">
+                <soap:fault use="literal" name="InvalidCurrencyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="CancelOrder">
+            <soap:operation soapAction="CancelOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="CancelOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="CancelOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="StatusTransitionErrorException">
+                <soap:fault use="literal" name="StatusTransitionErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOrderException">
+                <soap:fault use="literal" name="InvalidOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="FindOrder">
+            <soap:operation soapAction="FindOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="FindOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="FindOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="CashregisterAccessErrorException">
+                <soap:fault use="literal" name="CashregisterAccessErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="EnrollCashRegister">
+            <soap:operation soapAction="EnrollCashRegister"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="EnrollCashRegisterRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="EnrollCashRegisterResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="CheckSystemStatus">
+            <soap:operation soapAction="CheckSystemStatus"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="CheckSystemStatusRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="CheckSystemStatusResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="GetCertificateValidity">
+            <soap:operation soapAction="GetCertificateValidity"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="GetCertificateValidityRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="GetCertificateValidityResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="RenewCertificate">
+            <soap:operation soapAction="RenewCertificate"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="RenewCertificateRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="RenewCertificateResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="CertificateRenewalNotAllowedException">
+                <soap:fault use="literal" name="CertificateRenewalNotAllowedException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+        <wsdl:operation name="GetOrder">
+            <soap:operation soapAction="GetOrder"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="GetOrderRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="GetOrderResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOrderException">
+                <soap:fault use="literal" name="InvalidOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="StartOrderAndUofRegistration">
+            <soap:operation soapAction="StartOrderAndUofRegistration"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="StartOrderAndUofRegistrationRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="StartOrderAndUofRegistrationResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidAmountException">
+                <soap:fault use="literal" name="InvalidAmountException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCurrencyException">
+                <soap:fault use="literal" name="InvalidCurrencyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidRegistrationIdException">
+                <soap:fault use="literal" name="InvalidRegistrationIdException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UofNotAllowedException">
+                <soap:fault use="literal" name="UofNotAllowedException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorOrderAndUofRegistration">
+            <soap:operation soapAction="MonitorOrderAndUofRegistration"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="MonitorOrderAndUofRegistrationRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader"
+                             message="MonitorOrderAndUofRegistrationResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UofNotAllowedException">
+                <soap:fault use="literal" name="UofNotAllowedException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="ConfirmOrderAndUofRegistration">
+            <soap:operation soapAction="ConfirmOrderAndUofRegistration"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="ConfirmOrderAndUofRegistrationRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader"
+                             message="ConfirmOrderAndUofRegistrationResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidAmountException">
+                <soap:fault use="literal" name="InvalidAmountException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCurrencyException">
+                <soap:fault use="literal" name="InvalidCurrencyException"/>
+            </wsdl:fault>
+            <wsdl:fault name="StatusTransitionErrorException">
+                <soap:fault use="literal" name="StatusTransitionErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UofNotAllowedException">
+                <soap:fault use="literal" name="UofNotAllowedException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="CancelOrderAndUofRegistration">
+            <soap:operation soapAction="CancelOrderAndUofRegistration"/>
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="CancelOrderAndUofRegistrationRequestHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="CancelOrderAndUofRegistrationResponseHeader"/>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidParameterException">
+                <soap:fault use="literal" name="InvalidParameterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException"/>
+            </wsdl:fault>
+            <wsdl:fault name="StatusTransitionErrorException">
+                <soap:fault use="literal" name="StatusTransitionErrorException"/>
+            </wsdl:fault>
+            <wsdl:fault name="UofNotAllowedException">
+                <soap:fault use="literal" name="UofNotAllowedException"/>
+            </wsdl:fault>
+            <wsdl:fault name="InvalidOperationForCombinedOrderException">
+                <soap:fault use="literal" name="InvalidOperationForCombinedOrderException"/>
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException"/>
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="RequestFastCheckoutCheckIn">
+            <soap:operation soapAction="RequestFastCheckoutCheckIn" />
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="RequestFastCheckoutCheckInRequestHeader" />
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="RequestFastCheckoutCheckInResponseHeader" />
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException" />
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException" />
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCustomerDataScopeException">
+                <soap:fault use="literal" name="InvalidCustomerDataScopeException" />
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException" />
+            </wsdl:fault>
+        </wsdl:operation>
+
+        <wsdl:operation name="MonitorFastCheckoutCheckIn">
+            <soap:operation soapAction="MonitorFastCheckoutCheckIn" />
+            <wsdl:input>
+                <soap:header use="literal" part="requestHeader" message="MonitorFastCheckoutCheckInRequestHeader" />
+                <soap:body use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <soap:header use="literal" part="responseHeader" message="MonitorFastCheckoutCheckInResponseHeader" />
+                <soap:body use="literal" />
+            </wsdl:output>
+            <wsdl:fault name="InvalidMerchantException">
+                <soap:fault use="literal" name="InvalidMerchantException" />
+            </wsdl:fault>
+            <wsdl:fault name="InvalidCashRegisterException">
+                <soap:fault use="literal" name="InvalidCashRegisterException" />
+            </wsdl:fault>
+            <wsdl:fault name="SystemException">
+                <soap:fault use="literal" name="SystemException" />
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="TWINTMerchantService">
+        <wsdl:port name="TWINTMerchantPort" binding="TWINTMerchantSOAPBinding">
+            <soap:address location="https://service.twint.ch/merchant/service/TWINTMerchantServicev8_6"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

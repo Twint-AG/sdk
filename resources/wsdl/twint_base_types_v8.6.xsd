@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://service.twint.ch/base/types/v8_6"
+	targetNamespace="http://service.twint.ch/base/types/v8_6"
+	elementFormDefault="qualified"
+	version="8.6">
+
+	<xs:simpleType name="GenericVersionType">
+		<xs:annotation>
+			<xs:documentation>Generic version string in the pattern format:
+				"^([1-9][0-9]*){1}(?:\.([0-9](?:[A-Za-z0-9]|-|_)*)){1}(?:\.([0-9](?:[A-Za-z0-9]|-|_)*))?(?:\.([0-9](?:[A-Za-z0-9]|-|_)*))?$" (with non-capturing groups and leading ^ and tailing $)
+				The regex capturing groups are: (Major).(Minor).(Patch).(Build), where Patch and Build are optional
+				Example values: "1.0.2020-05-19", "1.0", "1.2.0-rc.3", "3.14.1592"
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([1-9][0-9]*){1}(\.([0-9]([A-Za-z0-9]|-|_)*)){1}(\.([0-9]([A-Za-z0-9]|-|_)*))?(\.([0-9]([A-Za-z0-9]|-|_)*))?" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UuidType">
+		<xs:annotation>
+			<xs:documentation>
+				Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+				hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+				single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))?" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DataUriScheme">
+		<xs:annotation>
+			<xs:documentation>
+				DataUriScheme allows transporting an image or other binary Data in a format that is fit to be placed inside
+				an 'img' element in a website as inline image definition. Such an Element always starts with the word 'data:' and
+				then contains the contents of the image in Base64 encoded form (see https://tools.ietf.org/html/rfc2397[RFC 2397])
+				Within TWINT this Datatype is usually used to transport QR-Code Images in PNG Format.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="data:.*,[a-zA-Z0-9+/]+={0,2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token3Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="3"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token50Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token100Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token250Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="250"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token2000Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="2000"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Token3000Type">
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="3000"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NumericTokenType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="1000"/>
+			<xs:maxInclusive value="99999"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PositiveDecimal">
+			<xs:restriction base="xs:decimal">
+				<xs:minInclusive value="0"/>
+			</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OperationResultType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OK" />
+			<xs:enumeration value="ERROR" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PaymentLayerRenderingTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="QR_CODE" />
+			<xs:enumeration value="PAYMENT_PAGE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CurrencyAmountType">
+		<xs:sequence>
+			<xs:element name="Amount" type="tns:PositiveDecimal" />
+			<xs:element name="Currency" type="tns:Token3Type" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MerchantInformationBaseType">
+		<xs:annotation>
+			<xs:documentation>
+			Basic identification of a Merchant. MAY contain a CashRegisterId, if the Merchant wants to provide it.
+			In the cases the CashRegisterId is given it is used, otherwise the request is regarded as belonging to all
+			Terminals of the Merchant.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="MerchantUuid" type="tns:UuidType" />
+				<xs:element name="MerchantAliasId" type="tns:Token50Type" />
+			</xs:choice>
+			<xs:element name="CashRegisterId" type="tns:Token50Type" minOccurs="0"/>
+			<xs:element name="ServiceAgentUuid" type="tns:UuidType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MerchantInformationType">
+		<xs:annotation>
+			<xs:documentation>
+			Restriction of the Base Merchant Information.
+			In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+			within the *-POS Cases, where the Actions are performed by specific CashRegisters
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="MerchantUuid" type="tns:UuidType" />
+				<xs:element name="MerchantAliasId" type="tns:Token50Type" />
+			</xs:choice>
+			<xs:element name="CashRegisterId" type="tns:Token50Type" />
+			<xs:element name="ServiceAgentUuid" type="tns:UuidType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="MerchantTransactionReferenceType">
+        <xs:annotation>
+            <xs:documentation>
+                Reference number by which the merchant might want to identify
+                this voucher in his own applications.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:token">
+            <xs:maxLength value="50" />
+        </xs:restriction>
+    </xs:simpleType>
+
+	<xs:complexType name="CheckSystemStatusRequestType">
+		<xs:sequence>
+			<xs:element name="MerchantInformation" type="tns:MerchantInformationBaseType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CheckSystemStatusResponseType">
+		<xs:sequence>
+			<xs:element name="Status" type="tns:OperationResultType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TWINTTokenType">
+		<xs:annotation>
+			<xs:documentation>
+				TWINT Token Type transports tokens used throughout the TWINT System. It separates the same information
+				into three different elements to cater for different needs:
+				- DisplayToken transports a Token formatted fit for display to a Human and subsequent manual entry. It may omit
+				certain data only relevant in machine-machine communication or be formatted for better readability.
+				- APIToken transports a Token formatted fit for passing on to another Application in an API Call. It is optimized
+				for Transport of Data between applications.
+				- QRCodeImage transports a token encoded in an QR-Code image. The image is provided as PNG Image sent as
+				base64 encoded String within an DataURI, as defined in https://tools.ietf.org/html/rfc2397[RFC 2397]
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="DisplayToken" type="xs:string" />
+			<xs:element name="APIToken" type="xs:string" />
+			<xs:element name="QRCodeImage" type="tns:DataUriScheme" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="UofPaymentTypeEnum">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CUSTOMER_INITIATED" />
+			<xs:enumeration value="RECURRING" />
+			<xs:enumeration value="UNSCHEDULED" />
+			<xs:enumeration value="INSTALLMENT" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="RegistrationRequestType">
+		<xs:annotation>
+			<xs:documentation>
+				Required information for UOF registration>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="MerchantCredential" type="xs:base64Binary" />
+			<xs:element name="MerchantRegistrationReference" type="tns:MerchantTransactionReferenceType" minOccurs="0" />
+			<xs:element name="AliasLifetime" type="xs:duration" minOccurs="0" />
+			<xs:element name="EnforceRegistration" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="PaymentAuthorizationType">
+		<xs:annotation>
+			<xs:documentation>
+				Enumeration based on xs:string, defines the payment authorization type for an order.
+				- FINAL_AUTH: Authorization of the final amount, standard case
+				- PRE_AUTH: PreAuthorization of a defined maximum amount, which will be reserved on the customer account.
+				The final amount will be requested later with the confirmation
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FINAL_AUTH" />
+			<xs:enumeration value="PRE_AUTH" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ConfirmationButtonType">
+		<xs:annotation>
+			<xs:documentation>
+				ConfirmationButtonType is used to allow merchants to customise the labels for the confirmation button.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:maxLength value="10" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="InternationalizedString">
+		<xs:annotation>
+			<xs:documentation>
+				String defined in the given language.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="tns:LimitedStringType">
+				<xs:attribute use="required" name="language" type="tns:LanguageEnumType" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<!-- simple types -->
+	<xs:simpleType name="LimitedStringType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="1000" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="LanguageEnumType">
+		<xs:annotation>
+			<xs:documentation>
+				Enumeration based on xs:string, keeping the possible languages that the Scheme can provide Texts in.
+				- de: The contents of the sent text will be in german
+				- fr: The contents of the sent text will be in french
+				- it: The contents of the sent text will be in italian
+				- en: The contents of the sent text will be in english
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="de" />
+			<xs:enumeration value="fr" />
+			<xs:enumeration value="it" />
+			<xs:enumeration value="en" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
+

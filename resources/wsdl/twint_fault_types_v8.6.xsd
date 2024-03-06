@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://service.twint.ch/fault/types/v8_6"
+        targetNamespace="http://service.twint.ch/fault/types/v8_6"
+        elementFormDefault="qualified"
+        version="8.6">
+
+    <!-- Don't instantiate BaseFault, always use one of the specialized types -->
+    <xs:element name="BaseFaultElement" type="tns:BaseFault" abstract="true"/>
+
+    <!-- 1000 SYSTEM_ERROR -->
+    <xs:element name="SystemError" type="tns:BaseFault"/>
+    <!-- 1110 INPUT_ERROR_VALIDATION -->
+    <xs:element name="InvalidParameter" type="tns:BaseFault"/>
+    <!-- 1111 INPUT_ERROR_MERCHANT -->
+    <xs:element name="InvalidMerchant" type="tns:BaseFault"/>
+    <!-- 1112 INPUT_ERROR_CASHREGISTER -->
+    <xs:element name="InvalidCashRegister" type="tns:BaseFault"/>
+    <!-- 1113 INPUT_ERROR_AMOUNT -->
+    <xs:element name="InvalidAmount" type="tns:BaseFault"/>
+    <!-- 1114 INPUT_ERROR_CURRENCY -->
+    <xs:element name="InvalidCurrency" type="tns:BaseFault"/>
+    <!-- 1115 INPUT_ERROR_OFFLINEAUTH -->
+    <xs:element name="InvalidOfflineAuthorization" type="tns:BaseFault"/>
+    <!-- 1116 INPUT_ERROR_ORDER -->
+    <xs:element name="InvalidOrder" type="tns:BaseFault"/>
+    <!-- 1117 INPUT_ERROR_CUSTOMERRELKEY -->
+    <xs:element name="InvalidCustomerRelationKey" type="tns:BaseFault"/>
+    <!-- 1118 INPUT_ERROR_VOUCHERCATEGORY -->
+    <xs:element name="InvalidVoucherCategory" type="tns:BaseFault"/>
+    <!-- 1119 INPUT_ERROR_VOUCHER -->
+    <xs:element name="InvalidVoucher" type="tns:BaseFault"/>
+    <!-- Invalid Merchant Transaction Reference -->
+    <xs:element name="InvalidMerchantTransactionReference" type="tns:BaseFault"/>
+    <!-- 1200 STATUS_TRANSITION_ERROR -->
+    <xs:element name="StatusTransitionError" type="tns:BaseFault"/>
+    <!-- 1201 ACTIVE_ORDER_ERROR -->
+    <xs:element name="ActiveOrderError" type="tns:BaseFault"/>
+    <!-- 1202 AUTHORIZATION_ERROR -->
+    <xs:element name="AuthorizationError" type="tns:BaseFault"/>
+    <!-- 1203 TIMEOUT_ERROR -->
+    <xs:element name="TimeoutError" type="tns:BaseFault"/>
+    <!-- 1204 REVERSAL_ERROR -->
+    <xs:element name="ReversalError" type="tns:BaseFault"/>
+    <!-- 1205 ACTIVE_PAIRING_ERROR -->
+    <xs:element name="ActivePairingError" type="tns:BaseFault"/>
+    <!-- UNSPECIFIED_PAIRING_ERROR -->
+    <xs:element name="UnspecifiedPairingError" type="tns:BaseFault"/>
+    <!-- 1207 ACCOUNT_LOCKED_ERROR -->
+    <xs:element name="AccountLockedError" type="tns:BaseFault"/>
+    <!-- 1208 PAIRING_ERROR -->
+    <xs:element name="PairingError" type="tns:BaseFault"/>
+    <!-- 1209 FUNDS_ERROR -->
+    <xs:element name="FundsError" type="tns:BaseFault"/>
+    <!-- 1210 CASHREGISTER_ACCESS_ERROR -->
+    <xs:element name="CashregisterAccessError" type="tns:BaseFault"/>
+    <!-- 1299 BUSINESS_ERROR-->
+    <xs:element name="BusinessError" type="tns:BaseFault"/>
+    <!-- 1300 CERTIFICATE_RENEWAL_REFUSED-->
+    <xs:element name="CertificateRenewalRefused" type="tns:BaseFault"/>
+    <!-- Certificate Renewal not allowed yet -->
+    <xs:element name="CertificateRenewalNotAllowed" type="tns:BaseFault"/>
+    <!-- Invalid Token -->
+    <xs:element name="InvalidToken" type="tns:BaseFault"/>
+    <!-- Duration too long -->
+    <xs:element name="DurationTooLong" type="tns:BaseFault"/>
+    <!-- Express Checkout Connection canceled -->
+    <xs:element name="ExpressConnectionCanceled" type="tns:BaseFault"/>
+    <!-- Express Checkout Credentials invalid -->
+    <xs:element name="ExpressCheckoutCredentialsInvalid" type="tns:BaseFault"/>
+    <!-- The merchant is not allowed for User On File functionality -->
+    <xs:element name="UofNotAllowed" type="tns:BaseFault"/>
+    <!-- The operation is not allowed for combined uof registration and payment order -->
+    <xs:element name="InvalidOperationForCombinedOrder" type="tns:BaseFault"/>
+    <!-- The merchant confirmation flag for the combined order must not be false / null -->
+    <xs:element name="InvalidCombinedOrder" type="tns:BaseFault"/>
+    <!-- Invalid parameter combination for PreAuth Order -->
+    <xs:element name="InvalidPreAuthOrder" type="tns:BaseFault"/>
+    <xs:complexType name="BaseFault">
+        <xs:sequence>
+            <xs:element name="ErrorCode" type="tns:ErrorCode"/>
+        </xs:sequence>
+    </xs:complexType>
+    <!-- Invalid shipping method specified -->
+    <xs:element name="InvalidShippingMethod" type="tns:BaseFault"/>
+    <!-- Invalid customer data scope specified -->
+    <xs:element name="InvalidCustomerDataScope" type="tns:BaseFault"/>
+
+    <xs:complexType name="ErrorCode">
+        <xs:sequence>
+            <xs:element name="Code" type="xs:string"/>
+            <xs:element name="Status" type="xs:string"/>
+            <xs:element name="DetailCode" type="xs:string" minOccurs="0"/>
+            <xs:element name="DetailDescription" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
