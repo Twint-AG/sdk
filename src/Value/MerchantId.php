@@ -7,14 +7,17 @@ namespace Twint\Sdk\Value;
 final class MerchantId
 {
     public function __construct(
-        private string $id
+        private Uuid $uuid
     ) {
-        // @todo: UUID validation
-        $this->id = $id;
     }
 
     public function __toString(): string
     {
-        return $this->id;
+        return (string) $this->uuid;
+    }
+
+    public static function fromString(string $uuid): self
+    {
+        return new self(new Uuid($uuid));
     }
 }

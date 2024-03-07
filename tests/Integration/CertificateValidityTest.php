@@ -26,9 +26,11 @@ final class CertificateValidityTest extends TestCase
 
     public function testCertificateValidity(): void
     {
-        $validity = $this->client->getCertificateValidity(new MerchantId($_SERVER['TWINT_SDK_TEST_MERCHANT_ID']));
+        $certificateValidity = $this->client->getCertificateValidity(
+            MerchantId::fromString($_SERVER['TWINT_SDK_TEST_MERCHANT_ID'])
+        );
 
-        self::assertIsBool($validity->isRenewalAllowed());
-        self::assertInstanceOf(DateTimeImmutable::class, $validity->expiresAt());
+        self::assertIsBool($certificateValidity->isRenewalAllowed());
+        self::assertInstanceOf(DateTimeImmutable::class, $certificateValidity->expiresAt());
     }
 }
