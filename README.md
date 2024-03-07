@@ -1,6 +1,10 @@
 # README
 TBD
 
+### Tests
+ * Copy `.env.example` to `.env` and set the correct values
+ * Run `make test`
+
 ### Code generation
 Run `make codegen` to regenerate the code from the WSDL specification.
 

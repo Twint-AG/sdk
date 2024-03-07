@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class PaymentAmountType
+final class PaymentAmountType
 {
     /**
      * @var string
@@ -10,7 +12,7 @@ class PaymentAmountType
     private $PaymentMethod;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $Amount;
 
@@ -35,7 +37,7 @@ class PaymentAmountType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getAmount()
     {
@@ -43,7 +45,7 @@ class PaymentAmountType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $Amount
+     * @param CurrencyAmountType $Amount
      * @return PaymentAmountType
      */
     public function withAmount($Amount)
@@ -54,4 +56,3 @@ class PaymentAmountType
         return $new;
     }
 }
-

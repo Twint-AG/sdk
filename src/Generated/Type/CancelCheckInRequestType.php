@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class CancelCheckInRequestType implements RequestInterface
+final class CancelCheckInRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -27,18 +29,18 @@ class CancelCheckInRequestType implements RequestInterface
     private $PairingUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponListType
+     * @var CouponListType
      */
     private $Coupons;
 
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $Reason
-     * @var string $CustomerRelationUuid
-     * @var string $PairingUuid
-     * @var \Twint\Sdk\Generated\Type\CouponListType $Coupons
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $Reason
+     * @param string $CustomerRelationUuid
+     * @param string $PairingUuid
+     * @param CouponListType $Coupons
      */
     public function __construct($MerchantInformation, $Reason, $CustomerRelationUuid, $PairingUuid, $Coupons)
     {
@@ -50,7 +52,7 @@ class CancelCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -58,7 +60,7 @@ class CancelCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return CancelCheckInRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -130,7 +132,7 @@ class CancelCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponListType
+     * @return CouponListType
      */
     public function getCoupons()
     {
@@ -138,7 +140,7 @@ class CancelCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponListType $Coupons
+     * @param CouponListType $Coupons
      * @return CancelCheckInRequestType
      */
     public function withCoupons($Coupons)
@@ -149,4 +151,3 @@ class CancelCheckInRequestType implements RequestInterface
         return $new;
     }
 }
-

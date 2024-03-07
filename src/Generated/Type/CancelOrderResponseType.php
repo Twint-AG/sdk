@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class CancelOrderResponseType implements ResultInterface
+final class CancelOrderResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderType
+     * @var OrderType
      */
     private $Order;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderType
+     * @return OrderType
      */
     public function getOrder()
     {
@@ -20,7 +22,7 @@ class CancelOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderType $Order
+     * @param OrderType $Order
      * @return CancelOrderResponseType
      */
     public function withOrder($Order)
@@ -31,4 +33,3 @@ class CancelOrderResponseType implements ResultInterface
         return $new;
     }
 }
-

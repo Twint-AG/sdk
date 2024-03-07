@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class CheckSystemStatusResponseType implements ResultInterface
+final class CheckSystemStatusResponseType implements ResultInterface
 {
     /**
      * @var string
@@ -31,4 +33,3 @@ class CheckSystemStatusResponseType implements ResultInterface
         return $new;
     }
 }
-

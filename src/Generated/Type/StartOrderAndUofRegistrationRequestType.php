@@ -1,28 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class StartOrderAndUofRegistrationRequestType implements RequestInterface
+final class StartOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\RegistrationRequestType
+     * @var RegistrationRequestType
      */
     private $RegistrationRequest;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderRequestType
+     * @var OrderRequestType
      */
     private $Order;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponListType
+     * @var CouponListType
      */
     private $Coupons;
 
@@ -39,12 +41,12 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var \Twint\Sdk\Generated\Type\RegistrationRequestType $RegistrationRequest
-     * @var \Twint\Sdk\Generated\Type\OrderRequestType $Order
-     * @var \Twint\Sdk\Generated\Type\CouponListType $Coupons
-     * @var string $PaymentLayerRendering
-     * @var string $OrderUpdateNotificationURL
+     * @param MerchantInformationType $MerchantInformation
+     * @param RegistrationRequestType $RegistrationRequest
+     * @param OrderRequestType $Order
+     * @param CouponListType $Coupons
+     * @param string $PaymentLayerRendering
+     * @param string $OrderUpdateNotificationURL
      */
     public function __construct($MerchantInformation, $RegistrationRequest, $Order, $Coupons, $PaymentLayerRendering, $OrderUpdateNotificationURL)
     {
@@ -57,7 +59,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -65,7 +67,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return StartOrderAndUofRegistrationRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -77,7 +79,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\RegistrationRequestType
+     * @return RegistrationRequestType
      */
     public function getRegistrationRequest()
     {
@@ -85,7 +87,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\RegistrationRequestType $RegistrationRequest
+     * @param RegistrationRequestType $RegistrationRequest
      * @return StartOrderAndUofRegistrationRequestType
      */
     public function withRegistrationRequest($RegistrationRequest)
@@ -97,7 +99,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderRequestType
+     * @return OrderRequestType
      */
     public function getOrder()
     {
@@ -105,7 +107,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderRequestType $Order
+     * @param OrderRequestType $Order
      * @return StartOrderAndUofRegistrationRequestType
      */
     public function withOrder($Order)
@@ -117,7 +119,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponListType
+     * @return CouponListType
      */
     public function getCoupons()
     {
@@ -125,7 +127,7 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponListType $Coupons
+     * @param CouponListType $Coupons
      * @return StartOrderAndUofRegistrationRequestType
      */
     public function withCoupons($Coupons)
@@ -176,4 +178,3 @@ class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 }
-

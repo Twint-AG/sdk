@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class IsUofConnectionActiveRequestType implements RequestInterface
+final class IsUofConnectionActiveRequestType implements RequestInterface
 {
     /**
      * @var string
@@ -24,9 +26,9 @@ class IsUofConnectionActiveRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var string $MerchantUuid
-     * @var string $MerchantAliasId
-     * @var string $CustomerRelationUuid
+     * @param string $MerchantUuid
+     * @param string $MerchantAliasId
+     * @param string $CustomerRelationUuid
      */
     public function __construct($MerchantUuid, $MerchantAliasId, $CustomerRelationUuid)
     {
@@ -95,4 +97,3 @@ class IsUofConnectionActiveRequestType implements RequestInterface
         return $new;
     }
 }
-

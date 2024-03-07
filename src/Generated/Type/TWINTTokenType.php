@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class TWINTTokenType
+final class TWINTTokenType
 {
     /**
      * @var string
@@ -79,4 +81,3 @@ class TWINTTokenType
         return $new;
     }
 }
-

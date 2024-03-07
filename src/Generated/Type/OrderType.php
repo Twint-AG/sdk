@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class OrderType
+use DateTimeInterface;
+
+final class OrderType
 {
     /**
      * @var string
@@ -10,37 +14,37 @@ class OrderType
     private $Uuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderStatusType
+     * @var OrderStatusType
      */
     private $Status;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $CreationTimestamp;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $AuthorizedAmount;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $Fee;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $ProcessingTimestamp;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\PaymentAmountType
+     * @var PaymentAmountType
      */
     private $PaymentAmount;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\BNPLDataType
+     * @var BNPLDataType
      */
     private $BNPLData;
 
@@ -65,7 +69,7 @@ class OrderType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderStatusType
+     * @return OrderStatusType
      */
     public function getStatus()
     {
@@ -73,7 +77,7 @@ class OrderType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderStatusType $Status
+     * @param OrderStatusType $Status
      * @return OrderType
      */
     public function withStatus($Status)
@@ -85,7 +89,7 @@ class OrderType
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getCreationTimestamp()
     {
@@ -93,7 +97,7 @@ class OrderType
     }
 
     /**
-     * @param \DateTimeInterface $CreationTimestamp
+     * @param DateTimeInterface $CreationTimestamp
      * @return OrderType
      */
     public function withCreationTimestamp($CreationTimestamp)
@@ -105,7 +109,7 @@ class OrderType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getAuthorizedAmount()
     {
@@ -113,7 +117,7 @@ class OrderType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $AuthorizedAmount
+     * @param CurrencyAmountType $AuthorizedAmount
      * @return OrderType
      */
     public function withAuthorizedAmount($AuthorizedAmount)
@@ -125,7 +129,7 @@ class OrderType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getFee()
     {
@@ -133,7 +137,7 @@ class OrderType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $Fee
+     * @param CurrencyAmountType $Fee
      * @return OrderType
      */
     public function withFee($Fee)
@@ -145,7 +149,7 @@ class OrderType
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getProcessingTimestamp()
     {
@@ -153,7 +157,7 @@ class OrderType
     }
 
     /**
-     * @param \DateTimeInterface $ProcessingTimestamp
+     * @param DateTimeInterface $ProcessingTimestamp
      * @return OrderType
      */
     public function withProcessingTimestamp($ProcessingTimestamp)
@@ -165,7 +169,7 @@ class OrderType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\PaymentAmountType
+     * @return PaymentAmountType
      */
     public function getPaymentAmount()
     {
@@ -173,7 +177,7 @@ class OrderType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\PaymentAmountType $PaymentAmount
+     * @param PaymentAmountType $PaymentAmount
      * @return OrderType
      */
     public function withPaymentAmount($PaymentAmount)
@@ -185,7 +189,7 @@ class OrderType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\BNPLDataType
+     * @return BNPLDataType
      */
     public function getBNPLData()
     {
@@ -193,7 +197,7 @@ class OrderType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\BNPLDataType $BNPLData
+     * @param BNPLDataType $BNPLData
      * @return OrderType
      */
     public function withBNPLData($BNPLData)
@@ -204,4 +208,3 @@ class OrderType
         return $new;
     }
 }
-

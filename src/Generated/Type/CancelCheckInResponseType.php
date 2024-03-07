@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class CancelCheckInResponseType implements ResultInterface
+final class CancelCheckInResponseType implements ResultInterface
 {
     /**
      * @var string
@@ -31,4 +33,3 @@ class CancelCheckInResponseType implements ResultInterface
         return $new;
     }
 }
-

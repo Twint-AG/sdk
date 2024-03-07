@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class MonitorCheckInRequestType implements RequestInterface
+final class MonitorCheckInRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -29,10 +31,10 @@ class MonitorCheckInRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $CustomerRelationUuid
-     * @var string $PairingUuid
-     * @var bool $WaitForResponse
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $CustomerRelationUuid
+     * @param string $PairingUuid
+     * @param bool $WaitForResponse
      */
     public function __construct($MerchantInformation, $CustomerRelationUuid, $PairingUuid, $WaitForResponse)
     {
@@ -43,7 +45,7 @@ class MonitorCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -51,7 +53,7 @@ class MonitorCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return MonitorCheckInRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -122,4 +124,3 @@ class MonitorCheckInRequestType implements RequestInterface
         return $new;
     }
 }
-

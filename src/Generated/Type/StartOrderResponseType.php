@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class StartOrderResponseType implements ResultInterface
+final class StartOrderResponseType implements ResultInterface
 {
     /**
      * @var string
@@ -12,7 +14,7 @@ class StartOrderResponseType implements ResultInterface
     private $OrderUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderStatusType
+     * @var OrderStatusType
      */
     private $OrderStatus;
 
@@ -32,7 +34,7 @@ class StartOrderResponseType implements ResultInterface
     private $TwintURL;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CustomerInformationType
+     * @var CustomerInformationType
      */
     private $CustomerInformation;
 
@@ -62,7 +64,7 @@ class StartOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderStatusType
+     * @return OrderStatusType
      */
     public function getOrderStatus()
     {
@@ -70,7 +72,7 @@ class StartOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderStatusType $OrderStatus
+     * @param OrderStatusType $OrderStatus
      * @return StartOrderResponseType
      */
     public function withOrderStatus($OrderStatus)
@@ -142,7 +144,7 @@ class StartOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CustomerInformationType
+     * @return CustomerInformationType
      */
     public function getCustomerInformation()
     {
@@ -150,7 +152,7 @@ class StartOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CustomerInformationType $CustomerInformation
+     * @param CustomerInformationType $CustomerInformation
      * @return StartOrderResponseType
      */
     public function withCustomerInformation($CustomerInformation)
@@ -181,4 +183,3 @@ class StartOrderResponseType implements ResultInterface
         return $new;
     }
 }
-

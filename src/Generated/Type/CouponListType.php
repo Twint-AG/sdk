@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CouponListType
+final class CouponListType
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponType
+     * @var CouponType
      */
     private $ProcessedCoupon;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\RejectedCouponType
+     * @var RejectedCouponType
      */
     private $RejectedCoupon;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponType
+     * @return CouponType
      */
     public function getProcessedCoupon()
     {
@@ -23,7 +25,7 @@ class CouponListType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponType $ProcessedCoupon
+     * @param CouponType $ProcessedCoupon
      * @return CouponListType
      */
     public function withProcessedCoupon($ProcessedCoupon)
@@ -35,7 +37,7 @@ class CouponListType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\RejectedCouponType
+     * @return RejectedCouponType
      */
     public function getRejectedCoupon()
     {
@@ -43,7 +45,7 @@ class CouponListType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\RejectedCouponType $RejectedCoupon
+     * @param RejectedCouponType $RejectedCoupon
      * @return CouponListType
      */
     public function withRejectedCoupon($RejectedCoupon)
@@ -54,4 +56,3 @@ class CouponListType
         return $new;
     }
 }
-

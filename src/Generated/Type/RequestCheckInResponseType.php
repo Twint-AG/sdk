@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class RequestCheckInResponseType implements ResultInterface
+final class RequestCheckInResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\CheckInNotificationType
+     * @var CheckInNotificationType
      */
     private $CheckInNotification;
 
@@ -22,7 +24,7 @@ class RequestCheckInResponseType implements ResultInterface
     private $QRCode;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CheckInNotificationType
+     * @return CheckInNotificationType
      */
     public function getCheckInNotification()
     {
@@ -30,7 +32,7 @@ class RequestCheckInResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CheckInNotificationType $CheckInNotification
+     * @param CheckInNotificationType $CheckInNotification
      * @return RequestCheckInResponseType
      */
     public function withCheckInNotification($CheckInNotification)
@@ -81,4 +83,3 @@ class RequestCheckInResponseType implements ResultInterface
         return $new;
     }
 }
-

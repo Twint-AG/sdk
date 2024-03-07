@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class GetOrderRequestType implements RequestInterface
+final class GetOrderRequestType implements RequestInterface
 {
     /**
      * @var string
@@ -24,9 +26,9 @@ class GetOrderRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var string $MerchantUuid
-     * @var string $MerchantAliasId
-     * @var string $OrderUuid
+     * @param string $MerchantUuid
+     * @param string $MerchantAliasId
+     * @param string $OrderUuid
      */
     public function __construct($MerchantUuid, $MerchantAliasId, $OrderUuid)
     {
@@ -95,4 +97,3 @@ class GetOrderRequestType implements RequestInterface
         return $new;
     }
 }
-

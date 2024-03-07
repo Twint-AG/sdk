@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class RenewCertificateRequestType implements RequestInterface
+final class RenewCertificateRequestType implements RequestInterface
 {
     /**
      * @var string
@@ -24,9 +26,9 @@ class RenewCertificateRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var string $MerchantUuid
-     * @var string $MerchantAliasId
-     * @var string $CertificatePassword
+     * @param string $MerchantUuid
+     * @param string $MerchantAliasId
+     * @param string $CertificatePassword
      */
     public function __construct($MerchantUuid, $MerchantAliasId, $CertificatePassword)
     {
@@ -95,4 +97,3 @@ class RenewCertificateRequestType implements RequestInterface
         return $new;
     }
 }
-

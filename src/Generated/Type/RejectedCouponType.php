@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class RejectedCouponType
+final class RejectedCouponType
 {
     /**
      * @var string
@@ -10,7 +12,7 @@ class RejectedCouponType
     private $CouponId;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponRejectionReason
+     * @var CouponRejectionReason
      */
     private $RejectionReason;
 
@@ -35,7 +37,7 @@ class RejectedCouponType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponRejectionReason
+     * @return CouponRejectionReason
      */
     public function getRejectionReason()
     {
@@ -43,7 +45,7 @@ class RejectedCouponType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponRejectionReason $RejectionReason
+     * @param CouponRejectionReason $RejectionReason
      * @return RejectedCouponType
      */
     public function withRejectionReason($RejectionReason)
@@ -54,4 +56,3 @@ class RejectedCouponType
         return $new;
     }
 }
-

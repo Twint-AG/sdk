@@ -1,18 +1,50 @@
+.DEFAULT_GOAL := check
 MAKEFILE := $(lastword $(MAKEFILE_LIST))
 BASE_DIR := $(realpath $(dir $(MAKEFILE)))
-SOAP_CONFIG_FILE := $(BASE_DIR)/resources/config/soap.php
-SOAP_CLIENT_CLI := $(BASE_DIR)/vendor/bin/soap-client
 
-.PHONY: check codegen codegen-clean
+CODEGEN_DIR := $(BASE_DIR)/src/Generated
+VENDOR_BIN_DIR := $(BASE_DIR)/vendor/bin
 
-check: codegen
-	@echo "Check if codegen changed the generated code"
-	git diff --exit-code $(BASE_DIR)/src/Generated
+SOAP_CONFIG := $(BASE_DIR)/resources/config/soap.php
+SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
+ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
+PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
+PHPSTAN := $(VENDOR_BIN_DIR)/phpstan
+
+MAKEFLAGS += --jobs=32
+
+.PHONY: *
+
+test:
+	$(PHPUNIT)
+
+static-analysis:
+	$(PHPSTAN)
+
+format:
+	$(ECS) --fix
+
+check-format:
+	$(ECS)
+
+check: static-analysis test check-format
+	$(MAKE) check-codegen
 
 codegen-clean:
-	rm -rf $(BASE_DIR)/src/Generated/*
+	rm -rf $(CODEGEN_DIR)/*
 
-codegen: codegen-clean
-	$(SOAP_CLIENT_CLI) generate:types --config $(SOAP_CONFIG_FILE)
-	$(SOAP_CLIENT_CLI) generate:client --config $(SOAP_CONFIG_FILE)
-    $(SOAP_CLIENT_CLI) generate:classmap --config $(SOAP_CONFIG_FILE)
+codegen-generate-types: codegen-clean
+	$(SOAP_CLI) generate:types --config $(SOAP_CONFIG) --quiet
+
+codegen-generate-client: codegen-clean
+	$(SOAP_CLI) generate:client --config $(SOAP_CONFIG) --quiet
+
+codegen-generate-classmap: codegen-clean
+	$(SOAP_CLI) generate:classmap --config $(SOAP_CONFIG) --quiet
+
+codegen: codegen-generate-types codegen-generate-client codegen-generate-classmap
+	$(ECS) --fix $(CODEGEN_DIR) >/dev/null
+
+check-codegen: codegen
+	@echo "Check if codegen changed the generated code"
+	git diff --exit-code $(CODEGEN_DIR)

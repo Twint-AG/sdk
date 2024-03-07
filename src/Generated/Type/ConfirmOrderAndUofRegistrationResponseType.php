@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
+final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -22,7 +24,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     private $PaymentOrderUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderType
+     * @var OrderType
      */
     private $PaymentOrder;
 
@@ -32,12 +34,12 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     private $RegistrationUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\RegistrationType
+     * @var RegistrationType
      */
     private $RegistrationOrder;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -45,7 +47,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return ConfirmOrderAndUofRegistrationResponseType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -97,7 +99,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderType
+     * @return OrderType
      */
     public function getPaymentOrder()
     {
@@ -105,7 +107,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderType $PaymentOrder
+     * @param OrderType $PaymentOrder
      * @return ConfirmOrderAndUofRegistrationResponseType
      */
     public function withPaymentOrder($PaymentOrder)
@@ -137,7 +139,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\RegistrationType
+     * @return RegistrationType
      */
     public function getRegistrationOrder()
     {
@@ -145,7 +147,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\RegistrationType $RegistrationOrder
+     * @param RegistrationType $RegistrationOrder
      * @return ConfirmOrderAndUofRegistrationResponseType
      */
     public function withRegistrationOrder($RegistrationOrder)
@@ -156,4 +158,3 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 }
-

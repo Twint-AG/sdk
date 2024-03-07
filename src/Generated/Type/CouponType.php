@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CouponType
+final class CouponType
 {
     /**
      * @var string
@@ -10,7 +12,7 @@ class CouponType
     private $CouponId;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $CouponValue;
 
@@ -35,7 +37,7 @@ class CouponType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getCouponValue()
     {
@@ -43,7 +45,7 @@ class CouponType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $CouponValue
+     * @param CurrencyAmountType $CouponValue
      * @return CouponType
      */
     public function withCouponValue($CouponValue)
@@ -54,4 +56,3 @@ class CouponType
         return $new;
     }
 }
-

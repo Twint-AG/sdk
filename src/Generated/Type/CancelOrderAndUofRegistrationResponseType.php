@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class CancelOrderAndUofRegistrationResponseType implements ResultInterface
+final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
      * @var string
@@ -12,7 +14,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     private $PaymentOrderUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderType
+     * @var OrderType
      */
     private $PaymentOrder;
 
@@ -22,7 +24,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     private $RegistrationUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\RegistrationType
+     * @var RegistrationType
      */
     private $RegistrationOrder;
 
@@ -47,7 +49,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderType
+     * @return OrderType
      */
     public function getPaymentOrder()
     {
@@ -55,7 +57,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderType $PaymentOrder
+     * @param OrderType $PaymentOrder
      * @return CancelOrderAndUofRegistrationResponseType
      */
     public function withPaymentOrder($PaymentOrder)
@@ -87,7 +89,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\RegistrationType
+     * @return RegistrationType
      */
     public function getRegistrationOrder()
     {
@@ -95,7 +97,7 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\RegistrationType $RegistrationOrder
+     * @param RegistrationType $RegistrationOrder
      * @return CancelOrderAndUofRegistrationResponseType
      */
     public function withRegistrationOrder($RegistrationOrder)
@@ -106,4 +108,3 @@ class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 }
-

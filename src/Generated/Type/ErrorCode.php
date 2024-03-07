@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class ErrorCode
+final class ErrorCode
 {
     /**
      * @var string
@@ -104,4 +106,3 @@ class ErrorCode
         return $new;
     }
 }
-

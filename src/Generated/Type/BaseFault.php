@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class BaseFault
+final class BaseFault
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\ErrorCode
+     * @var ErrorCode
      */
     private $ErrorCode;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\ErrorCode
+     * @return ErrorCode
      */
     public function getErrorCode()
     {
@@ -18,7 +20,7 @@ class BaseFault
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\ErrorCode $ErrorCode
+     * @param ErrorCode $ErrorCode
      * @return BaseFault
      */
     public function withErrorCode($ErrorCode)
@@ -29,4 +31,3 @@ class BaseFault
         return $new;
     }
 }
-

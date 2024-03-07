@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class StartOrderAndUofRegistrationResponseType implements ResultInterface
+final class StartOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\TWINTTokenType
+     * @var TWINTTokenType
      */
     private $Token;
 
@@ -27,7 +29,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     private $PaymentOrderUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderStatusType
+     * @var OrderStatusType
      */
     private $PaymentOrderStatus;
 
@@ -42,7 +44,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     private $RegistrationStatus;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\TWINTTokenType
+     * @return TWINTTokenType
      */
     public function getToken()
     {
@@ -50,7 +52,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\TWINTTokenType $Token
+     * @param TWINTTokenType $Token
      * @return StartOrderAndUofRegistrationResponseType
      */
     public function withToken($Token)
@@ -122,7 +124,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderStatusType
+     * @return OrderStatusType
      */
     public function getPaymentOrderStatus()
     {
@@ -130,7 +132,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderStatusType $PaymentOrderStatus
+     * @param OrderStatusType $PaymentOrderStatus
      * @return StartOrderAndUofRegistrationResponseType
      */
     public function withPaymentOrderStatus($PaymentOrderStatus)
@@ -181,4 +183,3 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 }
-

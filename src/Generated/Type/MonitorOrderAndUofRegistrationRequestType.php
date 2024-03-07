@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
+final class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -29,10 +31,10 @@ class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $PaymentOrderUuid
-     * @var string $MerchantTransactionReference
-     * @var bool $WaitForResponse
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $PaymentOrderUuid
+     * @param string $MerchantTransactionReference
+     * @param bool $WaitForResponse
      */
     public function __construct($MerchantInformation, $PaymentOrderUuid, $MerchantTransactionReference, $WaitForResponse)
     {
@@ -43,7 +45,7 @@ class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -51,7 +53,7 @@ class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return MonitorOrderAndUofRegistrationRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -122,4 +124,3 @@ class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 }
-

@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class ConfirmOrderResponseType implements ResultInterface
+final class ConfirmOrderResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderType
+     * @var OrderType
      */
     private $Order;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -25,7 +27,7 @@ class ConfirmOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return ConfirmOrderResponseType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -37,7 +39,7 @@ class ConfirmOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderType
+     * @return OrderType
      */
     public function getOrder()
     {
@@ -45,7 +47,7 @@ class ConfirmOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderType $Order
+     * @param OrderType $Order
      * @return ConfirmOrderResponseType
      */
     public function withOrder($Order)
@@ -56,4 +58,3 @@ class ConfirmOrderResponseType implements ResultInterface
         return $new;
     }
 }
-

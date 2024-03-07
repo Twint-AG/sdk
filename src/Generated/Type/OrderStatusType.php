@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class OrderStatusType
+final class OrderStatusType
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\CodeValueType
+     * @var CodeValueType
      */
     private $Status;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CodeValueType
+     * @var CodeValueType
      */
     private $Reason;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CodeValueType
+     * @return CodeValueType
      */
     public function getStatus()
     {
@@ -23,7 +25,7 @@ class OrderStatusType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CodeValueType $Status
+     * @param CodeValueType $Status
      * @return OrderStatusType
      */
     public function withStatus($Status)
@@ -35,7 +37,7 @@ class OrderStatusType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CodeValueType
+     * @return CodeValueType
      */
     public function getReason()
     {
@@ -43,7 +45,7 @@ class OrderStatusType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CodeValueType $Reason
+     * @param CodeValueType $Reason
      * @return OrderStatusType
      */
     public function withReason($Reason)
@@ -54,4 +56,3 @@ class OrderStatusType
         return $new;
     }
 }
-

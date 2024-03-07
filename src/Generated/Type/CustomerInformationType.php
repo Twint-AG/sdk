@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CustomerInformationType
+final class CustomerInformationType
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\LoyaltyType
+     * @var LoyaltyType
      */
     private $Loyalty;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponType
+     * @var CouponType
      */
     private $Coupon;
 
@@ -20,12 +22,12 @@ class CustomerInformationType
     private $CustomerRelationUuid;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\KeyValueType
+     * @var KeyValueType
      */
     private $Addendum;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\LoyaltyType
+     * @return LoyaltyType
      */
     public function getLoyalty()
     {
@@ -33,7 +35,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\LoyaltyType $Loyalty
+     * @param LoyaltyType $Loyalty
      * @return CustomerInformationType
      */
     public function withLoyalty($Loyalty)
@@ -45,7 +47,7 @@ class CustomerInformationType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponType
+     * @return CouponType
      */
     public function getCoupon()
     {
@@ -53,7 +55,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponType $Coupon
+     * @param CouponType $Coupon
      * @return CustomerInformationType
      */
     public function withCoupon($Coupon)
@@ -85,7 +87,7 @@ class CustomerInformationType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\KeyValueType
+     * @return KeyValueType
      */
     public function getAddendum()
     {
@@ -93,7 +95,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\KeyValueType $Addendum
+     * @param KeyValueType $Addendum
      * @return CustomerInformationType
      */
     public function withAddendum($Addendum)
@@ -104,4 +106,3 @@ class CustomerInformationType
         return $new;
     }
 }
-

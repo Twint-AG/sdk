@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class RequestHeaderType
+final class RequestHeaderType
 {
     /**
      * @var string
@@ -79,4 +81,3 @@ class RequestHeaderType
         return $new;
     }
 }
-

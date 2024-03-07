@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class TimeBasedDataType
+use DateTimeInterface;
+
+final class TimeBasedDataType
 {
     /**
      * @var string
@@ -10,12 +14,12 @@ class TimeBasedDataType
     private $MessageTypeId;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $StartTimestamp;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $EndTimestamp;
 
@@ -40,7 +44,7 @@ class TimeBasedDataType
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getStartTimestamp()
     {
@@ -48,7 +52,7 @@ class TimeBasedDataType
     }
 
     /**
-     * @param \DateTimeInterface $StartTimestamp
+     * @param DateTimeInterface $StartTimestamp
      * @return TimeBasedDataType
      */
     public function withStartTimestamp($StartTimestamp)
@@ -60,7 +64,7 @@ class TimeBasedDataType
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getEndTimestamp()
     {
@@ -68,7 +72,7 @@ class TimeBasedDataType
     }
 
     /**
-     * @param \DateTimeInterface $EndTimestamp
+     * @param DateTimeInterface $EndTimestamp
      * @return TimeBasedDataType
      */
     public function withEndTimestamp($EndTimestamp)
@@ -79,4 +83,3 @@ class TimeBasedDataType
         return $new;
     }
 }
-

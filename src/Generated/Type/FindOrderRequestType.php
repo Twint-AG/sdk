@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
+use DateTimeInterface;
 use Phpro\SoapClient\Type\RequestInterface;
 
-class FindOrderRequestType implements RequestInterface
+final class FindOrderRequestType implements RequestInterface
 {
     /**
      * @var string
@@ -22,12 +25,12 @@ class FindOrderRequestType implements RequestInterface
     private $CashRegisterId;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $SearchStartDate;
 
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $SearchEndDate;
 
@@ -44,13 +47,13 @@ class FindOrderRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var string $MerchantUuid
-     * @var string $MerchantAliasId
-     * @var string $CashRegisterId
-     * @var \DateTimeInterface $SearchStartDate
-     * @var \DateTimeInterface $SearchEndDate
-     * @var string $OrderUuid
-     * @var string $MerchantTransactionReference
+     * @param string $MerchantUuid
+     * @param string $MerchantAliasId
+     * @param string $CashRegisterId
+     * @param DateTimeInterface $SearchStartDate
+     * @param DateTimeInterface $SearchEndDate
+     * @param string $OrderUuid
+     * @param string $MerchantTransactionReference
      */
     public function __construct($MerchantUuid, $MerchantAliasId, $CashRegisterId, $SearchStartDate, $SearchEndDate, $OrderUuid, $MerchantTransactionReference)
     {
@@ -124,7 +127,7 @@ class FindOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getSearchStartDate()
     {
@@ -132,7 +135,7 @@ class FindOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \DateTimeInterface $SearchStartDate
+     * @param DateTimeInterface $SearchStartDate
      * @return FindOrderRequestType
      */
     public function withSearchStartDate($SearchStartDate)
@@ -144,7 +147,7 @@ class FindOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getSearchEndDate()
     {
@@ -152,7 +155,7 @@ class FindOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \DateTimeInterface $SearchEndDate
+     * @param DateTimeInterface $SearchEndDate
      * @return FindOrderRequestType
      */
     public function withSearchEndDate($SearchEndDate)
@@ -203,4 +206,3 @@ class FindOrderRequestType implements RequestInterface
         return $new;
     }
 }
-

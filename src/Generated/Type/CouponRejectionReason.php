@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CouponRejectionReason
+final class CouponRejectionReason
 {
     /**
      * @var string
@@ -54,4 +56,3 @@ class CouponRejectionReason
         return $new;
     }
 }
-

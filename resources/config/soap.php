@@ -1,28 +1,28 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Twint\Sdk\CodeGeneration;
 
 use Phpro\SoapClient\CodeGenerator\Assembler;
-use Phpro\SoapClient\CodeGenerator\Rules;
 use Phpro\SoapClient\CodeGenerator\Config\Config;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapOptions;
-use Phpro\SoapClient\Soap\Driver\ExtSoap\ExtSoapEngineFactory;
+use Phpro\SoapClient\CodeGenerator\Rules;
+use Soap\ExtSoapEngine\ExtSoapEngineFactory;
+use Soap\ExtSoapEngine\ExtSoapOptions;
+use Twint\Sdk\ApiVersion;
 
 const BASE_DIR = __DIR__ . '/../..';
 const GENERATED_NAMESPACE = 'Twint\Sdk\Generated';
 const GENERATED_PATH = BASE_DIR . '/src/Generated';
 const GENERATED_TYPES_NAMESPACE = 'Twint\Sdk\Generated\Type';
 const GENERATED_TYPES_PATH = BASE_DIR . '/src/Generated/Type';
-const GENERATED_CLIENT_NAME = 'TwintClient';
-const GENERATED_CLASS_MAP_NAME = 'TwintClassMap';
-const WSDL_VERSION = '8.6';
-const WSDL_PATH = BASE_DIR . '/resources/wsdl/TWINTMerchantService_v' . WSDL_VERSION . '.wsdl';
+const GENERATED_CLIENT_NAME = 'TwintSoapClient';
+const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
+$engine = ExtSoapEngineFactory::fromOptions(ExtSoapOptions::defaults(ApiVersion::wsdlPath())->disableWsdlCache());
 
 return Config::create()
-    ->setEngine($engine = ExtSoapEngineFactory::fromOptions(
-        ExtSoapOptions::defaults(WSDL_PATH)
-            ->disableWsdlCache()
-    ))
+    ->setEngine($engine)
     ->setTypeDestination(GENERATED_TYPES_PATH)
     ->setTypeNamespace(GENERATED_TYPES_NAMESPACE)
 
@@ -50,9 +50,7 @@ return Config::create()
     ->addRule(
         new Rules\IsResultRule(
             $engine->getMetadata(),
-            new Rules\MultiRule([
-                new Rules\AssembleRule(new Assembler\ResultAssembler()),
-            ])
+            new Rules\MultiRule([new Rules\AssembleRule(new Assembler\ResultAssembler())])
         )
     )
 ;

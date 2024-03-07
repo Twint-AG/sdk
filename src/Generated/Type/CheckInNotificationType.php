@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CheckInNotificationType
+final class CheckInNotificationType
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CustomerInformationType
+     * @var CustomerInformationType
      */
     private $CustomerInformation;
 
@@ -25,7 +27,7 @@ class CheckInNotificationType
     private $PairingStatus;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -33,7 +35,7 @@ class CheckInNotificationType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return CheckInNotificationType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -45,7 +47,7 @@ class CheckInNotificationType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CustomerInformationType
+     * @return CustomerInformationType
      */
     public function getCustomerInformation()
     {
@@ -53,7 +55,7 @@ class CheckInNotificationType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CustomerInformationType $CustomerInformation
+     * @param CustomerInformationType $CustomerInformation
      * @return CheckInNotificationType
      */
     public function withCustomerInformation($CustomerInformation)
@@ -104,4 +106,3 @@ class CheckInNotificationType
         return $new;
     }
 }
-

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class RegistrationRequestType
+final class RegistrationRequestType
 {
     /**
      * @var string
@@ -104,4 +106,3 @@ class RegistrationRequestType
         return $new;
     }
 }
-

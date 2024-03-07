@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class MonitorCheckInResponseType implements ResultInterface
+final class MonitorCheckInResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\CheckInNotificationType
+     * @var CheckInNotificationType
      */
     private $CheckInNotification;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CheckInNotificationType
+     * @return CheckInNotificationType
      */
     public function getCheckInNotification()
     {
@@ -20,7 +22,7 @@ class MonitorCheckInResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CheckInNotificationType $CheckInNotification
+     * @param CheckInNotificationType $CheckInNotification
      * @return MonitorCheckInResponseType
      */
     public function withCheckInNotification($CheckInNotification)
@@ -31,4 +33,3 @@ class MonitorCheckInResponseType implements ResultInterface
         return $new;
     }
 }
-

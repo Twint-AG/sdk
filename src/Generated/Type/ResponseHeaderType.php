@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class ResponseHeaderType
+final class ResponseHeaderType
 {
     /**
      * @var string
@@ -29,4 +31,3 @@ class ResponseHeaderType
         return $new;
     }
 }
-

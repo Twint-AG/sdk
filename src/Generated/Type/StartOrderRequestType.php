@@ -1,23 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class StartOrderRequestType implements RequestInterface
+final class StartOrderRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderRequestType
+     * @var OrderRequestType
      */
     private $Order;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CouponListType
+     * @var CouponListType
      */
     private $Coupons;
 
@@ -42,7 +44,7 @@ class StartOrderRequestType implements RequestInterface
     private $UnidentifiedCustomer;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\ExpressMerchantAuthorizationType
+     * @var ExpressMerchantAuthorizationType
      */
     private $ExpressMerchantAuthorization;
 
@@ -64,17 +66,17 @@ class StartOrderRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var \Twint\Sdk\Generated\Type\OrderRequestType $Order
-     * @var \Twint\Sdk\Generated\Type\CouponListType $Coupons
-     * @var string $OfflineAuthorization
-     * @var string $CustomerRelationUuid
-     * @var string $PairingUuid
-     * @var bool $UnidentifiedCustomer
-     * @var \Twint\Sdk\Generated\Type\ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
-     * @var bool $QRCodeRendering
-     * @var string $PaymentLayerRendering
-     * @var string $OrderUpdateNotificationURL
+     * @param MerchantInformationType $MerchantInformation
+     * @param OrderRequestType $Order
+     * @param CouponListType $Coupons
+     * @param string $OfflineAuthorization
+     * @param string $CustomerRelationUuid
+     * @param string $PairingUuid
+     * @param bool $UnidentifiedCustomer
+     * @param ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
+     * @param bool $QRCodeRendering
+     * @param string $PaymentLayerRendering
+     * @param string $OrderUpdateNotificationURL
      */
     public function __construct($MerchantInformation, $Order, $Coupons, $OfflineAuthorization, $CustomerRelationUuid, $PairingUuid, $UnidentifiedCustomer, $ExpressMerchantAuthorization, $QRCodeRendering, $PaymentLayerRendering, $OrderUpdateNotificationURL)
     {
@@ -92,7 +94,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -100,7 +102,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return StartOrderRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -112,7 +114,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderRequestType
+     * @return OrderRequestType
      */
     public function getOrder()
     {
@@ -120,7 +122,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderRequestType $Order
+     * @param OrderRequestType $Order
      * @return StartOrderRequestType
      */
     public function withOrder($Order)
@@ -132,7 +134,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CouponListType
+     * @return CouponListType
      */
     public function getCoupons()
     {
@@ -140,7 +142,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CouponListType $Coupons
+     * @param CouponListType $Coupons
      * @return StartOrderRequestType
      */
     public function withCoupons($Coupons)
@@ -232,7 +234,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\ExpressMerchantAuthorizationType
+     * @return ExpressMerchantAuthorizationType
      */
     public function getExpressMerchantAuthorization()
     {
@@ -240,7 +242,7 @@ class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
+     * @param ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
      * @return StartOrderRequestType
      */
     public function withExpressMerchantAuthorization($ExpressMerchantAuthorization)
@@ -311,4 +313,3 @@ class StartOrderRequestType implements RequestInterface
         return $new;
     }
 }
-

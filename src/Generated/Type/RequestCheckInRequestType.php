@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class RequestCheckInRequestType implements RequestInterface
+final class RequestCheckInRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -32,7 +34,7 @@ class RequestCheckInRequestType implements RequestInterface
     private $UnidentifiedCustomer;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\LoyaltyType
+     * @var LoyaltyType
      */
     private $LoyaltyInformation;
 
@@ -49,14 +51,14 @@ class RequestCheckInRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $OfflineAuthorization
-     * @var string $CouponCode
-     * @var string $CustomerRelationUuid
-     * @var bool $UnidentifiedCustomer
-     * @var \Twint\Sdk\Generated\Type\LoyaltyType $LoyaltyInformation
-     * @var string $RequestCustomerRelationAlias
-     * @var bool $QRCodeRendering
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $OfflineAuthorization
+     * @param string $CouponCode
+     * @param string $CustomerRelationUuid
+     * @param bool $UnidentifiedCustomer
+     * @param LoyaltyType $LoyaltyInformation
+     * @param string $RequestCustomerRelationAlias
+     * @param bool $QRCodeRendering
      */
     public function __construct($MerchantInformation, $OfflineAuthorization, $CouponCode, $CustomerRelationUuid, $UnidentifiedCustomer, $LoyaltyInformation, $RequestCustomerRelationAlias, $QRCodeRendering)
     {
@@ -71,7 +73,7 @@ class RequestCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -79,7 +81,7 @@ class RequestCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return RequestCheckInRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -171,7 +173,7 @@ class RequestCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\LoyaltyType
+     * @return LoyaltyType
      */
     public function getLoyaltyInformation()
     {
@@ -179,7 +181,7 @@ class RequestCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\LoyaltyType $LoyaltyInformation
+     * @param LoyaltyType $LoyaltyInformation
      * @return RequestCheckInRequestType
      */
     public function withLoyaltyInformation($LoyaltyInformation)
@@ -230,4 +232,3 @@ class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 }
-

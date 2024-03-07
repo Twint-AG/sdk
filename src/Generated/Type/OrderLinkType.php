@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class OrderLinkType
+final class OrderLinkType
 {
     /**
      * @var string
@@ -54,4 +56,3 @@ class OrderLinkType
         return $new;
     }
 }
-

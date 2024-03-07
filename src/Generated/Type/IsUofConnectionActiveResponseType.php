@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class IsUofConnectionActiveResponseType implements ResultInterface
+final class IsUofConnectionActiveResponseType implements ResultInterface
 {
     /**
      * @var bool
@@ -31,4 +33,3 @@ class IsUofConnectionActiveResponseType implements ResultInterface
         return $new;
     }
 }
-

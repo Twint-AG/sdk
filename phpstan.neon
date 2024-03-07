@@ -1,0 +1,15 @@
+parameters:
+    level: max
+    paths:
+        - src
+        - tests
+    ignoreErrors:
+        -
+            message: "#^Method Twint\\\\Sdk\\\\Generated\\\\TwintSoapClient\\:\\:.*\\(\\) should return Twint\\\\Sdk\\\\Generated\\\\Type\\\\.* but returns Phpro\\\\SoapClient\\\\Type\\\\ResultInterface\\.$#"
+            path: src/Generated/TwintSoapClient.php
+        -
+            message: "#^PHPDoc tag @param for parameter \\$request with type Phpro\\\\SoapClient\\\\Type\\\\RequestInterface is not subtype of native type Twint\\\\Sdk\\\\Generated\\\\Type\\\\.*\\.$#"
+            path: src/Generated/TwintSoapClient.php
+        -
+            message: "#^PHPDoc tag @return with type Phpro\\\\SoapClient\\\\Type\\\\ResultInterface is not subtype of native type Twint\\\\Sdk\\\\Generated\\\\Type\\\\.*$#"
+            path: src/Generated/TwintSoapClient.php

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class OrderRequestType
+final class OrderRequestType
 {
     /**
      * @var string
@@ -10,7 +12,7 @@ class OrderRequestType
     private $PostingType;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $RequestedAmount;
 
@@ -20,7 +22,7 @@ class OrderRequestType
     private $MerchantTransactionReference;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $CustomerBenefit;
 
@@ -30,7 +32,7 @@ class OrderRequestType
     private $EReceiptUrl;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderLinkType
+     * @var OrderLinkType
      */
     private $Link;
 
@@ -40,7 +42,7 @@ class OrderRequestType
     private $OrderDetailsUrl;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\TimeBasedDataType
+     * @var TimeBasedDataType
      */
     private $TimeBasedData;
 
@@ -85,7 +87,7 @@ class OrderRequestType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getRequestedAmount()
     {
@@ -93,7 +95,7 @@ class OrderRequestType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $RequestedAmount
+     * @param CurrencyAmountType $RequestedAmount
      * @return OrderRequestType
      */
     public function withRequestedAmount($RequestedAmount)
@@ -125,7 +127,7 @@ class OrderRequestType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getCustomerBenefit()
     {
@@ -133,7 +135,7 @@ class OrderRequestType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $CustomerBenefit
+     * @param CurrencyAmountType $CustomerBenefit
      * @return OrderRequestType
      */
     public function withCustomerBenefit($CustomerBenefit)
@@ -165,7 +167,7 @@ class OrderRequestType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderLinkType
+     * @return OrderLinkType
      */
     public function getLink()
     {
@@ -173,7 +175,7 @@ class OrderRequestType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderLinkType $Link
+     * @param OrderLinkType $Link
      * @return OrderRequestType
      */
     public function withLink($Link)
@@ -205,7 +207,7 @@ class OrderRequestType
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\TimeBasedDataType
+     * @return TimeBasedDataType
      */
     public function getTimeBasedData()
     {
@@ -213,7 +215,7 @@ class OrderRequestType
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\TimeBasedDataType $TimeBasedData
+     * @param TimeBasedDataType $TimeBasedData
      * @return OrderRequestType
      */
     public function withTimeBasedData($TimeBasedData)
@@ -304,4 +306,3 @@ class OrderRequestType
         return $new;
     }
 }
-

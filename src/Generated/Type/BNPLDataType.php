@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class BNPLDataType
+final class BNPLDataType
 {
     /**
      * @var string
@@ -29,4 +31,3 @@ class BNPLDataType
         return $new;
     }
 }
-

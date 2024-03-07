@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-class MonitorOrderResponseType implements ResultInterface
+final class MonitorOrderResponseType implements ResultInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\OrderType
+     * @var OrderType
      */
     private $Order;
 
@@ -27,7 +29,7 @@ class MonitorOrderResponseType implements ResultInterface
     private $CustomerRelationUuid;
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -35,7 +37,7 @@ class MonitorOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return MonitorOrderResponseType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -47,7 +49,7 @@ class MonitorOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\OrderType
+     * @return OrderType
      */
     public function getOrder()
     {
@@ -55,7 +57,7 @@ class MonitorOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\OrderType $Order
+     * @param OrderType $Order
      * @return MonitorOrderResponseType
      */
     public function withOrder($Order)
@@ -106,4 +108,3 @@ class MonitorOrderResponseType implements ResultInterface
         return $new;
     }
 }
-

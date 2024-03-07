@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
-class CurrencyAmountType
+final class CurrencyAmountType
 {
     /**
      * @var float
@@ -54,4 +56,3 @@ class CurrencyAmountType
         return $new;
     }
 }
-

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class ConfirmOrderRequestType implements RequestInterface
+final class ConfirmOrderRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -22,7 +24,7 @@ class ConfirmOrderRequestType implements RequestInterface
     private $MerchantTransactionReference;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $RequestedAmount;
 
@@ -34,11 +36,11 @@ class ConfirmOrderRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $OrderUuid
-     * @var string $MerchantTransactionReference
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType $RequestedAmount
-     * @var bool $PartialConfirmation
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $OrderUuid
+     * @param string $MerchantTransactionReference
+     * @param CurrencyAmountType $RequestedAmount
+     * @param bool $PartialConfirmation
      */
     public function __construct($MerchantInformation, $OrderUuid, $MerchantTransactionReference, $RequestedAmount, $PartialConfirmation)
     {
@@ -50,7 +52,7 @@ class ConfirmOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -58,7 +60,7 @@ class ConfirmOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return ConfirmOrderRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -110,7 +112,7 @@ class ConfirmOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getRequestedAmount()
     {
@@ -118,7 +120,7 @@ class ConfirmOrderRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $RequestedAmount
+     * @param CurrencyAmountType $RequestedAmount
      * @return ConfirmOrderRequestType
      */
     public function withRequestedAmount($RequestedAmount)
@@ -149,4 +151,3 @@ class ConfirmOrderRequestType implements RequestInterface
         return $new;
     }
 }
-

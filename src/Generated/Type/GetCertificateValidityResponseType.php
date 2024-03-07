@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
+use DateTimeInterface;
 use Phpro\SoapClient\Type\ResultInterface;
 
-class GetCertificateValidityResponseType implements ResultInterface
+final class GetCertificateValidityResponseType implements ResultInterface
 {
     /**
-     * @var \DateTimeInterface
+     * @var DateTimeInterface
      */
     private $CertificateExpiryDate;
 
@@ -17,7 +20,7 @@ class GetCertificateValidityResponseType implements ResultInterface
     private $RenewalAllowed;
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
     public function getCertificateExpiryDate()
     {
@@ -25,7 +28,7 @@ class GetCertificateValidityResponseType implements ResultInterface
     }
 
     /**
-     * @param \DateTimeInterface $CertificateExpiryDate
+     * @param DateTimeInterface $CertificateExpiryDate
      * @return GetCertificateValidityResponseType
      */
     public function withCertificateExpiryDate($CertificateExpiryDate)
@@ -56,4 +59,3 @@ class GetCertificateValidityResponseType implements ResultInterface
         return $new;
     }
 }
-

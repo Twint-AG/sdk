@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class EnrollCashRegisterRequestType implements RequestInterface
+final class EnrollCashRegisterRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -34,11 +36,11 @@ class EnrollCashRegisterRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $CashRegisterType
-     * @var string $FormerCashRegisterId
-     * @var string $BeaconInventoryNumber
-     * @var string $BeaconDaemonVersion
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $CashRegisterType
+     * @param string $FormerCashRegisterId
+     * @param string $BeaconInventoryNumber
+     * @param string $BeaconDaemonVersion
      */
     public function __construct($MerchantInformation, $CashRegisterType, $FormerCashRegisterId, $BeaconInventoryNumber, $BeaconDaemonVersion)
     {
@@ -50,7 +52,7 @@ class EnrollCashRegisterRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -58,7 +60,7 @@ class EnrollCashRegisterRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return EnrollCashRegisterRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -149,4 +151,3 @@ class EnrollCashRegisterRequestType implements RequestInterface
         return $new;
     }
 }
-

@@ -1,13 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
+final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @var MerchantInformationType
      */
     private $MerchantInformation;
 
@@ -27,7 +29,7 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     private $ConfirmPaymentOrder;
 
     /**
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @var CurrencyAmountType
      */
     private $RequestedAmount;
 
@@ -44,13 +46,13 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     /**
      * Constructor
      *
-     * @var \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
-     * @var string $PaymentOrderUuid
-     * @var string $MerchantTransactionReference
-     * @var bool $ConfirmPaymentOrder
-     * @var \Twint\Sdk\Generated\Type\CurrencyAmountType $RequestedAmount
-     * @var bool $PartialConfirmation
-     * @var bool $ConfirmRegistration
+     * @param MerchantInformationType $MerchantInformation
+     * @param string $PaymentOrderUuid
+     * @param string $MerchantTransactionReference
+     * @param bool $ConfirmPaymentOrder
+     * @param CurrencyAmountType $RequestedAmount
+     * @param bool $PartialConfirmation
+     * @param bool $ConfirmRegistration
      */
     public function __construct($MerchantInformation, $PaymentOrderUuid, $MerchantTransactionReference, $ConfirmPaymentOrder, $RequestedAmount, $PartialConfirmation, $ConfirmRegistration)
     {
@@ -64,7 +66,7 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\MerchantInformationType
+     * @return MerchantInformationType
      */
     public function getMerchantInformation()
     {
@@ -72,7 +74,7 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\MerchantInformationType $MerchantInformation
+     * @param MerchantInformationType $MerchantInformation
      * @return ConfirmOrderAndUofRegistrationRequestType
      */
     public function withMerchantInformation($MerchantInformation)
@@ -144,7 +146,7 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return \Twint\Sdk\Generated\Type\CurrencyAmountType
+     * @return CurrencyAmountType
      */
     public function getRequestedAmount()
     {
@@ -152,7 +154,7 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @param \Twint\Sdk\Generated\Type\CurrencyAmountType $RequestedAmount
+     * @param CurrencyAmountType $RequestedAmount
      * @return ConfirmOrderAndUofRegistrationRequestType
      */
     public function withRequestedAmount($RequestedAmount)
@@ -203,4 +205,3 @@ class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 }
-
