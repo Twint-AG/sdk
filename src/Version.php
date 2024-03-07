@@ -7,4 +7,6 @@ namespace Twint\Sdk;
 final class Version
 {
     public const VERSION = '0.0.1';
+
+    public const NAME = 'TWINT PHP SDK';
 }
