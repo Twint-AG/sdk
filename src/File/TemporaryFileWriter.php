@@ -35,7 +35,19 @@ final class TemporaryFileWriter implements FileWriter
         private readonly string $prefix = 'twint-sdk-',
         private readonly mixed $createRandomString = new DefaultRandomStringFactory()
     ) {
-        $this->baseDirectory = $baseDirectory ?? new File(sys_get_temp_dir());
+        $this->baseDirectory = $baseDirectory ?? new File(self::getTempDir());
+    }
+
+    /**
+     * @throws AssertionFailed
+     * @return non-empty-string
+     */
+    private static function getTempDir(): string
+    {
+        $tempDir = sys_get_temp_dir();
+        Assertion::notEmpty($tempDir, 'Temp dir must be a string');
+
+        return $tempDir;
     }
 
     /**

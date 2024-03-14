@@ -7,15 +7,25 @@ namespace Twint\Sdk\CodeGeneration;
 use Phpro\SoapClient\CodeGenerator\Assembler;
 use Phpro\SoapClient\CodeGenerator\Config\Config;
 use Phpro\SoapClient\CodeGenerator\Rules;
-use Phpro\SoapClient\Soap\DefaultEngineFactory;
+use Phpro\SoapClient\Soap\CodeGeneratorEngineFactory;
 use Phpro\SoapClient\Soap\ExtSoap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy;
+use Phpro\SoapClient\Soap\Metadata\Manipulators\MethodsManipulatorInterface;
 use Phpro\SoapClient\Soap\Metadata\Manipulators\TypesManipulatorChain;
 use Phpro\SoapClient\Soap\Metadata\Manipulators\TypesManipulatorInterface;
 use Phpro\SoapClient\Soap\Metadata\MetadataOptions;
+use Soap\Engine\Exception\MetadataException;
+use Soap\Engine\Metadata\Collection\MethodCollection;
+use Soap\Engine\Metadata\Collection\ParameterCollection;
 use Soap\Engine\Metadata\Collection\PropertyCollection;
 use Soap\Engine\Metadata\Collection\TypeCollection;
+use Soap\Engine\Metadata\Model\Method;
+use Soap\Engine\Metadata\Model\Parameter;
+use Soap\Engine\Metadata\Model\Property;
 use Soap\Engine\Metadata\Model\Type;
-use Soap\ExtSoapEngine\ExtSoapOptions;
+use Soap\Engine\Metadata\Model\TypeMeta;
+use Soap\Engine\Metadata\Model\XsdType;
+use Soap\Wsdl\Loader\FlatteningLoader;
+use Soap\Wsdl\Loader\StreamWrapperLoader;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\TwintEnvironment;
@@ -29,100 +39,134 @@ const GENERATED_TYPES_PATH = BASE_DIR . '/src/Generated/Type';
 const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
-$handleExtension = new class() implements TypesManipulatorInterface {
-    /**
-     * @var array<string, string>
-     */
-    private static array $extensions = [
-        'OrderType' => 'OrderRequestType',
-    ];
+$engine = CodeGeneratorEngineFactory::create(
+    (string) TwintEnvironment::PRODUCTION()->soapWsdlPath(TwintVersion::latest()),
+    new FlatteningLoader(new StreamWrapperLoader()),
+    MetadataOptions::empty()
+        ->withTypesManipulator(
+            new TypesManipulatorChain(
+                new IntersectDuplicateTypesStrategy(),
+                new class() implements TypesManipulatorInterface {
+                    /**
+                     * @throws MetadataException
+                     */
+                    public function __invoke(TypeCollection $types): TypeCollection
+                    {
+                        $orderRequestType = $types->fetchFirstByName('OrderRequestType');
+                        $orderRequestTypeProperties = $orderRequestType->getProperties();
 
-    public function __invoke(TypeCollection $types): TypeCollection
-    {
-        return new TypeCollection(...$types->map(
-            static function (Type $type) use ($types): Type {
-                $name = $type->getName();
-
-                if (!array_key_exists($name, self::$extensions)) {
-                    return $type;
-                }
-
-                $extensionType = self::findType($types, self::$extensions[$name]);
-
-                if ($extensionType === null) {
-                    return $type;
-                }
-
-                return new Type(
-                    $type->getXsdType(),
-                    // @phpstan-ignore-next-line
-                    new PropertyCollection(...$extensionType->getProperties(), ...$type->getProperties())
-                );
+                        return new TypeCollection(
+                            new Type(
+                                $orderRequestType->getXsdType(),
+                                new PropertyCollection(
+                                    ...$orderRequestTypeProperties->map(
+                                        static fn (Property $property) => $property->getName() === 'MerchantTransactionReference'
+                                            ? new Property(
+                                                $property->getName(),
+                                                $property->getType()
+                                                    ->withMeta(
+                                                        static fn (TypeMeta $meta) => $meta ->withIsNullable(true)
+                                                    )
+                                            )
+                                            : $property
+                                    )
+                                )
+                            ),
+                            ...$types->filter(static fn (Type $type) => $type->getName() !== 'OrderRequestType'),
+                        );
+                    }
+                },
+                new class() implements TypesManipulatorInterface {
+                    public function __invoke(TypeCollection $types): TypeCollection
+                    {
+                        return $types->filter(static fn (Type $type) => !str_ends_with($type->getName(), 'Element'));
+                    }
+                },
+            )
+        )
+        ->withMethodsManipulator(new class() implements MethodsManipulatorInterface {
+            public function __invoke(MethodCollection $methods): MethodCollection
+            {
+                return new MethodCollection(...$methods->map(
+                    static fn (Method $method) => new Method(
+                        $method->getName(),
+                        new ParameterCollection(
+                            ...$method->getParameters()
+                                ->map(
+                                    static fn (Parameter $parameter) =>
+                                        new Parameter($parameter->getName(), new XsdType(
+                                            self::replace($parameter->getType()->getName())
+                                        ))
+                                )
+                        ),
+                        new XsdType(self::replace($method->getReturnType()->getName()))
+                    )
+                ));
             }
-        ));
-    }
 
-    /**
-     * @throws AssertionFailed
-     */
-    private static function findType(TypeCollection $types, string $name): ?Type
-    {
-        foreach ($types as $type) {
-            Assertion::isInstanceOf($type, Type::class);
-            if ($type->getName() === $name) {
-                return $type;
+            /**
+             * @throws AssertionFailed
+             * @return non-empty-string
+             */
+            private static function replace(string $name): string
+            {
+                $result = preg_replace('/Element$/', 'Type', $name);
+                Assertion::notEmpty($result, 'Failed to replace "%s"');
+
+                return $result;
             }
-        }
-
-        return null;
-    }
-};
-
-$engine = DefaultEngineFactory::create(
-    ExtSoapOptions::defaults(
-        (string) TwintEnvironment::PRODUCTION()->soapWsdlPath(TwintVersion::latest())
-    )->disableWsdlCache(),
-    null,
-    MetadataOptions::empty()->withTypesManipulator(
-        new TypesManipulatorChain(new IntersectDuplicateTypesStrategy(), $handleExtension)
-    )
+        }),
 );
 
 return Config::create()
     ->setEngine($engine)
-    ->setTypeDestination(GENERATED_TYPES_PATH)
+
     ->setTypeNamespace(GENERATED_TYPES_NAMESPACE)
+    ->setTypeDestination(GENERATED_TYPES_PATH)
 
-    ->setClientDestination(GENERATED_PATH)
-    ->setClientNamespace(GENERATED_NAMESPACE)
     ->setClientName(GENERATED_CLIENT_NAME)
+    ->setClientNamespace(GENERATED_NAMESPACE)
+    ->setClientDestination(GENERATED_PATH)
 
-    ->setClassMapDestination(GENERATED_PATH)
     ->setClassMapName(GENERATED_CLASS_MAP_NAME)
     ->setClassMapNamespace(GENERATED_NAMESPACE)
+    ->setClassMapDestination(GENERATED_PATH)
 
-    ->addRule(new Rules\AssembleRule(new Assembler\GetterAssembler(new Assembler\GetterAssemblerOptions())))
-    ->addRule(new Rules\AssembleRule(new Assembler\ImmutableSetterAssembler(
-        (new Assembler\ImmutableSetterAssemblerOptions())
-            ->withReturnTypes()
-            ->withTypeHints()
-            ->withDocBlocks(false)
-    )))
-    ->addRule(new Rules\AssembleRule(new Assembler\FinalClassAssembler()))
-    ->addRule(new Rules\AssembleRule(new Assembler\StrictTypesAssembler()))
-    ->addRule(
-        new Rules\IsRequestRule(
-            $engine->getMetadata(),
-            new Rules\MultiRule([
-                new Rules\AssembleRule(new Assembler\RequestAssembler()),
-                new Rules\AssembleRule(new Assembler\ConstructorAssembler(new Assembler\ConstructorAssemblerOptions())),
-            ])
-        )
-    )
-    ->addRule(
-        new Rules\IsResultRule(
-            $engine->getMetadata(),
-            new Rules\MultiRule([new Rules\AssembleRule(new Assembler\ResultAssembler())])
-        )
-    )
+    ->setRuleSet(new Rules\RuleSet(
+        [
+            new Rules\AssembleRule(new Assembler\PropertyAssembler(
+                Assembler\PropertyAssemblerOptions::create()
+                    ->withVisibility('protected')
+            )),
+            new Rules\AssembleRule(new Assembler\ClassMapAssembler()),
+            new Rules\AssembleRule(new Assembler\ClientConstructorAssembler()),
+            new Rules\AssembleRule(new Assembler\ClientMethodAssembler()),
+            new Rules\AssembleRule(new Assembler\GetterAssembler(new Assembler\GetterAssemblerOptions())),
+            new Rules\AssembleRule(new Assembler\ImmutableSetterAssembler(
+                new Assembler\ImmutableSetterAssemblerOptions()
+            )),
+            new Rules\AssembleRule(new Assembler\StrictTypesAssembler()),
+            new Rules\IsRequestRule(
+                $engine->getMetadata(),
+                new Rules\MultiRule([
+                    new Rules\AssembleRule(new Assembler\RequestAssembler()),
+                    new Rules\AssembleRule(new Assembler\ConstructorAssembler(
+                        new Assembler\ConstructorAssemblerOptions()
+                    )),
+                ])
+            ),
+            new Rules\IsResultRule(
+                $engine->getMetadata(),
+                new Rules\MultiRule([new Rules\AssembleRule(new Assembler\ResultAssembler())])
+            ),
+            new Rules\IsExtendingTypeRule(
+                $engine->getMetadata(),
+                new Rules\AssembleRule(new Assembler\ExtendingTypeAssembler())
+            ),
+            new Rules\IsAbstractTypeRule(
+                $engine->getMetadata(),
+                new Rules\AssembleRule(new Assembler\AbstractClassAssembler())
+            ),
+        ]
+    ))
 ;

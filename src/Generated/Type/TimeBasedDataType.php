@@ -6,32 +6,20 @@ namespace Twint\Sdk\Generated\Type;
 
 use DateTimeInterface;
 
-final class TimeBasedDataType
+class TimeBasedDataType
 {
-    /**
-     * @var string
-     */
-    private $MessageTypeId;
+    protected string $MessageTypeId;
 
-    /**
-     * @var DateTimeInterface
-     */
-    private $StartTimestamp;
+    protected DateTimeInterface $StartTimestamp;
 
-    /**
-     * @var DateTimeInterface
-     */
-    private $EndTimestamp;
+    protected DateTimeInterface $EndTimestamp;
 
-    /**
-     * @return string
-     */
-    public function getMessageTypeId()
+    public function getMessageTypeId(): string
     {
         return $this->MessageTypeId;
     }
 
-    public function withMessageTypeId(string $MessageTypeId): self
+    public function withMessageTypeId(string $MessageTypeId): static
     {
         $new = clone $this;
         $new->MessageTypeId = $MessageTypeId;
@@ -39,15 +27,12 @@ final class TimeBasedDataType
         return $new;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getStartTimestamp()
+    public function getStartTimestamp(): DateTimeInterface
     {
         return $this->StartTimestamp;
     }
 
-    public function withStartTimestamp(DateTimeInterface $StartTimestamp): self
+    public function withStartTimestamp(DateTimeInterface $StartTimestamp): static
     {
         $new = clone $this;
         $new->StartTimestamp = $StartTimestamp;
@@ -55,15 +40,12 @@ final class TimeBasedDataType
         return $new;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getEndTimestamp()
+    public function getEndTimestamp(): DateTimeInterface
     {
         return $this->EndTimestamp;
     }
 
-    public function withEndTimestamp(DateTimeInterface $EndTimestamp): self
+    public function withEndTimestamp(DateTimeInterface $EndTimestamp): static
     {
         $new = clone $this;
         $new->EndTimestamp = $EndTimestamp;

@@ -6,79 +6,54 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class StartOrderRequestType implements RequestInterface
+class StartOrderRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
+
+    protected OrderRequestType $Order;
+
+    protected ?CouponListType $Coupons;
+
+    protected ?string $OfflineAuthorization;
 
     /**
-     * @var OrderRequestType
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $Order;
+    protected ?string $CustomerRelationUuid;
 
     /**
-     * @var CouponListType
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $Coupons;
+    protected ?string $PairingUuid;
+
+    protected ?bool $UnidentifiedCustomer;
+
+    protected ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization;
+
+    protected ?bool $QRCodeRendering;
 
     /**
-     * @var string
+     * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    private $OfflineAuthorization;
+    protected ?string $PaymentLayerRendering;
 
-    /**
-     * @var string
-     */
-    private $CustomerRelationUuid;
-
-    /**
-     * @var string
-     */
-    private $PairingUuid;
-
-    /**
-     * @var bool
-     */
-    private $UnidentifiedCustomer;
-
-    /**
-     * @var ExpressMerchantAuthorizationType
-     */
-    private $ExpressMerchantAuthorization;
-
-    /**
-     * @var bool
-     */
-    private $QRCodeRendering;
-
-    /**
-     * @var string
-     */
-    private $PaymentLayerRendering;
-
-    /**
-     * @var string
-     */
-    private $OrderUpdateNotificationURL;
+    protected ?string $OrderUpdateNotificationURL;
 
     /**
      * Constructor
      *
-     * @param MerchantInformationType $MerchantInformation
-     * @param OrderRequestType $Order
-     * @param CouponListType $Coupons
-     * @param string $OfflineAuthorization
-     * @param string $CustomerRelationUuid
-     * @param string $PairingUuid
-     * @param bool $UnidentifiedCustomer
-     * @param ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
-     * @param bool $QRCodeRendering
-     * @param string $PaymentLayerRendering
-     * @param string $OrderUpdateNotificationURL
+     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
      */
-    public function __construct($MerchantInformation, $Order, $Coupons, $OfflineAuthorization, $CustomerRelationUuid, $PairingUuid, $UnidentifiedCustomer, $ExpressMerchantAuthorization, $QRCodeRendering, $PaymentLayerRendering, $OrderUpdateNotificationURL)
+    public function __construct(MerchantInformationType $MerchantInformation, OrderRequestType $Order, ?CouponListType $Coupons, ?string $OfflineAuthorization, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $UnidentifiedCustomer, ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization, ?bool $QRCodeRendering, ?string $PaymentLayerRendering, ?string $OrderUpdateNotificationURL)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->Order = $Order;
@@ -93,15 +68,12 @@ final class StartOrderRequestType implements RequestInterface
         $this->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -109,15 +81,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return OrderRequestType
-     */
-    public function getOrder()
+    public function getOrder(): OrderRequestType
     {
         return $this->Order;
     }
 
-    public function withOrder(OrderRequestType $Order): self
+    public function withOrder(OrderRequestType $Order): static
     {
         $new = clone $this;
         $new->Order = $Order;
@@ -125,15 +94,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return CouponListType
-     */
-    public function getCoupons()
+    public function getCoupons(): ?CouponListType
     {
         return $this->Coupons;
     }
 
-    public function withCoupons(CouponListType $Coupons): self
+    public function withCoupons(?CouponListType $Coupons): static
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
@@ -141,15 +107,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOfflineAuthorization()
+    public function getOfflineAuthorization(): ?string
     {
         return $this->OfflineAuthorization;
     }
 
-    public function withOfflineAuthorization(string $OfflineAuthorization): self
+    public function withOfflineAuthorization(?string $OfflineAuthorization): static
     {
         $new = clone $this;
         $new->OfflineAuthorization = $OfflineAuthorization;
@@ -157,15 +120,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerRelationUuid()
+    public function getCustomerRelationUuid(): ?string
     {
         return $this->CustomerRelationUuid;
     }
 
-    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
+    public function withCustomerRelationUuid(?string $CustomerRelationUuid): static
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -173,15 +133,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPairingUuid()
+    public function getPairingUuid(): ?string
     {
         return $this->PairingUuid;
     }
 
-    public function withPairingUuid(string $PairingUuid): self
+    public function withPairingUuid(?string $PairingUuid): static
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -189,15 +146,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getUnidentifiedCustomer()
+    public function getUnidentifiedCustomer(): ?bool
     {
         return $this->UnidentifiedCustomer;
     }
 
-    public function withUnidentifiedCustomer(bool $UnidentifiedCustomer): self
+    public function withUnidentifiedCustomer(?bool $UnidentifiedCustomer): static
     {
         $new = clone $this;
         $new->UnidentifiedCustomer = $UnidentifiedCustomer;
@@ -205,32 +159,26 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function getExpressMerchantAuthorization()
+    public function getExpressMerchantAuthorization(): ?ExpressMerchantAuthorizationType
     {
         return $this->ExpressMerchantAuthorization;
     }
 
     public function withExpressMerchantAuthorization(
-        ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
-    ): self {
+        ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
+    ): static {
         $new = clone $this;
         $new->ExpressMerchantAuthorization = $ExpressMerchantAuthorization;
 
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getQRCodeRendering()
+    public function getQRCodeRendering(): ?bool
     {
         return $this->QRCodeRendering;
     }
 
-    public function withQRCodeRendering(bool $QRCodeRendering): self
+    public function withQRCodeRendering(?bool $QRCodeRendering): static
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;
@@ -239,14 +187,17 @@ final class StartOrderRequestType implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    public function getPaymentLayerRendering()
+    public function getPaymentLayerRendering(): ?string
     {
         return $this->PaymentLayerRendering;
     }
 
-    public function withPaymentLayerRendering(string $PaymentLayerRendering): self
+    /**
+     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     */
+    public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
     {
         $new = clone $this;
         $new->PaymentLayerRendering = $PaymentLayerRendering;
@@ -254,15 +205,12 @@ final class StartOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderUpdateNotificationURL()
+    public function getOrderUpdateNotificationURL(): ?string
     {
         return $this->OrderUpdateNotificationURL;
     }
 
-    public function withOrderUpdateNotificationURL(string $OrderUpdateNotificationURL): self
+    public function withOrderUpdateNotificationURL(?string $OrderUpdateNotificationURL): static
     {
         $new = clone $this;
         $new->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;

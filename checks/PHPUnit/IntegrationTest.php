@@ -25,11 +25,15 @@ abstract class IntegrationTest extends TestCase
 
     protected Client $client;
 
+    /**
+     * @return non-empty-string
+     */
     protected static function getEnvironmentVariable(string $name): string
     {
         $value = $_SERVER[$name] ?? null;
 
         Assertion::string($value, 'Environment variable ' . $name . ' is not set');
+        Assertion::notEmpty($value, 'Environment variable ' . $name . ' is empty');
 
         return $value;
     }
@@ -39,9 +43,9 @@ abstract class IntegrationTest extends TestCase
         return MerchantId::fromString(self::getEnvironmentVariable('TWINT_SDK_TEST_MERCHANT_ID'));
     }
 
-    protected static function createTransactionReference(): TransactionReference
+    protected function createTransactionReference(): TransactionReference
     {
-        $testMethod = TestMethodBuilder::fromCallStack();
+        $testMethod = TestMethodBuilder::fromTestCase($this);
 
         return new TransactionReference(substr(
             hash('sha3-256', sprintf('%d-%s', VcrUtil::getFixtureRevision($testMethod), $testMethod->id())),

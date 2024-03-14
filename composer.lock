@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "97ede00a6c3eeb0585b62a9f06fdc65b",
+    "content-hash": "df72a60241c8be0a7f2b33158c1b791b",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -212,6 +212,80 @@
                 }
             ],
             "time": "2023-12-20T15:40:13+00:00"
+        },
+        {
+            "name": "goetas-webservices/xsd-reader",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/goetas-webservices/xsd-reader.git",
+                "reference": "f21f43e73bae72972bac729af49c76a6ec25a62c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/f21f43e73bae72972bac729af49c76a6ec25a62c",
+                "reference": "f21f43e73bae72972bac729af49c76a6ec25a62c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.14",
+                "phpstan/phpstan": "^1.9",
+                "phpunit/phpunit": "^9.6",
+                "sebastian/phpcpd": "^6.0",
+                "vimeo/psalm": "^5.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GoetasWebservices\\CS\\": "./php-cs-fixer/",
+                    "GoetasWebservices\\XML\\XSDReader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Asmir Mustafic",
+                    "email": "goetas@lignano.it"
+                }
+            ],
+            "description": "Read any XML Schema (XSD) programmatically with PHP",
+            "keywords": [
+                "parser",
+                "php",
+                "xml",
+                "xmlschema",
+                "xsd"
+            ],
+            "support": {
+                "issues": "https://github.com/goetas-webservices/xsd-reader/issues",
+                "source": "https://github.com/goetas-webservices/xsd-reader/tree/0.4.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.goetas.com/",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/goetas",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/goetas",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2023-03-31T17:41:10+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1184,23 +1258,26 @@
         },
         {
             "name": "php-soap/engine",
-            "version": "v1.3.0",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/engine.git",
-                "reference": "712c3a66d1f070389e826bb81db362105524de95"
+                "reference": "eaaa1b959d8a140dd94e0d6decab1192513d8dac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/engine/zipball/712c3a66d1f070389e826bb81db362105524de95",
-                "reference": "712c3a66d1f070389e826bb81db362105524de95",
+                "url": "https://api.github.com/repos/php-soap/engine/zipball/eaaa1b959d8a140dd94e0d6decab1192513d8dac",
+                "reference": "eaaa1b959d8a140dd94e0d6decab1192513d8dac",
                 "shasum": ""
             },
             "require": {
-                "php": "~8.1.0 || ~8.2.0"
+                "azjezz/psl": "^2.5",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5"
+                "php-standard-library/psalm-plugin": "^2.2",
+                "phpunit/phpunit": "^9.5",
+                "vimeo/psalm": "^5.9"
             },
             "type": "library",
             "autoload": {
@@ -1221,7 +1298,7 @@
             "description": "SOAP engine design",
             "support": {
                 "issues": "https://github.com/php-soap/engine/issues",
-                "source": "https://github.com/php-soap/engine/tree/v1.3.0"
+                "source": "https://github.com/php-soap/engine/tree/2.6.0"
             },
             "funding": [
                 {
@@ -1229,7 +1306,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-11-25T06:34:54+00:00"
+            "time": "2024-01-26T09:15:44+00:00"
         },
         {
             "name": "php-soap/ext-soap-engine",
@@ -1416,6 +1493,66 @@
             "time": "2024-03-15T13:00:08+00:00"
         },
         {
+            "name": "php-soap/wsdl-reader",
+            "version": "0.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-soap/wsdl-reader.git",
+                "reference": "dedf74fe25daddfd74a580f66f643e25aa1a82a1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/dedf74fe25daddfd74a580f66f643e25aa1a82a1",
+                "reference": "dedf74fe25daddfd74a580f66f643e25aa1a82a1",
+                "shasum": ""
+            },
+            "require": {
+                "azjezz/psl": "^2.4",
+                "ext-dom": "*",
+                "goetas-webservices/xsd-reader": "^0.4.1",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "php-soap/engine": "^2.6",
+                "php-soap/wsdl": "^1.4",
+                "symfony/console": "^5.4 || ^6.0 || ^7.0",
+                "veewee/xml": "^2.6"
+            },
+            "require-dev": {
+                "php-soap/engine-integration-tests": "^1.5.0",
+                "php-standard-library/psalm-plugin": "^2.2",
+                "psalm/plugin-symfony": "^5.0",
+                "symfony/var-dumper": "^6.1",
+                "vimeo/psalm": "^5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Soap\\WsdlReader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Toon Verwerft",
+                    "email": "toonverwerft@gmail.com"
+                }
+            ],
+            "description": "A WSDL reader in PHP",
+            "support": {
+                "issues": "https://github.com/php-soap/wsdl-reader/issues",
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.9.0"
+            },
+            "funding": [
+                {
+                    "url": "https://opencollective.com/php-soap",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2024-01-26T09:22:49+00:00"
+        },
+        {
             "name": "php-soap/xml",
             "version": "1.6.0",
             "source": {
@@ -1468,41 +1605,42 @@
         },
         {
             "name": "phpro/soap-client",
-            "version": "2.4.2",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/soap-client.git",
-                "reference": "a008ad515d701737e88f6afdba64d41459633af2"
+                "reference": "116c6099ea39b52bff0cf1ec68ba349e81845c6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/soap-client/zipball/a008ad515d701737e88f6afdba64d41459633af2",
-                "reference": "a008ad515d701737e88f6afdba64d41459633af2",
+                "url": "https://api.github.com/repos/phpro/soap-client/zipball/116c6099ea39b52bff0cf1ec68ba349e81845c6a",
+                "reference": "116c6099ea39b52bff0cf1ec68ba349e81845c6a",
                 "shasum": ""
             },
             "require": {
                 "azjezz/psl": "^2.1",
                 "laminas/laminas-code": "^4.8.0",
-                "php": "~8.1.0 || ~8.2.0",
-                "php-soap/engine": "^1.3",
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "php-soap/engine": "^2.4",
                 "php-soap/ext-soap-engine": "^1.4",
                 "php-soap/psr18-transport": "^1.3",
+                "php-soap/wsdl-reader": "~0.6",
                 "psr/event-dispatcher": "^1.0",
                 "psr/log": "^1.0 || ^2.0 || ^3.0",
-                "symfony/console": "~5.4 || ~6.0",
-                "symfony/event-dispatcher": "~5.4 || ~6.0",
-                "symfony/filesystem": "~5.4 || ~6.0",
-                "symfony/validator": "~5.4 || ~6.0"
+                "symfony/console": "~5.4 || ~6.0 || ~7.0",
+                "symfony/event-dispatcher": "~5.4 || ~6.0 || ~7.0",
+                "symfony/filesystem": "~5.4 || ~6.0 || ~7.0",
+                "symfony/validator": "~5.4 || ~6.0 || ~7.0"
             },
             "require-dev": {
                 "guzzlehttp/guzzle": "^7.5.0",
                 "nyholm/psr7": "^1.5",
                 "php-http/vcr-plugin": "^1.2",
                 "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpro/grumphp-shim": "^1.14",
+                "phpro/grumphp-shim": "^2.3",
                 "phpspec/phpspec": "~7.2",
                 "phpspec/prophecy-phpunit": "^2.0.1",
-                "phpstan/phpstan": "^1.9.0",
+                "phpstan/phpstan": "^1.10.15",
                 "phpunit/phpunit": "~9.5",
                 "squizlabs/php_codesniffer": "^3.7.1"
             },
@@ -1531,7 +1669,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpro/soap-client/issues",
-                "source": "https://github.com/phpro/soap-client/tree/2.4.2"
+                "source": "https://github.com/phpro/soap-client/tree/3.1.0"
             },
             "funding": [
                 {
@@ -1539,7 +1677,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2023-06-07T07:20:45+00:00"
+            "time": "2023-11-24T07:59:57+00:00"
         },
         {
             "name": "psr/container",
@@ -3236,16 +3374,16 @@
         },
         {
             "name": "veewee/xml",
-            "version": "3.1.0",
+            "version": "2.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/veewee/xml.git",
-                "reference": "7cb255b037fb5ff4a08caeeeb982506272056f1f"
+                "reference": "143c5655c3af11b187157af16340ee69a244e633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/veewee/xml/zipball/7cb255b037fb5ff4a08caeeeb982506272056f1f",
-                "reference": "7cb255b037fb5ff4a08caeeeb982506272056f1f",
+                "url": "https://api.github.com/repos/veewee/xml/zipball/143c5655c3af11b187157af16340ee69a244e633",
+                "reference": "143c5655c3af11b187157af16340ee69a244e633",
                 "shasum": ""
             },
             "require": {
@@ -3301,7 +3439,7 @@
             ],
             "support": {
                 "issues": "https://github.com/veewee/xml/issues",
-                "source": "https://github.com/veewee/xml/tree/3.1.0"
+                "source": "https://github.com/veewee/xml/tree/2.14.0"
             },
             "funding": [
                 {
@@ -3309,7 +3447,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-01-29T18:13:29+00:00"
+            "time": "2024-01-14T12:13:42+00:00"
         },
         {
             "name": "webimpress/safe-writer",
@@ -4332,16 +4470,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.15",
+            "version": "10.5.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b"
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86376e05e8745ed81d88232ff92fee868247b07b",
-                "reference": "86376e05e8745ed81d88232ff92fee868247b07b",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
+                "reference": "18f8d4a5f52b61fdd9370aaae3167daa0eeb69cd",
                 "shasum": ""
             },
             "require": {
@@ -4413,7 +4551,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.15"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.16"
             },
             "funding": [
                 {
@@ -4429,7 +4567,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-22T04:17:47+00:00"
+            "time": "2024-03-28T10:08:10+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -5751,7 +5889,7 @@
     "minimum-stability": "stable",
     "stability-flags": [],
     "prefer-stable": false,
-    "prefer-lowest": false,
+    "prefer-lowest": true,
     "platform": {
         "php": ">=8.1",
         "ext-xsl": "*",

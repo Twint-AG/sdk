@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CurrencyAmountType
+class CurrencyAmountType
 {
-    /**
-     * @var float
-     */
-    private $Amount;
+    protected float $Amount;
 
-    /**
-     * @var string
-     */
-    private $Currency;
+    protected string $Currency;
 
-    /**
-     * @return float
-     */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->Amount;
     }
 
-    public function withAmount(float $Amount): self
+    public function withAmount(float $Amount): static
     {
         $new = clone $this;
         $new->Amount = $Amount;
@@ -32,15 +23,12 @@ final class CurrencyAmountType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrency()
+    public function getCurrency(): string
     {
         return $this->Currency;
     }
 
-    public function withCurrency(string $Currency): self
+    public function withCurrency(string $Currency): static
     {
         $new = clone $this;
         $new->Currency = $Currency;

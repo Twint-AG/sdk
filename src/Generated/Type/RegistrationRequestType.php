@@ -4,37 +4,29 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class RegistrationRequestType
+class RegistrationRequestType
 {
-    /**
-     * @var string
-     */
-    private $MerchantCredential;
+    protected mixed $MerchantCredential;
 
     /**
-     * @var string
+     * Reference number by which the merchant might want to identify
+     *  this voucher in his own applications.
      */
-    private $MerchantRegistrationReference;
+    protected ?string $MerchantRegistrationReference;
 
     /**
-     * @var string
+     * @var null | mixed
      */
-    private $AliasLifetime;
+    protected mixed $AliasLifetime;
 
-    /**
-     * @var bool
-     */
-    private $EnforceRegistration;
+    protected bool $EnforceRegistration;
 
-    /**
-     * @return string
-     */
-    public function getMerchantCredential()
+    public function getMerchantCredential(): mixed
     {
         return $this->MerchantCredential;
     }
 
-    public function withMerchantCredential(string $MerchantCredential): self
+    public function withMerchantCredential(mixed $MerchantCredential): static
     {
         $new = clone $this;
         $new->MerchantCredential = $MerchantCredential;
@@ -42,15 +34,12 @@ final class RegistrationRequestType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantRegistrationReference()
+    public function getMerchantRegistrationReference(): ?string
     {
         return $this->MerchantRegistrationReference;
     }
 
-    public function withMerchantRegistrationReference(string $MerchantRegistrationReference): self
+    public function withMerchantRegistrationReference(?string $MerchantRegistrationReference): static
     {
         $new = clone $this;
         $new->MerchantRegistrationReference = $MerchantRegistrationReference;
@@ -59,14 +48,17 @@ final class RegistrationRequestType
     }
 
     /**
-     * @return string
+     * @return null | mixed
      */
-    public function getAliasLifetime()
+    public function getAliasLifetime(): mixed
     {
         return $this->AliasLifetime;
     }
 
-    public function withAliasLifetime(string $AliasLifetime): self
+    /**
+     * @param null | mixed $AliasLifetime
+     */
+    public function withAliasLifetime(mixed $AliasLifetime): static
     {
         $new = clone $this;
         $new->AliasLifetime = $AliasLifetime;
@@ -74,15 +66,12 @@ final class RegistrationRequestType
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getEnforceRegistration()
+    public function getEnforceRegistration(): bool
     {
         return $this->EnforceRegistration;
     }
 
-    public function withEnforceRegistration(bool $EnforceRegistration): self
+    public function withEnforceRegistration(bool $EnforceRegistration): static
     {
         $new = clone $this;
         $new->EnforceRegistration = $EnforceRegistration;

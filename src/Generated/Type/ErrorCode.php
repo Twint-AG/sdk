@@ -4,37 +4,22 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class ErrorCode
+class ErrorCode
 {
-    /**
-     * @var string
-     */
-    private $Code;
+    protected string $Code;
 
-    /**
-     * @var string
-     */
-    private $Status;
+    protected string $Status;
 
-    /**
-     * @var string
-     */
-    private $DetailCode;
+    protected ?string $DetailCode;
 
-    /**
-     * @var string
-     */
-    private $DetailDescription;
+    protected ?string $DetailDescription;
 
-    /**
-     * @return string
-     */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->Code;
     }
 
-    public function withCode(string $Code): self
+    public function withCode(string $Code): static
     {
         $new = clone $this;
         $new->Code = $Code;
@@ -42,15 +27,12 @@ final class ErrorCode
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->Status;
     }
 
-    public function withStatus(string $Status): self
+    public function withStatus(string $Status): static
     {
         $new = clone $this;
         $new->Status = $Status;
@@ -58,15 +40,12 @@ final class ErrorCode
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getDetailCode()
+    public function getDetailCode(): ?string
     {
         return $this->DetailCode;
     }
 
-    public function withDetailCode(string $DetailCode): self
+    public function withDetailCode(?string $DetailCode): static
     {
         $new = clone $this;
         $new->DetailCode = $DetailCode;
@@ -74,15 +53,12 @@ final class ErrorCode
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getDetailDescription()
+    public function getDetailDescription(): ?string
     {
         return $this->DetailDescription;
     }
 
-    public function withDetailDescription(string $DetailDescription): self
+    public function withDetailDescription(?string $DetailDescription): static
     {
         $new = clone $this;
         $new->DetailDescription = $DetailDescription;

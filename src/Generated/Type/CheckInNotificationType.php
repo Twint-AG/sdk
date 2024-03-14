@@ -4,37 +4,35 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CheckInNotificationType
+class CheckInNotificationType
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
+
+    protected ?CustomerInformationType $CustomerInformation;
 
     /**
-     * @var CustomerInformationType
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $CustomerInformation;
+    protected ?string $PairingUuid;
 
     /**
-     * @var string
+     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    private $PairingUuid;
+    protected string $PairingStatus;
 
-    /**
-     * @var string
-     */
-    private $PairingStatus;
-
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -42,15 +40,12 @@ final class CheckInNotificationType
         return $new;
     }
 
-    /**
-     * @return CustomerInformationType
-     */
-    public function getCustomerInformation()
+    public function getCustomerInformation(): ?CustomerInformationType
     {
         return $this->CustomerInformation;
     }
 
-    public function withCustomerInformation(CustomerInformationType $CustomerInformation): self
+    public function withCustomerInformation(?CustomerInformationType $CustomerInformation): static
     {
         $new = clone $this;
         $new->CustomerInformation = $CustomerInformation;
@@ -58,15 +53,12 @@ final class CheckInNotificationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPairingUuid()
+    public function getPairingUuid(): ?string
     {
         return $this->PairingUuid;
     }
 
-    public function withPairingUuid(string $PairingUuid): self
+    public function withPairingUuid(?string $PairingUuid): static
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -75,14 +67,17 @@ final class CheckInNotificationType
     }
 
     /**
-     * @return string
+     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    public function getPairingStatus()
+    public function getPairingStatus(): string
     {
         return $this->PairingStatus;
     }
 
-    public function withPairingStatus(string $PairingStatus): self
+    /**
+     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     */
+    public function withPairingStatus(string $PairingStatus): static
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;

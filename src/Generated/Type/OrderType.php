@@ -6,293 +6,52 @@ namespace Twint\Sdk\Generated\Type;
 
 use DateTimeInterface;
 
-final class OrderType
+class OrderType extends OrderRequestType
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PostingType;
+    protected string $Uuid;
+
+    protected OrderStatusType $Status;
+
+    protected DateTimeInterface $CreationTimestamp;
+
+    protected ?CurrencyAmountType $AuthorizedAmount;
+
+    protected ?CurrencyAmountType $Fee;
+
+    protected ?DateTimeInterface $ProcessingTimestamp;
 
     /**
-     * @var CurrencyAmountType
+     * @var array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
      */
-    private $RequestedAmount;
+    protected array $PaymentAmount;
 
     /**
-     * @var string
+     * Optional data structure to provide the BNPL (\"buy now pay later\") related data to the Payment Service
+     *  Provider (PSP).
+     *  The structure contains the required fields to create awareness of a BNPL payments.
+     *  This data is only contained in the payload for BNPL payments.
+     *  Note: For BNPL Payments the Fee-Element contains a blended fee of merchant's payment fee plus the BNPL
+     *  markup.
      */
-    private $MerchantTransactionReference;
+    protected ?BNPLDataType $BNPLData;
 
     /**
-     * @var CurrencyAmountType
+     * Reference number by which the merchant might want to identify
+     *  this voucher in his own applications.
      */
-    private $CustomerBenefit;
+    protected ?string $MerchantTransactionReference;
 
-    /**
-     * @var string
-     */
-    private $EReceiptUrl;
-
-    /**
-     * @var OrderLinkType
-     */
-    private $Link;
-
-    /**
-     * @var string
-     */
-    private $OrderDetailsUrl;
-
-    /**
-     * @var TimeBasedDataType
-     */
-    private $TimeBasedData;
-
-    /**
-     * @var string
-     */
-    private $PaymentAuthorizationType;
-
-    /**
-     * @var string
-     */
-    private $ConfirmationButtonId;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var bool
-     */
-    private $confirmationNeeded;
-
-    /**
-     * @var string
-     */
-    private $Uuid;
-
-    /**
-     * @var OrderStatusType
-     */
-    private $Status;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $CreationTimestamp;
-
-    /**
-     * @var CurrencyAmountType
-     */
-    private $AuthorizedAmount;
-
-    /**
-     * @var CurrencyAmountType
-     */
-    private $Fee;
-
-    /**
-     * @var DateTimeInterface
-     */
-    private $ProcessingTimestamp;
-
-    /**
-     * @var PaymentAmountType
-     */
-    private $PaymentAmount;
-
-    /**
-     * @var BNPLDataType
-     */
-    private $BNPLData;
-
-    /**
-     * @return string
-     */
-    public function getPostingType()
-    {
-        return $this->PostingType;
-    }
-
-    public function withPostingType(string $PostingType): self
-    {
-        $new = clone $this;
-        $new->PostingType = $PostingType;
-
-        return $new;
-    }
-
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getRequestedAmount()
-    {
-        return $this->RequestedAmount;
-    }
-
-    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): self
-    {
-        $new = clone $this;
-        $new->RequestedAmount = $RequestedAmount;
-
-        return $new;
-    }
-
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getCustomerBenefit()
-    {
-        return $this->CustomerBenefit;
-    }
-
-    public function withCustomerBenefit(CurrencyAmountType $CustomerBenefit): self
-    {
-        $new = clone $this;
-        $new->CustomerBenefit = $CustomerBenefit;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEReceiptUrl()
-    {
-        return $this->EReceiptUrl;
-    }
-
-    public function withEReceiptUrl(string $EReceiptUrl): self
-    {
-        $new = clone $this;
-        $new->EReceiptUrl = $EReceiptUrl;
-
-        return $new;
-    }
-
-    /**
-     * @return OrderLinkType
-     */
-    public function getLink()
-    {
-        return $this->Link;
-    }
-
-    public function withLink(OrderLinkType $Link): self
-    {
-        $new = clone $this;
-        $new->Link = $Link;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOrderDetailsUrl()
-    {
-        return $this->OrderDetailsUrl;
-    }
-
-    public function withOrderDetailsUrl(string $OrderDetailsUrl): self
-    {
-        $new = clone $this;
-        $new->OrderDetailsUrl = $OrderDetailsUrl;
-
-        return $new;
-    }
-
-    /**
-     * @return TimeBasedDataType
-     */
-    public function getTimeBasedData()
-    {
-        return $this->TimeBasedData;
-    }
-
-    public function withTimeBasedData(TimeBasedDataType $TimeBasedData): self
-    {
-        $new = clone $this;
-        $new->TimeBasedData = $TimeBasedData;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPaymentAuthorizationType()
-    {
-        return $this->PaymentAuthorizationType;
-    }
-
-    public function withPaymentAuthorizationType(string $PaymentAuthorizationType): self
-    {
-        $new = clone $this;
-        $new->PaymentAuthorizationType = $PaymentAuthorizationType;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getConfirmationButtonId()
-    {
-        return $this->ConfirmationButtonId;
-    }
-
-    public function withConfirmationButtonId(string $ConfirmationButtonId): self
-    {
-        $new = clone $this;
-        $new->ConfirmationButtonId = $ConfirmationButtonId;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    public function withType(string $type): self
-    {
-        $new = clone $this;
-        $new->type = $type;
-
-        return $new;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getConfirmationNeeded()
-    {
-        return $this->confirmationNeeded;
-    }
-
-    public function withConfirmationNeeded(bool $confirmationNeeded): self
-    {
-        $new = clone $this;
-        $new->confirmationNeeded = $confirmationNeeded;
-
-        return $new;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUuid()
+    public function getUuid(): string
     {
         return $this->Uuid;
     }
 
-    public function withUuid(string $Uuid): self
+    public function withUuid(string $Uuid): static
     {
         $new = clone $this;
         $new->Uuid = $Uuid;
@@ -300,15 +59,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return OrderStatusType
-     */
-    public function getStatus()
+    public function getStatus(): OrderStatusType
     {
         return $this->Status;
     }
 
-    public function withStatus(OrderStatusType $Status): self
+    public function withStatus(OrderStatusType $Status): static
     {
         $new = clone $this;
         $new->Status = $Status;
@@ -316,15 +72,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getCreationTimestamp()
+    public function getCreationTimestamp(): DateTimeInterface
     {
         return $this->CreationTimestamp;
     }
 
-    public function withCreationTimestamp(DateTimeInterface $CreationTimestamp): self
+    public function withCreationTimestamp(DateTimeInterface $CreationTimestamp): static
     {
         $new = clone $this;
         $new->CreationTimestamp = $CreationTimestamp;
@@ -332,15 +85,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getAuthorizedAmount()
+    public function getAuthorizedAmount(): ?CurrencyAmountType
     {
         return $this->AuthorizedAmount;
     }
 
-    public function withAuthorizedAmount(CurrencyAmountType $AuthorizedAmount): self
+    public function withAuthorizedAmount(?CurrencyAmountType $AuthorizedAmount): static
     {
         $new = clone $this;
         $new->AuthorizedAmount = $AuthorizedAmount;
@@ -348,15 +98,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getFee()
+    public function getFee(): ?CurrencyAmountType
     {
         return $this->Fee;
     }
 
-    public function withFee(CurrencyAmountType $Fee): self
+    public function withFee(?CurrencyAmountType $Fee): static
     {
         $new = clone $this;
         $new->Fee = $Fee;
@@ -364,15 +111,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getProcessingTimestamp()
+    public function getProcessingTimestamp(): ?DateTimeInterface
     {
         return $this->ProcessingTimestamp;
     }
 
-    public function withProcessingTimestamp(DateTimeInterface $ProcessingTimestamp): self
+    public function withProcessingTimestamp(?DateTimeInterface $ProcessingTimestamp): static
     {
         $new = clone $this;
         $new->ProcessingTimestamp = $ProcessingTimestamp;
@@ -381,14 +125,17 @@ final class OrderType
     }
 
     /**
-     * @return PaymentAmountType
+     * @return array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
      */
-    public function getPaymentAmount()
+    public function getPaymentAmount(): array
     {
         return $this->PaymentAmount;
     }
 
-    public function withPaymentAmount(PaymentAmountType $PaymentAmount): self
+    /**
+     * @param array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType> $PaymentAmount
+     */
+    public function withPaymentAmount(array $PaymentAmount): static
     {
         $new = clone $this;
         $new->PaymentAmount = $PaymentAmount;
@@ -396,15 +143,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return BNPLDataType
-     */
-    public function getBNPLData()
+    public function getBNPLData(): ?BNPLDataType
     {
         return $this->BNPLData;
     }
 
-    public function withBNPLData(BNPLDataType $BNPLData): self
+    public function withBNPLData(?BNPLDataType $BNPLData): static
     {
         $new = clone $this;
         $new->BNPLData = $BNPLData;
@@ -412,15 +156,12 @@ final class OrderType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantTransactionReference()
+    public function getMerchantTransactionReference(): ?string
     {
         return $this->MerchantTransactionReference;
     }
 
-    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
+    public function withMerchantTransactionReference(?string $MerchantTransactionReference): static
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;

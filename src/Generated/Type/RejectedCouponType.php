@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class RejectedCouponType
+class RejectedCouponType
 {
-    /**
-     * @var string
-     */
-    private $CouponId;
+    protected string $CouponId;
 
-    /**
-     * @var CouponRejectionReason
-     */
-    private $RejectionReason;
+    protected CouponRejectionReason $RejectionReason;
 
-    /**
-     * @return string
-     */
-    public function getCouponId()
+    public function getCouponId(): string
     {
         return $this->CouponId;
     }
 
-    public function withCouponId(string $CouponId): self
+    public function withCouponId(string $CouponId): static
     {
         $new = clone $this;
         $new->CouponId = $CouponId;
@@ -32,15 +23,12 @@ final class RejectedCouponType
         return $new;
     }
 
-    /**
-     * @return CouponRejectionReason
-     */
-    public function getRejectionReason()
+    public function getRejectionReason(): CouponRejectionReason
     {
         return $this->RejectionReason;
     }
 
-    public function withRejectionReason(CouponRejectionReason $RejectionReason): self
+    public function withRejectionReason(CouponRejectionReason $RejectionReason): static
     {
         $new = clone $this;
         $new->RejectionReason = $RejectionReason;

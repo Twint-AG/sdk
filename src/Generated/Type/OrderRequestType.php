@@ -4,77 +4,69 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class OrderRequestType
+class OrderRequestType
 {
     /**
-     * @var string
+     * @var 'GOODS' | 'MONEY'
      */
-    private $PostingType;
+    protected string $PostingType;
+
+    protected CurrencyAmountType $RequestedAmount;
 
     /**
-     * @var CurrencyAmountType
+     * Reference number by which the merchant might want to identify
+     *  this voucher in his own applications.
      */
-    private $RequestedAmount;
+    protected ?string $MerchantTransactionReference;
+
+    protected ?CurrencyAmountType $CustomerBenefit;
+
+    protected ?string $EReceiptUrl;
+
+    protected ?OrderLinkType $Link;
+
+    protected ?string $OrderDetailsUrl;
 
     /**
-     * @var string
+     * Basic structure of the description of a time based service.
+     *  MUST contain a message type identifier, start and an end time stamp.
      */
-    private $MerchantTransactionReference;
+    protected ?TimeBasedDataType $TimeBasedData;
 
     /**
-     * @var CurrencyAmountType
+     * Enumeration based on xs:string, defines the payment authorization type for an order.
+     *  - FINAL_AUTH: Authorization of the final amount, standard case
+     *  - PRE_AUTH: PreAuthorization of a defined maximum amount, which will be reserved on the customer account.
+     *  The final amount will be requested later with the confirmation
+     *
+     * @var null | 'FINAL_AUTH' | 'PRE_AUTH'
      */
-    private $CustomerBenefit;
+    protected ?string $PaymentAuthorizationType;
 
     /**
-     * @var string
+     * ConfirmationButtonType is used to allow merchants to customise the labels for the confirmation button.
      */
-    private $EReceiptUrl;
+    protected ?string $ConfirmationButtonId;
 
     /**
-     * @var OrderLinkType
+     * @var 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT'
      */
-    private $Link;
+    protected string $type;
+
+    protected ?bool $confirmationNeeded;
 
     /**
-     * @var string
+     * @return 'GOODS' | 'MONEY'
      */
-    private $OrderDetailsUrl;
-
-    /**
-     * @var TimeBasedDataType
-     */
-    private $TimeBasedData;
-
-    /**
-     * @var string
-     */
-    private $PaymentAuthorizationType;
-
-    /**
-     * @var string
-     */
-    private $ConfirmationButtonId;
-
-    /**
-     * @var string
-     */
-    private $type;
-
-    /**
-     * @var bool
-     */
-    private $confirmationNeeded;
-
-    /**
-     * @return string
-     */
-    public function getPostingType()
+    public function getPostingType(): string
     {
         return $this->PostingType;
     }
 
-    public function withPostingType(string $PostingType): self
+    /**
+     * @param 'GOODS' | 'MONEY' $PostingType
+     */
+    public function withPostingType(string $PostingType): static
     {
         $new = clone $this;
         $new->PostingType = $PostingType;
@@ -82,15 +74,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getRequestedAmount()
+    public function getRequestedAmount(): CurrencyAmountType
     {
         return $this->RequestedAmount;
     }
 
-    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): self
+    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): static
     {
         $new = clone $this;
         $new->RequestedAmount = $RequestedAmount;
@@ -98,15 +87,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantTransactionReference()
+    public function getMerchantTransactionReference(): ?string
     {
         return $this->MerchantTransactionReference;
     }
 
-    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
+    public function withMerchantTransactionReference(?string $MerchantTransactionReference): static
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -114,15 +100,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getCustomerBenefit()
+    public function getCustomerBenefit(): ?CurrencyAmountType
     {
         return $this->CustomerBenefit;
     }
 
-    public function withCustomerBenefit(CurrencyAmountType $CustomerBenefit): self
+    public function withCustomerBenefit(?CurrencyAmountType $CustomerBenefit): static
     {
         $new = clone $this;
         $new->CustomerBenefit = $CustomerBenefit;
@@ -130,15 +113,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getEReceiptUrl()
+    public function getEReceiptUrl(): ?string
     {
         return $this->EReceiptUrl;
     }
 
-    public function withEReceiptUrl(string $EReceiptUrl): self
+    public function withEReceiptUrl(?string $EReceiptUrl): static
     {
         $new = clone $this;
         $new->EReceiptUrl = $EReceiptUrl;
@@ -146,15 +126,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return OrderLinkType
-     */
-    public function getLink()
+    public function getLink(): ?OrderLinkType
     {
         return $this->Link;
     }
 
-    public function withLink(OrderLinkType $Link): self
+    public function withLink(?OrderLinkType $Link): static
     {
         $new = clone $this;
         $new->Link = $Link;
@@ -162,15 +139,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderDetailsUrl()
+    public function getOrderDetailsUrl(): ?string
     {
         return $this->OrderDetailsUrl;
     }
 
-    public function withOrderDetailsUrl(string $OrderDetailsUrl): self
+    public function withOrderDetailsUrl(?string $OrderDetailsUrl): static
     {
         $new = clone $this;
         $new->OrderDetailsUrl = $OrderDetailsUrl;
@@ -178,15 +152,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return TimeBasedDataType
-     */
-    public function getTimeBasedData()
+    public function getTimeBasedData(): ?TimeBasedDataType
     {
         return $this->TimeBasedData;
     }
 
-    public function withTimeBasedData(TimeBasedDataType $TimeBasedData): self
+    public function withTimeBasedData(?TimeBasedDataType $TimeBasedData): static
     {
         $new = clone $this;
         $new->TimeBasedData = $TimeBasedData;
@@ -195,14 +166,17 @@ final class OrderRequestType
     }
 
     /**
-     * @return string
+     * @return null | 'FINAL_AUTH' | 'PRE_AUTH'
      */
-    public function getPaymentAuthorizationType()
+    public function getPaymentAuthorizationType(): ?string
     {
         return $this->PaymentAuthorizationType;
     }
 
-    public function withPaymentAuthorizationType(string $PaymentAuthorizationType): self
+    /**
+     * @param null | 'FINAL_AUTH' | 'PRE_AUTH' $PaymentAuthorizationType
+     */
+    public function withPaymentAuthorizationType(?string $PaymentAuthorizationType): static
     {
         $new = clone $this;
         $new->PaymentAuthorizationType = $PaymentAuthorizationType;
@@ -210,15 +184,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getConfirmationButtonId()
+    public function getConfirmationButtonId(): ?string
     {
         return $this->ConfirmationButtonId;
     }
 
-    public function withConfirmationButtonId(string $ConfirmationButtonId): self
+    public function withConfirmationButtonId(?string $ConfirmationButtonId): static
     {
         $new = clone $this;
         $new->ConfirmationButtonId = $ConfirmationButtonId;
@@ -227,14 +198,17 @@ final class OrderRequestType
     }
 
     /**
-     * @return string
+     * @return 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT'
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    public function withType(string $type): self
+    /**
+     * @param 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT' $type
+     */
+    public function withType(string $type): static
     {
         $new = clone $this;
         $new->type = $type;
@@ -242,15 +216,12 @@ final class OrderRequestType
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getConfirmationNeeded()
+    public function getConfirmationNeeded(): ?bool
     {
         return $this->confirmationNeeded;
     }
 
-    public function withConfirmationNeeded(bool $confirmationNeeded): self
+    public function withConfirmationNeeded(?bool $confirmationNeeded): static
     {
         $new = clone $this;
         $new->confirmationNeeded = $confirmationNeeded;

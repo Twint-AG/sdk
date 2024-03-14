@@ -1,0 +1,81 @@
+stages:
+  - build
+  - check
+
+.base:
+  parallel:
+    matrix:
+      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3" ] }
+  tags:
+    - d13-runner
+
+.php:
+  image: "$CI_REGISTRY_IMAGE/php:$CI_COMMIT_SHORT_SHA-$PHP_VERSION"
+  extends: .base
+
+.php-with-high-low-dependencies:
+  parallel:
+    matrix:
+      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "current", "lowest" ] }
+  extends: .php
+
+build:
+  stage: build
+  image: "quay.io/podman/stable:v4"
+  variables:
+    TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
+    TWINT_SDK_PHP_IMAGE_TAG:   $CI_REGISTRY_IMAGE/php:$CI_COMMIT_SHORT_SHA-$PHP_VERSION
+    TWINT_SDK_PHP_IMAGE_ALIAS: $CI_REGISTRY_IMAGE/php:$CI_COMMIT_REF_SLUG-$PHP_VERSION
+    # Required to make rootless podman work
+    STORAGE_DRIVER: vfs
+  script:
+    - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - podman pull ${TWINT_SDK_PHP_IMAGE_ALIAS} || true
+    - >-
+      podman build
+      --pull=newer
+      --build-arg http_proxy=$http_proxy
+      --build-arg https_proxy=$https_proxy
+      --build-arg no_proxy=$no_proxy
+      --build-context php_base_image=docker-image://php:$PHP_VERSION-alpine
+      --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
+      --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
+      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
+      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
+      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
+      --tag $TWINT_SDK_PHP_IMAGE_TAG
+      --tag $TWINT_SDK_PHP_IMAGE_ALIAS
+      -f Dockerfile
+      $PWD
+    - podman push $TWINT_SDK_PHP_IMAGE_TAG
+    # Push image alias to registry
+    - podman push $TWINT_SDK_PHP_IMAGE_TAG $TWINT_SDK_PHP_IMAGE_ALIAS
+  extends: .base
+
+test:
+  stage: check
+  variables:
+    XDEBUG_MODE: coverage
+  script:
+    - $COMPOSER_DEPENDENCY_VERSION == "lowest" && composer update --prefer-lowest || composer install
+    - cp ${TWINT_SDK_CI_DOT_ENV} .env
+    - mkdir -p build
+    - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
+    - make test
+  extends: .php-with-high-low-dependencies
+
+static-analysis:
+  stage: check
+  script:
+    - composer install
+    - make static-analysis
+  extends: .php
+
+format:
+  stage: check
+  script:
+    - composer install
+    - make check-format
+  extends: .php

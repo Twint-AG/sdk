@@ -6,49 +6,37 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class StartOrderAndUofRegistrationRequestType implements RequestInterface
+class StartOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var RegistrationRequestType
+     * Required information for UOF registration>
      */
-    private $RegistrationRequest;
+    protected RegistrationRequestType $RegistrationRequest;
+
+    protected OrderRequestType $Order;
+
+    protected ?CouponListType $Coupons;
 
     /**
-     * @var OrderRequestType
+     * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    private $Order;
+    protected ?string $PaymentLayerRendering;
 
-    /**
-     * @var CouponListType
-     */
-    private $Coupons;
-
-    /**
-     * @var string
-     */
-    private $PaymentLayerRendering;
-
-    /**
-     * @var string
-     */
-    private $OrderUpdateNotificationURL;
+    protected ?string $OrderUpdateNotificationURL;
 
     /**
      * Constructor
      *
-     * @param MerchantInformationType $MerchantInformation
-     * @param RegistrationRequestType $RegistrationRequest
-     * @param OrderRequestType $Order
-     * @param CouponListType $Coupons
-     * @param string $PaymentLayerRendering
-     * @param string $OrderUpdateNotificationURL
+     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
      */
-    public function __construct($MerchantInformation, $RegistrationRequest, $Order, $Coupons, $PaymentLayerRendering, $OrderUpdateNotificationURL)
+    public function __construct(MerchantInformationType $MerchantInformation, RegistrationRequestType $RegistrationRequest, OrderRequestType $Order, ?CouponListType $Coupons, ?string $PaymentLayerRendering, ?string $OrderUpdateNotificationURL)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->RegistrationRequest = $RegistrationRequest;
@@ -58,15 +46,12 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         $this->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -74,15 +59,12 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return RegistrationRequestType
-     */
-    public function getRegistrationRequest()
+    public function getRegistrationRequest(): RegistrationRequestType
     {
         return $this->RegistrationRequest;
     }
 
-    public function withRegistrationRequest(RegistrationRequestType $RegistrationRequest): self
+    public function withRegistrationRequest(RegistrationRequestType $RegistrationRequest): static
     {
         $new = clone $this;
         $new->RegistrationRequest = $RegistrationRequest;
@@ -90,15 +72,12 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return OrderRequestType
-     */
-    public function getOrder()
+    public function getOrder(): OrderRequestType
     {
         return $this->Order;
     }
 
-    public function withOrder(OrderRequestType $Order): self
+    public function withOrder(OrderRequestType $Order): static
     {
         $new = clone $this;
         $new->Order = $Order;
@@ -106,15 +85,12 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return CouponListType
-     */
-    public function getCoupons()
+    public function getCoupons(): ?CouponListType
     {
         return $this->Coupons;
     }
 
-    public function withCoupons(CouponListType $Coupons): self
+    public function withCoupons(?CouponListType $Coupons): static
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
@@ -123,14 +99,17 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    public function getPaymentLayerRendering()
+    public function getPaymentLayerRendering(): ?string
     {
         return $this->PaymentLayerRendering;
     }
 
-    public function withPaymentLayerRendering(string $PaymentLayerRendering): self
+    /**
+     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     */
+    public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
     {
         $new = clone $this;
         $new->PaymentLayerRendering = $PaymentLayerRendering;
@@ -138,15 +117,12 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderUpdateNotificationURL()
+    public function getOrderUpdateNotificationURL(): ?string
     {
         return $this->OrderUpdateNotificationURL;
     }
 
-    public function withOrderUpdateNotificationURL(string $OrderUpdateNotificationURL): self
+    public function withOrderUpdateNotificationURL(?string $OrderUpdateNotificationURL): static
     {
         $new = clone $this;
         $new->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;

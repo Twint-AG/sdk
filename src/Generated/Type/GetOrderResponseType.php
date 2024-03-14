@@ -6,22 +6,16 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class GetOrderResponseType implements ResultInterface
+class GetOrderResponseType implements ResultInterface
 {
-    /**
-     * @var OrderType
-     */
-    private $Order;
+    protected OrderType $Order;
 
-    /**
-     * @return OrderType
-     */
-    public function getOrder()
+    public function getOrder(): OrderType
     {
         return $this->Order;
     }
 
-    public function withOrder(OrderType $Order): self
+    public function withOrder(OrderType $Order): static
     {
         $new = clone $this;
         $new->Order = $Order;

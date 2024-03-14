@@ -42,7 +42,11 @@ use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
 return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([__DIR__]);
-    $ecsConfig->skip([__DIR__ . '/vendor', __DIR__ . '/build']);
+    $ecsConfig->skip([
+        __DIR__ . '/vendor',
+        __DIR__ . '/build',
+        FinalClassFixer::class => [__DIR__ . '/src/Generated/'],
+    ]);
 
     $ecsConfig->rules(
         [

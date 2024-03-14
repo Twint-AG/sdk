@@ -4,37 +4,42 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CustomerInformationType
+class CustomerInformationType
 {
     /**
-     * @var LoyaltyType
+     * @var array<int<0,max>, \Twint\Sdk\Generated\Type\LoyaltyType>
      */
-    private $Loyalty;
+    protected array $Loyalty;
 
     /**
-     * @var CouponType
+     * @var array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType>
      */
-    private $Coupon;
+    protected array $Coupon;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $CustomerRelationUuid;
+    protected ?string $CustomerRelationUuid;
 
     /**
-     * @var KeyValueType
+     * @var array<int<0,max>, \Twint\Sdk\Generated\Type\KeyValueType>
      */
-    private $Addendum;
+    protected array $Addendum;
 
     /**
-     * @return LoyaltyType
+     * @return array<int<0,max>, \Twint\Sdk\Generated\Type\LoyaltyType>
      */
-    public function getLoyalty()
+    public function getLoyalty(): array
     {
         return $this->Loyalty;
     }
 
-    public function withLoyalty(LoyaltyType $Loyalty): self
+    /**
+     * @param array<int<0,max>, \Twint\Sdk\Generated\Type\LoyaltyType> $Loyalty
+     */
+    public function withLoyalty(array $Loyalty): static
     {
         $new = clone $this;
         $new->Loyalty = $Loyalty;
@@ -43,14 +48,17 @@ final class CustomerInformationType
     }
 
     /**
-     * @return CouponType
+     * @return array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType>
      */
-    public function getCoupon()
+    public function getCoupon(): array
     {
         return $this->Coupon;
     }
 
-    public function withCoupon(CouponType $Coupon): self
+    /**
+     * @param array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType> $Coupon
+     */
+    public function withCoupon(array $Coupon): static
     {
         $new = clone $this;
         $new->Coupon = $Coupon;
@@ -58,15 +66,12 @@ final class CustomerInformationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerRelationUuid()
+    public function getCustomerRelationUuid(): ?string
     {
         return $this->CustomerRelationUuid;
     }
 
-    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
+    public function withCustomerRelationUuid(?string $CustomerRelationUuid): static
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -75,14 +80,17 @@ final class CustomerInformationType
     }
 
     /**
-     * @return KeyValueType
+     * @return array<int<0,max>, \Twint\Sdk\Generated\Type\KeyValueType>
      */
-    public function getAddendum()
+    public function getAddendum(): array
     {
         return $this->Addendum;
     }
 
-    public function withAddendum(KeyValueType $Addendum): self
+    /**
+     * @param array<int<0,max>, \Twint\Sdk\Generated\Type\KeyValueType> $Addendum
+     */
+    public function withAddendum(array $Addendum): static
     {
         $new = clone $this;
         $new->Addendum = $Addendum;

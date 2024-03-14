@@ -22,7 +22,7 @@ final class VcrExtension implements Extension
         $facade->registerSubscribers(
             new ConfigureVcr($fixtureVersionMatcher, $fixtureVersionHeader),
             new PrepareVcr($fixtureVersionMatcher),
-            new TurnOffVcr()
+            new TurnOffVcr(),
         );
     }
 }

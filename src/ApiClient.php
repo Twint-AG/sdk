@@ -80,9 +80,7 @@ final class ApiClient implements Client
     {
         try {
             $response = $this->soapClient()
-                ->getCertificateValidity(
-                    new GetCertificateValidityRequestType((string) $merchantId, MerchantAliasId: '')
-                );
+                ->getCertificateValidity(new GetCertificateValidityRequestType((string) $merchantId, null));
             return new CertificateValidity(
                 DateTimeImmutable::createFromInterface($response->getCertificateExpiryDate()),
                 $response->getRenewalAllowed()
@@ -102,18 +100,18 @@ final class ApiClient implements Client
                 ->renewCertificate(
                     new RenewCertificateRequestType(
                         (string) $merchantId,
-                        MerchantAliasId: '',
+                        MerchantAliasId: null,
                         CertificatePassword: $this->certificate->pkcs12()
                             ->passphrase()
                     )
                 );
 
+            $certificateBlob = $response->getMerchantCertificate();
+            Assertion::string($certificateBlob, 'Expected certificate blob to be a string');
+            Assertion::notEmpty($certificateBlob, 'Expected certificate blob to be non-empty');
+
             $certificate = CertificateContainer::fromPkcs12(
-                new Pkcs12Certificate(
-                    new InMemoryStream($response->getMerchantCertificate()),
-                    $this->certificate->pkcs12()
-                        ->passphrase()
-                )
+                new Pkcs12Certificate(new InMemoryStream($certificateBlob), $this->certificate->pkcs12()->passphrase())
             );
             $this->setCertificate($certificate);
 
@@ -212,11 +210,15 @@ final class ApiClient implements Client
                     )
                 );
 
+            $merchantTransactionReference = $response->getOrder()
+                ->getMerchantTransactionReference();
+            Assertion::notEmpty($merchantTransactionReference, 'Expected merchant reference to be non-empty');
+
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
+                new TransactionReference($merchantTransactionReference),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -243,11 +245,15 @@ final class ApiClient implements Client
                     )
                 );
 
+            $merchantTransactionReference = $response->getOrder()
+                ->getMerchantTransactionReference();
+            Assertion::notEmpty($merchantTransactionReference, 'Expected merchant reference to be non-empty');
+
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
+                new TransactionReference($merchantTransactionReference),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

@@ -28,6 +28,7 @@ final class OrderKind implements Enum, Comparable, Equality
     public const CREDIT = 'CREDIT';
 
     /**
+     * @param OrderKind::* $kind
      * @throws AssertionFailed
      */
     public function __construct(
@@ -87,6 +88,9 @@ final class OrderKind implements Enum, Comparable, Equality
         ];
     }
 
+    /**
+     * @return OrderKind::*
+     */
     public function __toString(): string
     {
         return $this->kind;

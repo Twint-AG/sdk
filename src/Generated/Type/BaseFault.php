@@ -4,22 +4,16 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class BaseFault
+class BaseFault
 {
-    /**
-     * @var ErrorCode
-     */
-    private $ErrorCode;
+    protected ErrorCode $ErrorCode;
 
-    /**
-     * @return ErrorCode
-     */
-    public function getErrorCode()
+    public function getErrorCode(): ErrorCode
     {
         return $this->ErrorCode;
     }
 
-    public function withErrorCode(ErrorCode $ErrorCode): self
+    public function withErrorCode(ErrorCode $ErrorCode): static
     {
         $new = clone $this;
         $new->ErrorCode = $ErrorCode;

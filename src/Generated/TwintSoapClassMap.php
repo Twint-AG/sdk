@@ -7,18 +7,12 @@ namespace Twint\Sdk\Generated;
 use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMap;
 use Soap\ExtSoapEngine\Configuration\ClassMap\ClassMapCollection;
 
-final class TwintSoapClassMap
+class TwintSoapClassMap
 {
     public static function getCollection(): ClassMapCollection
     {
         return new ClassMapCollection(
-            new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
-            new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
-            new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),
-            new ClassMap('CheckSystemStatusRequestType', Type\CheckSystemStatusRequestType::class),
-            new ClassMap('CheckSystemStatusResponseType', Type\CheckSystemStatusResponseType::class),
-            new ClassMap('TWINTTokenType', Type\TWINTTokenType::class),
-            new ClassMap('RegistrationRequestType', Type\RegistrationRequestType::class),
+            new ClassMap('OrderRequestType', Type\OrderRequestType::class),
             new ClassMap('RequestCheckInRequestType', Type\RequestCheckInRequestType::class),
             new ClassMap('RequestCheckInResponseType', Type\RequestCheckInResponseType::class),
             new ClassMap('MonitorCheckInRequestType', Type\MonitorCheckInRequestType::class),
@@ -39,6 +33,8 @@ final class TwintSoapClassMap
             new ClassMap('FindOrderResponseType', Type\FindOrderResponseType::class),
             new ClassMap('EnrollCashRegisterRequestType', Type\EnrollCashRegisterRequestType::class),
             new ClassMap('EnrollCashRegisterResponseType', Type\EnrollCashRegisterResponseType::class),
+            new ClassMap('CheckSystemStatusRequestType', Type\CheckSystemStatusRequestType::class),
+            new ClassMap('CheckSystemStatusResponseType', Type\CheckSystemStatusResponseType::class),
             new ClassMap(
                 'StartOrderAndUofRegistrationRequestType',
                 Type\StartOrderAndUofRegistrationRequestType::class
@@ -81,7 +77,6 @@ final class TwintSoapClassMap
             new ClassMap('CheckInNotificationType', Type\CheckInNotificationType::class),
             new ClassMap('OrderStatusType', Type\OrderStatusType::class),
             new ClassMap('CodeValueType', Type\CodeValueType::class),
-            new ClassMap('OrderRequestType', Type\OrderRequestType::class),
             new ClassMap('TimeBasedDataType', Type\TimeBasedDataType::class),
             new ClassMap('OrderType', Type\OrderType::class),
             new ClassMap('BNPLDataType', Type\BNPLDataType::class),
@@ -96,10 +91,49 @@ final class TwintSoapClassMap
             new ClassMap('GetOrderRequestType', Type\GetOrderRequestType::class),
             new ClassMap('GetOrderResponseType', Type\GetOrderResponseType::class),
             new ClassMap('RegistrationType', Type\RegistrationType::class),
+            new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
+            new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
+            new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),
+            new ClassMap('TWINTTokenType', Type\TWINTTokenType::class),
+            new ClassMap('RegistrationRequestType', Type\RegistrationRequestType::class),
             new ClassMap('RequestHeaderType', Type\RequestHeaderType::class),
             new ClassMap('ResponseHeaderType', Type\ResponseHeaderType::class),
             new ClassMap('BaseFault', Type\BaseFault::class),
             new ClassMap('ErrorCode', Type\ErrorCode::class),
+            new ClassMap('SystemError', Type\SystemError::class),
+            new ClassMap('InvalidParameter', Type\InvalidParameter::class),
+            new ClassMap('InvalidMerchant', Type\InvalidMerchant::class),
+            new ClassMap('InvalidCashRegister', Type\InvalidCashRegister::class),
+            new ClassMap('InvalidAmount', Type\InvalidAmount::class),
+            new ClassMap('InvalidCurrency', Type\InvalidCurrency::class),
+            new ClassMap('InvalidOfflineAuthorization', Type\InvalidOfflineAuthorization::class),
+            new ClassMap('InvalidOrder', Type\InvalidOrder::class),
+            new ClassMap('InvalidCustomerRelationKey', Type\InvalidCustomerRelationKey::class),
+            new ClassMap('InvalidVoucherCategory', Type\InvalidVoucherCategory::class),
+            new ClassMap('InvalidVoucher', Type\InvalidVoucher::class),
+            new ClassMap('InvalidMerchantTransactionReference', Type\InvalidMerchantTransactionReference::class),
+            new ClassMap('StatusTransitionError', Type\StatusTransitionError::class),
+            new ClassMap('ActiveOrderError', Type\ActiveOrderError::class),
+            new ClassMap('AuthorizationError', Type\AuthorizationError::class),
+            new ClassMap('TimeoutError', Type\TimeoutError::class),
+            new ClassMap('ReversalError', Type\ReversalError::class),
+            new ClassMap('ActivePairingError', Type\ActivePairingError::class),
+            new ClassMap('UnspecifiedPairingError', Type\UnspecifiedPairingError::class),
+            new ClassMap('AccountLockedError', Type\AccountLockedError::class),
+            new ClassMap('PairingError', Type\PairingError::class),
+            new ClassMap('FundsError', Type\FundsError::class),
+            new ClassMap('CashregisterAccessError', Type\CashregisterAccessError::class),
+            new ClassMap('BusinessError', Type\BusinessError::class),
+            new ClassMap('CertificateRenewalRefused', Type\CertificateRenewalRefused::class),
+            new ClassMap('CertificateRenewalNotAllowed', Type\CertificateRenewalNotAllowed::class),
+            new ClassMap('InvalidToken', Type\InvalidToken::class),
+            new ClassMap('DurationTooLong', Type\DurationTooLong::class),
+            new ClassMap('ExpressConnectionCanceled', Type\ExpressConnectionCanceled::class),
+            new ClassMap('ExpressCheckoutCredentialsInvalid', Type\ExpressCheckoutCredentialsInvalid::class),
+            new ClassMap('UofNotAllowed', Type\UofNotAllowed::class),
+            new ClassMap('InvalidOperationForCombinedOrder', Type\InvalidOperationForCombinedOrder::class),
+            new ClassMap('InvalidCombinedOrder', Type\InvalidCombinedOrder::class),
+            new ClassMap('InvalidPreAuthOrder', Type\InvalidPreAuthOrder::class),
         );
     }
 }

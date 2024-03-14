@@ -4,42 +4,29 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class BeaconSecurityType
+class BeaconSecurityType
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $BeaconUuid;
+    protected string $BeaconUuid;
 
-    /**
-     * @var int
-     */
-    private $MajorId;
+    protected int $MajorId;
 
-    /**
-     * @var int
-     */
-    private $MinorId;
+    protected int $MinorId;
 
-    /**
-     * @var string
-     */
-    private $BeaconInitString;
+    protected string $BeaconInitString;
 
-    /**
-     * @var string
-     */
-    private $BeaconSecret;
+    protected string $BeaconSecret;
 
-    /**
-     * @return string
-     */
-    public function getBeaconUuid()
+    public function getBeaconUuid(): string
     {
         return $this->BeaconUuid;
     }
 
-    public function withBeaconUuid(string $BeaconUuid): self
+    public function withBeaconUuid(string $BeaconUuid): static
     {
         $new = clone $this;
         $new->BeaconUuid = $BeaconUuid;
@@ -47,15 +34,12 @@ final class BeaconSecurityType
         return $new;
     }
 
-    /**
-     * @return int
-     */
-    public function getMajorId()
+    public function getMajorId(): int
     {
         return $this->MajorId;
     }
 
-    public function withMajorId(int $MajorId): self
+    public function withMajorId(int $MajorId): static
     {
         $new = clone $this;
         $new->MajorId = $MajorId;
@@ -63,15 +47,12 @@ final class BeaconSecurityType
         return $new;
     }
 
-    /**
-     * @return int
-     */
-    public function getMinorId()
+    public function getMinorId(): int
     {
         return $this->MinorId;
     }
 
-    public function withMinorId(int $MinorId): self
+    public function withMinorId(int $MinorId): static
     {
         $new = clone $this;
         $new->MinorId = $MinorId;
@@ -79,15 +60,12 @@ final class BeaconSecurityType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getBeaconInitString()
+    public function getBeaconInitString(): string
     {
         return $this->BeaconInitString;
     }
 
-    public function withBeaconInitString(string $BeaconInitString): self
+    public function withBeaconInitString(string $BeaconInitString): static
     {
         $new = clone $this;
         $new->BeaconInitString = $BeaconInitString;
@@ -95,15 +73,12 @@ final class BeaconSecurityType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getBeaconSecret()
+    public function getBeaconSecret(): string
     {
         return $this->BeaconSecret;
     }
 
-    public function withBeaconSecret(string $BeaconSecret): self
+    public function withBeaconSecret(string $BeaconSecret): static
     {
         $new = clone $this;
         $new->BeaconSecret = $BeaconSecret;

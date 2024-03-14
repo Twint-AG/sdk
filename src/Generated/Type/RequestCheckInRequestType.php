@@ -6,61 +6,43 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class RequestCheckInRequestType implements RequestInterface
+class RequestCheckInRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
+
+    protected ?string $OfflineAuthorization;
+
+    protected ?string $CouponCode;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $OfflineAuthorization;
+    protected ?string $CustomerRelationUuid;
+
+    protected ?bool $UnidentifiedCustomer;
+
+    protected ?LoyaltyType $LoyaltyInformation;
 
     /**
-     * @var string
+     * @var null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
      */
-    private $CouponCode;
+    protected ?string $RequestCustomerRelationAlias;
 
-    /**
-     * @var string
-     */
-    private $CustomerRelationUuid;
-
-    /**
-     * @var bool
-     */
-    private $UnidentifiedCustomer;
-
-    /**
-     * @var LoyaltyType
-     */
-    private $LoyaltyInformation;
-
-    /**
-     * @var string
-     */
-    private $RequestCustomerRelationAlias;
-
-    /**
-     * @var bool
-     */
-    private $QRCodeRendering;
+    protected ?bool $QRCodeRendering;
 
     /**
      * Constructor
      *
-     * @param MerchantInformationType $MerchantInformation
-     * @param string $OfflineAuthorization
-     * @param string $CouponCode
-     * @param string $CustomerRelationUuid
-     * @param bool $UnidentifiedCustomer
-     * @param LoyaltyType $LoyaltyInformation
-     * @param string $RequestCustomerRelationAlias
-     * @param bool $QRCodeRendering
+     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
      */
-    public function __construct($MerchantInformation, $OfflineAuthorization, $CouponCode, $CustomerRelationUuid, $UnidentifiedCustomer, $LoyaltyInformation, $RequestCustomerRelationAlias, $QRCodeRendering)
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $OfflineAuthorization, ?string $CouponCode, ?string $CustomerRelationUuid, ?bool $UnidentifiedCustomer, ?LoyaltyType $LoyaltyInformation, ?string $RequestCustomerRelationAlias, ?bool $QRCodeRendering)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->OfflineAuthorization = $OfflineAuthorization;
@@ -72,15 +54,12 @@ final class RequestCheckInRequestType implements RequestInterface
         $this->QRCodeRendering = $QRCodeRendering;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -88,15 +67,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOfflineAuthorization()
+    public function getOfflineAuthorization(): ?string
     {
         return $this->OfflineAuthorization;
     }
 
-    public function withOfflineAuthorization(string $OfflineAuthorization): self
+    public function withOfflineAuthorization(?string $OfflineAuthorization): static
     {
         $new = clone $this;
         $new->OfflineAuthorization = $OfflineAuthorization;
@@ -104,15 +80,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCouponCode()
+    public function getCouponCode(): ?string
     {
         return $this->CouponCode;
     }
 
-    public function withCouponCode(string $CouponCode): self
+    public function withCouponCode(?string $CouponCode): static
     {
         $new = clone $this;
         $new->CouponCode = $CouponCode;
@@ -120,15 +93,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerRelationUuid()
+    public function getCustomerRelationUuid(): ?string
     {
         return $this->CustomerRelationUuid;
     }
 
-    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
+    public function withCustomerRelationUuid(?string $CustomerRelationUuid): static
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -136,15 +106,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getUnidentifiedCustomer()
+    public function getUnidentifiedCustomer(): ?bool
     {
         return $this->UnidentifiedCustomer;
     }
 
-    public function withUnidentifiedCustomer(bool $UnidentifiedCustomer): self
+    public function withUnidentifiedCustomer(?bool $UnidentifiedCustomer): static
     {
         $new = clone $this;
         $new->UnidentifiedCustomer = $UnidentifiedCustomer;
@@ -152,15 +119,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return LoyaltyType
-     */
-    public function getLoyaltyInformation()
+    public function getLoyaltyInformation(): ?LoyaltyType
     {
         return $this->LoyaltyInformation;
     }
 
-    public function withLoyaltyInformation(LoyaltyType $LoyaltyInformation): self
+    public function withLoyaltyInformation(?LoyaltyType $LoyaltyInformation): static
     {
         $new = clone $this;
         $new->LoyaltyInformation = $LoyaltyInformation;
@@ -169,14 +133,17 @@ final class RequestCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
      */
-    public function getRequestCustomerRelationAlias()
+    public function getRequestCustomerRelationAlias(): ?string
     {
         return $this->RequestCustomerRelationAlias;
     }
 
-    public function withRequestCustomerRelationAlias(string $RequestCustomerRelationAlias): self
+    /**
+     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
+     */
+    public function withRequestCustomerRelationAlias(?string $RequestCustomerRelationAlias): static
     {
         $new = clone $this;
         $new->RequestCustomerRelationAlias = $RequestCustomerRelationAlias;
@@ -184,15 +151,12 @@ final class RequestCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getQRCodeRendering()
+    public function getQRCodeRendering(): ?bool
     {
         return $this->QRCodeRendering;
     }
 
-    public function withQRCodeRendering(bool $QRCodeRendering): self
+    public function withQRCodeRendering(?bool $QRCodeRendering): static
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;

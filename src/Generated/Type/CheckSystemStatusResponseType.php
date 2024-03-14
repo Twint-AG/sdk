@@ -6,22 +6,25 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class CheckSystemStatusResponseType implements ResultInterface
+class CheckSystemStatusResponseType implements ResultInterface
 {
     /**
-     * @var string
+     * @var 'OK' | 'ERROR'
      */
-    private $Status;
+    protected string $Status;
 
     /**
-     * @return string
+     * @return 'OK' | 'ERROR'
      */
-    public function getStatus()
+    public function getStatus(): string
     {
         return $this->Status;
     }
 
-    public function withStatus(string $Status): self
+    /**
+     * @param 'OK' | 'ERROR' $Status
+     */
+    public function withStatus(string $Status): static
     {
         $new = clone $this;
         $new->Status = $Status;

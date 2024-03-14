@@ -6,22 +6,16 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class EnrollCashRegisterResponseType implements ResultInterface
+class EnrollCashRegisterResponseType implements ResultInterface
 {
-    /**
-     * @var BeaconSecurityType
-     */
-    private $BeaconSecurity;
+    protected BeaconSecurityType $BeaconSecurity;
 
-    /**
-     * @return BeaconSecurityType
-     */
-    public function getBeaconSecurity()
+    public function getBeaconSecurity(): BeaconSecurityType
     {
         return $this->BeaconSecurity;
     }
 
-    public function withBeaconSecurity(BeaconSecurityType $BeaconSecurity): self
+    public function withBeaconSecurity(BeaconSecurityType $BeaconSecurity): static
     {
         $new = clone $this;
         $new->BeaconSecurity = $BeaconSecurity;

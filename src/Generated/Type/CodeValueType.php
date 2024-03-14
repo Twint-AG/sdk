@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CodeValueType
+class CodeValueType
 {
-    /**
-     * @var string
-     */
-    private $_;
+    protected string $_;
 
-    /**
-     * @var int
-     */
-    private $code;
+    protected int $code;
 
-    /**
-     * @return string
-     */
-    public function get_()
+    public function get_(): string
     {
         return $this->_;
     }
 
-    public function with_(string $_): self
+    public function with_(string $_): static
     {
         $new = clone $this;
         $new->_ = $_;
@@ -32,15 +23,12 @@ final class CodeValueType
         return $new;
     }
 
-    /**
-     * @return int
-     */
-    public function getCode()
+    public function getCode(): int
     {
         return $this->code;
     }
 
-    public function withCode(int $code): self
+    public function withCode(int $code): static
     {
         $new = clone $this;
         $new->code = $code;

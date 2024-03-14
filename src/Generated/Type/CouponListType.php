@@ -4,27 +4,30 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CouponListType
+class CouponListType
 {
     /**
-     * @var CouponType
+     * @var array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType>
      */
-    private $ProcessedCoupon;
+    protected array $ProcessedCoupon;
 
     /**
-     * @var RejectedCouponType
+     * @var array<int<0,max>, \Twint\Sdk\Generated\Type\RejectedCouponType>
      */
-    private $RejectedCoupon;
+    protected array $RejectedCoupon;
 
     /**
-     * @return CouponType
+     * @return array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType>
      */
-    public function getProcessedCoupon()
+    public function getProcessedCoupon(): array
     {
         return $this->ProcessedCoupon;
     }
 
-    public function withProcessedCoupon(CouponType $ProcessedCoupon): self
+    /**
+     * @param array<int<0,max>, \Twint\Sdk\Generated\Type\CouponType> $ProcessedCoupon
+     */
+    public function withProcessedCoupon(array $ProcessedCoupon): static
     {
         $new = clone $this;
         $new->ProcessedCoupon = $ProcessedCoupon;
@@ -33,14 +36,17 @@ final class CouponListType
     }
 
     /**
-     * @return RejectedCouponType
+     * @return array<int<0,max>, \Twint\Sdk\Generated\Type\RejectedCouponType>
      */
-    public function getRejectedCoupon()
+    public function getRejectedCoupon(): array
     {
         return $this->RejectedCoupon;
     }
 
-    public function withRejectedCoupon(RejectedCouponType $RejectedCoupon): self
+    /**
+     * @param array<int<0,max>, \Twint\Sdk\Generated\Type\RejectedCouponType> $RejectedCoupon
+     */
+    public function withRejectedCoupon(array $RejectedCoupon): static
     {
         $new = clone $this;
         $new->RejectedCoupon = $RejectedCoupon;

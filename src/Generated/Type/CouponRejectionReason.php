@@ -4,27 +4,27 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class CouponRejectionReason
+class CouponRejectionReason
 {
     /**
-     * @var string
+     * @var 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER'
      */
-    private $RejectionReason;
+    protected string $RejectionReason;
+
+    protected ?string $Details;
 
     /**
-     * @var string
+     * @return 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER'
      */
-    private $Details;
-
-    /**
-     * @return string
-     */
-    public function getRejectionReason()
+    public function getRejectionReason(): string
     {
         return $this->RejectionReason;
     }
 
-    public function withRejectionReason(string $RejectionReason): self
+    /**
+     * @param 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER' $RejectionReason
+     */
+    public function withRejectionReason(string $RejectionReason): static
     {
         $new = clone $this;
         $new->RejectionReason = $RejectionReason;
@@ -32,15 +32,12 @@ final class CouponRejectionReason
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getDetails()
+    public function getDetails(): ?string
     {
         return $this->Details;
     }
 
-    public function withDetails(string $Details): self
+    public function withDetails(?string $Details): static
     {
         $new = clone $this;
         $new->Details = $Details;

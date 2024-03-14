@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class KeyValueType
+class KeyValueType
 {
-    /**
-     * @var string
-     */
-    private $_;
+    protected string $_;
 
-    /**
-     * @var string
-     */
-    private $key;
+    protected string $key;
 
-    /**
-     * @return string
-     */
-    public function get_()
+    public function get_(): string
     {
         return $this->_;
     }
 
-    public function with_(string $_): self
+    public function with_(string $_): static
     {
         $new = clone $this;
         $new->_ = $_;
@@ -32,15 +23,12 @@ final class KeyValueType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey()
+    public function getKey(): string
     {
         return $this->key;
     }
 
-    public function withKey(string $key): self
+    public function withKey(string $key): static
     {
         $new = clone $this;
         $new->key = $key;

@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class PaymentAmountType
+class PaymentAmountType
 {
-    /**
-     * @var string
-     */
-    private $PaymentMethod;
+    protected string $PaymentMethod;
 
-    /**
-     * @var CurrencyAmountType
-     */
-    private $Amount;
+    protected CurrencyAmountType $Amount;
 
-    /**
-     * @return string
-     */
-    public function getPaymentMethod()
+    public function getPaymentMethod(): string
     {
         return $this->PaymentMethod;
     }
 
-    public function withPaymentMethod(string $PaymentMethod): self
+    public function withPaymentMethod(string $PaymentMethod): static
     {
         $new = clone $this;
         $new->PaymentMethod = $PaymentMethod;
@@ -32,15 +23,12 @@ final class PaymentAmountType
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getAmount()
+    public function getAmount(): CurrencyAmountType
     {
         return $this->Amount;
     }
 
-    public function withAmount(CurrencyAmountType $Amount): self
+    public function withAmount(CurrencyAmountType $Amount): static
     {
         $new = clone $this;
         $new->Amount = $Amount;

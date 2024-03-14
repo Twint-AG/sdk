@@ -6,22 +6,16 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class IsUofConnectionActiveResponseType implements ResultInterface
+class IsUofConnectionActiveResponseType implements ResultInterface
 {
-    /**
-     * @var bool
-     */
-    private $active;
+    protected bool $active;
 
-    /**
-     * @return bool
-     */
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function withActive(bool $active): self
+    public function withActive(bool $active): static
     {
         $new = clone $this;
         $new->active = $active;

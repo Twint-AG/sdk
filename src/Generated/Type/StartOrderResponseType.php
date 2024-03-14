@@ -6,52 +6,36 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class StartOrderResponseType implements ResultInterface
+class StartOrderResponseType implements ResultInterface
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $OrderUuid;
+    protected string $OrderUuid;
+
+    protected OrderStatusType $OrderStatus;
+
+    protected ?int $Token;
+
+    protected ?string $QRCode;
+
+    protected ?string $TwintURL;
+
+    protected CustomerInformationType $CustomerInformation;
 
     /**
-     * @var OrderStatusType
+     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    private $OrderStatus;
+    protected string $PairingStatus;
 
-    /**
-     * @var int
-     */
-    private $Token;
-
-    /**
-     * @var string
-     */
-    private $QRCode;
-
-    /**
-     * @var string
-     */
-    private $TwintURL;
-
-    /**
-     * @var CustomerInformationType
-     */
-    private $CustomerInformation;
-
-    /**
-     * @var string
-     */
-    private $PairingStatus;
-
-    /**
-     * @return string
-     */
-    public function getOrderUuid()
+    public function getOrderUuid(): string
     {
         return $this->OrderUuid;
     }
 
-    public function withOrderUuid(string $OrderUuid): self
+    public function withOrderUuid(string $OrderUuid): static
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -59,15 +43,12 @@ final class StartOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return OrderStatusType
-     */
-    public function getOrderStatus()
+    public function getOrderStatus(): OrderStatusType
     {
         return $this->OrderStatus;
     }
 
-    public function withOrderStatus(OrderStatusType $OrderStatus): self
+    public function withOrderStatus(OrderStatusType $OrderStatus): static
     {
         $new = clone $this;
         $new->OrderStatus = $OrderStatus;
@@ -75,15 +56,12 @@ final class StartOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return int
-     */
-    public function getToken()
+    public function getToken(): ?int
     {
         return $this->Token;
     }
 
-    public function withToken(int $Token): self
+    public function withToken(?int $Token): static
     {
         $new = clone $this;
         $new->Token = $Token;
@@ -91,15 +69,12 @@ final class StartOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getQRCode()
+    public function getQRCode(): ?string
     {
         return $this->QRCode;
     }
 
-    public function withQRCode(string $QRCode): self
+    public function withQRCode(?string $QRCode): static
     {
         $new = clone $this;
         $new->QRCode = $QRCode;
@@ -107,15 +82,12 @@ final class StartOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getTwintURL()
+    public function getTwintURL(): ?string
     {
         return $this->TwintURL;
     }
 
-    public function withTwintURL(string $TwintURL): self
+    public function withTwintURL(?string $TwintURL): static
     {
         $new = clone $this;
         $new->TwintURL = $TwintURL;
@@ -123,15 +95,12 @@ final class StartOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return CustomerInformationType
-     */
-    public function getCustomerInformation()
+    public function getCustomerInformation(): CustomerInformationType
     {
         return $this->CustomerInformation;
     }
 
-    public function withCustomerInformation(CustomerInformationType $CustomerInformation): self
+    public function withCustomerInformation(CustomerInformationType $CustomerInformation): static
     {
         $new = clone $this;
         $new->CustomerInformation = $CustomerInformation;
@@ -140,14 +109,17 @@ final class StartOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return string
+     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    public function getPairingStatus()
+    public function getPairingStatus(): string
     {
         return $this->PairingStatus;
     }
 
-    public function withPairingStatus(string $PairingStatus): self
+    /**
+     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     */
+    public function withPairingStatus(string $PairingStatus): static
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;

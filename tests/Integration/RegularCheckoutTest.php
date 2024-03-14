@@ -22,7 +22,7 @@ final class RegularCheckoutTest extends IntegrationTest
             self::getMerchantId(),
             Money::CHF(100),
             OrderKind::PAYMENT_IMMEDIATE(),
-            self::createTransactionReference()
+            $this->createTransactionReference()
         );
 
         self::assertSame(OrderStatus::IN_PROGRESS, (string) $order->status());
@@ -31,7 +31,7 @@ final class RegularCheckoutTest extends IntegrationTest
     #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testMonitorOrderByOrderId(): void
     {
-        $transactionReference = self::createTransactionReference();
+        $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder(
             self::getMerchantId(),
@@ -48,7 +48,7 @@ final class RegularCheckoutTest extends IntegrationTest
     #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testMonitorOrderByTransactionReference(): void
     {
-        $transactionReference = self::createTransactionReference();
+        $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder(
             self::getMerchantId(),

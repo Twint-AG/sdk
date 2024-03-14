@@ -6,43 +6,32 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class EnrollCashRegisterRequestType implements RequestInterface
+class EnrollCashRegisterRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var string
+     * @var 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' | 'OTHER'
      */
-    private $CashRegisterType;
+    protected string $CashRegisterType;
 
-    /**
-     * @var string
-     */
-    private $FormerCashRegisterId;
+    protected ?string $FormerCashRegisterId;
 
-    /**
-     * @var string
-     */
-    private $BeaconInventoryNumber;
+    protected ?string $BeaconInventoryNumber;
 
-    /**
-     * @var string
-     */
-    private $BeaconDaemonVersion;
+    protected ?string $BeaconDaemonVersion;
 
     /**
      * Constructor
      *
-     * @param MerchantInformationType $MerchantInformation
-     * @param string $CashRegisterType
-     * @param string $FormerCashRegisterId
-     * @param string $BeaconInventoryNumber
-     * @param string $BeaconDaemonVersion
+     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' | 'OTHER' $CashRegisterType
      */
-    public function __construct($MerchantInformation, $CashRegisterType, $FormerCashRegisterId, $BeaconInventoryNumber, $BeaconDaemonVersion)
+    public function __construct(MerchantInformationType $MerchantInformation, string $CashRegisterType, ?string $FormerCashRegisterId, ?string $BeaconInventoryNumber, ?string $BeaconDaemonVersion)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->CashRegisterType = $CashRegisterType;
@@ -51,15 +40,12 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         $this->BeaconDaemonVersion = $BeaconDaemonVersion;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -68,14 +54,17 @@ final class EnrollCashRegisterRequestType implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' | 'OTHER'
      */
-    public function getCashRegisterType()
+    public function getCashRegisterType(): string
     {
         return $this->CashRegisterType;
     }
 
-    public function withCashRegisterType(string $CashRegisterType): self
+    /**
+     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' | 'OTHER' $CashRegisterType
+     */
+    public function withCashRegisterType(string $CashRegisterType): static
     {
         $new = clone $this;
         $new->CashRegisterType = $CashRegisterType;
@@ -83,15 +72,12 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getFormerCashRegisterId()
+    public function getFormerCashRegisterId(): ?string
     {
         return $this->FormerCashRegisterId;
     }
 
-    public function withFormerCashRegisterId(string $FormerCashRegisterId): self
+    public function withFormerCashRegisterId(?string $FormerCashRegisterId): static
     {
         $new = clone $this;
         $new->FormerCashRegisterId = $FormerCashRegisterId;
@@ -99,15 +85,12 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getBeaconInventoryNumber()
+    public function getBeaconInventoryNumber(): ?string
     {
         return $this->BeaconInventoryNumber;
     }
 
-    public function withBeaconInventoryNumber(string $BeaconInventoryNumber): self
+    public function withBeaconInventoryNumber(?string $BeaconInventoryNumber): static
     {
         $new = clone $this;
         $new->BeaconInventoryNumber = $BeaconInventoryNumber;
@@ -115,15 +98,12 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getBeaconDaemonVersion()
+    public function getBeaconDaemonVersion(): ?string
     {
         return $this->BeaconDaemonVersion;
     }
 
-    public function withBeaconDaemonVersion(string $BeaconDaemonVersion): self
+    public function withBeaconDaemonVersion(?string $BeaconDaemonVersion): static
     {
         $new = clone $this;
         $new->BeaconDaemonVersion = $BeaconDaemonVersion;

@@ -4,32 +4,20 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class LoyaltyType
+class LoyaltyType
 {
-    /**
-     * @var string
-     */
-    private $Program;
+    protected string $Program;
 
-    /**
-     * @var string
-     */
-    private $Reference;
+    protected string $Reference;
 
-    /**
-     * @var string
-     */
-    private $ExtendedReferenceDescription;
+    protected string $ExtendedReferenceDescription;
 
-    /**
-     * @return string
-     */
-    public function getProgram()
+    public function getProgram(): string
     {
         return $this->Program;
     }
 
-    public function withProgram(string $Program): self
+    public function withProgram(string $Program): static
     {
         $new = clone $this;
         $new->Program = $Program;
@@ -37,15 +25,12 @@ final class LoyaltyType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getReference()
+    public function getReference(): string
     {
         return $this->Reference;
     }
 
-    public function withReference(string $Reference): self
+    public function withReference(string $Reference): static
     {
         $new = clone $this;
         $new->Reference = $Reference;
@@ -53,15 +38,12 @@ final class LoyaltyType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getExtendedReferenceDescription()
+    public function getExtendedReferenceDescription(): string
     {
         return $this->ExtendedReferenceDescription;
     }
 
-    public function withExtendedReferenceDescription(string $ExtendedReferenceDescription): self
+    public function withExtendedReferenceDescription(string $ExtendedReferenceDescription): static
     {
         $new = clone $this;
         $new->ExtendedReferenceDescription = $ExtendedReferenceDescription;

@@ -6,52 +6,44 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class StartOrderAndUofRegistrationResponseType implements ResultInterface
+class StartOrderAndUofRegistrationResponseType implements ResultInterface
 {
-    /**
-     * @var TWINTTokenType
-     */
-    private $Token;
+    protected ?TWINTTokenType $Token;
+
+    protected ?string $TwintURL;
 
     /**
-     * @var string
+     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    private $TwintURL;
+    protected string $PairingStatus;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PairingStatus;
+    protected string $PaymentOrderUuid;
+
+    protected OrderStatusType $PaymentOrderStatus;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrderUuid;
+    protected string $RegistrationUuid;
 
     /**
-     * @var OrderStatusType
+     * @var 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
      */
-    private $PaymentOrderStatus;
+    protected string $RegistrationStatus;
 
-    /**
-     * @var string
-     */
-    private $RegistrationUuid;
-
-    /**
-     * @var string
-     */
-    private $RegistrationStatus;
-
-    /**
-     * @return TWINTTokenType
-     */
-    public function getToken()
+    public function getToken(): ?TWINTTokenType
     {
         return $this->Token;
     }
 
-    public function withToken(TWINTTokenType $Token): self
+    public function withToken(?TWINTTokenType $Token): static
     {
         $new = clone $this;
         $new->Token = $Token;
@@ -59,15 +51,12 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getTwintURL()
+    public function getTwintURL(): ?string
     {
         return $this->TwintURL;
     }
 
-    public function withTwintURL(string $TwintURL): self
+    public function withTwintURL(?string $TwintURL): static
     {
         $new = clone $this;
         $new->TwintURL = $TwintURL;
@@ -76,14 +65,17 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return string
+     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    public function getPairingStatus()
+    public function getPairingStatus(): string
     {
         return $this->PairingStatus;
     }
 
-    public function withPairingStatus(string $PairingStatus): self
+    /**
+     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     */
+    public function withPairingStatus(string $PairingStatus): static
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -91,15 +83,12 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentOrderUuid()
+    public function getPaymentOrderUuid(): string
     {
         return $this->PaymentOrderUuid;
     }
 
-    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): static
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -107,15 +96,12 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return OrderStatusType
-     */
-    public function getPaymentOrderStatus()
+    public function getPaymentOrderStatus(): OrderStatusType
     {
         return $this->PaymentOrderStatus;
     }
 
-    public function withPaymentOrderStatus(OrderStatusType $PaymentOrderStatus): self
+    public function withPaymentOrderStatus(OrderStatusType $PaymentOrderStatus): static
     {
         $new = clone $this;
         $new->PaymentOrderStatus = $PaymentOrderStatus;
@@ -123,15 +109,12 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getRegistrationUuid()
+    public function getRegistrationUuid(): string
     {
         return $this->RegistrationUuid;
     }
 
-    public function withRegistrationUuid(string $RegistrationUuid): self
+    public function withRegistrationUuid(string $RegistrationUuid): static
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -140,14 +123,17 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return string
+     * @return 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
      */
-    public function getRegistrationStatus()
+    public function getRegistrationStatus(): string
     {
         return $this->RegistrationStatus;
     }
 
-    public function withRegistrationStatus(string $RegistrationStatus): self
+    /**
+     * @param 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED' $RegistrationStatus
+     */
+    public function withRegistrationStatus(string $RegistrationStatus): static
     {
         $new = clone $this;
         $new->RegistrationStatus = $RegistrationStatus;

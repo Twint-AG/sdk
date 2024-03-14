@@ -4,22 +4,19 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class BNPLDataType
+class BNPLDataType
 {
     /**
-     * @var string
+     * The associated code of the BNPL-product. Format: "^\w{1,8}$"
      */
-    private $ProductCode;
+    protected string $ProductCode;
 
-    /**
-     * @return string
-     */
-    public function getProductCode()
+    public function getProductCode(): string
     {
         return $this->ProductCode;
     }
 
-    public function withProductCode(string $ProductCode): self
+    public function withProductCode(string $ProductCode): static
     {
         $new = clone $this;
         $new->ProductCode = $ProductCode;

@@ -6,43 +6,42 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class CancelCheckInRequestType implements RequestInterface
+class CancelCheckInRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var string
+     * @var 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
      */
-    private $Reason;
+    protected string $Reason;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $CustomerRelationUuid;
+    protected ?string $CustomerRelationUuid;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PairingUuid;
+    protected ?string $PairingUuid;
 
-    /**
-     * @var CouponListType
-     */
-    private $Coupons;
+    protected ?CouponListType $Coupons;
 
     /**
      * Constructor
      *
-     * @param MerchantInformationType $MerchantInformation
-     * @param string $Reason
-     * @param string $CustomerRelationUuid
-     * @param string $PairingUuid
-     * @param CouponListType $Coupons
+     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
      */
-    public function __construct($MerchantInformation, $Reason, $CustomerRelationUuid, $PairingUuid, $Coupons)
+    public function __construct(MerchantInformationType $MerchantInformation, string $Reason, ?string $CustomerRelationUuid, ?string $PairingUuid, ?CouponListType $Coupons)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->Reason = $Reason;
@@ -51,15 +50,12 @@ final class CancelCheckInRequestType implements RequestInterface
         $this->Coupons = $Coupons;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -68,14 +64,17 @@ final class CancelCheckInRequestType implements RequestInterface
     }
 
     /**
-     * @return string
+     * @return 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
      */
-    public function getReason()
+    public function getReason(): string
     {
         return $this->Reason;
     }
 
-    public function withReason(string $Reason): self
+    /**
+     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
+     */
+    public function withReason(string $Reason): static
     {
         $new = clone $this;
         $new->Reason = $Reason;
@@ -83,15 +82,12 @@ final class CancelCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerRelationUuid()
+    public function getCustomerRelationUuid(): ?string
     {
         return $this->CustomerRelationUuid;
     }
 
-    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
+    public function withCustomerRelationUuid(?string $CustomerRelationUuid): static
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -99,15 +95,12 @@ final class CancelCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPairingUuid()
+    public function getPairingUuid(): ?string
     {
         return $this->PairingUuid;
     }
 
-    public function withPairingUuid(string $PairingUuid): self
+    public function withPairingUuid(?string $PairingUuid): static
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -115,15 +108,12 @@ final class CancelCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return CouponListType
-     */
-    public function getCoupons()
+    public function getCoupons(): ?CouponListType
     {
         return $this->Coupons;
     }
 
-    public function withCoupons(CouponListType $Coupons): self
+    public function withCoupons(?CouponListType $Coupons): static
     {
         $new = clone $this;
         $new->Coupons = $Coupons;

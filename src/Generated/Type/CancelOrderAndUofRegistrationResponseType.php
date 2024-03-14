@@ -6,37 +6,32 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
+class CancelOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrderUuid;
+    protected string $PaymentOrderUuid;
+
+    protected OrderType $PaymentOrder;
 
     /**
-     * @var OrderType
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrder;
+    protected string $RegistrationUuid;
 
-    /**
-     * @var string
-     */
-    private $RegistrationUuid;
+    protected RegistrationType $RegistrationOrder;
 
-    /**
-     * @var RegistrationType
-     */
-    private $RegistrationOrder;
-
-    /**
-     * @return string
-     */
-    public function getPaymentOrderUuid()
+    public function getPaymentOrderUuid(): string
     {
         return $this->PaymentOrderUuid;
     }
 
-    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): static
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -44,15 +39,12 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return OrderType
-     */
-    public function getPaymentOrder()
+    public function getPaymentOrder(): OrderType
     {
         return $this->PaymentOrder;
     }
 
-    public function withPaymentOrder(OrderType $PaymentOrder): self
+    public function withPaymentOrder(OrderType $PaymentOrder): static
     {
         $new = clone $this;
         $new->PaymentOrder = $PaymentOrder;
@@ -60,15 +52,12 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getRegistrationUuid()
+    public function getRegistrationUuid(): string
     {
         return $this->RegistrationUuid;
     }
 
-    public function withRegistrationUuid(string $RegistrationUuid): self
+    public function withRegistrationUuid(string $RegistrationUuid): static
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -76,15 +65,12 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return RegistrationType
-     */
-    public function getRegistrationOrder()
+    public function getRegistrationOrder(): RegistrationType
     {
         return $this->RegistrationOrder;
     }
 
-    public function withRegistrationOrder(RegistrationType $RegistrationOrder): self
+    public function withRegistrationOrder(RegistrationType $RegistrationOrder): static
     {
         $new = clone $this;
         $new->RegistrationOrder = $RegistrationOrder;

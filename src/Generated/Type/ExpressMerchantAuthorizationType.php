@@ -4,62 +4,45 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class ExpressMerchantAuthorizationType
+class ExpressMerchantAuthorizationType
 {
-    /**
-     * @var string
-     */
-    private $TerminalId;
+    protected ?string $TerminalId;
+
+    protected ?string $SequenceCounter;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $SequenceCounter;
+    protected string $CustomerUuid;
+
+    protected string $Operation;
+
+    protected string $ReservationTimestamp;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $CustomerUuid;
+    protected string $OrderUuid;
+
+    protected mixed $RequestSignature;
+
+    protected mixed $RequestKey;
 
     /**
-     * @var string
+     * @var null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT'
      */
-    private $Operation;
+    protected ?string $UofPaymentType;
 
-    /**
-     * @var string
-     */
-    private $ReservationTimestamp;
-
-    /**
-     * @var string
-     */
-    private $OrderUuid;
-
-    /**
-     * @var string
-     */
-    private $RequestSignature;
-
-    /**
-     * @var string
-     */
-    private $RequestKey;
-
-    /**
-     * @var string
-     */
-    private $UofPaymentType;
-
-    /**
-     * @return string
-     */
-    public function getTerminalId()
+    public function getTerminalId(): ?string
     {
         return $this->TerminalId;
     }
 
-    public function withTerminalId(string $TerminalId): self
+    public function withTerminalId(?string $TerminalId): static
     {
         $new = clone $this;
         $new->TerminalId = $TerminalId;
@@ -67,15 +50,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getSequenceCounter()
+    public function getSequenceCounter(): ?string
     {
         return $this->SequenceCounter;
     }
 
-    public function withSequenceCounter(string $SequenceCounter): self
+    public function withSequenceCounter(?string $SequenceCounter): static
     {
         $new = clone $this;
         $new->SequenceCounter = $SequenceCounter;
@@ -83,15 +63,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerUuid()
+    public function getCustomerUuid(): string
     {
         return $this->CustomerUuid;
     }
 
-    public function withCustomerUuid(string $CustomerUuid): self
+    public function withCustomerUuid(string $CustomerUuid): static
     {
         $new = clone $this;
         $new->CustomerUuid = $CustomerUuid;
@@ -99,15 +76,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOperation()
+    public function getOperation(): string
     {
         return $this->Operation;
     }
 
-    public function withOperation(string $Operation): self
+    public function withOperation(string $Operation): static
     {
         $new = clone $this;
         $new->Operation = $Operation;
@@ -115,15 +89,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getReservationTimestamp()
+    public function getReservationTimestamp(): string
     {
         return $this->ReservationTimestamp;
     }
 
-    public function withReservationTimestamp(string $ReservationTimestamp): self
+    public function withReservationTimestamp(string $ReservationTimestamp): static
     {
         $new = clone $this;
         $new->ReservationTimestamp = $ReservationTimestamp;
@@ -131,15 +102,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderUuid()
+    public function getOrderUuid(): string
     {
         return $this->OrderUuid;
     }
 
-    public function withOrderUuid(string $OrderUuid): self
+    public function withOrderUuid(string $OrderUuid): static
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -147,15 +115,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getRequestSignature()
+    public function getRequestSignature(): mixed
     {
         return $this->RequestSignature;
     }
 
-    public function withRequestSignature(string $RequestSignature): self
+    public function withRequestSignature(mixed $RequestSignature): static
     {
         $new = clone $this;
         $new->RequestSignature = $RequestSignature;
@@ -163,15 +128,12 @@ final class ExpressMerchantAuthorizationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getRequestKey()
+    public function getRequestKey(): mixed
     {
         return $this->RequestKey;
     }
 
-    public function withRequestKey(string $RequestKey): self
+    public function withRequestKey(mixed $RequestKey): static
     {
         $new = clone $this;
         $new->RequestKey = $RequestKey;
@@ -180,14 +142,17 @@ final class ExpressMerchantAuthorizationType
     }
 
     /**
-     * @return string
+     * @return null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT'
      */
-    public function getUofPaymentType()
+    public function getUofPaymentType(): ?string
     {
         return $this->UofPaymentType;
     }
 
-    public function withUofPaymentType(string $UofPaymentType): self
+    /**
+     * @param null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT' $UofPaymentType
+     */
+    public function withUofPaymentType(?string $UofPaymentType): static
     {
         $new = clone $this;
         $new->UofPaymentType = $UofPaymentType;

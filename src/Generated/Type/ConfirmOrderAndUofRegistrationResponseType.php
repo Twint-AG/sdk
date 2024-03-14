@@ -6,47 +6,44 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
+class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var string
+     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    private $PairingStatus;
+    protected string $PairingStatus;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrderUuid;
+    protected string $PaymentOrderUuid;
+
+    protected OrderType $PaymentOrder;
 
     /**
-     * @var OrderType
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrder;
+    protected string $RegistrationUuid;
 
-    /**
-     * @var string
-     */
-    private $RegistrationUuid;
+    protected RegistrationType $RegistrationOrder;
 
-    /**
-     * @var RegistrationType
-     */
-    private $RegistrationOrder;
-
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -55,14 +52,17 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
     }
 
     /**
-     * @return string
+     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
      */
-    public function getPairingStatus()
+    public function getPairingStatus(): string
     {
         return $this->PairingStatus;
     }
 
-    public function withPairingStatus(string $PairingStatus): self
+    /**
+     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     */
+    public function withPairingStatus(string $PairingStatus): static
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -70,15 +70,12 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentOrderUuid()
+    public function getPaymentOrderUuid(): string
     {
         return $this->PaymentOrderUuid;
     }
 
-    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): static
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -86,15 +83,12 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $new;
     }
 
-    /**
-     * @return OrderType
-     */
-    public function getPaymentOrder()
+    public function getPaymentOrder(): OrderType
     {
         return $this->PaymentOrder;
     }
 
-    public function withPaymentOrder(OrderType $PaymentOrder): self
+    public function withPaymentOrder(OrderType $PaymentOrder): static
     {
         $new = clone $this;
         $new->PaymentOrder = $PaymentOrder;
@@ -102,15 +96,12 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getRegistrationUuid()
+    public function getRegistrationUuid(): string
     {
         return $this->RegistrationUuid;
     }
 
-    public function withRegistrationUuid(string $RegistrationUuid): self
+    public function withRegistrationUuid(string $RegistrationUuid): static
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -118,15 +109,12 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $new;
     }
 
-    /**
-     * @return RegistrationType
-     */
-    public function getRegistrationOrder()
+    public function getRegistrationOrder(): RegistrationType
     {
         return $this->RegistrationOrder;
     }
 
-    public function withRegistrationOrder(RegistrationType $RegistrationOrder): self
+    public function withRegistrationOrder(RegistrationType $RegistrationOrder): static
     {
         $new = clone $this;
         $new->RegistrationOrder = $RegistrationOrder;

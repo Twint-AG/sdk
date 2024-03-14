@@ -6,22 +6,16 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class MonitorCheckInResponseType implements ResultInterface
+class MonitorCheckInResponseType implements ResultInterface
 {
-    /**
-     * @var CheckInNotificationType
-     */
-    private $CheckInNotification;
+    protected CheckInNotificationType $CheckInNotification;
 
-    /**
-     * @return CheckInNotificationType
-     */
-    public function getCheckInNotification()
+    public function getCheckInNotification(): CheckInNotificationType
     {
         return $this->CheckInNotification;
     }
 
-    public function withCheckInNotification(CheckInNotificationType $CheckInNotification): self
+    public function withCheckInNotification(CheckInNotificationType $CheckInNotification): static
     {
         $new = clone $this;
         $new->CheckInNotification = $CheckInNotification;

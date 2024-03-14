@@ -22,6 +22,7 @@ final class ContentSensitiveFileWriter implements FileWriter
     }
 
     /**
+     * @param non-empty-string $baseDirectory
      * @param callable(string): string $toFilename
      * @throws AssertionFailed
      */

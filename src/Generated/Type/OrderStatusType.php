@@ -4,27 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class OrderStatusType
+class OrderStatusType
 {
-    /**
-     * @var CodeValueType
-     */
-    private $Status;
+    protected CodeValueType $Status;
 
-    /**
-     * @var CodeValueType
-     */
-    private $Reason;
+    protected CodeValueType $Reason;
 
-    /**
-     * @return CodeValueType
-     */
-    public function getStatus()
+    public function getStatus(): CodeValueType
     {
         return $this->Status;
     }
 
-    public function withStatus(CodeValueType $Status): self
+    public function withStatus(CodeValueType $Status): static
     {
         $new = clone $this;
         $new->Status = $Status;
@@ -32,15 +23,12 @@ final class OrderStatusType
         return $new;
     }
 
-    /**
-     * @return CodeValueType
-     */
-    public function getReason()
+    public function getReason(): CodeValueType
     {
         return $this->Reason;
     }
 
-    public function withReason(CodeValueType $Reason): self
+    public function withReason(CodeValueType $Reason): static
     {
         $new = clone $this;
         $new->Reason = $Reason;

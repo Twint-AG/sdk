@@ -6,55 +6,40 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
+class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PaymentOrderUuid;
+    protected ?string $PaymentOrderUuid;
 
     /**
-     * @var string
+     * Reference number by which the merchant might want to identify
+     *  this voucher in his own applications.
      */
-    private $MerchantTransactionReference;
+    protected ?string $MerchantTransactionReference;
 
-    /**
-     * @var bool
-     */
-    private $ConfirmPaymentOrder;
+    protected ?bool $ConfirmPaymentOrder;
 
-    /**
-     * @var CurrencyAmountType
-     */
-    private $RequestedAmount;
+    protected ?CurrencyAmountType $RequestedAmount;
 
-    /**
-     * @var bool
-     */
-    private $PartialConfirmation;
+    protected ?bool $PartialConfirmation;
 
-    /**
-     * @var bool
-     */
-    private $ConfirmRegistration;
+    protected bool $ConfirmRegistration;
 
     /**
      * Constructor
-     *
-     * @param MerchantInformationType $MerchantInformation
-     * @param string $PaymentOrderUuid
-     * @param string $MerchantTransactionReference
-     * @param bool $ConfirmPaymentOrder
-     * @param CurrencyAmountType $RequestedAmount
-     * @param bool $PartialConfirmation
-     * @param bool $ConfirmRegistration
      */
-    public function __construct($MerchantInformation, $PaymentOrderUuid, $MerchantTransactionReference, $ConfirmPaymentOrder, $RequestedAmount, $PartialConfirmation, $ConfirmRegistration)
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference, ?bool $ConfirmPaymentOrder, ?CurrencyAmountType $RequestedAmount, ?bool $PartialConfirmation, bool $ConfirmRegistration)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
@@ -65,15 +50,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         $this->ConfirmRegistration = $ConfirmRegistration;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -81,15 +63,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPaymentOrderUuid()
+    public function getPaymentOrderUuid(): ?string
     {
         return $this->PaymentOrderUuid;
     }
 
-    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
+    public function withPaymentOrderUuid(?string $PaymentOrderUuid): static
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -97,15 +76,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantTransactionReference()
+    public function getMerchantTransactionReference(): ?string
     {
         return $this->MerchantTransactionReference;
     }
 
-    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
+    public function withMerchantTransactionReference(?string $MerchantTransactionReference): static
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -113,15 +89,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getConfirmPaymentOrder()
+    public function getConfirmPaymentOrder(): ?bool
     {
         return $this->ConfirmPaymentOrder;
     }
 
-    public function withConfirmPaymentOrder(bool $ConfirmPaymentOrder): self
+    public function withConfirmPaymentOrder(?bool $ConfirmPaymentOrder): static
     {
         $new = clone $this;
         $new->ConfirmPaymentOrder = $ConfirmPaymentOrder;
@@ -129,15 +102,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return CurrencyAmountType
-     */
-    public function getRequestedAmount()
+    public function getRequestedAmount(): ?CurrencyAmountType
     {
         return $this->RequestedAmount;
     }
 
-    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): self
+    public function withRequestedAmount(?CurrencyAmountType $RequestedAmount): static
     {
         $new = clone $this;
         $new->RequestedAmount = $RequestedAmount;
@@ -145,15 +115,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getPartialConfirmation()
+    public function getPartialConfirmation(): ?bool
     {
         return $this->PartialConfirmation;
     }
 
-    public function withPartialConfirmation(bool $PartialConfirmation): self
+    public function withPartialConfirmation(?bool $PartialConfirmation): static
     {
         $new = clone $this;
         $new->PartialConfirmation = $PartialConfirmation;
@@ -161,15 +128,12 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getConfirmRegistration()
+    public function getConfirmRegistration(): bool
     {
         return $this->ConfirmRegistration;
     }
 
-    public function withConfirmRegistration(bool $ConfirmRegistration): self
+    public function withConfirmRegistration(bool $ConfirmRegistration): static
     {
         $new = clone $this;
         $new->ConfirmRegistration = $ConfirmRegistration;

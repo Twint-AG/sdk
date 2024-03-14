@@ -44,8 +44,9 @@ use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationRequestType;
 use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationResponseType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Generated\Type\StartOrderResponseType;
+use function Psl\Type\instance_of;
 
-final class TwintSoapClient
+class TwintSoapClient
 {
     /**
      * @var Caller
@@ -58,187 +59,277 @@ final class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface|Type\RequestCheckInRequestType $request
-     * @return ResultInterface|Type\RequestCheckInResponseType
+     * @param RequestInterface & Type\RequestCheckInRequestType $request
+     * @return ResultInterface & Type\RequestCheckInResponseType
      * @throws SoapException
      */
     public function requestCheckIn(RequestCheckInRequestType $request): RequestCheckInResponseType
     {
-        return ($this->caller)('RequestCheckIn', $request);
+        $response = ($this->caller)('RequestCheckIn', $request);
+
+        instance_of(RequestCheckInResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\MonitorCheckInRequestType $request
-     * @return ResultInterface|Type\MonitorCheckInResponseType
+     * @param RequestInterface & Type\MonitorCheckInRequestType $request
+     * @return ResultInterface & Type\MonitorCheckInResponseType
      * @throws SoapException
      */
     public function monitorCheckIn(MonitorCheckInRequestType $request): MonitorCheckInResponseType
     {
-        return ($this->caller)('MonitorCheckIn', $request);
+        $response = ($this->caller)('MonitorCheckIn', $request);
+
+        instance_of(MonitorCheckInResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\IsUofConnectionActiveRequestType $request
-     * @return ResultInterface|Type\IsUofConnectionActiveResponseType
+     * @param RequestInterface & Type\IsUofConnectionActiveRequestType $request
+     * @return ResultInterface & Type\IsUofConnectionActiveResponseType
      * @throws SoapException
      */
     public function isUofConnectionActive(IsUofConnectionActiveRequestType $request): IsUofConnectionActiveResponseType
     {
-        return ($this->caller)('IsUofConnectionActive', $request);
+        $response = ($this->caller)('IsUofConnectionActive', $request);
+
+        instance_of(IsUofConnectionActiveResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\CancelCheckInRequestType $request
-     * @return ResultInterface|Type\CancelCheckInResponseType
+     * @param RequestInterface & Type\CancelCheckInRequestType $request
+     * @return ResultInterface & Type\CancelCheckInResponseType
      * @throws SoapException
      */
     public function cancelCheckIn(CancelCheckInRequestType $request): CancelCheckInResponseType
     {
-        return ($this->caller)('CancelCheckIn', $request);
+        $response = ($this->caller)('CancelCheckIn', $request);
+
+        instance_of(CancelCheckInResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\StartOrderRequestType $request
-     * @return ResultInterface|Type\StartOrderResponseType
+     * @param RequestInterface & Type\StartOrderRequestType $request
+     * @return ResultInterface & Type\StartOrderResponseType
      * @throws SoapException
      */
     public function startOrder(StartOrderRequestType $request): StartOrderResponseType
     {
-        return ($this->caller)('StartOrder', $request);
+        $response = ($this->caller)('StartOrder', $request);
+
+        instance_of(StartOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\MonitorOrderRequestType $request
-     * @return ResultInterface|Type\MonitorOrderResponseType
+     * @param RequestInterface & Type\MonitorOrderRequestType $request
+     * @return ResultInterface & Type\MonitorOrderResponseType
      * @throws SoapException
      */
     public function monitorOrder(MonitorOrderRequestType $request): MonitorOrderResponseType
     {
-        return ($this->caller)('MonitorOrder', $request);
+        $response = ($this->caller)('MonitorOrder', $request);
+
+        instance_of(MonitorOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\ConfirmOrderRequestType $request
-     * @return ResultInterface|Type\ConfirmOrderResponseType
+     * @param RequestInterface & Type\ConfirmOrderRequestType $request
+     * @return ResultInterface & Type\ConfirmOrderResponseType
      * @throws SoapException
      */
     public function confirmOrder(ConfirmOrderRequestType $request): ConfirmOrderResponseType
     {
-        return ($this->caller)('ConfirmOrder', $request);
+        $response = ($this->caller)('ConfirmOrder', $request);
+
+        instance_of(ConfirmOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\CancelOrderRequestType $request
-     * @return ResultInterface|Type\CancelOrderResponseType
+     * @param RequestInterface & Type\CancelOrderRequestType $request
+     * @return ResultInterface & Type\CancelOrderResponseType
      * @throws SoapException
      */
     public function cancelOrder(CancelOrderRequestType $request): CancelOrderResponseType
     {
-        return ($this->caller)('CancelOrder', $request);
+        $response = ($this->caller)('CancelOrder', $request);
+
+        instance_of(CancelOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\FindOrderRequestType $request
-     * @return ResultInterface|Type\FindOrderResponseType
+     * @param RequestInterface & Type\FindOrderRequestType $request
+     * @return ResultInterface & Type\FindOrderResponseType
      * @throws SoapException
      */
     public function findOrder(FindOrderRequestType $request): FindOrderResponseType
     {
-        return ($this->caller)('FindOrder', $request);
+        $response = ($this->caller)('FindOrder', $request);
+
+        instance_of(FindOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\EnrollCashRegisterRequestType $request
-     * @return ResultInterface|Type\EnrollCashRegisterResponseType
+     * @param RequestInterface & Type\EnrollCashRegisterRequestType $request
+     * @return ResultInterface & Type\EnrollCashRegisterResponseType
      * @throws SoapException
      */
     public function enrollCashRegister(EnrollCashRegisterRequestType $request): EnrollCashRegisterResponseType
     {
-        return ($this->caller)('EnrollCashRegister', $request);
+        $response = ($this->caller)('EnrollCashRegister', $request);
+
+        instance_of(EnrollCashRegisterResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\CheckSystemStatusRequestType $request
-     * @return ResultInterface|Type\CheckSystemStatusResponseType
+     * @param RequestInterface & Type\CheckSystemStatusRequestType $request
+     * @return ResultInterface & Type\CheckSystemStatusResponseType
      * @throws SoapException
      */
     public function checkSystemStatus(CheckSystemStatusRequestType $request): CheckSystemStatusResponseType
     {
-        return ($this->caller)('CheckSystemStatus', $request);
+        $response = ($this->caller)('CheckSystemStatus', $request);
+
+        instance_of(CheckSystemStatusResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\GetCertificateValidityRequestType $request
-     * @return ResultInterface|Type\GetCertificateValidityResponseType
+     * @param RequestInterface & Type\GetCertificateValidityRequestType $request
+     * @return ResultInterface & Type\GetCertificateValidityResponseType
      * @throws SoapException
      */
     public function getCertificateValidity(
         GetCertificateValidityRequestType $request
     ): GetCertificateValidityResponseType {
-        return ($this->caller)('GetCertificateValidity', $request);
+        $response = ($this->caller)('GetCertificateValidity', $request);
+
+        instance_of(GetCertificateValidityResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\RenewCertificateRequestType $request
-     * @return ResultInterface|Type\RenewCertificateResponseType
+     * @param RequestInterface & Type\RenewCertificateRequestType $request
+     * @return ResultInterface & Type\RenewCertificateResponseType
      * @throws SoapException
      */
     public function renewCertificate(RenewCertificateRequestType $request): RenewCertificateResponseType
     {
-        return ($this->caller)('RenewCertificate', $request);
+        $response = ($this->caller)('RenewCertificate', $request);
+
+        instance_of(RenewCertificateResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\GetOrderRequestType $request
-     * @return ResultInterface|Type\GetOrderResponseType
+     * @param RequestInterface & Type\GetOrderRequestType $request
+     * @return ResultInterface & Type\GetOrderResponseType
      * @throws SoapException
      */
     public function getOrder(GetOrderRequestType $request): GetOrderResponseType
     {
-        return ($this->caller)('GetOrder', $request);
+        $response = ($this->caller)('GetOrder', $request);
+
+        instance_of(GetOrderResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\StartOrderAndUofRegistrationRequestType $request
-     * @return ResultInterface|Type\StartOrderAndUofRegistrationResponseType
+     * @param RequestInterface & Type\StartOrderAndUofRegistrationRequestType $request
+     * @return ResultInterface & Type\StartOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function startOrderAndUofRegistration(
         StartOrderAndUofRegistrationRequestType $request
     ): StartOrderAndUofRegistrationResponseType {
-        return ($this->caller)('StartOrderAndUofRegistration', $request);
+        $response = ($this->caller)('StartOrderAndUofRegistration', $request);
+
+        instance_of(StartOrderAndUofRegistrationResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\MonitorOrderAndUofRegistrationRequestType $request
-     * @return ResultInterface|Type\MonitorOrderAndUofRegistrationResponseType
+     * @param RequestInterface & Type\MonitorOrderAndUofRegistrationRequestType $request
+     * @return ResultInterface & Type\MonitorOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function monitorOrderAndUofRegistration(
         MonitorOrderAndUofRegistrationRequestType $request
     ): MonitorOrderAndUofRegistrationResponseType {
-        return ($this->caller)('MonitorOrderAndUofRegistration', $request);
+        $response = ($this->caller)('MonitorOrderAndUofRegistration', $request);
+
+        instance_of(MonitorOrderAndUofRegistrationResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\ConfirmOrderAndUofRegistrationRequestType $request
-     * @return ResultInterface|Type\ConfirmOrderAndUofRegistrationResponseType
+     * @param RequestInterface & Type\ConfirmOrderAndUofRegistrationRequestType $request
+     * @return ResultInterface & Type\ConfirmOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function confirmOrderAndUofRegistration(
         ConfirmOrderAndUofRegistrationRequestType $request
     ): ConfirmOrderAndUofRegistrationResponseType {
-        return ($this->caller)('ConfirmOrderAndUofRegistration', $request);
+        $response = ($this->caller)('ConfirmOrderAndUofRegistration', $request);
+
+        instance_of(ConfirmOrderAndUofRegistrationResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 
     /**
-     * @param RequestInterface|Type\CancelOrderAndUofRegistrationRequestType $request
-     * @return ResultInterface|Type\CancelOrderAndUofRegistrationResponseType
+     * @param RequestInterface & Type\CancelOrderAndUofRegistrationRequestType $request
+     * @return ResultInterface & Type\CancelOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function cancelOrderAndUofRegistration(
         CancelOrderAndUofRegistrationRequestType $request
     ): CancelOrderAndUofRegistrationResponseType {
-        return ($this->caller)('CancelOrderAndUofRegistration', $request);
+        $response = ($this->caller)('CancelOrderAndUofRegistration', $request);
+
+        instance_of(CancelOrderAndUofRegistrationResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
     }
 }

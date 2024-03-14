@@ -6,37 +6,35 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class MonitorCheckInRequestType implements RequestInterface
+class MonitorCheckInRequestType implements RequestInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $CustomerRelationUuid;
+    protected ?string $CustomerRelationUuid;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $PairingUuid;
+    protected ?string $PairingUuid;
 
-    /**
-     * @var bool
-     */
-    private $WaitForResponse;
+    protected ?bool $WaitForResponse;
 
     /**
      * Constructor
-     *
-     * @param MerchantInformationType $MerchantInformation
-     * @param string $CustomerRelationUuid
-     * @param string $PairingUuid
-     * @param bool $WaitForResponse
      */
-    public function __construct($MerchantInformation, $CustomerRelationUuid, $PairingUuid, $WaitForResponse)
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $WaitForResponse)
     {
         $this->MerchantInformation = $MerchantInformation;
         $this->CustomerRelationUuid = $CustomerRelationUuid;
@@ -44,15 +42,12 @@ final class MonitorCheckInRequestType implements RequestInterface
         $this->WaitForResponse = $WaitForResponse;
     }
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -60,15 +55,12 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCustomerRelationUuid()
+    public function getCustomerRelationUuid(): ?string
     {
         return $this->CustomerRelationUuid;
     }
 
-    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
+    public function withCustomerRelationUuid(?string $CustomerRelationUuid): static
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -76,15 +68,12 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getPairingUuid()
+    public function getPairingUuid(): ?string
     {
         return $this->PairingUuid;
     }
 
-    public function withPairingUuid(string $PairingUuid): self
+    public function withPairingUuid(?string $PairingUuid): static
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -92,15 +81,12 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return bool
-     */
-    public function getWaitForResponse()
+    public function getWaitForResponse(): ?bool
     {
         return $this->WaitForResponse;
     }
 
-    public function withWaitForResponse(bool $WaitForResponse): self
+    public function withWaitForResponse(?bool $WaitForResponse): static
     {
         $new = clone $this;
         $new->WaitForResponse = $WaitForResponse;

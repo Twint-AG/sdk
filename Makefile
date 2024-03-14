@@ -43,7 +43,7 @@ codegen-generate-classmap: codegen-clean
 	$(SOAP_CLI) generate:classmap --config $(SOAP_CONFIG) --quiet
 
 codegen: codegen-generate-types codegen-generate-client codegen-generate-classmap
-	$(ECS) --fix $(CODEGEN_DIR) >/dev/null
+	$(ECS) --fix $(CODEGEN_DIR) >/dev/null || $(ECS) --fix $(CODEGEN_DIR) >/dev/null || $(ECS) --fix $(CODEGEN_DIR) >/dev/null
 
 check-codegen: codegen
 	@echo "Check if codegen changed the generated code"

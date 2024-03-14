@@ -13,17 +13,8 @@ parameters:
         - resources
     ignoreErrors:
         -
-            message: "#^Method Twint\\\\Sdk\\\\Generated\\\\TwintSoapClient\\:\\:.*\\(\\) should return Twint\\\\Sdk\\\\Generated\\\\Type\\\\.* but returns Phpro\\\\SoapClient\\\\Type\\\\ResultInterface\\.$#"
+            message: "#^Method .* throws checked exception Psl\\\\Type\\\\Exception\\\\AssertException but it's missing from the PHPDoc @throws tag.$#"
             path: src/Generated/TwintSoapClient.php
-        -
-            message: "#^PHPDoc tag @param for parameter \\$request with type Phpro\\\\SoapClient\\\\Type\\\\RequestInterface is not subtype of native type Twint\\\\Sdk\\\\Generated\\\\Type\\\\.*\\.$#"
-            path: src/Generated/TwintSoapClient.php
-        -
-            message: "#^PHPDoc tag @return with type Phpro\\\\SoapClient\\\\Type\\\\ResultInterface is not subtype of native type Twint\\\\Sdk\\\\Generated\\\\Type\\\\.*$#"
-            path: src/Generated/TwintSoapClient.php
-        -
-            message: "#^Parameter (\\#\\d+ )?\\$.* of class Twint\\\\Sdk\\\\Generated\\\\Type\\\\.* constructor expects .*, null given\\.$#"
-            path: src/ApiClient.php
         -
             message: "#^Method .* has .* in PHPDoc @throws tag but it's not thrown#"
             path: src/Generated/*

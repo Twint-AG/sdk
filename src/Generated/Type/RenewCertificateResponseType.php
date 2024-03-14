@@ -7,27 +7,18 @@ namespace Twint\Sdk\Generated\Type;
 use DateTimeInterface;
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class RenewCertificateResponseType implements ResultInterface
+class RenewCertificateResponseType implements ResultInterface
 {
-    /**
-     * @var string
-     */
-    private $MerchantCertificate;
+    protected mixed $MerchantCertificate;
 
-    /**
-     * @var DateTimeInterface
-     */
-    private $ExpirationDate;
+    protected DateTimeInterface $ExpirationDate;
 
-    /**
-     * @return string
-     */
-    public function getMerchantCertificate()
+    public function getMerchantCertificate(): mixed
     {
         return $this->MerchantCertificate;
     }
 
-    public function withMerchantCertificate(string $MerchantCertificate): self
+    public function withMerchantCertificate(mixed $MerchantCertificate): static
     {
         $new = clone $this;
         $new->MerchantCertificate = $MerchantCertificate;
@@ -35,15 +26,12 @@ final class RenewCertificateResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return DateTimeInterface
-     */
-    public function getExpirationDate()
+    public function getExpirationDate(): DateTimeInterface
     {
         return $this->ExpirationDate;
     }
 
-    public function withExpirationDate(DateTimeInterface $ExpirationDate): self
+    public function withExpirationDate(DateTimeInterface $ExpirationDate): static
     {
         $new = clone $this;
         $new->ExpirationDate = $ExpirationDate;

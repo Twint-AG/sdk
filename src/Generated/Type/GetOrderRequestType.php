@@ -6,46 +6,40 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\RequestInterface;
 
-final class GetOrderRequestType implements RequestInterface
+class GetOrderRequestType implements RequestInterface
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $MerchantUuid;
+    protected ?string $MerchantUuid;
+
+    protected ?string $MerchantAliasId;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $MerchantAliasId;
-
-    /**
-     * @var string
-     */
-    private $OrderUuid;
+    protected string $OrderUuid;
 
     /**
      * Constructor
-     *
-     * @param string $MerchantUuid
-     * @param string $MerchantAliasId
-     * @param string $OrderUuid
      */
-    public function __construct($MerchantUuid, $MerchantAliasId, $OrderUuid)
+    public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, string $OrderUuid)
     {
         $this->MerchantUuid = $MerchantUuid;
         $this->MerchantAliasId = $MerchantAliasId;
         $this->OrderUuid = $OrderUuid;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantUuid()
+    public function getMerchantUuid(): ?string
     {
         return $this->MerchantUuid;
     }
 
-    public function withMerchantUuid(string $MerchantUuid): self
+    public function withMerchantUuid(?string $MerchantUuid): static
     {
         $new = clone $this;
         $new->MerchantUuid = $MerchantUuid;
@@ -53,15 +47,12 @@ final class GetOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantAliasId()
+    public function getMerchantAliasId(): ?string
     {
         return $this->MerchantAliasId;
     }
 
-    public function withMerchantAliasId(string $MerchantAliasId): self
+    public function withMerchantAliasId(?string $MerchantAliasId): static
     {
         $new = clone $this;
         $new->MerchantAliasId = $MerchantAliasId;
@@ -69,15 +60,12 @@ final class GetOrderRequestType implements RequestInterface
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getOrderUuid()
+    public function getOrderUuid(): string
     {
         return $this->OrderUuid;
     }
 
-    public function withOrderUuid(string $OrderUuid): self
+    public function withOrderUuid(string $OrderUuid): static
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;

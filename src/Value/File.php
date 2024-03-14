@@ -16,9 +16,13 @@ final class File implements Comparable, Equality
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
+    /**
+     * @var non-empty-string
+     */
     private readonly string $path;
 
     /**
+     * @param non-empty-string $path
      * @throws AssertionFailed
      */
     public function __construct(
@@ -30,6 +34,9 @@ final class File implements Comparable, Equality
         $this->path = $path;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function __toString(): string
     {
         return $this->path;

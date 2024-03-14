@@ -4,32 +4,37 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class RegistrationType
+class RegistrationType
 {
     /**
-     * @var string
+     * @var 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
      */
-    private $RegistrationStatus;
+    protected string $RegistrationStatus;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $UofCustomerRelationUuid;
+    protected ?string $UofCustomerRelationUuid;
 
     /**
-     * @var string
+     * @var null | mixed
      */
-    private $ConfirmedMerchantCredential;
+    protected mixed $ConfirmedMerchantCredential;
 
     /**
-     * @return string
+     * @return 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
      */
-    public function getRegistrationStatus()
+    public function getRegistrationStatus(): string
     {
         return $this->RegistrationStatus;
     }
 
-    public function withRegistrationStatus(string $RegistrationStatus): self
+    /**
+     * @param 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED' $RegistrationStatus
+     */
+    public function withRegistrationStatus(string $RegistrationStatus): static
     {
         $new = clone $this;
         $new->RegistrationStatus = $RegistrationStatus;
@@ -37,15 +42,12 @@ final class RegistrationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getUofCustomerRelationUuid()
+    public function getUofCustomerRelationUuid(): ?string
     {
         return $this->UofCustomerRelationUuid;
     }
 
-    public function withUofCustomerRelationUuid(string $UofCustomerRelationUuid): self
+    public function withUofCustomerRelationUuid(?string $UofCustomerRelationUuid): static
     {
         $new = clone $this;
         $new->UofCustomerRelationUuid = $UofCustomerRelationUuid;
@@ -54,14 +56,17 @@ final class RegistrationType
     }
 
     /**
-     * @return string
+     * @return null | mixed
      */
-    public function getConfirmedMerchantCredential()
+    public function getConfirmedMerchantCredential(): mixed
     {
         return $this->ConfirmedMerchantCredential;
     }
 
-    public function withConfirmedMerchantCredential(string $ConfirmedMerchantCredential): self
+    /**
+     * @param null | mixed $ConfirmedMerchantCredential
+     */
+    public function withConfirmedMerchantCredential(mixed $ConfirmedMerchantCredential): static
     {
         $new = clone $this;
         $new->ConfirmedMerchantCredential = $ConfirmedMerchantCredential;

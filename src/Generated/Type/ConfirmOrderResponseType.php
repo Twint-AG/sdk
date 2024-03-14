@@ -6,27 +6,23 @@ namespace Twint\Sdk\Generated\Type;
 
 use Phpro\SoapClient\Type\ResultInterface;
 
-final class ConfirmOrderResponseType implements ResultInterface
+class ConfirmOrderResponseType implements ResultInterface
 {
     /**
-     * @var MerchantInformationType
+     * Restriction of the Base Merchant Information.
+     *  In contrary to that it MUST contain a CashRegister Id. Used as the default type for operations
+     *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
-    private $MerchantInformation;
+    protected MerchantInformationType $MerchantInformation;
 
-    /**
-     * @var OrderType
-     */
-    private $Order;
+    protected OrderType $Order;
 
-    /**
-     * @return MerchantInformationType
-     */
-    public function getMerchantInformation()
+    public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
     }
 
-    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): static
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -34,15 +30,12 @@ final class ConfirmOrderResponseType implements ResultInterface
         return $new;
     }
 
-    /**
-     * @return OrderType
-     */
-    public function getOrder()
+    public function getOrder(): OrderType
     {
         return $this->Order;
     }
 
-    public function withOrder(OrderType $Order): self
+    public function withOrder(OrderType $Order): static
     {
         $new = clone $this;
         $new->Order = $Order;

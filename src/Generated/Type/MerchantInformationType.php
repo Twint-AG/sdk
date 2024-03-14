@@ -4,37 +4,32 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-final class MerchantInformationType
+class MerchantInformationType
 {
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $MerchantUuid;
+    protected ?string $MerchantUuid;
+
+    protected ?string $MerchantAliasId;
+
+    protected string $CashRegisterId;
 
     /**
-     * @var string
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    private $MerchantAliasId;
+    protected ?string $ServiceAgentUuid;
 
-    /**
-     * @var string
-     */
-    private $CashRegisterId;
-
-    /**
-     * @var string
-     */
-    private $ServiceAgentUuid;
-
-    /**
-     * @return string
-     */
-    public function getMerchantUuid()
+    public function getMerchantUuid(): ?string
     {
         return $this->MerchantUuid;
     }
 
-    public function withMerchantUuid(string $MerchantUuid): self
+    public function withMerchantUuid(?string $MerchantUuid): static
     {
         $new = clone $this;
         $new->MerchantUuid = $MerchantUuid;
@@ -42,15 +37,12 @@ final class MerchantInformationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getMerchantAliasId()
+    public function getMerchantAliasId(): ?string
     {
         return $this->MerchantAliasId;
     }
 
-    public function withMerchantAliasId(string $MerchantAliasId): self
+    public function withMerchantAliasId(?string $MerchantAliasId): static
     {
         $new = clone $this;
         $new->MerchantAliasId = $MerchantAliasId;
@@ -58,15 +50,12 @@ final class MerchantInformationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getCashRegisterId()
+    public function getCashRegisterId(): string
     {
         return $this->CashRegisterId;
     }
 
-    public function withCashRegisterId(string $CashRegisterId): self
+    public function withCashRegisterId(string $CashRegisterId): static
     {
         $new = clone $this;
         $new->CashRegisterId = $CashRegisterId;
@@ -74,15 +63,12 @@ final class MerchantInformationType
         return $new;
     }
 
-    /**
-     * @return string
-     */
-    public function getServiceAgentUuid()
+    public function getServiceAgentUuid(): ?string
     {
         return $this->ServiceAgentUuid;
     }
 
-    public function withServiceAgentUuid(string $ServiceAgentUuid): self
+    public function withServiceAgentUuid(?string $ServiceAgentUuid): static
     {
         $new = clone $this;
         $new->ServiceAgentUuid = $ServiceAgentUuid;
