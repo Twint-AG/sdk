@@ -4,14 +4,25 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Factory;
 
+use Throwable;
 use Twint\Sdk\Assertion;
+use Twint\Sdk\Exception\AssertionFailed;
+use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Value\Uuid;
 
 final class Uuid4Factory
 {
+    /**
+     * @throws AssertionFailed
+     * @throws CryptographyFailure
+     */
     public function __invoke(): Uuid
     {
-        $data = random_bytes(32);
+        try {
+            $data = random_bytes(32);
+        } catch (Throwable $e) {
+            throw CryptographyFailure::fromThrowable($e);
+        }
 
         Assertion::minLength($data, 16);
 

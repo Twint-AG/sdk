@@ -12,7 +12,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Twint\\Sdk\\Tests\\": "tests/"
+            "Twint\\Sdk\\Tests\\": "tests/",
+            "Twint\\Sdk\\Checks\\": "checks/"
         }
     },
     "authors": [
@@ -40,7 +41,8 @@
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "symplify/easy-coding-standard": "^12.1",
-        "slevomat/coding-standard": "^8.14"
+        "slevomat/coding-standard": "^8.14",
+        "phpstan/phpstan-strict-rules": "^1.5"
     },
     "config": {
         "allow-plugins": {

@@ -29,7 +29,8 @@ final class ApiVersion
      */
     public static function minor(int $versionId = self::V_LATEST): int
     {
-        return (int) ($versionId / 1_00) % 1_00;
+        /** @phpstan-ignore-next-line */
+        return ((int) ($versionId / 1_00)) % 1_00;
     }
 
     /**

@@ -9,7 +9,7 @@ SOAP_CONFIG := $(BASE_DIR)/resources/config/soap.php
 SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
 ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
-PHPSTAN := $(VENDOR_BIN_DIR)/phpstan
+PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
 
 MAKEFLAGS += --jobs=32
 

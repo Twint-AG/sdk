@@ -9,6 +9,7 @@ use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
 use PhpCsFixer\Fixer\ClassNotation\FinalClassFixer;
 use PhpCsFixer\Fixer\ClassNotation\NoBlankLinesAfterClassOpeningFixer;
+use PhpCsFixer\Fixer\ClassNotation\OrderedClassElementsFixer;
 use PhpCsFixer\Fixer\ClassNotation\SingleTraitInsertPerStatementFixer;
 use PhpCsFixer\Fixer\FunctionNotation\FunctionTypehintSpaceFixer;
 use PhpCsFixer\Fixer\FunctionNotation\MethodArgumentSpaceFixer;
@@ -64,7 +65,6 @@ return static function (ECSConfig $ecsConfig): void {
             BlankLineAfterOpeningTagFixer::class,
             MethodChainingIndentationFixer::class,
             CastSpacesFixer::class,
-            ClassAttributesSeparationFixer::class,
             SingleTraitInsertPerStatementFixer::class,
             FunctionTypehintSpaceFixer::class,
             NoBlankLinesAfterClassOpeningFixer::class,
@@ -124,5 +124,9 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
     $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
         'dir' => 'tests',
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [
+        'order' => ['use_trait', 'constant', 'property', 'construct', 'destruct', 'method_static', 'magic', 'method'],
     ]);
 };

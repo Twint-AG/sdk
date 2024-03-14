@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk;
 
 use SensitiveParameter;
+use Twint\Sdk\Exception\AssertionFailed;
 
 final class Certificate
 {
@@ -39,12 +40,18 @@ final class Certificate
         // @todo file exists
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     public function getCombinedPem(): string
     {
         $this->convert();
         return $this->certificate . $this->key;
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     public function getCombinedPemPath(): string
     {
         $this->writeCombinedPem();
@@ -52,12 +59,18 @@ final class Certificate
         return $this->pemCombinedPath;
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     public function getPemPassphrase(): string
     {
         $this->convert();
         return $this->pemPassphrase;
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     private function read(): void
     {
         if ($this->read) {
@@ -75,6 +88,9 @@ final class Certificate
         $this->read = true;
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     private function convert(): void
     {
         $this->read();
@@ -83,13 +99,16 @@ final class Certificate
             return;
         }
 
-        $this->pemPassphrase = 'secret123';
+        $this->pemPassphrase = 'secret123'; // @todo generate random passphrase
         assert(openssl_pkey_export($this->key, $this->keyAsPem, $this->pemPassphrase));
         assert(openssl_x509_export($this->certificate, $this->certificateAsPem));
 
         $this->converted = true;
     }
 
+    /**
+     * @throws AssertionFailed
+     */
     private function writeCombinedPem(): void
     {
         $this->convert();

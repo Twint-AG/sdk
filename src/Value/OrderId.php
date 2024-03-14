@@ -6,7 +6,7 @@ namespace Twint\Sdk\Value;
 
 use Twint\Sdk\Exception\AssertionFailed;
 
-final class MerchantId
+final class OrderId
 {
     public function __construct(
         private readonly Uuid $uuid

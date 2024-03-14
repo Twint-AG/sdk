@@ -6,6 +6,6 @@ namespace Twint\Sdk\Exception;
 
 use Throwable;
 
-interface TwintSdkException extends Throwable
+interface SdkError extends Throwable
 {
 }

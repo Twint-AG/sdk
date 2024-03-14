@@ -31,7 +31,9 @@ final class UuidTest extends TestCase
     public function testValidationOfUnusualUuid(string $uuid): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('has to be 36 exactly characters long');
+        $this->expectExceptionMessageMatches(
+            '/UUID ".+" has incorrect length. Must be exactly 36 characters, got \d+/'
+        );
         new Uuid($uuid);
     }
 

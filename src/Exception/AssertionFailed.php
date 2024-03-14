@@ -6,6 +6,9 @@ namespace Twint\Sdk\Exception;
 
 use Assert\InvalidArgumentException;
 
-final class AssertionFailed extends InvalidArgumentException implements TwintSdkException
+/**
+ * @internal
+ */
+final class AssertionFailed extends InvalidArgumentException implements SdkError
 {
 }
