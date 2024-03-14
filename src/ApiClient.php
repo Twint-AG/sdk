@@ -117,8 +117,8 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
-                new OrderStatus($response->getOrderStatus() ->getStatus() ->get_()),
-                new TransactionStatus($response->getOrderStatus() ->getReason() ->get_())
+                new OrderStatus($response->getOrderStatus() ->getStatus()->get_()),
+                new TransactionStatus($response->getOrderStatus() ->getReason()->get_())
             );
         } catch (SoapException $e) {
             throw SoapFailure::fromThrowable($e);
