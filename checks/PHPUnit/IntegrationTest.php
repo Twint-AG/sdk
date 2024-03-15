@@ -37,7 +37,7 @@ abstract class IntegrationTest extends TestCase
     protected function setUp(): void
     {
         $this->client = new ApiClient(
-            new Certificate(
+            Certificate\Pkcs12Certificate::read(
                 self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'),
                 self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
             )

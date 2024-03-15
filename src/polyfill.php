@@ -11,7 +11,6 @@ if (PHP_VERSION_ID < 80200) {
     }
 }
 
-
 /**
  * @template T of Comparable
  * @param list<array{T, T}> $pairs
@@ -21,6 +20,7 @@ function compareAll(array $pairs): int
 {
     foreach ($pairs as [$left, $right]) {
         $result = $left->compare($right);
+
         if ($result !== 0) {
             return $result;
         }

@@ -15,7 +15,7 @@ use Soap\Psr18Transport\Middleware\SoapHeaderMiddleware;
 use Soap\Psr18Transport\Psr18Transport;
 use Soap\Xml\Builder\SoapHeader;
 use Twint\Sdk\ApiVersion;
-use Twint\Sdk\Certificate;
+use Twint\Sdk\Certificate\Certificate;
 use Twint\Sdk\Generated\TwintSoapClassMap;
 use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Version;
@@ -41,15 +41,17 @@ final class DefaultSoapEngineFactory
                     ApiVersion::wsdlPath(),
                     [
                         'trace' => true,
-                        'local_cert' => $certificate->getCombinedPemPath(),
-                        'passphrase' => $certificate->getPemPassphrase(),
+                        'local_cert' => $certificate->pem()
+                            ->path(),
+                        'passphrase' => $certificate->pem()
+                            ->passphrase(),
                         'location' => ApiVersion::endpoint('pat'),
                     ]
                 )->withClassMap(TwintSoapClassMap::getCollection()),
                 Psr18Transport::createForClient(
                     new PluginClient(
                         new HttpClient([
-                            'cert' => [$certificate->getCombinedPemPath(), $certificate->getPemPassphrase()],
+                            'cert' => [$certificate->pem()->path(), $certificate->pem()->passphrase()],
                         ]),
                         [
                             new SoapHeaderMiddleware(

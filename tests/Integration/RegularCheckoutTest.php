@@ -9,11 +9,11 @@ use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderKind;
 use Twint\Sdk\Value\OrderStatus;
 
-/**
- * @covers \Twint\Sdk\ApiClient::startOrder
- */
 final class RegularCheckoutTest extends IntegrationTest
 {
+    /**
+     * @covers \Twint\Sdk\ApiClient::startOrder
+     */
     public function testStartMinimalOrder(): void
     {
         $order = $this->client->startOrder(
@@ -26,6 +26,9 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertSame(OrderStatus::IN_PROGRESS, (string) $order->status());
     }
 
+    /**
+     * @covers \Twint\Sdk\ApiClient::monitorOrderByOrderId
+     */
     public function testMonitorOrderByOrderId(): void
     {
         $transactionReference = self::createTransactionReference();
@@ -42,6 +45,9 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertTrue($order->equals($monitorOrder));
     }
 
+    /**
+     * @covers \Twint\Sdk\ApiClient::monitorOrderByTransactionReference
+     */
     public function testMonitorOrderByTransactionReference(): void
     {
         $transactionReference = self::createTransactionReference();

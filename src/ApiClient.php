@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
 use Soap\Engine\Engine;
+use Twint\Sdk\Certificate\Certificate;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Exception\SoapFailure;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
