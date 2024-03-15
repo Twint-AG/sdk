@@ -45,7 +45,7 @@ final class UuidTest extends TestCase
 
     public function testNormalizesUuidToLowercase(): void
     {
-        $uuid = new Uuid(strtolower(self::UUID));
+        $uuid = new Uuid(strtoupper(self::UUID));
         self::assertSame(self::UUID, (string) $uuid);
     }
 }
