@@ -6,6 +6,7 @@ namespace Twint\Sdk\Value;
 
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
+use Twint\Sdk\Util\Comparison;
 
 /**
  * @template-implements Comparable<self>
@@ -51,7 +52,7 @@ final class Order implements Comparable, Equality
     {
         Assertion::isObject($other, self::class);
 
-        return compareAll([
+        return Comparison::comparePairs([
             [$this->id, $other->id],
             [$this->status, $other->status],
             [$this->transactionStatus, $other->transactionStatus],
