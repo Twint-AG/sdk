@@ -9,6 +9,7 @@ use DateTimeImmutable;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
 use Soap\Engine\Engine;
+use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Exception\SoapFailure;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Generated\TwintSoapClient;
@@ -16,6 +17,7 @@ use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
 use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
+use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Value\CertificateValidity;
@@ -46,7 +48,7 @@ final class ApiClient implements Client
     }
 
     /**
-     * @throws Exception\SdkError
+     * @throws SdkError
      */
     public function getCertificateValidity(MerchantId $merchantId): CertificateValidity
     {
@@ -65,7 +67,7 @@ final class ApiClient implements Client
     }
 
     /**
-     * @throws Exception\SdkError
+     * @throws SdkError
      */
     public function startOrder(
         MerchantId $merchantId,
@@ -118,7 +120,68 @@ final class ApiClient implements Client
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
                 new OrderStatus($response->getOrderStatus() ->getStatus()->get_()),
-                new TransactionStatus($response->getOrderStatus() ->getReason()->get_())
+                new TransactionStatus($response->getOrderStatus() ->getReason()->get_()),
+                $transactionReference
+            );
+        } catch (SoapException $e) {
+            throw SoapFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function monitorOrderByOrderId(MerchantId $merchantId, OrderId $orderId): Order
+    {
+        try {
+            $response = $this->soapClient()
+                ->monitorOrder(
+                    new MonitorOrderRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        OrderUuid: (string) $orderId,
+                        MerchantTransactionReference: null,
+                        WaitForResponse: false
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrder()->getUuid()),
+                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
+                new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
+            );
+        } catch (SoapException $e) {
+            throw SoapFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function monitorOrderByTransactionReference(
+        MerchantId $merchantId,
+        TransactionReference $transactionReference
+    ): Order {
+        try {
+            $response = $this->soapClient()
+                ->monitorOrder(
+                    new MonitorOrderRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        OrderUuid: null,
+                        MerchantTransactionReference: (string) $transactionReference,
+                        WaitForResponse: false
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrder()->getUuid()),
+                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
+                new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
             );
         } catch (SoapException $e) {
             throw SoapFailure::fromThrowable($e);

@@ -49,6 +49,11 @@ final class OrderType
     private $BNPLData;
 
     /**
+     * @var string
+     */
+    private $MerchantTransactionReference;
+
+    /**
      * @return string
      */
     public function getUuid()
@@ -204,6 +209,26 @@ final class OrderType
     {
         $new = clone $this;
         $new->BNPLData = $BNPLData;
+
+        return $new;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMerchantTransactionReference()
+    {
+        return $this->MerchantTransactionReference;
+    }
+
+    /**
+     * @param string $MerchantTransactionReference
+     * @return OrderType
+     */
+    public function withMerchantTransactionReference($MerchantTransactionReference)
+    {
+        $new = clone $this;
+        $new->MerchantTransactionReference = $MerchantTransactionReference;
 
         return $new;
     }

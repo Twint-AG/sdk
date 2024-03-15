@@ -4,12 +4,23 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-final class Order
+use Twint\Sdk\Assertion;
+use Twint\Sdk\Exception\AssertionFailed;
+
+/**
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
+ */
+final class Order implements Comparable, Equality
 {
+    /** @use ComparableToEquality<self> */
+    use ComparableToEquality;
+
     public function __construct(
         private readonly OrderId $id,
         private readonly OrderStatus $status,
-        private readonly TransactionStatus $transactionStatus
+        private readonly TransactionStatus $transactionStatus,
+        private readonly TransactionReference $transactionReference,
     ) {
     }
 
@@ -26,5 +37,25 @@ final class Order
     public function transactionStatus(): TransactionStatus
     {
         return $this->transactionStatus;
+    }
+
+    public function transactionReference(): TransactionReference
+    {
+        return $this->transactionReference;
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function compare($other): int
+    {
+        Assertion::isObject($other, self::class);
+
+        return compareAll([
+            [$this->id, $other->id],
+            [$this->status, $other->status],
+            [$this->transactionStatus, $other->transactionStatus],
+            [$this->transactionReference, $other->transactionReference],
+        ]);
     }
 }

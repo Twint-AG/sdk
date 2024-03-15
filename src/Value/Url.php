@@ -7,8 +7,15 @@ namespace Twint\Sdk\Value;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 
-final class Url
+/**
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
+ */
+final class Url implements Comparable, Equality
 {
+    /** @use ComparableToEquality<self> */
+    use ComparableToEquality;
+
     /**
      * @throws AssertionFailed
      */
@@ -21,5 +28,14 @@ final class Url
     public function __toString(): string
     {
         return $this->url;
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function compare($other): int
+    {
+        Assertion::isObject($other, self::class);
+        return $this->url <=> $other->url;
     }
 }

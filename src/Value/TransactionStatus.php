@@ -9,9 +9,14 @@ use Twint\Sdk\Exception\AssertionFailed;
 
 /**
  * @template-implements Enum<self::*>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
  */
-final class TransactionStatus implements Enum
+final class TransactionStatus implements Enum, Comparable, Equality
 {
+    /** @use ComparableToEquality<self> */
+    use ComparableToEquality;
+
     public const ORDER_OK = 'ORDER_OK';
 
     public const ORDER_PARTIAL_OK = 'ORDER_PARTIAL_OK';
@@ -57,5 +62,15 @@ final class TransactionStatus implements Enum
             self::MERCHANT_ABORT,
             self::CLIENT_ABORT,
         ];
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function compare($other): int
+    {
+        Assertion::isObject($other, self::class);
+
+        return $this->status <=> $other->status;
     }
 }

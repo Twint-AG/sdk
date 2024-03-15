@@ -9,9 +9,14 @@ use Twint\Sdk\Exception\AssertionFailed;
 
 /**
  * @template-implements Enum<self::*>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
  */
-final class Money implements Enum
+final class Money implements Enum, Comparable, Equality
 {
+    /** @use ComparableToEquality<self> */
+    use ComparableToEquality;
+
     public const EUR = 'EUR';
 
     public const CHF = 'CHF';
@@ -60,5 +65,19 @@ final class Money implements Enum
     public function all(): array
     {
         return [self::EUR, self::CHF];
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function compare($other): int
+    {
+        Assertion::isObject($other, self::class);
+
+        if ($this->currency !== $other->currency) {
+            return $this->currency <=> $other->currency;
+        }
+
+        return $this->amount <=> $other->amount;
     }
 }

@@ -583,6 +583,7 @@
                     <xs:element minOccurs="0" name="ProcessingTimestamp" type="xs:dateTime"/>
                     <xs:element maxOccurs="unbounded" name="PaymentAmount" type="tns:PaymentAmountType"/>
                     <xs:element minOccurs="0" name="BNPLData" type="tns:BNPLDataType"/>
+                    <xs:element name="MerchantTransactionReference" type="base:MerchantTransactionReferenceType" minOccurs="0"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
