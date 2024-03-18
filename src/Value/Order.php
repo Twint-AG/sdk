@@ -50,7 +50,7 @@ final class Order implements Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
 
         return Comparison::comparePairs([
             [$this->id, $other->id],

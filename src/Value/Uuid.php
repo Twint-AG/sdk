@@ -8,12 +8,12 @@ use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Comparable<Uuid>
+ * @template-implements Equality<Uuid>
  */
 final class Uuid implements Comparable, Equality
 {
-    /** @use ComparableToEquality<self> */
+    /** @use ComparableToEquality<Uuid> */
     use ComparableToEquality;
 
     /**
@@ -37,7 +37,7 @@ final class Uuid implements Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
 
         return $this->uuid <=> $other->uuid;
     }

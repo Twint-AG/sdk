@@ -35,7 +35,8 @@ final class Url implements Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
+
         return $this->url <=> $other->url;
     }
 }

@@ -7,6 +7,7 @@ namespace Twint\Sdk\Certificate;
 use SensitiveParameter;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
+use Twint\Sdk\Value\File;
 
 final class CertificateFile
 {
@@ -17,17 +18,16 @@ final class CertificateFile
      */
     public function __construct(
         #[SensitiveParameter]
-        private readonly string $path,
+        private readonly File $file,
         #[SensitiveParameter]
         private readonly string $passphrase
     ) {
-        Assertion::file($path);
-        Assertion::readable($path);
+        Assertion::file((string) $file);
     }
 
-    public function path(): string
+    public function file(): File
     {
-        return $this->path;
+        return $this->file;
     }
 
     public function passphrase(): string
@@ -48,8 +48,8 @@ final class CertificateFile
      */
     public function readFile(): string
     {
-        $content = file_get_contents($this->path);
-        Assertion::string($content, sprintf('Reading file "%s" failed', $this->path));
+        $content = file_get_contents((string) $this->file);
+        Assertion::string($content, sprintf('Reading file "%s" failed', $this->file));
 
         return $content;
     }

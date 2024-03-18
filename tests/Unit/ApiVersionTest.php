@@ -13,14 +13,14 @@ use Twint\Sdk\ApiVersion;
 final class ApiVersionTest extends TestCase
 {
     /**
-     * @return iterable<array{ApiVersion::*, int, int, int}>
+     * @return iterable<array-key, array{ApiVersion::V_*, int, int, int, string}>
      */
     public static function getExamples(): iterable
     {
         yield [ApiVersion::V8_6_0, 8, 6, 0, '8.6'];
         yield [ApiVersion::V8_5_0, 8, 5, 0, '8.5'];
-        yield [80610, 8, 6, 10, '8.6.10']; // @phpstan-ignore-line
-        yield [105010, 10, 50, 10, '10.50.10']; // @phpstan-ignore-line
+        yield [80610, 8, 6, 10, '8.6.10']; // @phpstan-ignore-line @psalm-ignore-line
+        yield [105010, 10, 50, 10, '10.50.10']; // @phpstan-ignore-line @psalm-ignore-line
     }
 
     /**

@@ -8,13 +8,13 @@ use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 
 /**
- * @template-implements Enum<self::*>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Enum<Money::*>
+ * @template-implements Comparable<Money>
+ * @template-implements Equality<Money>
  */
 final class Money implements Enum, Comparable, Equality
 {
-    /** @use ComparableToEquality<self> */
+    /** @use ComparableToEquality<Money> */
     use ComparableToEquality;
 
     public const EUR = 'EUR';
@@ -72,7 +72,7 @@ final class Money implements Enum, Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
 
         if ($this->currency !== $other->currency) {
             return $this->currency <=> $other->currency;

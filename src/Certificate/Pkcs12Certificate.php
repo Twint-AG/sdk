@@ -6,22 +6,37 @@ namespace Twint\Sdk\Certificate;
 
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
+use Twint\Sdk\Factory\RandomPassphraseFactory;
+use Twint\Sdk\Factory\TemporaryFileFactory;
+use Twint\Sdk\Value\File;
 
 final class Pkcs12Certificate implements Certificate
 {
     private ?CertificateFile $pem = null;
 
+    /**
+     * @param callable(): File $fileFactory
+     * @param callable(): non-empty-string $passwordFactory
+     */
     public function __construct(
-        private readonly CertificateFile $pkcs12
+        private readonly CertificateFile $pkcs12,
+        private readonly mixed $fileFactory = new TemporaryFileFactory(),
+        private readonly mixed $passwordFactory = new RandomPassphraseFactory()
     ) {
     }
 
     /**
+     * @param callable(): File $fileFactory
+     * @param callable(): non-empty-string $passwordFactory
      * @throws AssertionFailed
      */
-    public static function read(string $path, string $passphrase): self
-    {
-        return new self(new CertificateFile($path, $passphrase));
+    public static function read(
+        string $path,
+        string $passphrase,
+        mixed $fileFactory = new TemporaryFileFactory(),
+        mixed $passwordFactory = new RandomPassphraseFactory()
+    ): self {
+        return new self(new CertificateFile(new File($path), $passphrase), $fileFactory, $passwordFactory);
     }
 
     /**
@@ -39,20 +54,22 @@ final class Pkcs12Certificate implements Certificate
     {
         Assertion::true(
             openssl_pkcs12_read($this->pkcs12->content(), $certs, $this->pkcs12->passphrase()),
-            sprintf('Reading PKCS12 file failed. Tried to read "%s"', $this->pkcs12->path())
+            sprintf('Reading PKCS12 file failed. Tried to read "%s"', $this->pkcs12->file())
         );
 
-        $passphrase = 'secret123'; // @todo generate random passphrase
+        $passphrase = ($this->passwordFactory)();
         Assertion::true(openssl_x509_export($certs['cert'], $pemCert), 'X509 export failed');
         Assertion::true(openssl_pkey_export($certs['pkey'], $pemKey, $passphrase), 'PKEY export failed');
 
-        $pemPath = tempnam(sys_get_temp_dir(), 'twint');
-        Assertion::string($pemPath, 'Creating temporary file failed');
+        $pemPath = ($this->fileFactory)();
 
-        touch($pemPath);
-        chmod($pemPath, 0600);
-        file_put_contents($pemPath, $pemCert . $pemKey);
-        chmod($pemPath, 0400);
+        $origUmask = umask(277);
+        try {
+            file_put_contents((string) $pemPath, $pemCert . $pemKey);
+            chmod((string) $pemPath, 0400);
+        } finally {
+            umask($origUmask);
+        }
 
         return new CertificateFile($pemPath, $passphrase);
     }

@@ -8,9 +8,9 @@ use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 
 /**
- * @template-implements Enum<self::*>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Enum<OrderStatus::*>
+ * @template-implements Comparable<OrderStatus>
+ * @template-implements Equality<OrderStatus>
  */
 final class OrderStatus implements Enum, Comparable, Equality
 {
@@ -47,7 +47,7 @@ final class OrderStatus implements Enum, Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
 
         return $this->status <=> $other->status;
     }

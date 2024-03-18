@@ -11,6 +11,6 @@ final class SoapFailure extends RuntimeException implements SdkError
 {
     public static function fromThrowable(Throwable $throwable): self
     {
-        return new self($throwable->getMessage(), $throwable->getCode(), $throwable);
+        return new self($throwable->getMessage(), (int) $throwable->getCode(), $throwable);
     }
 }

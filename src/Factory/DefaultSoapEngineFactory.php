@@ -40,9 +40,8 @@ final class DefaultSoapEngineFactory
                 ExtSoapOptions::defaults(
                     ApiVersion::wsdlPath(),
                     [
-                        'trace' => true,
-                        'local_cert' => $certificate->pem()
-                            ->path(),
+                        'local_cert' => (string) $certificate->pem()
+                            ->file(),
                         'passphrase' => $certificate->pem()
                             ->passphrase(),
                         'location' => ApiVersion::endpoint('pat'),
@@ -51,7 +50,7 @@ final class DefaultSoapEngineFactory
                 Psr18Transport::createForClient(
                     new PluginClient(
                         new HttpClient([
-                            'cert' => [$certificate->pem()->path(), $certificate->pem()->passphrase()],
+                            'cert' => [$certificate->pem()->file(), $certificate->pem()->passphrase()],
                         ]),
                         [
                             new SoapHeaderMiddleware(

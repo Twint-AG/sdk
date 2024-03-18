@@ -16,7 +16,7 @@ final class UuidTest extends TestCase
     private const UUID = '123e4567-e89b-12d3-a456-426614174000';
 
     /**
-     * @return iterable<array{string}>
+     * @return iterable<array-key, array{string}>
      */
     public static function unusualUuids(): iterable
     {

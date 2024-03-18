@@ -42,7 +42,7 @@ final class TransactionReference implements Comparable, Equality
      */
     public function compare($other): int
     {
-        Assertion::isObject($other, self::class);
+        Assertion::isInstanceOf($other, self::class);
 
         return $this->value <=> $other->value;
     }

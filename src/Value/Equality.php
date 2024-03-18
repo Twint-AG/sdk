@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 /**
- * @template T of self
+ * @template T of object
  */
 interface Equality
 {
