@@ -22,6 +22,7 @@ use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Value\CertificateValidity;
+use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
@@ -187,6 +188,19 @@ final class ApiClient implements Client
         } catch (SoapException $e) {
             throw SoapFailure::fromThrowable($e);
         }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function detectDevice(string $userAgent): DetectedDevice
+    {
+        return new DetectedDevice($userAgent, match (true) {
+            str_contains($userAgent, 'iPhone') => DetectedDevice::IOS,
+            str_contains($userAgent, 'iPad') => DetectedDevice::IOS,
+            str_contains($userAgent, 'Android') => DetectedDevice::ANDROID,
+            default => DetectedDevice::UNKNOWN,
+        });
     }
 
     private function soapClient(): TwintSoapClient
