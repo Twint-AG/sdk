@@ -9,7 +9,7 @@ use Twint\Sdk\Exception\Timeout;
 
 /**
  * @phpstan-type DelayMs = int<0, max>
- * @phpstan-type Attempts = int<0, max>
+ * @phpstan-type Attempts = int<1, max>
  */
 final class Resilience
 {
