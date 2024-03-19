@@ -6,12 +6,13 @@ namespace Twint\Sdk\Value;
 
 /**
  * @template T of object
+ * @phpstan-type ComparisonResult = -1|0|1
  */
 interface Comparable
 {
     /**
      * @param T $other
-     * @return -1|0|1
+     * @return ComparisonResult
      */
     public function compare($other): int;
 }

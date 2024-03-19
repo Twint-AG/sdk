@@ -7,13 +7,17 @@ namespace Twint\Sdk\Util;
 use Throwable;
 use Twint\Sdk\Exception\Timeout;
 
+/**
+ * @phpstan-type DelayMs = int<0, max>
+ * @phpstan-type Attempts = int<0, max>
+ */
 final class Resilience
 {
     /**
      * @template T
      * @param callable(): T $operation
-     * @param int<0, max> $times
-     * @param int<0, max> $delayMs
+     * @param Attempts $times
+     * @param DelayMs $delayMs
      * @throws Timeout
      * @return T
      */

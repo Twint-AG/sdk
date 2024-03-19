@@ -9,11 +9,14 @@ use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\File;
 
+/**
+ * @phpstan-import-type Attempts from Resilience
+ */
 final class TemporaryFileFactory
 {
     /**
      * @param non-empty-string $prefix
-     * @param int<0, max> $attempts
+     * @param Attempts $attempts
      */
     public function __construct(
         private readonly string $prefix = 'twint-sdk',

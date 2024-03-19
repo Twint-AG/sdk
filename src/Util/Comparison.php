@@ -6,6 +6,9 @@ namespace Twint\Sdk\Util;
 
 use Twint\Sdk\Value\Comparable;
 
+/**
+ * @phpstan-import-type ComparisonResult from Comparable
+ */
 final class Comparison
 {
     /**
@@ -15,7 +18,7 @@ final class Comparison
      *
      * @template T of Comparable
      * @param list<array{T, T}> $pairs
-     * @return 1|-1|0
+     * @return ComparisonResult
      */
     public static function comparePairs(array $pairs): int
     {

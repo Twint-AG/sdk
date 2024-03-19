@@ -11,6 +11,9 @@ use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\Uuid;
 
+/**
+ * @phpstan-import-type Attempts from Resilience
+ */
 final class Uuid4Factory
 {
     /**
@@ -29,7 +32,7 @@ final class Uuid4Factory
 
     /**
      * @param int<1, max> $length
-     * @param int<0, max> $attempts
+     * @param Attempts $attempts
      * @throws CryptographyFailure
      */
     private static function getRandomBytes(int $length, int $attempts): string
