@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class RenewCertificateRequestType implements RequestInterface
 {
     /**

@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class EnrollCashRegisterRequestType implements RequestInterface
 {
     /**
@@ -42,8 +44,13 @@ final class EnrollCashRegisterRequestType implements RequestInterface
      * @param string $BeaconInventoryNumber
      * @param string $BeaconDaemonVersion
      */
-    public function __construct($MerchantInformation, $CashRegisterType, $FormerCashRegisterId, $BeaconInventoryNumber, $BeaconDaemonVersion)
-    {
+    public function __construct(
+        $MerchantInformation,
+        $CashRegisterType,
+        $FormerCashRegisterId,
+        $BeaconInventoryNumber,
+        $BeaconDaemonVersion
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->CashRegisterType = $CashRegisterType;
         $this->FormerCashRegisterId = $FormerCashRegisterId;

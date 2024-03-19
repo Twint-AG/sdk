@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
@@ -54,8 +56,15 @@ final class ConfirmOrderAndUofRegistrationRequestType implements RequestInterfac
      * @param bool $PartialConfirmation
      * @param bool $ConfirmRegistration
      */
-    public function __construct($MerchantInformation, $PaymentOrderUuid, $MerchantTransactionReference, $ConfirmPaymentOrder, $RequestedAmount, $PartialConfirmation, $ConfirmRegistration)
-    {
+    public function __construct(
+        $MerchantInformation,
+        $PaymentOrderUuid,
+        $MerchantTransactionReference,
+        $ConfirmPaymentOrder,
+        $RequestedAmount,
+        $PartialConfirmation,
+        $ConfirmRegistration
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;

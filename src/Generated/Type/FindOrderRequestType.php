@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use DateTimeInterface;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class FindOrderRequestType implements RequestInterface
 {
     /**
@@ -55,8 +57,15 @@ final class FindOrderRequestType implements RequestInterface
      * @param string $OrderUuid
      * @param string $MerchantTransactionReference
      */
-    public function __construct($MerchantUuid, $MerchantAliasId, $CashRegisterId, $SearchStartDate, $SearchEndDate, $OrderUuid, $MerchantTransactionReference)
-    {
+    public function __construct(
+        $MerchantUuid,
+        $MerchantAliasId,
+        $CashRegisterId,
+        $SearchStartDate,
+        $SearchEndDate,
+        $OrderUuid,
+        $MerchantTransactionReference
+    ) {
         $this->MerchantUuid = $MerchantUuid;
         $this->MerchantAliasId = $MerchantAliasId;
         $this->CashRegisterId = $CashRegisterId;

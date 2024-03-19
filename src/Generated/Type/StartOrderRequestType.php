@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class StartOrderRequestType implements RequestInterface
 {
     /**
@@ -78,8 +80,19 @@ final class StartOrderRequestType implements RequestInterface
      * @param string $PaymentLayerRendering
      * @param string $OrderUpdateNotificationURL
      */
-    public function __construct($MerchantInformation, $Order, $Coupons, $OfflineAuthorization, $CustomerRelationUuid, $PairingUuid, $UnidentifiedCustomer, $ExpressMerchantAuthorization, $QRCodeRendering, $PaymentLayerRendering, $OrderUpdateNotificationURL)
-    {
+    public function __construct(
+        $MerchantInformation,
+        $Order,
+        $Coupons,
+        $OfflineAuthorization,
+        $CustomerRelationUuid,
+        $PairingUuid,
+        $UnidentifiedCustomer,
+        $ExpressMerchantAuthorization,
+        $QRCodeRendering,
+        $PaymentLayerRendering,
+        $OrderUpdateNotificationURL
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->Order = $Order;
         $this->Coupons = $Coupons;

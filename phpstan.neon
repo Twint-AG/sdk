@@ -9,6 +9,8 @@ parameters:
     paths:
         - src
         - tests
+        - checks
+        - resources
     ignoreErrors:
         -
             message: "#^Method Twint\\\\Sdk\\\\Generated\\\\TwintSoapClient\\:\\:.*\\(\\) should return Twint\\\\Sdk\\\\Generated\\\\Type\\\\.* but returns Phpro\\\\SoapClient\\\\Type\\\\ResultInterface\\.$#"
@@ -28,6 +30,9 @@ parameters:
         -
             message: "#^Method .* throws checked exception#"
             path: tests/*
+        -
+            message: "#^Method .* throws checked exception#"
+            path: checks/PHPUnit/*
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

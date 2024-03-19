@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
+#[AllowDynamicProperties]
 final class RequestCheckInRequestType implements RequestInterface
 {
     /**
@@ -60,8 +62,16 @@ final class RequestCheckInRequestType implements RequestInterface
      * @param string $RequestCustomerRelationAlias
      * @param bool $QRCodeRendering
      */
-    public function __construct($MerchantInformation, $OfflineAuthorization, $CouponCode, $CustomerRelationUuid, $UnidentifiedCustomer, $LoyaltyInformation, $RequestCustomerRelationAlias, $QRCodeRendering)
-    {
+    public function __construct(
+        $MerchantInformation,
+        $OfflineAuthorization,
+        $CouponCode,
+        $CustomerRelationUuid,
+        $UnidentifiedCustomer,
+        $LoyaltyInformation,
+        $RequestCustomerRelationAlias,
+        $QRCodeRendering
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->OfflineAuthorization = $OfflineAuthorization;
         $this->CouponCode = $CouponCode;

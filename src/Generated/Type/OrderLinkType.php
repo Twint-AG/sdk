@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
+use AllowDynamicProperties;
+
+#[AllowDynamicProperties]
 final class OrderLinkType
 {
     /**

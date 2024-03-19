@@ -125,6 +125,9 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
         'dir' => 'tests',
     ]);
+    $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
+        'dir' => 'checks',
+    ]);
 
     $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [
         'order' => [
