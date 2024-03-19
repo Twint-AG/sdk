@@ -8,6 +8,7 @@ use Throwable;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Exception\CryptographyFailure;
+use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\Uuid;
 
 final class Uuid4Factory
@@ -18,17 +19,34 @@ final class Uuid4Factory
      */
     public function __invoke(): Uuid
     {
+        $bytes = self::getRandomBytes(32, 5);
+
+        $bytes[6] = chr(ord($bytes[6]) & 0x0f | 0x40);
+        $bytes[8] = chr(ord($bytes[8]) & 0x3f | 0x80);
+
+        return new Uuid(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($bytes), 4)));
+    }
+
+    /**
+     * @param int<1, max> $length
+     * @param int<0, max> $attempts
+     * @throws CryptographyFailure
+     */
+    private static function getRandomBytes(int $length, int $attempts): string
+    {
         try {
-            $data = random_bytes(32);
+            return Resilience::retry(
+                $attempts,
+                static function () use ($length): string {
+                    $random = random_bytes($length);
+
+                    Assertion::byteLength($random, $length, 'Random data has to be exactly %d bytes long, got %d.');
+
+                    return $random;
+                }
+            );
         } catch (Throwable $e) {
             throw CryptographyFailure::fromThrowable($e);
         }
-
-        Assertion::minLength($data, 16);
-
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
-
-        return new Uuid(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4)));
     }
 }

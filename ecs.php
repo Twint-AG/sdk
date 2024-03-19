@@ -127,6 +127,15 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [
-        'order' => ['use_trait', 'constant', 'property', 'construct', 'destruct', 'method_static', 'magic', 'method'],
+        'order' => [
+            'use_trait',
+            'constant',
+            'property',
+            'construct',
+            'destruct',
+            'method_public_static',
+            'magic',
+            'method',
+        ],
     ]);
 };

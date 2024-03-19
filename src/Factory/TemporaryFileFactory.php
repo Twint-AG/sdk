@@ -11,6 +11,10 @@ use Twint\Sdk\Value\File;
 
 final class TemporaryFileFactory
 {
+    /**
+     * @param non-empty-string $prefix
+     * @param int<0, max> $attempts
+     */
     public function __construct(
         private readonly string $prefix = 'twint-sdk',
         private readonly int $attempts = 10,
