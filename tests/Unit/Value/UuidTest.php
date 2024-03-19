@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Unit\Value;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\Uuid;
 
-/**
- * @covers \Twint\Sdk\Value\Uuid
- */
+#[CoversClass(Uuid::class)]
 final class UuidTest extends TestCase
 {
     private const UUID = '123e4567-e89b-12d3-a456-426614174000';
@@ -25,9 +25,7 @@ final class UuidTest extends TestCase
         yield ['uuid:' . self::UUID];
     }
 
-    /**
-     * @dataProvider unusualUuids
-     */
+    #[DataProvider('unusualUuids')]
     public function testValidationOfUnusualUuid(string $uuid): void
     {
         $this->expectException(InvalidArgumentException::class);

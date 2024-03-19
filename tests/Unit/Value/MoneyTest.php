@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\Money;
 
-/** @covers \Twint\Sdk\Value\Money */
+#[CoversClass(Money::class)]
 final class MoneyTest extends TestCase
 {
     /**
@@ -45,9 +47,7 @@ final class MoneyTest extends TestCase
         self::assertSame('EUR', $money->currency());
     }
 
-    /**
-     * @dataProvider getComparisons
-     */
+    #[DataProvider('getComparisons')]
     public function testCompare(Money $left, Money $right, int $expected): void
     {
         self::assertSame($expected, $left->compare($right));

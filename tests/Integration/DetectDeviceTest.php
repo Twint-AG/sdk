@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Twint\Sdk\ApiClient;
 use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 use Twint\Sdk\Value\DetectedDevice;
 
+#[CoversClass(ApiClient::class)]
 final class DetectDeviceTest extends IntegrationTest
 {
     /**
@@ -126,10 +130,7 @@ final class DetectDeviceTest extends IntegrationTest
         ];
     }
 
-    /**
-     * @dataProvider getUserAgents
-     * @covers \Twint\Sdk\ApiClient::detectDevice
-     */
+    #[DataProvider('getUserAgents')]
     public function testDetectDevice(string $userAgent, int $expectedType): void
     {
         $detectedDevice = $this->client->detectDevice($userAgent);

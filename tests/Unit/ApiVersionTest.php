@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\ApiVersion;
 
-/**
- * @covers \Twint\Sdk\ApiVersion
- */
+#[CoversClass(ApiVersion::class)]
 final class ApiVersionTest extends TestCase
 {
     /**
@@ -24,36 +24,36 @@ final class ApiVersionTest extends TestCase
     }
 
     /**
-     * @dataProvider getExamples
      * @param ApiVersion::V_* $versionId
      */
+    #[DataProvider('getExamples')]
     public function testVersionIdToMajor(int $versionId, int $major, int $minor, int $patch, string $version): void
     {
         self::assertSame($major, ApiVersion::major($versionId));
     }
 
     /**
-     * @dataProvider getExamples
      * @param ApiVersion::V_* $versionId
      */
+    #[DataProvider('getExamples')]
     public function testVersionIdToMinor(int $versionId, int $major, int $minor, int $patch, string $version): void
     {
         self::assertSame($minor, ApiVersion::minor($versionId));
     }
 
     /**
-     * @dataProvider getExamples
      * @param ApiVersion::V_* $versionId
      */
+    #[DataProvider('getExamples')]
     public function testVersionIdToPatch(int $versionId, int $major, int $minor, int $patch, string $version): void
     {
         self::assertSame($patch, ApiVersion::patch($versionId));
     }
 
     /**
-     * @dataProvider getExamples
      * @param ApiVersion::V_* $versionId
      */
+    #[DataProvider('getExamples')]
     public function testVersionIdToVersion(int $versionId, int $major, int $minor, int $patch, string $version): void
     {
         self::assertSame($version, ApiVersion::version($versionId));

@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Unit\Value;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\OrderKind;
 
-/**
- * @covers \Twint\Sdk\Value\OrderKind
- */
+#[CoversClass(OrderKind::class)]
 final class OrderKindTest extends TestCase
 {
     public function testItCanBeCreated(): void

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
+use Twint\Sdk\ApiClient;
 use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 
-/**
- * @covers \Twint\Sdk\ApiClient::getCertificateValidity
- */
+#[CoversClass(ApiClient::class)]
 final class CertificateValidityTest extends IntegrationTest
 {
     public function testCertificateValidity(): void
