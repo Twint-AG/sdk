@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
+use SensitiveParameter;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Factory\RandomPassphraseFactory;
@@ -19,6 +20,7 @@ final class Pkcs12Certificate implements Certificate
      * @param callable(): non-empty-string $passwordFactory
      */
     public function __construct(
+        #[SensitiveParameter]
         private readonly CertificateFile $pkcs12,
         private readonly mixed $fileFactory = new TemporaryFileFactory(),
         private readonly mixed $passwordFactory = new RandomPassphraseFactory()
@@ -31,7 +33,9 @@ final class Pkcs12Certificate implements Certificate
      * @throws AssertionFailed
      */
     public static function read(
+        #[SensitiveParameter]
         string $path,
+        #[SensitiveParameter]
         string $passphrase,
         mixed $fileFactory = new TemporaryFileFactory(),
         mixed $passwordFactory = new RandomPassphraseFactory()
