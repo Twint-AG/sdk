@@ -49,7 +49,7 @@ $allowDynamicPropertiesAssembler = new class() implements Assembler\AssemblerInt
         $class->setDocBlock(new class() extends DocBlockGenerator {
             public function generate(): string
             {
-                return self::LINE_FEED . '#[\AllowDynamicProperties]' . parent::generate();
+                return parent::generate() . '#[\AllowDynamicProperties]' . self::LINE_FEED;
             }
         });
     }
