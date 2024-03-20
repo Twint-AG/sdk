@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class MonitorOrderRequestType implements RequestInterface
 {
     /**
@@ -54,11 +52,7 @@ final class MonitorOrderRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return MonitorOrderRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -74,11 +68,7 @@ final class MonitorOrderRequestType implements RequestInterface
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return MonitorOrderRequestType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -94,11 +84,7 @@ final class MonitorOrderRequestType implements RequestInterface
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return MonitorOrderRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -114,11 +100,7 @@ final class MonitorOrderRequestType implements RequestInterface
         return $this->WaitForResponse;
     }
 
-    /**
-     * @param bool $WaitForResponse
-     * @return MonitorOrderRequestType
-     */
-    public function withWaitForResponse($WaitForResponse)
+    public function withWaitForResponse(bool $WaitForResponse): self
     {
         $new = clone $this;
         $new->WaitForResponse = $WaitForResponse;

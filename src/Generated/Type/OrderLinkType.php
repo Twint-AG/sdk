@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class OrderLinkType
 {
     /**
@@ -27,11 +24,7 @@ final class OrderLinkType
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return OrderLinkType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -47,11 +40,7 @@ final class OrderLinkType
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return OrderLinkType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;

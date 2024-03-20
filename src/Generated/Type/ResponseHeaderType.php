@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class ResponseHeaderType
 {
     /**
@@ -22,11 +19,7 @@ final class ResponseHeaderType
         return $this->MessageId;
     }
 
-    /**
-     * @param string $MessageId
-     * @return ResponseHeaderType
-     */
-    public function withMessageId($MessageId)
+    public function withMessageId(string $MessageId): self
     {
         $new = clone $this;
         $new->MessageId = $MessageId;

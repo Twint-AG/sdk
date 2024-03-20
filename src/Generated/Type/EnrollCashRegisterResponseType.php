@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class EnrollCashRegisterResponseType implements ResultInterface
 {
     /**
@@ -23,11 +21,7 @@ final class EnrollCashRegisterResponseType implements ResultInterface
         return $this->BeaconSecurity;
     }
 
-    /**
-     * @param BeaconSecurityType $BeaconSecurity
-     * @return EnrollCashRegisterResponseType
-     */
-    public function withBeaconSecurity($BeaconSecurity)
+    public function withBeaconSecurity(BeaconSecurityType $BeaconSecurity): self
     {
         $new = clone $this;
         $new->BeaconSecurity = $BeaconSecurity;

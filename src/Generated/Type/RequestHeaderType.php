@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class RequestHeaderType
 {
     /**
@@ -32,11 +29,7 @@ final class RequestHeaderType
         return $this->MessageId;
     }
 
-    /**
-     * @param string $MessageId
-     * @return RequestHeaderType
-     */
-    public function withMessageId($MessageId)
+    public function withMessageId(string $MessageId): self
     {
         $new = clone $this;
         $new->MessageId = $MessageId;
@@ -52,11 +45,7 @@ final class RequestHeaderType
         return $this->ClientSoftwareName;
     }
 
-    /**
-     * @param string $ClientSoftwareName
-     * @return RequestHeaderType
-     */
-    public function withClientSoftwareName($ClientSoftwareName)
+    public function withClientSoftwareName(string $ClientSoftwareName): self
     {
         $new = clone $this;
         $new->ClientSoftwareName = $ClientSoftwareName;
@@ -72,11 +61,7 @@ final class RequestHeaderType
         return $this->ClientSoftwareVersion;
     }
 
-    /**
-     * @param string $ClientSoftwareVersion
-     * @return RequestHeaderType
-     */
-    public function withClientSoftwareVersion($ClientSoftwareVersion)
+    public function withClientSoftwareVersion(string $ClientSoftwareVersion): self
     {
         $new = clone $this;
         $new->ClientSoftwareVersion = $ClientSoftwareVersion;

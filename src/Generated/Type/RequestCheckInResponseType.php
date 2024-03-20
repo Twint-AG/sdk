@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class RequestCheckInResponseType implements ResultInterface
 {
     /**
@@ -33,11 +31,7 @@ final class RequestCheckInResponseType implements ResultInterface
         return $this->CheckInNotification;
     }
 
-    /**
-     * @param CheckInNotificationType $CheckInNotification
-     * @return RequestCheckInResponseType
-     */
-    public function withCheckInNotification($CheckInNotification)
+    public function withCheckInNotification(CheckInNotificationType $CheckInNotification): self
     {
         $new = clone $this;
         $new->CheckInNotification = $CheckInNotification;
@@ -53,11 +47,7 @@ final class RequestCheckInResponseType implements ResultInterface
         return $this->Token;
     }
 
-    /**
-     * @param int $Token
-     * @return RequestCheckInResponseType
-     */
-    public function withToken($Token)
+    public function withToken(int $Token): self
     {
         $new = clone $this;
         $new->Token = $Token;
@@ -73,11 +63,7 @@ final class RequestCheckInResponseType implements ResultInterface
         return $this->QRCode;
     }
 
-    /**
-     * @param string $QRCode
-     * @return RequestCheckInResponseType
-     */
-    public function withQRCode($QRCode)
+    public function withQRCode(string $QRCode): self
     {
         $new = clone $this;
         $new->QRCode = $QRCode;

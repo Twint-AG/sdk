@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class ConfirmOrderRequestType implements RequestInterface
 {
     /**
@@ -44,13 +42,8 @@ final class ConfirmOrderRequestType implements RequestInterface
      * @param CurrencyAmountType $RequestedAmount
      * @param bool $PartialConfirmation
      */
-    public function __construct(
-        $MerchantInformation,
-        $OrderUuid,
-        $MerchantTransactionReference,
-        $RequestedAmount,
-        $PartialConfirmation
-    ) {
+    public function __construct($MerchantInformation, $OrderUuid, $MerchantTransactionReference, $RequestedAmount, $PartialConfirmation)
+    {
         $this->MerchantInformation = $MerchantInformation;
         $this->OrderUuid = $OrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;
@@ -66,11 +59,7 @@ final class ConfirmOrderRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return ConfirmOrderRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -86,11 +75,7 @@ final class ConfirmOrderRequestType implements RequestInterface
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return ConfirmOrderRequestType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -106,11 +91,7 @@ final class ConfirmOrderRequestType implements RequestInterface
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return ConfirmOrderRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -126,11 +107,7 @@ final class ConfirmOrderRequestType implements RequestInterface
         return $this->RequestedAmount;
     }
 
-    /**
-     * @param CurrencyAmountType $RequestedAmount
-     * @return ConfirmOrderRequestType
-     */
-    public function withRequestedAmount($RequestedAmount)
+    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): self
     {
         $new = clone $this;
         $new->RequestedAmount = $RequestedAmount;
@@ -146,11 +123,7 @@ final class ConfirmOrderRequestType implements RequestInterface
         return $this->PartialConfirmation;
     }
 
-    /**
-     * @param bool $PartialConfirmation
-     * @return ConfirmOrderRequestType
-     */
-    public function withPartialConfirmation($PartialConfirmation)
+    public function withPartialConfirmation(bool $PartialConfirmation): self
     {
         $new = clone $this;
         $new->PartialConfirmation = $PartialConfirmation;

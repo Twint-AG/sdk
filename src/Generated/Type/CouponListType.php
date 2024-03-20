@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class CouponListType
 {
     /**
@@ -27,11 +24,7 @@ final class CouponListType
         return $this->ProcessedCoupon;
     }
 
-    /**
-     * @param CouponType $ProcessedCoupon
-     * @return CouponListType
-     */
-    public function withProcessedCoupon($ProcessedCoupon)
+    public function withProcessedCoupon(CouponType $ProcessedCoupon): self
     {
         $new = clone $this;
         $new->ProcessedCoupon = $ProcessedCoupon;
@@ -47,11 +40,7 @@ final class CouponListType
         return $this->RejectedCoupon;
     }
 
-    /**
-     * @param RejectedCouponType $RejectedCoupon
-     * @return CouponListType
-     */
-    public function withRejectedCoupon($RejectedCoupon)
+    public function withRejectedCoupon(RejectedCouponType $RejectedCoupon): self
     {
         $new = clone $this;
         $new->RejectedCoupon = $RejectedCoupon;

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class StartOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
@@ -53,11 +51,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->Token;
     }
 
-    /**
-     * @param TWINTTokenType $Token
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withToken($Token)
+    public function withToken(TWINTTokenType $Token): self
     {
         $new = clone $this;
         $new->Token = $Token;
@@ -73,11 +67,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->TwintURL;
     }
 
-    /**
-     * @param string $TwintURL
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withTwintURL($TwintURL)
+    public function withTwintURL(string $TwintURL): self
     {
         $new = clone $this;
         $new->TwintURL = $TwintURL;
@@ -93,11 +83,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -113,11 +99,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -133,11 +115,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->PaymentOrderStatus;
     }
 
-    /**
-     * @param OrderStatusType $PaymentOrderStatus
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrderStatus($PaymentOrderStatus)
+    public function withPaymentOrderStatus(OrderStatusType $PaymentOrderStatus): self
     {
         $new = clone $this;
         $new->PaymentOrderStatus = $PaymentOrderStatus;
@@ -153,11 +131,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->RegistrationUuid;
     }
 
-    /**
-     * @param string $RegistrationUuid
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationUuid($RegistrationUuid)
+    public function withRegistrationUuid(string $RegistrationUuid): self
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -173,11 +147,7 @@ final class StartOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->RegistrationStatus;
     }
 
-    /**
-     * @param string $RegistrationStatus
-     * @return StartOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationStatus($RegistrationStatus)
+    public function withRegistrationStatus(string $RegistrationStatus): self
     {
         $new = clone $this;
         $new->RegistrationStatus = $RegistrationStatus;

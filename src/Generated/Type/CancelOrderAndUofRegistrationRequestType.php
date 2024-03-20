@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class CancelOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
@@ -47,11 +45,7 @@ final class CancelOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return CancelOrderAndUofRegistrationRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -67,11 +61,7 @@ final class CancelOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return CancelOrderAndUofRegistrationRequestType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -87,11 +77,7 @@ final class CancelOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return CancelOrderAndUofRegistrationRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;

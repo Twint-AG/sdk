@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class MonitorCheckInRequestType implements RequestInterface
 {
     /**
@@ -54,11 +52,7 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return MonitorCheckInRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -74,11 +68,7 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return MonitorCheckInRequestType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -94,11 +84,7 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $this->PairingUuid;
     }
 
-    /**
-     * @param string $PairingUuid
-     * @return MonitorCheckInRequestType
-     */
-    public function withPairingUuid($PairingUuid)
+    public function withPairingUuid(string $PairingUuid): self
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -114,11 +100,7 @@ final class MonitorCheckInRequestType implements RequestInterface
         return $this->WaitForResponse;
     }
 
-    /**
-     * @param bool $WaitForResponse
-     * @return MonitorCheckInRequestType
-     */
-    public function withWaitForResponse($WaitForResponse)
+    public function withWaitForResponse(bool $WaitForResponse): self
     {
         $new = clone $this;
         $new->WaitForResponse = $WaitForResponse;

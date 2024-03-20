@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class StartOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
@@ -50,14 +48,8 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
      * @param string $PaymentLayerRendering
      * @param string $OrderUpdateNotificationURL
      */
-    public function __construct(
-        $MerchantInformation,
-        $RegistrationRequest,
-        $Order,
-        $Coupons,
-        $PaymentLayerRendering,
-        $OrderUpdateNotificationURL
-    ) {
+    public function __construct($MerchantInformation, $RegistrationRequest, $Order, $Coupons, $PaymentLayerRendering, $OrderUpdateNotificationURL)
+    {
         $this->MerchantInformation = $MerchantInformation;
         $this->RegistrationRequest = $RegistrationRequest;
         $this->Order = $Order;
@@ -74,11 +66,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -94,11 +82,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->RegistrationRequest;
     }
 
-    /**
-     * @param RegistrationRequestType $RegistrationRequest
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withRegistrationRequest($RegistrationRequest)
+    public function withRegistrationRequest(RegistrationRequestType $RegistrationRequest): self
     {
         $new = clone $this;
         $new->RegistrationRequest = $RegistrationRequest;
@@ -114,11 +98,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->Order;
     }
 
-    /**
-     * @param OrderRequestType $Order
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withOrder($Order)
+    public function withOrder(OrderRequestType $Order): self
     {
         $new = clone $this;
         $new->Order = $Order;
@@ -134,11 +114,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->Coupons;
     }
 
-    /**
-     * @param CouponListType $Coupons
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withCoupons($Coupons)
+    public function withCoupons(CouponListType $Coupons): self
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
@@ -154,11 +130,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->PaymentLayerRendering;
     }
 
-    /**
-     * @param string $PaymentLayerRendering
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withPaymentLayerRendering($PaymentLayerRendering)
+    public function withPaymentLayerRendering(string $PaymentLayerRendering): self
     {
         $new = clone $this;
         $new->PaymentLayerRendering = $PaymentLayerRendering;
@@ -174,11 +146,7 @@ final class StartOrderAndUofRegistrationRequestType implements RequestInterface
         return $this->OrderUpdateNotificationURL;
     }
 
-    /**
-     * @param string $OrderUpdateNotificationURL
-     * @return StartOrderAndUofRegistrationRequestType
-     */
-    public function withOrderUpdateNotificationURL($OrderUpdateNotificationURL)
+    public function withOrderUpdateNotificationURL(string $OrderUpdateNotificationURL): self
     {
         $new = clone $this;
         $new->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class CustomerInformationType
 {
     /**
@@ -37,11 +34,7 @@ final class CustomerInformationType
         return $this->Loyalty;
     }
 
-    /**
-     * @param LoyaltyType $Loyalty
-     * @return CustomerInformationType
-     */
-    public function withLoyalty($Loyalty)
+    public function withLoyalty(LoyaltyType $Loyalty): self
     {
         $new = clone $this;
         $new->Loyalty = $Loyalty;
@@ -57,11 +50,7 @@ final class CustomerInformationType
         return $this->Coupon;
     }
 
-    /**
-     * @param CouponType $Coupon
-     * @return CustomerInformationType
-     */
-    public function withCoupon($Coupon)
+    public function withCoupon(CouponType $Coupon): self
     {
         $new = clone $this;
         $new->Coupon = $Coupon;
@@ -77,11 +66,7 @@ final class CustomerInformationType
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return CustomerInformationType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -97,11 +82,7 @@ final class CustomerInformationType
         return $this->Addendum;
     }
 
-    /**
-     * @param KeyValueType $Addendum
-     * @return CustomerInformationType
-     */
-    public function withAddendum($Addendum)
+    public function withAddendum(KeyValueType $Addendum): self
     {
         $new = clone $this;
         $new->Addendum = $Addendum;

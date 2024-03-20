@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class ErrorCode
 {
     /**
@@ -37,11 +34,7 @@ final class ErrorCode
         return $this->Code;
     }
 
-    /**
-     * @param string $Code
-     * @return ErrorCode
-     */
-    public function withCode($Code)
+    public function withCode(string $Code): self
     {
         $new = clone $this;
         $new->Code = $Code;
@@ -57,11 +50,7 @@ final class ErrorCode
         return $this->Status;
     }
 
-    /**
-     * @param string $Status
-     * @return ErrorCode
-     */
-    public function withStatus($Status)
+    public function withStatus(string $Status): self
     {
         $new = clone $this;
         $new->Status = $Status;
@@ -77,11 +66,7 @@ final class ErrorCode
         return $this->DetailCode;
     }
 
-    /**
-     * @param string $DetailCode
-     * @return ErrorCode
-     */
-    public function withDetailCode($DetailCode)
+    public function withDetailCode(string $DetailCode): self
     {
         $new = clone $this;
         $new->DetailCode = $DetailCode;
@@ -97,11 +82,7 @@ final class ErrorCode
         return $this->DetailDescription;
     }
 
-    /**
-     * @param string $DetailDescription
-     * @return ErrorCode
-     */
-    public function withDetailDescription($DetailDescription)
+    public function withDetailDescription(string $DetailDescription): self
     {
         $new = clone $this;
         $new->DetailDescription = $DetailDescription;

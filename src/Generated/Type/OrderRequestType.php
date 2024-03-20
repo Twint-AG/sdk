@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class OrderRequestType
 {
     /**
@@ -77,11 +74,7 @@ final class OrderRequestType
         return $this->PostingType;
     }
 
-    /**
-     * @param string $PostingType
-     * @return OrderRequestType
-     */
-    public function withPostingType($PostingType)
+    public function withPostingType(string $PostingType): self
     {
         $new = clone $this;
         $new->PostingType = $PostingType;
@@ -97,11 +90,7 @@ final class OrderRequestType
         return $this->RequestedAmount;
     }
 
-    /**
-     * @param CurrencyAmountType $RequestedAmount
-     * @return OrderRequestType
-     */
-    public function withRequestedAmount($RequestedAmount)
+    public function withRequestedAmount(CurrencyAmountType $RequestedAmount): self
     {
         $new = clone $this;
         $new->RequestedAmount = $RequestedAmount;
@@ -117,11 +106,7 @@ final class OrderRequestType
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return OrderRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -137,11 +122,7 @@ final class OrderRequestType
         return $this->CustomerBenefit;
     }
 
-    /**
-     * @param CurrencyAmountType $CustomerBenefit
-     * @return OrderRequestType
-     */
-    public function withCustomerBenefit($CustomerBenefit)
+    public function withCustomerBenefit(CurrencyAmountType $CustomerBenefit): self
     {
         $new = clone $this;
         $new->CustomerBenefit = $CustomerBenefit;
@@ -157,11 +138,7 @@ final class OrderRequestType
         return $this->EReceiptUrl;
     }
 
-    /**
-     * @param string $EReceiptUrl
-     * @return OrderRequestType
-     */
-    public function withEReceiptUrl($EReceiptUrl)
+    public function withEReceiptUrl(string $EReceiptUrl): self
     {
         $new = clone $this;
         $new->EReceiptUrl = $EReceiptUrl;
@@ -177,11 +154,7 @@ final class OrderRequestType
         return $this->Link;
     }
 
-    /**
-     * @param OrderLinkType $Link
-     * @return OrderRequestType
-     */
-    public function withLink($Link)
+    public function withLink(OrderLinkType $Link): self
     {
         $new = clone $this;
         $new->Link = $Link;
@@ -197,11 +170,7 @@ final class OrderRequestType
         return $this->OrderDetailsUrl;
     }
 
-    /**
-     * @param string $OrderDetailsUrl
-     * @return OrderRequestType
-     */
-    public function withOrderDetailsUrl($OrderDetailsUrl)
+    public function withOrderDetailsUrl(string $OrderDetailsUrl): self
     {
         $new = clone $this;
         $new->OrderDetailsUrl = $OrderDetailsUrl;
@@ -217,11 +186,7 @@ final class OrderRequestType
         return $this->TimeBasedData;
     }
 
-    /**
-     * @param TimeBasedDataType $TimeBasedData
-     * @return OrderRequestType
-     */
-    public function withTimeBasedData($TimeBasedData)
+    public function withTimeBasedData(TimeBasedDataType $TimeBasedData): self
     {
         $new = clone $this;
         $new->TimeBasedData = $TimeBasedData;
@@ -237,11 +202,7 @@ final class OrderRequestType
         return $this->PaymentAuthorizationType;
     }
 
-    /**
-     * @param string $PaymentAuthorizationType
-     * @return OrderRequestType
-     */
-    public function withPaymentAuthorizationType($PaymentAuthorizationType)
+    public function withPaymentAuthorizationType(string $PaymentAuthorizationType): self
     {
         $new = clone $this;
         $new->PaymentAuthorizationType = $PaymentAuthorizationType;
@@ -257,11 +218,7 @@ final class OrderRequestType
         return $this->ConfirmationButtonId;
     }
 
-    /**
-     * @param string $ConfirmationButtonId
-     * @return OrderRequestType
-     */
-    public function withConfirmationButtonId($ConfirmationButtonId)
+    public function withConfirmationButtonId(string $ConfirmationButtonId): self
     {
         $new = clone $this;
         $new->ConfirmationButtonId = $ConfirmationButtonId;
@@ -277,11 +234,7 @@ final class OrderRequestType
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     * @return OrderRequestType
-     */
-    public function withType($type)
+    public function withType(string $type): self
     {
         $new = clone $this;
         $new->type = $type;
@@ -297,11 +250,7 @@ final class OrderRequestType
         return $this->confirmationNeeded;
     }
 
-    /**
-     * @param bool $confirmationNeeded
-     * @return OrderRequestType
-     */
-    public function withConfirmationNeeded($confirmationNeeded)
+    public function withConfirmationNeeded(bool $confirmationNeeded): self
     {
         $new = clone $this;
         $new->confirmationNeeded = $confirmationNeeded;

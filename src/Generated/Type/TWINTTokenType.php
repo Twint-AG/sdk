@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class TWINTTokenType
 {
     /**
@@ -32,11 +29,7 @@ final class TWINTTokenType
         return $this->DisplayToken;
     }
 
-    /**
-     * @param string $DisplayToken
-     * @return TWINTTokenType
-     */
-    public function withDisplayToken($DisplayToken)
+    public function withDisplayToken(string $DisplayToken): self
     {
         $new = clone $this;
         $new->DisplayToken = $DisplayToken;
@@ -52,11 +45,7 @@ final class TWINTTokenType
         return $this->APIToken;
     }
 
-    /**
-     * @param string $APIToken
-     * @return TWINTTokenType
-     */
-    public function withAPIToken($APIToken)
+    public function withAPIToken(string $APIToken): self
     {
         $new = clone $this;
         $new->APIToken = $APIToken;
@@ -72,11 +61,7 @@ final class TWINTTokenType
         return $this->QRCodeImage;
     }
 
-    /**
-     * @param string $QRCodeImage
-     * @return TWINTTokenType
-     */
-    public function withQRCodeImage($QRCodeImage)
+    public function withQRCodeImage(string $QRCodeImage): self
     {
         $new = clone $this;
         $new->QRCodeImage = $QRCodeImage;

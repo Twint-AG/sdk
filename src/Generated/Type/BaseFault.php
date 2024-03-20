@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class BaseFault
 {
     /**
@@ -22,11 +19,7 @@ final class BaseFault
         return $this->ErrorCode;
     }
 
-    /**
-     * @param ErrorCode $ErrorCode
-     * @return BaseFault
-     */
-    public function withErrorCode($ErrorCode)
+    public function withErrorCode(ErrorCode $ErrorCode): self
     {
         $new = clone $this;
         $new->ErrorCode = $ErrorCode;

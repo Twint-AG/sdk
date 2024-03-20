@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class IsUofConnectionActiveRequestType implements RequestInterface
 {
     /**
@@ -47,11 +45,7 @@ final class IsUofConnectionActiveRequestType implements RequestInterface
         return $this->MerchantUuid;
     }
 
-    /**
-     * @param string $MerchantUuid
-     * @return IsUofConnectionActiveRequestType
-     */
-    public function withMerchantUuid($MerchantUuid)
+    public function withMerchantUuid(string $MerchantUuid): self
     {
         $new = clone $this;
         $new->MerchantUuid = $MerchantUuid;
@@ -67,11 +61,7 @@ final class IsUofConnectionActiveRequestType implements RequestInterface
         return $this->MerchantAliasId;
     }
 
-    /**
-     * @param string $MerchantAliasId
-     * @return IsUofConnectionActiveRequestType
-     */
-    public function withMerchantAliasId($MerchantAliasId)
+    public function withMerchantAliasId(string $MerchantAliasId): self
     {
         $new = clone $this;
         $new->MerchantAliasId = $MerchantAliasId;
@@ -87,11 +77,7 @@ final class IsUofConnectionActiveRequestType implements RequestInterface
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return IsUofConnectionActiveRequestType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;

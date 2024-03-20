@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class IsUofConnectionActiveResponseType implements ResultInterface
 {
     /**
@@ -23,11 +21,7 @@ final class IsUofConnectionActiveResponseType implements ResultInterface
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     * @return IsUofConnectionActiveResponseType
-     */
-    public function withActive($active)
+    public function withActive(bool $active): self
     {
         $new = clone $this;
         $new->active = $active;

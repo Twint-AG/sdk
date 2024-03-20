@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
@@ -48,11 +46,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -68,11 +62,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -88,11 +78,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -108,11 +94,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PaymentOrder;
     }
 
-    /**
-     * @param OrderType $PaymentOrder
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrder($PaymentOrder)
+    public function withPaymentOrder(OrderType $PaymentOrder): self
     {
         $new = clone $this;
         $new->PaymentOrder = $PaymentOrder;
@@ -128,11 +110,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->RegistrationUuid;
     }
 
-    /**
-     * @param string $RegistrationUuid
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationUuid($RegistrationUuid)
+    public function withRegistrationUuid(string $RegistrationUuid): self
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -148,11 +126,7 @@ final class ConfirmOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->RegistrationOrder;
     }
 
-    /**
-     * @param RegistrationType $RegistrationOrder
-     * @return ConfirmOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationOrder($RegistrationOrder)
+    public function withRegistrationOrder(RegistrationType $RegistrationOrder): self
     {
         $new = clone $this;
         $new->RegistrationOrder = $RegistrationOrder;

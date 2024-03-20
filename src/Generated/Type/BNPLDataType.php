@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class BNPLDataType
 {
     /**
@@ -22,11 +19,7 @@ final class BNPLDataType
         return $this->ProductCode;
     }
 
-    /**
-     * @param string $ProductCode
-     * @return BNPLDataType
-     */
-    public function withProductCode($ProductCode)
+    public function withProductCode(string $ProductCode): self
     {
         $new = clone $this;
         $new->ProductCode = $ProductCode;

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use DateTimeInterface;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class RenewCertificateResponseType implements ResultInterface
 {
     /**
@@ -29,11 +27,7 @@ final class RenewCertificateResponseType implements ResultInterface
         return $this->MerchantCertificate;
     }
 
-    /**
-     * @param string $MerchantCertificate
-     * @return RenewCertificateResponseType
-     */
-    public function withMerchantCertificate($MerchantCertificate)
+    public function withMerchantCertificate(string $MerchantCertificate): self
     {
         $new = clone $this;
         $new->MerchantCertificate = $MerchantCertificate;
@@ -49,11 +43,7 @@ final class RenewCertificateResponseType implements ResultInterface
         return $this->ExpirationDate;
     }
 
-    /**
-     * @param DateTimeInterface $ExpirationDate
-     * @return RenewCertificateResponseType
-     */
-    public function withExpirationDate($ExpirationDate)
+    public function withExpirationDate(DateTimeInterface $ExpirationDate): self
     {
         $new = clone $this;
         $new->ExpirationDate = $ExpirationDate;

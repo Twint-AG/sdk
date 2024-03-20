@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class MonitorCheckInResponseType implements ResultInterface
 {
     /**
@@ -23,11 +21,7 @@ final class MonitorCheckInResponseType implements ResultInterface
         return $this->CheckInNotification;
     }
 
-    /**
-     * @param CheckInNotificationType $CheckInNotification
-     * @return MonitorCheckInResponseType
-     */
-    public function withCheckInNotification($CheckInNotification)
+    public function withCheckInNotification(CheckInNotificationType $CheckInNotification): self
     {
         $new = clone $this;
         $new->CheckInNotification = $CheckInNotification;

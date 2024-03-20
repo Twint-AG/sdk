@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class StartOrderRequestType implements RequestInterface
 {
     /**
@@ -80,19 +78,8 @@ final class StartOrderRequestType implements RequestInterface
      * @param string $PaymentLayerRendering
      * @param string $OrderUpdateNotificationURL
      */
-    public function __construct(
-        $MerchantInformation,
-        $Order,
-        $Coupons,
-        $OfflineAuthorization,
-        $CustomerRelationUuid,
-        $PairingUuid,
-        $UnidentifiedCustomer,
-        $ExpressMerchantAuthorization,
-        $QRCodeRendering,
-        $PaymentLayerRendering,
-        $OrderUpdateNotificationURL
-    ) {
+    public function __construct($MerchantInformation, $Order, $Coupons, $OfflineAuthorization, $CustomerRelationUuid, $PairingUuid, $UnidentifiedCustomer, $ExpressMerchantAuthorization, $QRCodeRendering, $PaymentLayerRendering, $OrderUpdateNotificationURL)
+    {
         $this->MerchantInformation = $MerchantInformation;
         $this->Order = $Order;
         $this->Coupons = $Coupons;
@@ -114,11 +101,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return StartOrderRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -134,11 +117,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->Order;
     }
 
-    /**
-     * @param OrderRequestType $Order
-     * @return StartOrderRequestType
-     */
-    public function withOrder($Order)
+    public function withOrder(OrderRequestType $Order): self
     {
         $new = clone $this;
         $new->Order = $Order;
@@ -154,11 +133,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->Coupons;
     }
 
-    /**
-     * @param CouponListType $Coupons
-     * @return StartOrderRequestType
-     */
-    public function withCoupons($Coupons)
+    public function withCoupons(CouponListType $Coupons): self
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
@@ -174,11 +149,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->OfflineAuthorization;
     }
 
-    /**
-     * @param string $OfflineAuthorization
-     * @return StartOrderRequestType
-     */
-    public function withOfflineAuthorization($OfflineAuthorization)
+    public function withOfflineAuthorization(string $OfflineAuthorization): self
     {
         $new = clone $this;
         $new->OfflineAuthorization = $OfflineAuthorization;
@@ -194,11 +165,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return StartOrderRequestType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -214,11 +181,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->PairingUuid;
     }
 
-    /**
-     * @param string $PairingUuid
-     * @return StartOrderRequestType
-     */
-    public function withPairingUuid($PairingUuid)
+    public function withPairingUuid(string $PairingUuid): self
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -234,11 +197,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->UnidentifiedCustomer;
     }
 
-    /**
-     * @param bool $UnidentifiedCustomer
-     * @return StartOrderRequestType
-     */
-    public function withUnidentifiedCustomer($UnidentifiedCustomer)
+    public function withUnidentifiedCustomer(bool $UnidentifiedCustomer): self
     {
         $new = clone $this;
         $new->UnidentifiedCustomer = $UnidentifiedCustomer;
@@ -254,12 +213,9 @@ final class StartOrderRequestType implements RequestInterface
         return $this->ExpressMerchantAuthorization;
     }
 
-    /**
-     * @param ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
-     * @return StartOrderRequestType
-     */
-    public function withExpressMerchantAuthorization($ExpressMerchantAuthorization)
-    {
+    public function withExpressMerchantAuthorization(
+        ExpressMerchantAuthorizationType $ExpressMerchantAuthorization
+    ): self {
         $new = clone $this;
         $new->ExpressMerchantAuthorization = $ExpressMerchantAuthorization;
 
@@ -274,11 +230,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->QRCodeRendering;
     }
 
-    /**
-     * @param bool $QRCodeRendering
-     * @return StartOrderRequestType
-     */
-    public function withQRCodeRendering($QRCodeRendering)
+    public function withQRCodeRendering(bool $QRCodeRendering): self
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;
@@ -294,11 +246,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->PaymentLayerRendering;
     }
 
-    /**
-     * @param string $PaymentLayerRendering
-     * @return StartOrderRequestType
-     */
-    public function withPaymentLayerRendering($PaymentLayerRendering)
+    public function withPaymentLayerRendering(string $PaymentLayerRendering): self
     {
         $new = clone $this;
         $new->PaymentLayerRendering = $PaymentLayerRendering;
@@ -314,11 +262,7 @@ final class StartOrderRequestType implements RequestInterface
         return $this->OrderUpdateNotificationURL;
     }
 
-    /**
-     * @param string $OrderUpdateNotificationURL
-     * @return StartOrderRequestType
-     */
-    public function withOrderUpdateNotificationURL($OrderUpdateNotificationURL)
+    public function withOrderUpdateNotificationURL(string $OrderUpdateNotificationURL): self
     {
         $new = clone $this;
         $new->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;

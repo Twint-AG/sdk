@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class OrderStatusType
 {
     /**
@@ -27,11 +24,7 @@ final class OrderStatusType
         return $this->Status;
     }
 
-    /**
-     * @param CodeValueType $Status
-     * @return OrderStatusType
-     */
-    public function withStatus($Status)
+    public function withStatus(CodeValueType $Status): self
     {
         $new = clone $this;
         $new->Status = $Status;
@@ -47,11 +40,7 @@ final class OrderStatusType
         return $this->Reason;
     }
 
-    /**
-     * @param CodeValueType $Reason
-     * @return OrderStatusType
-     */
-    public function withReason($Reason)
+    public function withReason(CodeValueType $Reason): self
     {
         $new = clone $this;
         $new->Reason = $Reason;

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use DateTimeInterface;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class FindOrderRequestType implements RequestInterface
 {
     /**
@@ -57,15 +55,8 @@ final class FindOrderRequestType implements RequestInterface
      * @param string $OrderUuid
      * @param string $MerchantTransactionReference
      */
-    public function __construct(
-        $MerchantUuid,
-        $MerchantAliasId,
-        $CashRegisterId,
-        $SearchStartDate,
-        $SearchEndDate,
-        $OrderUuid,
-        $MerchantTransactionReference
-    ) {
+    public function __construct($MerchantUuid, $MerchantAliasId, $CashRegisterId, $SearchStartDate, $SearchEndDate, $OrderUuid, $MerchantTransactionReference)
+    {
         $this->MerchantUuid = $MerchantUuid;
         $this->MerchantAliasId = $MerchantAliasId;
         $this->CashRegisterId = $CashRegisterId;
@@ -83,11 +74,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->MerchantUuid;
     }
 
-    /**
-     * @param string $MerchantUuid
-     * @return FindOrderRequestType
-     */
-    public function withMerchantUuid($MerchantUuid)
+    public function withMerchantUuid(string $MerchantUuid): self
     {
         $new = clone $this;
         $new->MerchantUuid = $MerchantUuid;
@@ -103,11 +90,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->MerchantAliasId;
     }
 
-    /**
-     * @param string $MerchantAliasId
-     * @return FindOrderRequestType
-     */
-    public function withMerchantAliasId($MerchantAliasId)
+    public function withMerchantAliasId(string $MerchantAliasId): self
     {
         $new = clone $this;
         $new->MerchantAliasId = $MerchantAliasId;
@@ -123,11 +106,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->CashRegisterId;
     }
 
-    /**
-     * @param string $CashRegisterId
-     * @return FindOrderRequestType
-     */
-    public function withCashRegisterId($CashRegisterId)
+    public function withCashRegisterId(string $CashRegisterId): self
     {
         $new = clone $this;
         $new->CashRegisterId = $CashRegisterId;
@@ -143,11 +122,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->SearchStartDate;
     }
 
-    /**
-     * @param DateTimeInterface $SearchStartDate
-     * @return FindOrderRequestType
-     */
-    public function withSearchStartDate($SearchStartDate)
+    public function withSearchStartDate(DateTimeInterface $SearchStartDate): self
     {
         $new = clone $this;
         $new->SearchStartDate = $SearchStartDate;
@@ -163,11 +138,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->SearchEndDate;
     }
 
-    /**
-     * @param DateTimeInterface $SearchEndDate
-     * @return FindOrderRequestType
-     */
-    public function withSearchEndDate($SearchEndDate)
+    public function withSearchEndDate(DateTimeInterface $SearchEndDate): self
     {
         $new = clone $this;
         $new->SearchEndDate = $SearchEndDate;
@@ -183,11 +154,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return FindOrderRequestType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -203,11 +170,7 @@ final class FindOrderRequestType implements RequestInterface
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return FindOrderRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;

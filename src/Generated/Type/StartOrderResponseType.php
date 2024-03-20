@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class StartOrderResponseType implements ResultInterface
 {
     /**
@@ -53,11 +51,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return StartOrderResponseType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -73,11 +67,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->OrderStatus;
     }
 
-    /**
-     * @param OrderStatusType $OrderStatus
-     * @return StartOrderResponseType
-     */
-    public function withOrderStatus($OrderStatus)
+    public function withOrderStatus(OrderStatusType $OrderStatus): self
     {
         $new = clone $this;
         $new->OrderStatus = $OrderStatus;
@@ -93,11 +83,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->Token;
     }
 
-    /**
-     * @param int $Token
-     * @return StartOrderResponseType
-     */
-    public function withToken($Token)
+    public function withToken(int $Token): self
     {
         $new = clone $this;
         $new->Token = $Token;
@@ -113,11 +99,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->QRCode;
     }
 
-    /**
-     * @param string $QRCode
-     * @return StartOrderResponseType
-     */
-    public function withQRCode($QRCode)
+    public function withQRCode(string $QRCode): self
     {
         $new = clone $this;
         $new->QRCode = $QRCode;
@@ -133,11 +115,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->TwintURL;
     }
 
-    /**
-     * @param string $TwintURL
-     * @return StartOrderResponseType
-     */
-    public function withTwintURL($TwintURL)
+    public function withTwintURL(string $TwintURL): self
     {
         $new = clone $this;
         $new->TwintURL = $TwintURL;
@@ -153,11 +131,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->CustomerInformation;
     }
 
-    /**
-     * @param CustomerInformationType $CustomerInformation
-     * @return StartOrderResponseType
-     */
-    public function withCustomerInformation($CustomerInformation)
+    public function withCustomerInformation(CustomerInformationType $CustomerInformation): self
     {
         $new = clone $this;
         $new->CustomerInformation = $CustomerInformation;
@@ -173,11 +147,7 @@ final class StartOrderResponseType implements ResultInterface
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return StartOrderResponseType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;

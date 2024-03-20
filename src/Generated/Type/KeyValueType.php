@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class KeyValueType
 {
     /**
@@ -27,11 +24,7 @@ final class KeyValueType
         return $this->_;
     }
 
-    /**
-     * @param string $_
-     * @return KeyValueType
-     */
-    public function with_($_)
+    public function with_(string $_): self
     {
         $new = clone $this;
         $new->_ = $_;
@@ -47,11 +40,7 @@ final class KeyValueType
         return $this->key;
     }
 
-    /**
-     * @param string $key
-     * @return KeyValueType
-     */
-    public function withKey($key)
+    public function withKey(string $key): self
     {
         $new = clone $this;
         $new->key = $key;

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class RegistrationRequestType
 {
     /**
@@ -37,11 +34,7 @@ final class RegistrationRequestType
         return $this->MerchantCredential;
     }
 
-    /**
-     * @param string $MerchantCredential
-     * @return RegistrationRequestType
-     */
-    public function withMerchantCredential($MerchantCredential)
+    public function withMerchantCredential(string $MerchantCredential): self
     {
         $new = clone $this;
         $new->MerchantCredential = $MerchantCredential;
@@ -57,11 +50,7 @@ final class RegistrationRequestType
         return $this->MerchantRegistrationReference;
     }
 
-    /**
-     * @param string $MerchantRegistrationReference
-     * @return RegistrationRequestType
-     */
-    public function withMerchantRegistrationReference($MerchantRegistrationReference)
+    public function withMerchantRegistrationReference(string $MerchantRegistrationReference): self
     {
         $new = clone $this;
         $new->MerchantRegistrationReference = $MerchantRegistrationReference;
@@ -77,11 +66,7 @@ final class RegistrationRequestType
         return $this->AliasLifetime;
     }
 
-    /**
-     * @param string $AliasLifetime
-     * @return RegistrationRequestType
-     */
-    public function withAliasLifetime($AliasLifetime)
+    public function withAliasLifetime(string $AliasLifetime): self
     {
         $new = clone $this;
         $new->AliasLifetime = $AliasLifetime;
@@ -97,11 +82,7 @@ final class RegistrationRequestType
         return $this->EnforceRegistration;
     }
 
-    /**
-     * @param bool $EnforceRegistration
-     * @return RegistrationRequestType
-     */
-    public function withEnforceRegistration($EnforceRegistration)
+    public function withEnforceRegistration(bool $EnforceRegistration): self
     {
         $new = clone $this;
         $new->EnforceRegistration = $EnforceRegistration;

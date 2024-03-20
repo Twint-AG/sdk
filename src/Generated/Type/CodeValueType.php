@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class CodeValueType
 {
     /**
@@ -27,11 +24,7 @@ final class CodeValueType
         return $this->_;
     }
 
-    /**
-     * @param string $_
-     * @return CodeValueType
-     */
-    public function with_($_)
+    public function with_(string $_): self
     {
         $new = clone $this;
         $new->_ = $_;
@@ -47,11 +40,7 @@ final class CodeValueType
         return $this->code;
     }
 
-    /**
-     * @param int $code
-     * @return CodeValueType
-     */
-    public function withCode($code)
+    public function withCode(int $code): self
     {
         $new = clone $this;
         $new->code = $code;

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class RejectedCouponType
 {
     /**
@@ -27,11 +24,7 @@ final class RejectedCouponType
         return $this->CouponId;
     }
 
-    /**
-     * @param string $CouponId
-     * @return RejectedCouponType
-     */
-    public function withCouponId($CouponId)
+    public function withCouponId(string $CouponId): self
     {
         $new = clone $this;
         $new->CouponId = $CouponId;
@@ -47,11 +40,7 @@ final class RejectedCouponType
         return $this->RejectionReason;
     }
 
-    /**
-     * @param CouponRejectionReason $RejectionReason
-     * @return RejectedCouponType
-     */
-    public function withRejectionReason($RejectionReason)
+    public function withRejectionReason(CouponRejectionReason $RejectionReason): self
     {
         $new = clone $this;
         $new->RejectionReason = $RejectionReason;

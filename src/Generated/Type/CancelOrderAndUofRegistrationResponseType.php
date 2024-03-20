@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
@@ -38,11 +36,7 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return CancelOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -58,11 +52,7 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->PaymentOrder;
     }
 
-    /**
-     * @param OrderType $PaymentOrder
-     * @return CancelOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrder($PaymentOrder)
+    public function withPaymentOrder(OrderType $PaymentOrder): self
     {
         $new = clone $this;
         $new->PaymentOrder = $PaymentOrder;
@@ -78,11 +68,7 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->RegistrationUuid;
     }
 
-    /**
-     * @param string $RegistrationUuid
-     * @return CancelOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationUuid($RegistrationUuid)
+    public function withRegistrationUuid(string $RegistrationUuid): self
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -98,11 +84,7 @@ final class CancelOrderAndUofRegistrationResponseType implements ResultInterface
         return $this->RegistrationOrder;
     }
 
-    /**
-     * @param RegistrationType $RegistrationOrder
-     * @return CancelOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationOrder($RegistrationOrder)
+    public function withRegistrationOrder(RegistrationType $RegistrationOrder): self
     {
         $new = clone $this;
         $new->RegistrationOrder = $RegistrationOrder;

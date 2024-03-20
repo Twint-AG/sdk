@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class RegistrationType
 {
     /**
@@ -32,11 +29,7 @@ final class RegistrationType
         return $this->RegistrationStatus;
     }
 
-    /**
-     * @param string $RegistrationStatus
-     * @return RegistrationType
-     */
-    public function withRegistrationStatus($RegistrationStatus)
+    public function withRegistrationStatus(string $RegistrationStatus): self
     {
         $new = clone $this;
         $new->RegistrationStatus = $RegistrationStatus;
@@ -52,11 +45,7 @@ final class RegistrationType
         return $this->UofCustomerRelationUuid;
     }
 
-    /**
-     * @param string $UofCustomerRelationUuid
-     * @return RegistrationType
-     */
-    public function withUofCustomerRelationUuid($UofCustomerRelationUuid)
+    public function withUofCustomerRelationUuid(string $UofCustomerRelationUuid): self
     {
         $new = clone $this;
         $new->UofCustomerRelationUuid = $UofCustomerRelationUuid;
@@ -72,11 +61,7 @@ final class RegistrationType
         return $this->ConfirmedMerchantCredential;
     }
 
-    /**
-     * @param string $ConfirmedMerchantCredential
-     * @return RegistrationType
-     */
-    public function withConfirmedMerchantCredential($ConfirmedMerchantCredential)
+    public function withConfirmedMerchantCredential(string $ConfirmedMerchantCredential): self
     {
         $new = clone $this;
         $new->ConfirmedMerchantCredential = $ConfirmedMerchantCredential;

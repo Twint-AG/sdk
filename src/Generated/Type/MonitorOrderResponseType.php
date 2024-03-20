@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class MonitorOrderResponseType implements ResultInterface
 {
     /**
@@ -38,11 +36,7 @@ final class MonitorOrderResponseType implements ResultInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return MonitorOrderResponseType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -58,11 +52,7 @@ final class MonitorOrderResponseType implements ResultInterface
         return $this->Order;
     }
 
-    /**
-     * @param OrderType $Order
-     * @return MonitorOrderResponseType
-     */
-    public function withOrder($Order)
+    public function withOrder(OrderType $Order): self
     {
         $new = clone $this;
         $new->Order = $Order;
@@ -78,11 +68,7 @@ final class MonitorOrderResponseType implements ResultInterface
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return MonitorOrderResponseType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -98,11 +84,7 @@ final class MonitorOrderResponseType implements ResultInterface
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return MonitorOrderResponseType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;

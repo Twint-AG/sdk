@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class ExpressMerchantAuthorizationType
 {
     /**
@@ -62,11 +59,7 @@ final class ExpressMerchantAuthorizationType
         return $this->TerminalId;
     }
 
-    /**
-     * @param string $TerminalId
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withTerminalId($TerminalId)
+    public function withTerminalId(string $TerminalId): self
     {
         $new = clone $this;
         $new->TerminalId = $TerminalId;
@@ -82,11 +75,7 @@ final class ExpressMerchantAuthorizationType
         return $this->SequenceCounter;
     }
 
-    /**
-     * @param string $SequenceCounter
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withSequenceCounter($SequenceCounter)
+    public function withSequenceCounter(string $SequenceCounter): self
     {
         $new = clone $this;
         $new->SequenceCounter = $SequenceCounter;
@@ -102,11 +91,7 @@ final class ExpressMerchantAuthorizationType
         return $this->CustomerUuid;
     }
 
-    /**
-     * @param string $CustomerUuid
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withCustomerUuid($CustomerUuid)
+    public function withCustomerUuid(string $CustomerUuid): self
     {
         $new = clone $this;
         $new->CustomerUuid = $CustomerUuid;
@@ -122,11 +107,7 @@ final class ExpressMerchantAuthorizationType
         return $this->Operation;
     }
 
-    /**
-     * @param string $Operation
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withOperation($Operation)
+    public function withOperation(string $Operation): self
     {
         $new = clone $this;
         $new->Operation = $Operation;
@@ -142,11 +123,7 @@ final class ExpressMerchantAuthorizationType
         return $this->ReservationTimestamp;
     }
 
-    /**
-     * @param string $ReservationTimestamp
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withReservationTimestamp($ReservationTimestamp)
+    public function withReservationTimestamp(string $ReservationTimestamp): self
     {
         $new = clone $this;
         $new->ReservationTimestamp = $ReservationTimestamp;
@@ -162,11 +139,7 @@ final class ExpressMerchantAuthorizationType
         return $this->OrderUuid;
     }
 
-    /**
-     * @param string $OrderUuid
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withOrderUuid($OrderUuid)
+    public function withOrderUuid(string $OrderUuid): self
     {
         $new = clone $this;
         $new->OrderUuid = $OrderUuid;
@@ -182,11 +155,7 @@ final class ExpressMerchantAuthorizationType
         return $this->RequestSignature;
     }
 
-    /**
-     * @param string $RequestSignature
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withRequestSignature($RequestSignature)
+    public function withRequestSignature(string $RequestSignature): self
     {
         $new = clone $this;
         $new->RequestSignature = $RequestSignature;
@@ -202,11 +171,7 @@ final class ExpressMerchantAuthorizationType
         return $this->RequestKey;
     }
 
-    /**
-     * @param string $RequestKey
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withRequestKey($RequestKey)
+    public function withRequestKey(string $RequestKey): self
     {
         $new = clone $this;
         $new->RequestKey = $RequestKey;
@@ -222,11 +187,7 @@ final class ExpressMerchantAuthorizationType
         return $this->UofPaymentType;
     }
 
-    /**
-     * @param string $UofPaymentType
-     * @return ExpressMerchantAuthorizationType
-     */
-    public function withUofPaymentType($UofPaymentType)
+    public function withUofPaymentType(string $UofPaymentType): self
     {
         $new = clone $this;
         $new->UofPaymentType = $UofPaymentType;

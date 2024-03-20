@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class MonitorOrderAndUofRegistrationRequestType implements RequestInterface
 {
     /**
@@ -38,12 +36,8 @@ final class MonitorOrderAndUofRegistrationRequestType implements RequestInterfac
      * @param string $MerchantTransactionReference
      * @param bool $WaitForResponse
      */
-    public function __construct(
-        $MerchantInformation,
-        $PaymentOrderUuid,
-        $MerchantTransactionReference,
-        $WaitForResponse
-    ) {
+    public function __construct($MerchantInformation, $PaymentOrderUuid, $MerchantTransactionReference, $WaitForResponse)
+    {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;
@@ -58,11 +52,7 @@ final class MonitorOrderAndUofRegistrationRequestType implements RequestInterfac
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return MonitorOrderAndUofRegistrationRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -78,11 +68,7 @@ final class MonitorOrderAndUofRegistrationRequestType implements RequestInterfac
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return MonitorOrderAndUofRegistrationRequestType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -98,11 +84,7 @@ final class MonitorOrderAndUofRegistrationRequestType implements RequestInterfac
         return $this->MerchantTransactionReference;
     }
 
-    /**
-     * @param string $MerchantTransactionReference
-     * @return MonitorOrderAndUofRegistrationRequestType
-     */
-    public function withMerchantTransactionReference($MerchantTransactionReference)
+    public function withMerchantTransactionReference(string $MerchantTransactionReference): self
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
@@ -118,11 +100,7 @@ final class MonitorOrderAndUofRegistrationRequestType implements RequestInterfac
         return $this->WaitForResponse;
     }
 
-    /**
-     * @param bool $WaitForResponse
-     * @return MonitorOrderAndUofRegistrationRequestType
-     */
-    public function withWaitForResponse($WaitForResponse)
+    public function withWaitForResponse(bool $WaitForResponse): self
     {
         $new = clone $this;
         $new->WaitForResponse = $WaitForResponse;

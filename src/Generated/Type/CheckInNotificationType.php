@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class CheckInNotificationType
 {
     /**
@@ -37,11 +34,7 @@ final class CheckInNotificationType
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return CheckInNotificationType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -57,11 +50,7 @@ final class CheckInNotificationType
         return $this->CustomerInformation;
     }
 
-    /**
-     * @param CustomerInformationType $CustomerInformation
-     * @return CheckInNotificationType
-     */
-    public function withCustomerInformation($CustomerInformation)
+    public function withCustomerInformation(CustomerInformationType $CustomerInformation): self
     {
         $new = clone $this;
         $new->CustomerInformation = $CustomerInformation;
@@ -77,11 +66,7 @@ final class CheckInNotificationType
         return $this->PairingUuid;
     }
 
-    /**
-     * @param string $PairingUuid
-     * @return CheckInNotificationType
-     */
-    public function withPairingUuid($PairingUuid)
+    public function withPairingUuid(string $PairingUuid): self
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -97,11 +82,7 @@ final class CheckInNotificationType
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return CheckInNotificationType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;

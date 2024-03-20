@@ -39,8 +39,6 @@ final class TwintSoapClassMap
             new ClassMap('FindOrderResponseType', Type\FindOrderResponseType::class),
             new ClassMap('EnrollCashRegisterRequestType', Type\EnrollCashRegisterRequestType::class),
             new ClassMap('EnrollCashRegisterResponseType', Type\EnrollCashRegisterResponseType::class),
-            new ClassMap('CheckSystemStatusRequestType', Type\CheckSystemStatusRequestType::class),
-            new ClassMap('CheckSystemStatusResponseType', Type\CheckSystemStatusResponseType::class),
             new ClassMap(
                 'StartOrderAndUofRegistrationRequestType',
                 Type\StartOrderAndUofRegistrationRequestType::class

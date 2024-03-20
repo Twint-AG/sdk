@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class MonitorOrderAndUofRegistrationResponseType implements ResultInterface
 {
     /**
@@ -53,11 +51,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -73,11 +67,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PairingStatus;
     }
 
-    /**
-     * @param string $PairingStatus
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withPairingStatus($PairingStatus)
+    public function withPairingStatus(string $PairingStatus): self
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
@@ -93,11 +83,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PaymentOrderUuid;
     }
 
-    /**
-     * @param string $PaymentOrderUuid
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrderUuid($PaymentOrderUuid)
+    public function withPaymentOrderUuid(string $PaymentOrderUuid): self
     {
         $new = clone $this;
         $new->PaymentOrderUuid = $PaymentOrderUuid;
@@ -113,11 +99,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->PaymentOrder;
     }
 
-    /**
-     * @param OrderType $PaymentOrder
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withPaymentOrder($PaymentOrder)
+    public function withPaymentOrder(OrderType $PaymentOrder): self
     {
         $new = clone $this;
         $new->PaymentOrder = $PaymentOrder;
@@ -133,11 +115,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->RegistrationUuid;
     }
 
-    /**
-     * @param string $RegistrationUuid
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationUuid($RegistrationUuid)
+    public function withRegistrationUuid(string $RegistrationUuid): self
     {
         $new = clone $this;
         $new->RegistrationUuid = $RegistrationUuid;
@@ -153,11 +131,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->RegistrationOrder;
     }
 
-    /**
-     * @param RegistrationType $RegistrationOrder
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withRegistrationOrder($RegistrationOrder)
+    public function withRegistrationOrder(RegistrationType $RegistrationOrder): self
     {
         $new = clone $this;
         $new->RegistrationOrder = $RegistrationOrder;
@@ -173,11 +147,7 @@ final class MonitorOrderAndUofRegistrationResponseType implements ResultInterfac
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return MonitorOrderAndUofRegistrationResponseType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;

@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use DateTimeInterface;
 
-#[AllowDynamicProperties]
 final class TimeBasedDataType
 {
     /**
@@ -33,11 +31,7 @@ final class TimeBasedDataType
         return $this->MessageTypeId;
     }
 
-    /**
-     * @param string $MessageTypeId
-     * @return TimeBasedDataType
-     */
-    public function withMessageTypeId($MessageTypeId)
+    public function withMessageTypeId(string $MessageTypeId): self
     {
         $new = clone $this;
         $new->MessageTypeId = $MessageTypeId;
@@ -53,11 +47,7 @@ final class TimeBasedDataType
         return $this->StartTimestamp;
     }
 
-    /**
-     * @param DateTimeInterface $StartTimestamp
-     * @return TimeBasedDataType
-     */
-    public function withStartTimestamp($StartTimestamp)
+    public function withStartTimestamp(DateTimeInterface $StartTimestamp): self
     {
         $new = clone $this;
         $new->StartTimestamp = $StartTimestamp;
@@ -73,11 +63,7 @@ final class TimeBasedDataType
         return $this->EndTimestamp;
     }
 
-    /**
-     * @param DateTimeInterface $EndTimestamp
-     * @return TimeBasedDataType
-     */
-    public function withEndTimestamp($EndTimestamp)
+    public function withEndTimestamp(DateTimeInterface $EndTimestamp): self
     {
         $new = clone $this;
         $new->EndTimestamp = $EndTimestamp;

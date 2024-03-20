@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class FindOrderResponseType implements ResultInterface
 {
     /**
@@ -23,11 +21,7 @@ final class FindOrderResponseType implements ResultInterface
         return $this->Order;
     }
 
-    /**
-     * @param OrderType $Order
-     * @return FindOrderResponseType
-     */
-    public function withOrder($Order)
+    public function withOrder(OrderType $Order): self
     {
         $new = clone $this;
         $new->Order = $Order;

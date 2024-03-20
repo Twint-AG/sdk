@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\ResultInterface;
 
-#[AllowDynamicProperties]
 final class CancelCheckInResponseType implements ResultInterface
 {
     /**
@@ -23,11 +21,7 @@ final class CancelCheckInResponseType implements ResultInterface
         return $this->Status;
     }
 
-    /**
-     * @param string $Status
-     * @return CancelCheckInResponseType
-     */
-    public function withStatus($Status)
+    public function withStatus(string $Status): self
     {
         $new = clone $this;
         $new->Status = $Status;

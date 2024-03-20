@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class EnrollCashRegisterRequestType implements RequestInterface
 {
     /**
@@ -44,13 +42,8 @@ final class EnrollCashRegisterRequestType implements RequestInterface
      * @param string $BeaconInventoryNumber
      * @param string $BeaconDaemonVersion
      */
-    public function __construct(
-        $MerchantInformation,
-        $CashRegisterType,
-        $FormerCashRegisterId,
-        $BeaconInventoryNumber,
-        $BeaconDaemonVersion
-    ) {
+    public function __construct($MerchantInformation, $CashRegisterType, $FormerCashRegisterId, $BeaconInventoryNumber, $BeaconDaemonVersion)
+    {
         $this->MerchantInformation = $MerchantInformation;
         $this->CashRegisterType = $CashRegisterType;
         $this->FormerCashRegisterId = $FormerCashRegisterId;
@@ -66,11 +59,7 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return EnrollCashRegisterRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -86,11 +75,7 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $this->CashRegisterType;
     }
 
-    /**
-     * @param string $CashRegisterType
-     * @return EnrollCashRegisterRequestType
-     */
-    public function withCashRegisterType($CashRegisterType)
+    public function withCashRegisterType(string $CashRegisterType): self
     {
         $new = clone $this;
         $new->CashRegisterType = $CashRegisterType;
@@ -106,11 +91,7 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $this->FormerCashRegisterId;
     }
 
-    /**
-     * @param string $FormerCashRegisterId
-     * @return EnrollCashRegisterRequestType
-     */
-    public function withFormerCashRegisterId($FormerCashRegisterId)
+    public function withFormerCashRegisterId(string $FormerCashRegisterId): self
     {
         $new = clone $this;
         $new->FormerCashRegisterId = $FormerCashRegisterId;
@@ -126,11 +107,7 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $this->BeaconInventoryNumber;
     }
 
-    /**
-     * @param string $BeaconInventoryNumber
-     * @return EnrollCashRegisterRequestType
-     */
-    public function withBeaconInventoryNumber($BeaconInventoryNumber)
+    public function withBeaconInventoryNumber(string $BeaconInventoryNumber): self
     {
         $new = clone $this;
         $new->BeaconInventoryNumber = $BeaconInventoryNumber;
@@ -146,11 +123,7 @@ final class EnrollCashRegisterRequestType implements RequestInterface
         return $this->BeaconDaemonVersion;
     }
 
-    /**
-     * @param string $BeaconDaemonVersion
-     * @return EnrollCashRegisterRequestType
-     */
-    public function withBeaconDaemonVersion($BeaconDaemonVersion)
+    public function withBeaconDaemonVersion(string $BeaconDaemonVersion): self
     {
         $new = clone $this;
         $new->BeaconDaemonVersion = $BeaconDaemonVersion;

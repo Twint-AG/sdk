@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class BeaconSecurityType
 {
     /**
@@ -42,11 +39,7 @@ final class BeaconSecurityType
         return $this->BeaconUuid;
     }
 
-    /**
-     * @param string $BeaconUuid
-     * @return BeaconSecurityType
-     */
-    public function withBeaconUuid($BeaconUuid)
+    public function withBeaconUuid(string $BeaconUuid): self
     {
         $new = clone $this;
         $new->BeaconUuid = $BeaconUuid;
@@ -62,11 +55,7 @@ final class BeaconSecurityType
         return $this->MajorId;
     }
 
-    /**
-     * @param int $MajorId
-     * @return BeaconSecurityType
-     */
-    public function withMajorId($MajorId)
+    public function withMajorId(int $MajorId): self
     {
         $new = clone $this;
         $new->MajorId = $MajorId;
@@ -82,11 +71,7 @@ final class BeaconSecurityType
         return $this->MinorId;
     }
 
-    /**
-     * @param int $MinorId
-     * @return BeaconSecurityType
-     */
-    public function withMinorId($MinorId)
+    public function withMinorId(int $MinorId): self
     {
         $new = clone $this;
         $new->MinorId = $MinorId;
@@ -102,11 +87,7 @@ final class BeaconSecurityType
         return $this->BeaconInitString;
     }
 
-    /**
-     * @param string $BeaconInitString
-     * @return BeaconSecurityType
-     */
-    public function withBeaconInitString($BeaconInitString)
+    public function withBeaconInitString(string $BeaconInitString): self
     {
         $new = clone $this;
         $new->BeaconInitString = $BeaconInitString;
@@ -122,11 +103,7 @@ final class BeaconSecurityType
         return $this->BeaconSecret;
     }
 
-    /**
-     * @param string $BeaconSecret
-     * @return BeaconSecurityType
-     */
-    public function withBeaconSecret($BeaconSecret)
+    public function withBeaconSecret(string $BeaconSecret): self
     {
         $new = clone $this;
         $new->BeaconSecret = $BeaconSecret;

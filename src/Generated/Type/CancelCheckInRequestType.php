@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
 use Phpro\SoapClient\Type\RequestInterface;
 
-#[AllowDynamicProperties]
 final class CancelCheckInRequestType implements RequestInterface
 {
     /**
@@ -61,11 +59,7 @@ final class CancelCheckInRequestType implements RequestInterface
         return $this->MerchantInformation;
     }
 
-    /**
-     * @param MerchantInformationType $MerchantInformation
-     * @return CancelCheckInRequestType
-     */
-    public function withMerchantInformation($MerchantInformation)
+    public function withMerchantInformation(MerchantInformationType $MerchantInformation): self
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
@@ -81,11 +75,7 @@ final class CancelCheckInRequestType implements RequestInterface
         return $this->Reason;
     }
 
-    /**
-     * @param string $Reason
-     * @return CancelCheckInRequestType
-     */
-    public function withReason($Reason)
+    public function withReason(string $Reason): self
     {
         $new = clone $this;
         $new->Reason = $Reason;
@@ -101,11 +91,7 @@ final class CancelCheckInRequestType implements RequestInterface
         return $this->CustomerRelationUuid;
     }
 
-    /**
-     * @param string $CustomerRelationUuid
-     * @return CancelCheckInRequestType
-     */
-    public function withCustomerRelationUuid($CustomerRelationUuid)
+    public function withCustomerRelationUuid(string $CustomerRelationUuid): self
     {
         $new = clone $this;
         $new->CustomerRelationUuid = $CustomerRelationUuid;
@@ -121,11 +107,7 @@ final class CancelCheckInRequestType implements RequestInterface
         return $this->PairingUuid;
     }
 
-    /**
-     * @param string $PairingUuid
-     * @return CancelCheckInRequestType
-     */
-    public function withPairingUuid($PairingUuid)
+    public function withPairingUuid(string $PairingUuid): self
     {
         $new = clone $this;
         $new->PairingUuid = $PairingUuid;
@@ -141,11 +123,7 @@ final class CancelCheckInRequestType implements RequestInterface
         return $this->Coupons;
     }
 
-    /**
-     * @param CouponListType $Coupons
-     * @return CancelCheckInRequestType
-     */
-    public function withCoupons($Coupons)
+    public function withCoupons(CouponListType $Coupons): self
     {
         $new = clone $this;
         $new->Coupons = $Coupons;

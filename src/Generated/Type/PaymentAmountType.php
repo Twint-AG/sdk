@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class PaymentAmountType
 {
     /**
@@ -27,11 +24,7 @@ final class PaymentAmountType
         return $this->PaymentMethod;
     }
 
-    /**
-     * @param string $PaymentMethod
-     * @return PaymentAmountType
-     */
-    public function withPaymentMethod($PaymentMethod)
+    public function withPaymentMethod(string $PaymentMethod): self
     {
         $new = clone $this;
         $new->PaymentMethod = $PaymentMethod;
@@ -47,11 +40,7 @@ final class PaymentAmountType
         return $this->Amount;
     }
 
-    /**
-     * @param CurrencyAmountType $Amount
-     * @return PaymentAmountType
-     */
-    public function withAmount($Amount)
+    public function withAmount(CurrencyAmountType $Amount): self
     {
         $new = clone $this;
         $new->Amount = $Amount;

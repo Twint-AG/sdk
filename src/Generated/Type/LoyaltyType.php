@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use AllowDynamicProperties;
-
-#[AllowDynamicProperties]
 final class LoyaltyType
 {
     /**
@@ -32,11 +29,7 @@ final class LoyaltyType
         return $this->Program;
     }
 
-    /**
-     * @param string $Program
-     * @return LoyaltyType
-     */
-    public function withProgram($Program)
+    public function withProgram(string $Program): self
     {
         $new = clone $this;
         $new->Program = $Program;
@@ -52,11 +45,7 @@ final class LoyaltyType
         return $this->Reference;
     }
 
-    /**
-     * @param string $Reference
-     * @return LoyaltyType
-     */
-    public function withReference($Reference)
+    public function withReference(string $Reference): self
     {
         $new = clone $this;
         $new->Reference = $Reference;
@@ -72,11 +61,7 @@ final class LoyaltyType
         return $this->ExtendedReferenceDescription;
     }
 
-    /**
-     * @param string $ExtendedReferenceDescription
-     * @return LoyaltyType
-     */
-    public function withExtendedReferenceDescription($ExtendedReferenceDescription)
+    public function withExtendedReferenceDescription(string $ExtendedReferenceDescription): self
     {
         $new = clone $this;
         $new->ExtendedReferenceDescription = $ExtendedReferenceDescription;
