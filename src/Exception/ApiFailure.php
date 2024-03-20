@@ -7,7 +7,7 @@ namespace Twint\Sdk\Exception;
 use RuntimeException;
 use Throwable;
 
-final class SoapFailure extends RuntimeException implements SdkError
+final class ApiFailure extends RuntimeException implements SdkError
 {
     public static function fromThrowable(Throwable $throwable): self
     {

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Twint\Sdk\Factory;
 
 use DOMNode;
-use GuzzleHttp\Client as HttpClient;
 use Http\Client\Common\PluginClient;
+use Psr\Http\Client\ClientInterface;
 use Soap\Engine\Engine;
 use Soap\Engine\LazyEngine;
 use Soap\ExtSoapEngine\ExtSoapEngineFactory;
@@ -28,9 +28,11 @@ final class DefaultSoapEngineFactory
 {
     /**
      * @param callable(): Uuid $createUuid
+     * @param callable(Certificate): ClientInterface $createHttpClient
      */
     public function __construct(
-        private readonly mixed $createUuid = new Uuid4Factory()
+        private readonly mixed $createUuid = new Uuid4Factory(),
+        private readonly mixed $createHttpClient = new DefaultHttpClientFactory(),
     ) {
     }
 
@@ -50,9 +52,7 @@ final class DefaultSoapEngineFactory
                 )->withClassMap(TwintSoapClassMap::getCollection()),
                 Psr18Transport::createForClient(
                     new PluginClient(
-                        new HttpClient([
-                            'cert' => [$certificate->pem()->file(), $certificate->pem()->passphrase()],
-                        ]),
+                        ($this->createHttpClient)($certificate),
                         [
                             new SoapHeaderMiddleware(
                                 new SoapHeader(

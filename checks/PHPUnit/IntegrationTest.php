@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\ApiClient;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Certificate;
+use Twint\Sdk\Client;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\MerchantId;
@@ -15,7 +16,7 @@ use Twint\Sdk\Value\TransactionReference;
 
 abstract class IntegrationTest extends TestCase
 {
-    protected ApiClient $client;
+    protected Client $client;
 
     protected static function getEnvironmentVariable(string $name): string
     {

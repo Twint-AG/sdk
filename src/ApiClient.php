@@ -6,12 +6,18 @@ namespace Twint\Sdk;
 
 use DateTimeImmutable;
 
+use Http\Discovery\Psr17FactoryDiscovery;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Soap\Engine\Engine;
+use Throwable;
 use Twint\Sdk\Certificate\Certificate;
+use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\SdkError;
-use Twint\Sdk\Exception\SoapFailure;
+use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Generated\TwintSoapClient;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
@@ -23,6 +29,7 @@ use Twint\Sdk\Generated\Type\OrderRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
@@ -38,16 +45,24 @@ final class ApiClient implements Client
 
     private const CASH_REGISTER_TYPE_EPOS = 'EPOS';
 
-    private ?TwintSoapClient $client = null;
+    private ?TwintSoapClient $soapClient = null;
+
+    private ?ClientInterface $httpClient = null;
+
+    private ?RequestFactoryInterface $httpRequestFactory = null;
 
     /**
      * @param callable(Certificate, TwintVersion, TwintEnvironment): Engine $soapEngineFactory
+     * @param callable(Certificate): ClientInterface $httpClientFactory
+     * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
      */
     public function __construct(
         private readonly Certificate $certificate,
         private readonly TwintVersion $version,
         private readonly TwintEnvironment $environment,
-        private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory()
+        private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory(),
+        private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
+        private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
     ) {
     }
 
@@ -66,7 +81,7 @@ final class ApiClient implements Client
                 $response->getRenewalAllowed()
             );
         } catch (SoapException $e) {
-            throw SoapFailure::fromThrowable($e);
+            throw ApiFailure::fromThrowable($e);
         }
     }
 
@@ -123,12 +138,12 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
-                new OrderStatus($response->getOrderStatus() ->getStatus()->get_()),
-                new TransactionStatus($response->getOrderStatus() ->getReason()->get_()),
+                new OrderStatus($response->getOrderStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrderStatus()->getReason()->get_()),
                 $transactionReference
             );
         } catch (SoapException $e) {
-            throw SoapFailure::fromThrowable($e);
+            throw ApiFailure::fromThrowable($e);
         }
     }
 
@@ -157,7 +172,7 @@ final class ApiClient implements Client
                 new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
             );
         } catch (SoapException $e) {
-            throw SoapFailure::fromThrowable($e);
+            throw ApiFailure::fromThrowable($e);
         }
     }
 
@@ -188,7 +203,7 @@ final class ApiClient implements Client
                 new TransactionReference($response->getOrder()->getMerchantTransactionReference()),
             );
         } catch (SoapException $e) {
-            throw SoapFailure::fromThrowable($e);
+            throw ApiFailure::fromThrowable($e);
         }
     }
 
@@ -205,10 +220,70 @@ final class ApiClient implements Client
         });
     }
 
+    /**
+     * @throws SdkError
+     */
+    public function getIosAppSchemes(): array
+    {
+        try {
+            $response = $this->httpClient()
+                ->sendRequest(
+                    $this->httpRequestFactory()
+                        ->createRequest('GET', (string) $this->environment->appSchemeUrl())
+                );
+        } catch (ClientExceptionInterface $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+
+        Assertion::eq(
+            200,
+            $response->getStatusCode(),
+            'Failed to fetch iOS app schemes. Expected status code %s, got %s'
+        );
+        $contentType = $response->getHeader('content-type');
+        Assertion::count($contentType, 1, 'Expected single content type header');
+        Assertion::eq('application/json', $contentType[0], 'Invalid content type. Expected "%s", got "%s"');
+
+        try {
+            $parsed = json_decode($response->getBody()->getContents(), true, flags: JSON_THROW_ON_ERROR);
+        } catch (Throwable $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+
+        Assertion::isArray($parsed, 'Parsed response must be an array');
+        Assertion::keyExists($parsed, 'appSwitchConfigList', 'Parsed response must contain appSwitchConfigList');
+        Assertion::isArray($parsed['appSwitchConfigList'], 'appSwitchConfigList must be an array');
+        Assertion::allKeyExists(
+            $parsed['appSwitchConfigList'],
+            'issuerUrlScheme',
+            'issuerUrlScheme must exist in each appSwitchConfigList item'
+        );
+        Assertion::allKeyExists(
+            $parsed['appSwitchConfigList'],
+            'displayName',
+            'displayName must exist in each appSwitchConfigList item'
+        );
+
+        return array_map(
+            static fn (array $config) => new IosAppScheme($config['issuerUrlScheme'], $config['displayName']),
+            $parsed['appSwitchConfigList']
+        );
+    }
+
     private function soapClient(): TwintSoapClient
     {
-        return $this->client ??= new TwintSoapClient(
+        return $this->soapClient ??= new TwintSoapClient(
             new EngineCaller(($this->soapEngineFactory)($this->certificate, $this->version, $this->environment))
         );
+    }
+
+    private function httpClient(): ClientInterface
+    {
+        return $this->httpClient ??= ($this->httpClientFactory)($this->certificate);
+    }
+
+    private function httpRequestFactory(): RequestFactoryInterface
+    {
+        return $this->httpRequestFactory ??= ($this->httpRequestFactoryFactory)();
     }
 }

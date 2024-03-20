@@ -6,6 +6,7 @@ namespace Twint\Sdk;
 
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
@@ -32,4 +33,9 @@ interface Client
     ): Order;
 
     public function detectDevice(string $userAgent): DetectedDevice;
+
+    /**
+     * @return list<IosAppScheme>
+     */
+    public function getIosAppSchemes(): array;
 }
