@@ -9,10 +9,10 @@ namespace Twint\Sdk\Value;
  */
 interface Enum
 {
-    public function __toString(): string;
-
     /**
      * @return list<T>
      */
-    public function all(): array;
+    public static function all(): array;
+
+    public function __toString(): string;
 }

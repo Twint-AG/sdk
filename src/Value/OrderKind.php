@@ -76,12 +76,7 @@ final class OrderKind implements Enum, Comparable, Equality
         return new self(self::CREDIT);
     }
 
-    public function __toString(): string
-    {
-        return $this->kind;
-    }
-
-    public function all(): array
+    public static function all(): array
     {
         return [
             self::PAYMENT_IMMEDIATE,
@@ -90,6 +85,11 @@ final class OrderKind implements Enum, Comparable, Equality
             self::REVERSAL,
             self::CREDIT,
         ];
+    }
+
+    public function __toString(): string
+    {
+        return $this->kind;
     }
 
     /**

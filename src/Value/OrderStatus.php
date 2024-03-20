@@ -32,14 +32,14 @@ final class OrderStatus implements Enum, Comparable, Equality
         Assertion::choice($status, self::all(), '"%s" is not a valid order status. Supported: %s');
     }
 
+    public static function all(): array
+    {
+        return [self::IN_PROGRESS, self::FAILURE, self::SUCCESS];
+    }
+
     public function __toString(): string
     {
         return $this->status;
-    }
-
-    public function all(): array
-    {
-        return [self::IN_PROGRESS, self::FAILURE, self::SUCCESS];
     }
 
     /**

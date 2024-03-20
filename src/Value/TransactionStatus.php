@@ -44,12 +44,7 @@ final class TransactionStatus implements Enum, Comparable, Equality
         Assertion::choice($status, self::all(), '"%s" is not a valid transaction status. Supported: %s');
     }
 
-    public function __toString(): string
-    {
-        return $this->status;
-    }
-
-    public function all(): array
+    public static function all(): array
     {
         return [
             self::ORDER_OK,
@@ -62,6 +57,11 @@ final class TransactionStatus implements Enum, Comparable, Equality
             self::MERCHANT_ABORT,
             self::CLIENT_ABORT,
         ];
+    }
+
+    public function __toString(): string
+    {
+        return $this->status;
     }
 
     /**

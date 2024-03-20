@@ -47,6 +47,11 @@ final class Money implements Enum, Comparable, Equality
         return new self(self::CHF, $amount);
     }
 
+    public static function all(): array
+    {
+        return [self::EUR, self::CHF];
+    }
+
     public function __toString(): string
     {
         return sprintf('%s %s', number_format($this->amount, 2, '.', ''), $this->currency);
@@ -60,11 +65,6 @@ final class Money implements Enum, Comparable, Equality
     public function currency(): string
     {
         return $this->currency;
-    }
-
-    public function all(): array
-    {
-        return [self::EUR, self::CHF];
     }
 
     /**
