@@ -14,9 +14,10 @@ use Soap\ExtSoapEngine\ExtSoapOptions;
 use Soap\Psr18Transport\Middleware\SoapHeaderMiddleware;
 use Soap\Psr18Transport\Psr18Transport;
 use Soap\Xml\Builder\SoapHeader;
-use Twint\Sdk\ApiVersion;
 use Twint\Sdk\Certificate\Certificate;
 use Twint\Sdk\Generated\TwintSoapClassMap;
+use Twint\Sdk\TwintEnvironment;
+use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Version;
 use function VeeWee\Xml\Dom\Builder\children;
@@ -33,18 +34,18 @@ final class DefaultSoapEngineFactory
     ) {
     }
 
-    public function __invoke(Certificate $certificate): Engine
+    public function __invoke(Certificate $certificate, TwintVersion $version, TwintEnvironment $environment): Engine
     {
         return new LazyEngine(
             fn () => ExtSoapEngineFactory::fromOptionsWithTransport(
                 ExtSoapOptions::defaults(
-                    ApiVersion::wsdlPath(),
+                    (string) $environment->soapWsdlPath($version),
                     [
                         'local_cert' => (string) $certificate->pem()
                             ->file(),
                         'passphrase' => $certificate->pem()
                             ->passphrase(),
-                        'location' => ApiVersion::endpoint('pat'),
+                        'location' => (string) $environment->soapEndpoint($version),
                     ]
                 )->withClassMap(TwintSoapClassMap::getCollection()),
                 Psr18Transport::createForClient(
@@ -55,7 +56,7 @@ final class DefaultSoapEngineFactory
                         [
                             new SoapHeaderMiddleware(
                                 new SoapHeader(
-                                    ApiVersion::targetNamespace(),
+                                    (string) $environment->soapTargetNamespace($version),
                                     'RequestHeaderElement',
                                     fn (DOMNode $node) => children(
                                         element('MessageId', value((string) ($this->createUuid)())),

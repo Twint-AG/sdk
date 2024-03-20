@@ -8,6 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\ApiClient;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Certificate;
+use Twint\Sdk\TwintEnvironment;
+use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\TransactionReference;
 
@@ -40,7 +42,9 @@ abstract class IntegrationTest extends TestCase
             Certificate\Pkcs12Certificate::read(
                 self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'),
                 self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
-            )
+            ),
+            TwintVersion::latest(),
+            TwintEnvironment::TESTING()
         );
     }
 }

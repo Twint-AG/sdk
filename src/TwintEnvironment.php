@@ -9,6 +9,7 @@ use Twint\Sdk\Value\Comparable;
 use Twint\Sdk\Value\ComparableToEquality;
 use Twint\Sdk\Value\Enum;
 use Twint\Sdk\Value\Equality;
+use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\Url;
 
 /**
@@ -77,6 +78,42 @@ final class TwintEnvironment implements Enum, Comparable, Equality
     public function appSchemeUrl(): Url
     {
         return new Url('https://' . $this->appSchemeHost() . '/appSwitch/v1/configs');
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function soapWsdlPath(TwintVersion $version): File
+    {
+        return new File(
+            __DIR__ . '/../resources/wsdl/v' . $version->dotVersion() . '/TWINTMerchantService_v' . $version->dotVersion() . '.wsdl'
+        );
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function soapEndpoint(TwintVersion $version): Url
+    {
+        return new Url(
+            'https://' . $this->getServiceHost() . '/merchant/service/TWINTMerchantServiceV' . $version->underscoreVersion()
+        );
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function soapTargetNamespace(TwintVersion $version): Url
+    {
+        return new Url('http://service.twint.ch/header/types/v' . $version->underscoreVersion());
+    }
+
+    private function getServiceHost(): string
+    {
+        return match ($this->value) {
+            self::TESTING => 'service-pat.twint.ch',
+            self::PRODUCTION => 'service.twint.ch',
+        };
     }
 
     private function appSchemeHost(): string

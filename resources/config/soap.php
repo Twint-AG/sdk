@@ -12,9 +12,10 @@ use Phpro\SoapClient\CodeGenerator\Context\TypeContext;
 use Phpro\SoapClient\CodeGenerator\Rules;
 use Soap\ExtSoapEngine\ExtSoapEngineFactory;
 use Soap\ExtSoapEngine\ExtSoapOptions;
-use Twint\Sdk\ApiVersion;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
+use Twint\Sdk\TwintEnvironment;
+use Twint\Sdk\TwintVersion;
 
 const BASE_DIR = __DIR__ . '/../..';
 const GENERATED_NAMESPACE = 'Twint\Sdk\Generated';
@@ -24,7 +25,11 @@ const GENERATED_TYPES_PATH = BASE_DIR . '/src/Generated/Type';
 const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
-$engine = ExtSoapEngineFactory::fromOptions(ExtSoapOptions::defaults(ApiVersion::wsdlPath())->disableWsdlCache());
+$engine = ExtSoapEngineFactory::fromOptions(
+    ExtSoapOptions::defaults(
+        (string) TwintEnvironment::PRODUCTION()->soapWsdlPath(TwintVersion::latest())
+    )->disableWsdlCache()
+);
 
 $allowDynamicPropertiesAssembler = new class() implements Assembler\AssemblerInterface {
     public function canAssemble(ContextInterface $context): bool

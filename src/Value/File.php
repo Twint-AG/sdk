@@ -7,19 +7,41 @@ namespace Twint\Sdk\Value;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Exception\AssertionFailed;
 
-final class File
+/**
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
+ */
+final class File implements Comparable, Equality
 {
+    /** @use ComparableToEquality<self> */
+    use ComparableToEquality;
+
+    private readonly string $path;
+
     /**
      * @throws AssertionFailed
      */
     public function __construct(
-        private readonly string $path
+        string $path
     ) {
         Assertion::readable($path);
+        $path = realpath($path);
+        Assertion::string($path, 'Real path could be extracted');
+        $this->path = $path;
     }
 
     public function __toString(): string
     {
         return $this->path;
+    }
+
+    /**
+     * @throws AssertionFailed
+     */
+    public function compare($other): int
+    {
+        Assertion::isInstanceOf($other, self::class);
+
+        return strcmp($this->path, $other->path);
     }
 }

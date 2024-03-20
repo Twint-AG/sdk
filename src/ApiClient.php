@@ -41,10 +41,12 @@ final class ApiClient implements Client
     private ?TwintSoapClient $client = null;
 
     /**
-     * @param callable(Certificate): Engine $soapEngineFactory
+     * @param callable(Certificate, TwintVersion, TwintEnvironment): Engine $soapEngineFactory
      */
     public function __construct(
         private readonly Certificate $certificate,
+        private readonly TwintVersion $version,
+        private readonly TwintEnvironment $environment,
         private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory()
     ) {
     }
@@ -205,6 +207,8 @@ final class ApiClient implements Client
 
     private function soapClient(): TwintSoapClient
     {
-        return $this->client ??= new TwintSoapClient(new EngineCaller(($this->soapEngineFactory)($this->certificate)));
+        return $this->client ??= new TwintSoapClient(
+            new EngineCaller(($this->soapEngineFactory)($this->certificate, $this->version, $this->environment))
+        );
     }
 }
