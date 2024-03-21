@@ -7,16 +7,19 @@ namespace Twint\Sdk\Factory;
 use Throwable;
 use Twint\Sdk\Exception\CryptographyFailure;
 
-final class RandomPassphraseFactory
+/**
+ * @phpstan-type Length 16|32|64|128|256
+ */
+final class DefaultRandomStringFactory
 {
     /**
-     * @return non-empty-string
+     * @param Length $length
      * @throws CryptographyFailure
      */
-    public function __invoke(): string
+    public function __invoke(int $length): string
     {
         try {
-            return bin2hex(random_bytes(32));
+            return bin2hex(random_bytes($length / 2));
         } catch (Throwable $e) {
             throw CryptographyFailure::fromThrowable($e);
         }

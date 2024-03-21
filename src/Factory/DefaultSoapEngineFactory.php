@@ -14,7 +14,8 @@ use Soap\ExtSoapEngine\ExtSoapOptions;
 use Soap\Psr18Transport\Middleware\SoapHeaderMiddleware;
 use Soap\Psr18Transport\Psr18Transport;
 use Soap\Xml\Builder\SoapHeader;
-use Twint\Sdk\Certificate\Certificate;
+use Twint\Sdk\Certificate\CertificateContainer;
+use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\Generated\TwintSoapClassMap;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
@@ -28,7 +29,7 @@ final class DefaultSoapEngineFactory
 {
     /**
      * @param callable(): Uuid $createUuid
-     * @param callable(Certificate): ClientInterface $createHttpClient
+     * @param callable(FileWriter, CertificateContainer): ClientInterface $createHttpClient
      */
     public function __construct(
         private readonly mixed $createUuid = new Uuid4Factory(),
@@ -36,15 +37,20 @@ final class DefaultSoapEngineFactory
     ) {
     }
 
-    public function __invoke(Certificate $certificate, TwintVersion $version, TwintEnvironment $environment): Engine
-    {
+    public function __invoke(
+        FileWriter $writer,
+        CertificateContainer $certificate,
+        TwintVersion $version,
+        TwintEnvironment $environment
+    ): Engine {
         return new LazyEngine(
             fn () => ExtSoapEngineFactory::fromOptionsWithTransport(
                 ExtSoapOptions::defaults(
                     (string) $environment->soapWsdlPath($version),
                     [
                         'local_cert' => (string) $certificate->pem()
-                            ->file(),
+                            ->toFile($writer)
+                            ->path(),
                         'passphrase' => $certificate->pem()
                             ->passphrase(),
                         'location' => (string) $environment->soapEndpoint($version),
@@ -52,7 +58,7 @@ final class DefaultSoapEngineFactory
                 )->withClassMap(TwintSoapClassMap::getCollection()),
                 Psr18Transport::createForClient(
                     new PluginClient(
-                        ($this->createHttpClient)($certificate),
+                        ($this->createHttpClient)($writer, $certificate),
                         [
                             new SoapHeaderMiddleware(
                                 new SoapHeader(

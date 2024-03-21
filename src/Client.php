@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk;
 
+use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\IosAppScheme;
@@ -17,6 +18,8 @@ use Twint\Sdk\Value\TransactionReference;
 interface Client
 {
     public function getCertificateValidity(MerchantId $merchantId): CertificateValidity;
+
+    public function renewCertificate(MerchantId $merchantId): CertificateContainer;
 
     public function startOrder(
         MerchantId $merchantId,

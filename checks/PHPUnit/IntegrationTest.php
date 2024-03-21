@@ -9,8 +9,10 @@ use Twint\Sdk\ApiClient;
 use Twint\Sdk\Assertion;
 use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
+use Twint\Sdk\File\ContentSensitiveFileWriter;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
+use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\TransactionReference;
 
@@ -40,12 +42,18 @@ abstract class IntegrationTest extends TestCase
     protected function setUp(): void
     {
         $this->client = new ApiClient(
-            Certificate\Pkcs12Certificate::read(
-                self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'),
-                self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+            Certificate\CertificateContainer::fromPkcs12(
+                new Certificate\Pkcs12Certificate(
+                    new Certificate\FileStream(new File(self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                    self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+                )
             ),
             TwintVersion::latest(),
-            TwintEnvironment::TESTING()
+            TwintEnvironment::TESTING(),
+            new ContentSensitiveFileWriter(
+                new File(__DIR__ . '/../../build/'),
+                static fn (string $content) => openssl_x509_fingerprint($content) ?: hash('sha3-384', $content)
+            )
         );
     }
 }

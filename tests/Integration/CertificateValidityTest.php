@@ -19,4 +19,9 @@ final class CertificateValidityTest extends IntegrationTest
         self::assertIsBool($certificateValidity->isRenewalAllowed());
         self::assertInstanceOf(DateTimeImmutable::class, $certificateValidity->expiresAt());
     }
+
+    public function testRenewCertificate(): void
+    {
+        var_dump($this->client->renewCertificate(self::getMerchantId()));
+    }
 }

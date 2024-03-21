@@ -31,7 +31,8 @@
         "php-soap/engine": "^1.3",
         "php-soap/psr18-transport": "^1.5",
         "guzzlehttp/guzzle": "^7.8",
-        "beberlei/assert": "^3.3"
+        "beberlei/assert": "^3.3",
+        "webimpress/safe-writer": "^2.2"
     },
     "require-dev": {
         "ext-xdebug": "*",

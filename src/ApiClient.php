@@ -14,11 +14,15 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Soap\Engine\Engine;
 use Throwable;
-use Twint\Sdk\Certificate\Certificate;
+use Twint\Sdk\Certificate\CertificateContainer;
+use Twint\Sdk\Certificate\InMemoryStream;
+use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
+use Twint\Sdk\File\FileWriter;
+use Twint\Sdk\File\TemporaryFileWriter;
 use Twint\Sdk\Generated\TwintSoapClient;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
@@ -26,6 +30,7 @@ use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
 use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
+use Twint\Sdk\Generated\Type\RenewCertificateRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
@@ -52,14 +57,15 @@ final class ApiClient implements Client
     private ?RequestFactoryInterface $httpRequestFactory = null;
 
     /**
-     * @param callable(Certificate, TwintVersion, TwintEnvironment): Engine $soapEngineFactory
-     * @param callable(Certificate): ClientInterface $httpClientFactory
+     * @param callable(FileWriter, CertificateContainer, TwintVersion, TwintEnvironment): Engine $soapEngineFactory
+     * @param callable(FileWriter, CertificateContainer): ClientInterface $httpClientFactory
      * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
      */
     public function __construct(
-        private readonly Certificate $certificate,
+        private readonly CertificateContainer $certificate,
         private readonly TwintVersion $version,
         private readonly TwintEnvironment $environment,
+        private readonly FileWriter $fileWriter = new TemporaryFileWriter(),
         private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory(),
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
@@ -79,6 +85,34 @@ final class ApiClient implements Client
             return new CertificateValidity(
                 DateTimeImmutable::createFromInterface($response->getCertificateExpiryDate()),
                 $response->getRenewalAllowed()
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function renewCertificate(MerchantId $merchantId): CertificateContainer
+    {
+        try {
+            $response = $this->soapClient()
+                ->renewCertificate(
+                    new RenewCertificateRequestType(
+                        (string) $merchantId,
+                        MerchantAliasId: '',
+                        CertificatePassword: $this->certificate->pkcs12()
+                            ->passphrase()
+                    )
+                );
+
+            return CertificateContainer::fromPkcs12(
+                new Pkcs12Certificate(
+                    new InMemoryStream($response->getMerchantCertificate()),
+                    $this->certificate->pkcs12()
+                        ->passphrase()
+                )
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -273,13 +307,15 @@ final class ApiClient implements Client
     private function soapClient(): TwintSoapClient
     {
         return $this->soapClient ??= new TwintSoapClient(
-            new EngineCaller(($this->soapEngineFactory)($this->certificate, $this->version, $this->environment))
+            new EngineCaller(
+                ($this->soapEngineFactory)($this->fileWriter, $this->certificate, $this->version, $this->environment)
+            )
         );
     }
 
     private function httpClient(): ClientInterface
     {
-        return $this->httpClient ??= ($this->httpClientFactory)($this->certificate);
+        return $this->httpClient ??= ($this->httpClientFactory)($this->fileWriter, $this->certificate);
     }
 
     private function httpRequestFactory(): RequestFactoryInterface
