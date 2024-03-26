@@ -1,0 +1,747 @@
+
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+            Twint-SDK-Fixture-Version: '10'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 12:54:55 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.350611
+            namelookup_time: 0.00132
+            connect_time: 0.026472
+            pretransfer_time: 0.086479
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 2518.0
+            speed_upload: 2909.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.350604
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53001
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 86427
+            connect_time_us: 26472
+            namelookup_time_us: 1320
+            pretransfer_time_us: 86479
+            redirect_time_us: 0
+            starttransfer_time_us: 350604
+            total_time_us: 350611
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+            Twint-SDK-Fixture-Version: '10'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 12:54:56 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>8c9ac315-02fd-4509-a2d7-9d2fb75df8b8</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>61649</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.493602
+            namelookup_time: 0.001483
+            connect_time: 0.026351
+            pretransfer_time: 0.08758
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1841.0
+            speed_upload: 2730.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.493591
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53002
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 87543
+            connect_time_us: 26351
+            namelookup_time_us: 1483
+            pretransfer_time_us: 87580
+            redirect_time_us: 0
+            starttransfer_time_us: 493591
+            total_time_us: 493602
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:19 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.313812
+            namelookup_time: 0.001471
+            connect_time: 0.026622
+            pretransfer_time: 0.086284
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 2813.0
+            speed_upload: 3250.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.313807
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53142
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 86250
+            connect_time_us: 26622
+            namelookup_time_us: 1471
+            pretransfer_time_us: 86284
+            redirect_time_us: 0
+            starttransfer_time_us: 313807
+            total_time_us: 313812
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:19 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>3e15f9a8-2d2f-4b49-89df-5a2fe9a33206</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>13680</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.476792
+            namelookup_time: 0.001238
+            connect_time: 0.025945
+            pretransfer_time: 0.089181
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1906.0
+            speed_upload: 2827.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.476786
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53143
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 89097
+            connect_time_us: 25945
+            namelookup_time_us: 1238
+            pretransfer_time_us: 89181
+            redirect_time_us: 0
+            starttransfer_time_us: 476786
+            total_time_us: 476792
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:27 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.300319
+            namelookup_time: 0.001273
+            connect_time: 0.026188
+            pretransfer_time: 0.089581
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 2940.0
+            speed_upload: 3396.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.300309
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53145
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 89510
+            connect_time_us: 26188
+            namelookup_time_us: 1273
+            pretransfer_time_us: 89581
+            redirect_time_us: 0
+            starttransfer_time_us: 300309
+            total_time_us: 300319
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:27 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>637cdbeb-3763-4c36-a48d-880ddf456b1f</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>41540</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.498404
+            namelookup_time: 0.001672
+            connect_time: 0.027337
+            pretransfer_time: 0.088467
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1823.0
+            speed_upload: 2704.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.498397
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53146
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 88434
+            connect_time_us: 27337
+            namelookup_time_us: 1672
+            pretransfer_time_us: 88467
+            redirect_time_us: 0
+            starttransfer_time_us: 498397
+            total_time_us: 498404
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:34 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.264675
+            namelookup_time: 0.001278
+            connect_time: 0.026635
+            pretransfer_time: 0.087798
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 3336.0
+            speed_upload: 3853.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.264664
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53153
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 87733
+            connect_time_us: 26635
+            namelookup_time_us: 1278
+            pretransfer_time_us: 87798
+            redirect_time_us: 0
+            starttransfer_time_us: 264664
+            total_time_us: 264675
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:34 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>4f161913-d027-4158-bf3c-c8669527776a</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>26591</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.478267
+            namelookup_time: 0.001774
+            connect_time: 0.027256
+            pretransfer_time: 0.0879
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1900.0
+            speed_upload: 2818.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.478261
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53154
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 87864
+            connect_time_us: 27256
+            namelookup_time_us: 1774
+            pretransfer_time_us: 87900
+            redirect_time_us: 0
+            starttransfer_time_us: 478261
+            total_time_us: 478267
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:39 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.262363
+            namelookup_time: 0.001372
+            connect_time: 0.027302
+            pretransfer_time: 0.08934
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 3365.0
+            speed_upload: 3887.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.262357
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53161
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 89285
+            connect_time_us: 27302
+            namelookup_time_us: 1372
+            pretransfer_time_us: 89340
+            redirect_time_us: 0
+            starttransfer_time_us: 262357
+            total_time_us: 262363
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:40 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>2e77061a-ceed-4adf-ab2a-f3066782dea9</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>66702</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.690924
+            namelookup_time: 0.001587
+            connect_time: 0.027271
+            pretransfer_time: 0.115148
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1315.0
+            speed_upload: 1951.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.690919
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53162
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 115111
+            connect_time_us: 27271
+            namelookup_time_us: 1587
+            pretransfer_time_us: 115148
+            redirect_time_us: 0
+            starttransfer_time_us: 690919
+            total_time_us: 690924
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"EnrollCashRegister"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:EnrollCashRegisterRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:CashRegisterType>EPOS</ns2:CashRegisterType></ns2:EnrollCashRegisterRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:52 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '883'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:EnrollCashRegisterResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:BeaconSecurity><ns2:BeaconUuid>64859482-0953-41de-b439-4fef2d635b5f</ns2:BeaconUuid><ns2:MajorId>0</ns2:MajorId><ns2:MinorId>0</ns2:MinorId><ns2:BeaconInitString>no secret</ns2:BeaconInitString><ns2:BeaconSecret>no secret</ns2:BeaconSecret></ns2:BeaconSecurity></ns2:EnrollCashRegisterResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1238
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.298099
+            namelookup_time: 0.000877
+            connect_time: 0.026152
+            pretransfer_time: 0.086456
+            size_upload: 1020.0
+            size_download: 883.0
+            speed_download: 2962.0
+            speed_upload: 3421.0
+            download_content_length: 883.0
+            upload_content_length: 1020.0
+            starttransfer_time: 0.298094
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53169
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 86416
+            connect_time_us: 26152
+            namelookup_time_us: 877
+            pretransfer_time_us: 86456
+            redirect_time_us: 0
+            starttransfer_time_us: 298094
+            total_time_us: 298099
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"StartOrder"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>8562ff3e97c8571389628c625ac8a06b0db2b7b8e045e0f582</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:01:52 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '909'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>14ee9d45-81ab-4844-851f-07620d5603f9</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>65769</ns2:Token><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 200
+            header_size: 195
+            request_size: 1558
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.577992
+            namelookup_time: 0.00169
+            connect_time: 0.027442
+            pretransfer_time: 0.095879
+            size_upload: 1348.0
+            size_download: 909.0
+            speed_download: 1572.0
+            speed_upload: 2332.0
+            download_content_length: 909.0
+            upload_content_length: 1348.0
+            starttransfer_time: 0.577983
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53170
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 95840
+            connect_time_us: 27442
+            namelookup_time_us: 1690
+            pretransfer_time_us: 95879
+            redirect_time_us: 0
+            starttransfer_time_us: 577983
+            total_time_us: 577992

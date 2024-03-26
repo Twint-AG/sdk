@@ -1,0 +1,65 @@
+
+-
+    request:
+        method: GET
+        url: 'https://app.scheme-pat.twint.ch/appSwitch/v1/configs'
+        headers:
+            Host: app.scheme-pat.twint.ch
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            Accept: ''
+            Twint-SDK-Fixture-Version: '1'
+    response:
+        status:
+            code: 200
+            message: OK
+        headers:
+            Date: 'Tue, 26 Mar 2024 13:31:01 GMT'
+            Server: Apache
+            Upgrade: 'h2,h2c'
+            Connection: Upgrade
+            PRAGMA: no-cache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Cache-Control: 'no-cache, no-store, must-revalidate'
+            Expires: '0'
+            Content-Type: application/json
+            Transfer-Encoding: chunked
+        body: '{"appSwitchConfigList":[{"issuerUrlScheme":"twint-issuer25://","displayName":"AEK TWINT"},{"issuerUrlScheme":"twint-issuer30://","displayName":"AKB TWINT"},{"issuerUrlScheme":"twint-issuer42://","displayName":"Alpha RHEINTAL Bank TWINT"},{"issuerUrlScheme":"twint-issuer12://","displayName":"AppKB TWINT"},{"issuerUrlScheme":"twint-issuer16://","displayName":"BCF TWINT"},{"issuerUrlScheme":"twint-issuer10://","displayName":"BCGE TWINT"},{"issuerUrlScheme":"twint-issuer17://","displayName":"BCJ TWINT"},{"issuerUrlScheme":"twint-issuer18://","displayName":"BCN TWINT"},{"issuerUrlScheme":"twint-issuer5://","displayName":"BCV TWINT"},{"issuerUrlScheme":"twint-issuer13://","displayName":"BCVs TWINT"},{"issuerUrlScheme":"twint-issuer23://","displayName":"BEKB TWINT"},{"issuerUrlScheme":"twint-issuer26://","displayName":"BLKB TWINT"},{"issuerUrlScheme":"twint-issuer33://","displayName":"Baloise TWINT"},{"issuerUrlScheme":"twint-issuer36://","displayName":"BancaStato TWINT"},{"issuerUrlScheme":"twint-issuer40://","displayName":"Bank Avera TWINT"},{"issuerUrlScheme":"twint-issuer43://","displayName":"Bank Thalwil TWINT"},{"issuerUrlScheme":"twint-issuer46://","displayName":"Banque du Leman TWINT"},{"issuerUrlScheme":"twint-issuer44://","displayName":"Bernerland Bank TWINT"},{"issuerUrlScheme":"twint-issuer37://","displayName":"CA next bank TWINT"},{"issuerUrlScheme":"twint-issuer45://","displayName":"Coop Finance+ TWINT"},{"issuerUrlScheme":"twint-issuer4://","displayName":"Credit Suisse TWINT"},{"issuerUrlScheme":"twint-issuer15://","displayName":"GKB TWINT"},{"issuerUrlScheme":"twint-issuer22://","displayName":"GLKB TWINT"},{"issuerUrlScheme":"twint-issuer38://","displayName":"LLB Schweiz TWINT"},{"issuerUrlScheme":"twint-issuer32://","displayName":"LUKB TWINT"},{"issuerUrlScheme":"twint-issuer21://","displayName":"Migros Bank TWINT"},{"issuerUrlScheme":"twint-issuer29://","displayName":"NKB TWINT"},{"issuerUrlScheme":"twint-issuer8://","displayName":"OKB TWINT"},{"issuerUrlScheme":"twint-issuer7://","displayName":"PostFinance TWINT"},{"issuerUrlScheme":"twint-issuer28://","displayName":"Radicant TWINT"},{"issuerUrlScheme":"twint-issuer6://","displayName":"Raiffeisen TWINT"},{"issuerUrlScheme":"twint-issuer14://","displayName":"SGKB TWINT"},{"issuerUrlScheme":"twint-issuer24://","displayName":"SHKB TWINT"},{"issuerUrlScheme":"twint-issuer31://","displayName":"SZKB TWINT"},{"issuerUrlScheme":"twint-issuer27://","displayName":"Swissquote TWINT"},{"issuerUrlScheme":"twint-issuer19://","displayName":"TKB TWINT"},{"issuerUrlScheme":"twint-issuer1://","displayName":"TWINT – andere Banken & Prepaid"},{"issuerUrlScheme":"twint-issuer2://","displayName":"UBS TWINT"},{"issuerUrlScheme":"twint-issuer34://","displayName":"UKB TWINT"},{"issuerUrlScheme":"twint-issuer39://","displayName":"VZ TWINT"},{"issuerUrlScheme":"twint-issuer20://","displayName":"Valiant TWINT"},{"issuerUrlScheme":"twint-issuer3://","displayName":"ZKB TWINT"},{"issuerUrlScheme":"twint-issuer9://","displayName":"ZugerKB TWINT"},{"issuerUrlScheme":"twint-issuer41://","displayName":"acrevis TWINT"},{"issuerUrlScheme":"twint-issuer35://","displayName":"yuh TWINT"}]}'
+        curl_info:
+            url: 'https://app.scheme-pat.twint.ch/appSwitch/v1/configs'
+            content_type: application/json
+            http_code: 200
+            header_size: 316
+            request_size: 102
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.352226
+            namelookup_time: 0.211228
+            connect_time: 0.238123
+            pretransfer_time: 0.307704
+            size_upload: 0.0
+            size_download: 3171.0
+            speed_download: 9002.0
+            speed_upload: 0.0
+            download_content_length: -1.0
+            upload_content_length: 0.0
+            starttransfer_time: 0.3485
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.187
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 53508
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 307661
+            connect_time_us: 238123
+            namelookup_time_us: 211228
+            pretransfer_time_us: 307704
+            redirect_time_us: 0
+            starttransfer_time_us: 348500
+            total_time_us: 352226

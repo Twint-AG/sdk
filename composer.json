@@ -43,7 +43,8 @@
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "symplify/easy-coding-standard": "^12.1",
         "slevomat/coding-standard": "^8.14",
-        "phpstan/phpstan-strict-rules": "^1.5"
+        "phpstan/phpstan-strict-rules": "^1.5",
+        "php-vcr/php-vcr": "^1.7"
     },
     "config": {
         "allow-plugins": {

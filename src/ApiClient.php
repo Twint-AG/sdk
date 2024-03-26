@@ -32,6 +32,7 @@ use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
 use Twint\Sdk\Generated\Type\RenewCertificateRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
+use Twint\Sdk\Value\CertificateRenewal;
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\IosAppScheme;
@@ -62,7 +63,7 @@ final class ApiClient implements Client
      * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
      */
     public function __construct(
-        private readonly CertificateContainer $certificate,
+        private CertificateContainer $certificate,
         private readonly TwintVersion $version,
         private readonly TwintEnvironment $environment,
         private readonly FileWriter $fileWriter = new TemporaryFileWriter(),
@@ -94,7 +95,7 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function renewCertificate(MerchantId $merchantId): CertificateContainer
+    public function renewCertificate(MerchantId $merchantId): CertificateRenewal
     {
         try {
             $response = $this->soapClient()
@@ -107,16 +108,28 @@ final class ApiClient implements Client
                     )
                 );
 
-            return CertificateContainer::fromPkcs12(
+            $certificate = CertificateContainer::fromPkcs12(
                 new Pkcs12Certificate(
                     new InMemoryStream($response->getMerchantCertificate()),
                     $this->certificate->pkcs12()
                         ->passphrase()
                 )
             );
+            $this->setCertificate($certificate);
+
+            return new CertificateRenewal(
+                $certificate,
+                DateTimeImmutable::createFromInterface($response->getExpirationDate())
+            );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
         }
+    }
+
+    private function setCertificate(CertificateContainer $container): void
+    {
+        $this->certificate = $container;
+        $this->soapClient = null;
     }
 
     /**

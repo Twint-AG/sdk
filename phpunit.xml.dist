@@ -15,11 +15,6 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-    <groups>
-        <exclude>
-            <group>expensive</group>
-        </exclude>
-    </groups>
     <coverage>
         <report>
             <html outputDirectory="build/coverage/html"/>
@@ -31,4 +26,7 @@
             <directory suffix=".php">src</directory>
         </include>
     </source>
+    <extensions>
+        <bootstrap class="Twint\Sdk\Checks\PHPUnit\VcrExtension" />
+    </extensions>
 </phpunit>

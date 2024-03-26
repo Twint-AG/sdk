@@ -1,0 +1,66 @@
+
+-
+    request:
+        method: POST
+        url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+        headers:
+            Host: service-pat.twint.ch
+            Expect: ''
+            Accept-Encoding: ''
+            user-agent: 'TWINT PHP SDK/0.0.1'
+            SOAPAction: '"RenewCertificate"'
+            Content-Type: 'text/xml; charset="utf-8"'
+            Accept: ''
+            Twint-SDK-Fixture-Version: '1'
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns1:RenewCertificateRequestElement><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CertificatePassword>c2VjcmV0</ns1:CertificatePassword></ns1:RenewCertificateRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+    response:
+        status:
+            code: 200
+            message: 'Internal Server Error'
+        headers:
+            Date: 'Wed, 27 Mar 2024 14:08:18 GMT'
+            Server: Apache
+            Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
+            Content-Type: text/xml;charset=UTF-8
+            Content-Length: '867'
+            Connection: close
+        body: "<?xml version=\"1.0\"?>\n<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n    <soap:Header>\n        <header:ResponseHeaderElement xmlns:header=\"http://service.twint.ch/header/types/v8_5\">\n            <header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId>\n        </header:ResponseHeaderElement>\n    </soap:Header>\n    <soap:Body>\n        <ns2:RenewCertificateResponseElement xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\">\n            <ns2:ExpirationDate>2100-08-09+02:00</ns2:ExpirationDate>\n            <ns2:MerchantCertificate>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</ns2:MerchantCertificate>\n        </ns2:RenewCertificateResponseElement>\n    </soap:Body>\n</soap:Envelope>\n"
+        curl_info:
+            url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
+            content_type: text/xml;charset=UTF-8
+            http_code: 500
+            header_size: 233
+            request_size: 1061
+            filetime: -1
+            ssl_verify_result: 0
+            redirect_count: 0
+            total_time: 0.286385
+            namelookup_time: 0.001223
+            connect_time: 0.026459
+            pretransfer_time: 0.086318
+            size_upload: 846.0
+            size_download: 867.0
+            speed_download: 3027.0
+            speed_upload: 2954.0
+            download_content_length: 867.0
+            upload_content_length: 846.0
+            starttransfer_time: 0.286381
+            redirect_time: 0.0
+            redirect_url: ''
+            primary_ip: 138.190.125.186
+            certinfo: {  }
+            primary_port: 443
+            local_ip: 10.4.93.18
+            local_port: 61334
+            http_version: 2
+            protocol: 2
+            ssl_verifyresult: 0
+            scheme: HTTPS
+            appconnect_time_us: 86281
+            connect_time_us: 26459
+            namelookup_time_us: 1223
+            pretransfer_time_us: 86318
+            redirect_time_us: 0
+            starttransfer_time_us: 286381
+            total_time_us: 286385
+    index: 0
