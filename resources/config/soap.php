@@ -47,32 +47,35 @@ $engine = CodeGeneratorEngineFactory::create(
             new TypesManipulatorChain(
                 new IntersectDuplicateTypesStrategy(),
                 new class() implements TypesManipulatorInterface {
+                    private const ORDER_REQUEST_TYPE = 'OrderRequestType';
+
+                    private const MERCHANT_TRANSACTION_REFERENCE = 'MerchantTransactionReference';
+
                     /**
                      * @throws MetadataException
                      */
                     public function __invoke(TypeCollection $types): TypeCollection
                     {
-                        $orderRequestType = $types->fetchFirstByName('OrderRequestType');
-                        $orderRequestTypeProperties = $orderRequestType->getProperties();
+                        $orderType = $types->fetchFirstByName(self::ORDER_REQUEST_TYPE);
+                        $orderTypeProperties = $orderType->getProperties();
 
                         return new TypeCollection(
                             new Type(
-                                $orderRequestType->getXsdType(),
+                                $orderType->getXsdType(),
                                 new PropertyCollection(
-                                    ...$orderRequestTypeProperties->map(
-                                        static fn (Property $property) => $property->getName() === 'MerchantTransactionReference'
+                                    ...$orderTypeProperties->map(
+                                        static fn (Property $property) => $property->getName() === self::MERCHANT_TRANSACTION_REFERENCE
                                             ? new Property(
                                                 $property->getName(),
-                                                $property->getType()
-                                                    ->withMeta(
-                                                        static fn (TypeMeta $meta) => $meta ->withIsNullable(true)
-                                                    )
+                                                $property
+                                                    ->getType()
+                                                    ->withMeta(static fn (TypeMeta $m) => $m ->withIsNullable(true))
                                             )
                                             : $property
                                     )
                                 )
                             ),
-                            ...$types->filter(static fn (Type $type) => $type->getName() !== 'OrderRequestType'),
+                            ...$types->filter(static fn (Type $type) => $type->getName() !== self::ORDER_REQUEST_TYPE),
                         );
                     }
                 },
@@ -93,10 +96,10 @@ $engine = CodeGeneratorEngineFactory::create(
                         new ParameterCollection(
                             ...$method->getParameters()
                                 ->map(
-                                    static fn (Parameter $parameter) =>
-                                        new Parameter($parameter->getName(), new XsdType(
-                                            self::replace($parameter->getType()->getName())
-                                        ))
+                                    static fn (Parameter $parameter) => new Parameter(
+                                        $parameter->getName(),
+                                        new XsdType(self::replace($parameter->getType()->getName()))
+                                    )
                                 )
                         ),
                         new XsdType(self::replace($method->getReturnType()->getName()))
