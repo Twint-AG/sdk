@@ -28,12 +28,12 @@
         "ext-dom": "*",
         "ext-openssl": "*",
         "phpro/soap-client": "3.1.0",
+        "php-soap/wsdl-reader": "dev-sequence-fix as 0.9.1",
         "php-soap/engine": "^2.4.0",
         "php-soap/psr18-transport": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
         "beberlei/assert": "^3.2",
-        "webimpress/safe-writer": "^2.0",
-        "goetas-webservices/xsd-reader": "0.4.1"
+        "webimpress/safe-writer": "^2.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
@@ -50,7 +50,14 @@
     "config": {
         "allow-plugins": {
             "php-http/discovery": false,
-            "dealerdirect/phpcodesniffer-composer-installer": false
+            "dealerdirect/phpcodesniffer-composer-installer": false,
+            "cweagans/composer-patches": true
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/lstrojny/wsdl-reader.git"
+        }
+    ]
 }
