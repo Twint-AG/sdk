@@ -29,4 +29,7 @@
     <extensions>
         <bootstrap class="Twint\Sdk\Checks\PHPUnit\VcrExtension" />
     </extensions>
+    <logging>
+        <junit outputFile="build/junit.xml"/>
+    </logging>
 </phpunit>

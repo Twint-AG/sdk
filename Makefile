@@ -19,7 +19,7 @@ test:
 	$(PHPUNIT)
 
 static-analysis:
-	$(PHPSTAN)
+	test $$GITLAB_CI && $(PHPSTAN) --error-format=gitlab > build/phpstan.json || $(PHPSTAN)
 
 format:
 	$(ECS) --fix

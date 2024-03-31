@@ -83,4 +83,7 @@ check:
   extends: .php-with-high-low-dependencies
   artifacts:
     reports:
-      junit: build/coverage/clover.xml
+      # Needs GitLab 14.10
+      #coverage: build/coverage/clover.xml
+      junit: build/junit.xml
+      codequality: build/phpstan.json
