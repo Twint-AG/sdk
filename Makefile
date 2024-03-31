@@ -48,3 +48,6 @@ codegen: codegen-generate-types codegen-generate-client codegen-generate-classma
 check-codegen: codegen
 	@echo "Check if codegen changed the generated code"
 	git diff --exit-code $(CODEGEN_DIR)
+
+container-checksum:
+	echo TWINT_SDK_PHP_IMAGE_BASE=$$CI_REGISTRY_IMAGE/php:$$(sha3sum composer.lock Dockerfile .gitlab-ci.yml Makefile | sha3sum | cut -d " " -f 1) > .docker-env

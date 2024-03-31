@@ -1,16 +1,17 @@
 stages:
+  - pre-build
   - build
   - check
 
 .base:
-  parallel:
-    matrix:
-      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3" ] }
   tags:
     - d13-runner
 
 .php:
-  image: "$CI_REGISTRY_IMAGE/php:$CI_COMMIT_SHORT_SHA-$PHP_VERSION"
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION"
+  parallel:
+    matrix:
+      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3" ] }
   extends: .base
 
 .php-with-high-low-dependencies:
@@ -19,18 +20,27 @@ stages:
       - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "current", "lowest" ] }
   extends: .php
 
-build:
+container-build-hash:
+  stage: pre-build
+  image: "alpine:3"
+  script:
+    - apk add --no-cache make
+    - make container-checksum
+  extends: .base
+  artifacts:
+    reports:
+      dotenv: .docker-env
+
+container-build:
   stage: build
   image: "quay.io/podman/stable:v4"
   variables:
     TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
-    TWINT_SDK_PHP_IMAGE_TAG:   $CI_REGISTRY_IMAGE/php:$CI_COMMIT_SHORT_SHA-$PHP_VERSION
-    TWINT_SDK_PHP_IMAGE_ALIAS: $CI_REGISTRY_IMAGE/php:$CI_COMMIT_REF_SLUG-$PHP_VERSION
     # Required to make rootless podman work
     STORAGE_DRIVER: vfs
   script:
+    - env
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - podman pull ${TWINT_SDK_PHP_IMAGE_ALIAS} || true
     - >-
       podman build
       --pull=newer
@@ -45,37 +55,32 @@ build:
       --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
       --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
       --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $TWINT_SDK_PHP_IMAGE_TAG
-      --tag $TWINT_SDK_PHP_IMAGE_ALIAS
+      --tag $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION
       -f Dockerfile
       $PWD
-    - podman push $TWINT_SDK_PHP_IMAGE_TAG
-    # Push image alias to registry
-    - podman push $TWINT_SDK_PHP_IMAGE_TAG $TWINT_SDK_PHP_IMAGE_ALIAS
-  extends: .base
+    - podman push $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION
+  extends: .php
+  needs:
+    - job: container-build-hash
+      artifacts: true
+  only:
+    changes:
+      - composer.lock
+      - Dockerfile
+      - .gitlab-ci.yml
+      - Makefile
 
-test:
+check:
   stage: check
   variables:
     XDEBUG_MODE: coverage
   script:
-    - $COMPOSER_DEPENDENCY_VERSION == "lowest" && composer update --prefer-lowest || composer install
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
+    - $COMPOSER_DEPENDENCY_VERSION == "lowest" && composer update --prefer-lowest || composer install
     - mkdir -p build
     - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - make test
+    - make check
   extends: .php-with-high-low-dependencies
-
-static-analysis:
-  stage: check
-  script:
-    - composer install
-    - make static-analysis
-  extends: .php
-
-format:
-  stage: check
-  script:
-    - composer install
-    - make check-format
-  extends: .php
+  artifacts:
+    reports:
+      junit: build/coverage/clover.xml
