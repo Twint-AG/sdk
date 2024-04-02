@@ -32,7 +32,7 @@
         "php-soap/engine": "^2.4.0",
         "php-soap/psr18-transport": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
-        "beberlei/assert": "^3.2",
+        "beberlei/assert": "^3.3.1",
         "webimpress/safe-writer": "^2.0"
     },
     "require-dev": {
@@ -40,7 +40,7 @@
         "phpunit/phpunit": "^10.5",
         "laminas/laminas-code": "^4.8",
         "symfony/dotenv": "^6.4",
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^1.10.56",
         "phpstan/phpstan-beberlei-assert": "^1.1",
         "symplify/easy-coding-standard": "^12.1",
         "slevomat/coding-standard": "^8.14",
