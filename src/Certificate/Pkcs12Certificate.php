@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
-use Twint\Sdk\Assertion;
 use Twint\Sdk\File\FileWriter;
+use function Psl\invariant;
 
 final class Pkcs12Certificate implements Certificate
 {
@@ -31,13 +31,9 @@ final class Pkcs12Certificate implements Certificate
             new ProcessingStream(
                 $this->content,
                 function (string $content): string {
-                    Assertion::true(
-                        openssl_pkcs12_read($content, $certs, $this->passphrase()),
-                        'Reading PKCS12 file failed'
-                    );
-
-                    Assertion::true(openssl_x509_export($certs['cert'], $pemCert), 'X509 certificate export failed');
-                    Assertion::true(
+                    invariant(openssl_pkcs12_read($content, $certs, $this->passphrase()), 'Reading PKCS12 file failed');
+                    invariant(openssl_x509_export($certs['cert'], $pemCert), 'X509 certificate export failed');
+                    invariant(
                         openssl_pkey_export($certs['pkey'], $pemKey, $this->passphrase()),
                         'Private key export failed'
                     );

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\literal_scalar;
+use function Psl\Type\union;
 
 final class DetectedDevice
 {
@@ -15,14 +15,15 @@ final class DetectedDevice
 
     public const ANDROID = 2;
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __construct(
         private readonly string $userAgent,
         private readonly int $deviceType
     ) {
-        Assertion::choice($deviceType, [self::UNKNOWN, self::IOS, self::ANDROID], 'Invalid device type');
+        union(
+            literal_scalar(self::UNKNOWN),
+            literal_scalar(self::IOS),
+            literal_scalar(self::ANDROID)
+        )->assert($deviceType);
     }
 
     public function userAgent(): string

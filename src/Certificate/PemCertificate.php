@@ -7,8 +7,9 @@ namespace Twint\Sdk\Certificate;
 use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
 use SensitiveParameter;
-use Twint\Sdk\Assertion;
 use Twint\Sdk\File\FileWriter;
+use function Psl\invariant;
+use function Psl\Type\instance_of;
 
 final class PemCertificate implements Certificate
 {
@@ -35,14 +36,15 @@ final class PemCertificate implements Certificate
             new ProcessingStream(
                 $this->content,
                 function (string $content): string {
-                    $privateKey = openssl_get_privatekey($content, $this->passphrase);
-                    Assertion::isInstanceOf($privateKey, OpenSSLAsymmetricKey::class, 'Private key extraction failed');
-
-                    $certificate = openssl_x509_read($content);
-                    Assertion::isInstanceOf($certificate, OpenSSLCertificate::class, 'Reading X509 certificate failed');
-
-                    Assertion::true(
-                        openssl_pkcs12_export($certificate, $p12Cert, $privateKey, $this->passphrase),
+                    invariant(
+                        openssl_pkcs12_export(
+                            instance_of(OpenSSLCertificate::class)
+                                ->assert(openssl_x509_read($content)),
+                            $p12Cert,
+                            instance_of(OpenSSLAsymmetricKey::class)
+                                ->assert(openssl_get_privatekey($content, $this->passphrase)),
+                            $this->passphrase
+                        ),
                         'PKCS12 export failed'
                     );
 

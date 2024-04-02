@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "569061a092e0ab9ee48c73c9e97085a3",
+    "content-hash": "da3ddeb43848d1a82c43f2305b93887b",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -79,73 +79,6 @@
                 }
             ],
             "time": "2023-12-29T10:23:32+00:00"
-        },
-        {
-            "name": "beberlei/assert",
-            "version": "v3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/beberlei/assert.git",
-                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/cb70015c04be1baee6f5f5c953703347c0ac1655",
-                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-simplexml": "*",
-                "php": "^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": ">=6.0.0",
-                "yoast/phpunit-polyfills": "^0.1.0"
-            },
-            "suggest": {
-                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/Assert/functions.php"
-                ],
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Collaborator"
-                }
-            ],
-            "description": "Thin assertion library for input validation in business models.",
-            "keywords": [
-                "assert",
-                "assertion",
-                "validation"
-            ],
-            "support": {
-                "issues": "https://github.com/beberlei/assert/issues",
-                "source": "https://github.com/beberlei/assert/tree/v3.3.2"
-            },
-            "time": "2021-12-16T21:41:27+00:00"
         },
         {
             "name": "clue/stream-filter",
@@ -3573,6 +3506,73 @@
     ],
     "packages-dev": [
         {
+            "name": "beberlei/assert",
+            "version": "v3.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/beberlei/assert.git",
+                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/beberlei/assert/zipball/cb70015c04be1baee6f5f5c953703347c0ac1655",
+                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655",
+                "shasum": ""
+            },
+            "require": {
+                "ext-ctype": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-simplexml": "*",
+                "php": "^7.0 || ^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "*",
+                "phpstan/phpstan": "*",
+                "phpunit/phpunit": ">=6.0.0",
+                "yoast/phpunit-polyfills": "^0.1.0"
+            },
+            "suggest": {
+                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "lib/Assert/functions.php"
+                ],
+                "psr-4": {
+                    "Assert\\": "lib/Assert"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Eberlei",
+                    "email": "kontakt@beberlei.de",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Richard Quadling",
+                    "email": "rquadling@gmail.com",
+                    "role": "Collaborator"
+                }
+            ],
+            "description": "Thin assertion library for input validation in business models.",
+            "keywords": [
+                "assert",
+                "assertion",
+                "validation"
+            ],
+            "support": {
+                "issues": "https://github.com/beberlei/assert/issues",
+                "source": "https://github.com/beberlei/assert/tree/v3.3.2"
+            },
+            "time": "2021-12-16T21:41:27+00:00"
+        },
+        {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
             "version": "v1.0.0",
             "source": {
@@ -3886,26 +3886,79 @@
             "time": "2022-02-21T01:04:05+00:00"
         },
         {
-            "name": "php-vcr/php-vcr",
-            "version": "1.7.0",
+            "name": "php-standard-library/phpstan-extension",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-vcr/php-vcr.git",
-                "reference": "2a6220d9d8368c1c5d22b5e77bd6b0f8acfd0705"
+                "url": "https://github.com/php-standard-library/phpstan-extension.git",
+                "reference": "53601fe346aa90cbeaf9916f15eed46a3cb90ead"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-vcr/php-vcr/zipball/2a6220d9d8368c1c5d22b5e77bd6b0f8acfd0705",
-                "reference": "2a6220d9d8368c1c5d22b5e77bd6b0f8acfd0705",
+                "url": "https://api.github.com/repos/php-standard-library/phpstan-extension/zipball/53601fe346aa90cbeaf9916f15eed46a3cb90ead",
+                "reference": "53601fe346aa90cbeaf9916f15eed46a3cb90ead",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.4 || ^8.0",
+                "phpstan/phpstan": "^1.7"
+            },
+            "conflict": {
+                "azjezz/psl": "<1.6||>=3.0"
+            },
+            "require-dev": {
+                "azjezz/psl": "^1.6||^2.0",
+                "nikic/php-parser": "^4.14.0",
+                "php-parallel-lint/php-parallel-lint": "^1.2",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "phpstan-extension",
+            "extra": {
+                "phpstan": {
+                    "includes": [
+                        "extension.neon"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psl\\PHPStan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan PSL extension",
+            "support": {
+                "issues": "https://github.com/php-standard-library/phpstan-extension/issues",
+                "source": "https://github.com/php-standard-library/phpstan-extension/tree/1.0.0"
+            },
+            "time": "2022-06-10T11:39:34+00:00"
+        },
+        {
+            "name": "php-vcr/php-vcr",
+            "version": "dev-fix-stream-handler-set-option",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lstrojny/php-vcr.git",
+                "reference": "ce9eea3fd519d91eb73f772e8bea6f58cdb0072a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lstrojny/php-vcr/zipball/ce9eea3fd519d91eb73f772e8bea6f58cdb0072a",
+                "reference": "ce9eea3fd519d91eb73f772e8bea6f58cdb0072a",
                 "shasum": ""
             },
             "require": {
                 "beberlei/assert": "^3.2.5",
                 "ext-curl": "*",
                 "php": "^8,<8.2|>=8.2.9,<8.4",
-                "symfony/event-dispatcher": "^4|^5|^6",
+                "symfony/event-dispatcher": "^4|^5|^6|^7",
                 "symfony/event-dispatcher-contracts": "^1|^2|^3",
-                "symfony/yaml": "^3|^4|^5|^6"
+                "symfony/yaml": "^3|^4|^5|^6|^7"
             },
             "require-dev": {
                 "editorconfig-checker/editorconfig-checker": "^10.3",
@@ -3926,7 +3979,28 @@
                     "VCR\\": "src/VCR/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "VCR\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "./vendor/bin/phpunit"
+                ],
+                "cs": [
+                    "./vendor/bin/php-cs-fixer fix --verbose --diff --dry-run"
+                ],
+                "cs-fix": [
+                    "./vendor/bin/php-cs-fixer fix --verbose --diff"
+                ],
+                "phpstan": [
+                    "php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon --no-progress -vvv"
+                ],
+                "ec": [
+                    "./vendor/bin/ec"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -3938,10 +4012,9 @@
             ],
             "description": "Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
             "support": {
-                "issues": "https://github.com/php-vcr/php-vcr/issues",
-                "source": "https://github.com/php-vcr/php-vcr/tree/1.7.0"
+                "source": "https://github.com/lstrojny/php-vcr/tree/fix-stream-handler-set-option"
             },
-            "time": "2024-02-23T22:40:43+00:00"
+            "time": "2024-04-02T11:22:34+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -4051,56 +4124,6 @@
                 }
             ],
             "time": "2024-03-28T16:17:31+00:00"
-        },
-        {
-            "name": "phpstan/phpstan-beberlei-assert",
-            "version": "1.1.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan-beberlei-assert.git",
-                "reference": "0918f2c71f93d44839b74fe3ba2682b2083a8729"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-beberlei-assert/zipball/0918f2c71f93d44839b74fe3ba2682b2083a8729",
-                "reference": "0918f2c71f93d44839b74fe3ba2682b2083a8729",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.2 || ^8.0",
-                "phpstan/phpstan": "^1.10"
-            },
-            "require-dev": {
-                "beberlei/assert": "^3.3.0",
-                "nikic/php-parser": "^4.13.0",
-                "php-parallel-lint/php-parallel-lint": "^1.2",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "phpstan/phpstan-strict-rules": "^1.0",
-                "phpunit/phpunit": "^9.5"
-            },
-            "type": "phpstan-extension",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "extension.neon"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PHPStan\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan beberlei/assert extension",
-            "support": {
-                "issues": "https://github.com/phpstan/phpstan-beberlei-assert/issues",
-                "source": "https://github.com/phpstan/phpstan-beberlei-assert/tree/1.1.2"
-            },
-            "time": "2023-09-04T12:13:01+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -5895,11 +5918,18 @@
             "version": "dev-sequence-fix",
             "alias": "0.9.1",
             "alias_normalized": "0.9.1.0"
+        },
+        {
+            "package": "php-vcr/php-vcr",
+            "version": "dev-fix-stream-handler-set-option",
+            "alias": "1.7.0",
+            "alias_normalized": "1.7.0.0"
         }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "php-soap/wsdl-reader": 20
+        "php-soap/wsdl-reader": 20,
+        "php-vcr/php-vcr": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

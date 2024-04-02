@@ -14,7 +14,6 @@ use Soap\Psr18Transport\Middleware\SoapHeaderMiddleware;
 use Soap\Psr18Transport\Psr18Transport;
 use Soap\Xml\Builder\SoapHeader;
 use Twint\Sdk\Certificate\CertificateContainer;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\Generated\TwintSoapClassMap;
 use Twint\Sdk\TwintEnvironment;
@@ -37,9 +36,6 @@ final class DefaultSoapEngineFactory
     ) {
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __invoke(
         FileWriter $writer,
         CertificateContainer $certificate,

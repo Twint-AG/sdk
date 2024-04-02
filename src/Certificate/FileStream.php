@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace Twint\Sdk\Certificate;
 
 use SensitiveParameter;
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Value\File;
+use function Psl\File\read;
 
 final class FileStream implements Stream
 {
@@ -17,16 +16,9 @@ final class FileStream implements Stream
     ) {
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function read(): string
     {
-        $content = file_get_contents((string) $this->file);
-
-        Assertion::string($content, 'Failed to read file content');
-
-        return $content;
+        return read((string) $this->file);
     }
 
     public function path(): File

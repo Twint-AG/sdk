@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Util\Comparison;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Comparable<self>
@@ -45,12 +44,9 @@ final class Order implements Comparable, Equality
         return $this->transactionReference;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return Comparison::comparePairs([
             [$this->id, $other->id],

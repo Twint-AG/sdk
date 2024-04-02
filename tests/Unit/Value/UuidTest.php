@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psl\Exception\InvariantViolationException;
 use Twint\Sdk\Value\Uuid;
 
 #[CoversClass(Uuid::class)]
@@ -28,10 +28,8 @@ final class UuidTest extends TestCase
     #[DataProvider('unusualUuids')]
     public function testValidationOfUnusualUuid(string $uuid): void
     {
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessageMatches(
-            '/UUID ".+" has incorrect length. Must be exactly 36 characters, got \d+/'
-        );
+        $this->expectException(InvariantViolationException::class);
+        $this->expectExceptionMessageMatches('/Invalid UUID ".+". Must be in the format "8-4-4-4-12"/');
         new Uuid($uuid);
     }
 

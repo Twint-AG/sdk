@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\instance_of;
+use function Psl\Type\union;
 
 /**
  * @template-implements Enum<Money::*>
@@ -21,27 +21,18 @@ final class Money implements Enum, Comparable, Equality
 
     public const CHF = 'CHF';
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __construct(
         private readonly string $currency,
         private readonly float $amount,
     ) {
-        Assertion::choice($currency, self::all(), '"%s" is not a valid currency. Supported currencies: %s');
+        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($currency);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function EUR(float $amount): self
     {
         return new self(self::EUR, $amount);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function CHF(float $amount): self
     {
         return new self(self::CHF, $amount);
@@ -67,12 +58,9 @@ final class Money implements Enum, Comparable, Equality
         return $this->currency;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         if ($this->currency !== $other->currency) {
             return $this->currency <=> $other->currency;

@@ -32,8 +32,8 @@
         "php-soap/engine": "^2.4.0",
         "php-soap/psr18-transport": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
-        "beberlei/assert": "^3.3.1",
-        "webimpress/safe-writer": "^2.0"
+        "webimpress/safe-writer": "^2.0",
+        "azjezz/psl": "^2.5.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
@@ -41,11 +41,12 @@
         "laminas/laminas-code": "^4.8",
         "symfony/dotenv": "^6.4",
         "phpstan/phpstan": "^1.10.56",
-        "phpstan/phpstan-beberlei-assert": "^1.1",
         "symplify/easy-coding-standard": "^12.1",
         "slevomat/coding-standard": "^8.14",
         "phpstan/phpstan-strict-rules": "^1.5",
-        "php-vcr/php-vcr": "^1.7"
+        "php-vcr/php-vcr": "dev-fix-stream-handler-set-option as 1.7.0",
+        "php-standard-library/phpstan-extension": "^1.0",
+        "symfony/event-dispatcher": "^6.4"
     },
     "config": {
         "allow-plugins": {
@@ -58,6 +59,10 @@
         {
             "type": "vcs",
             "url": "https://github.com/lstrojny/wsdl-reader.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/lstrojny/php-vcr.git"
         }
     ]
 }

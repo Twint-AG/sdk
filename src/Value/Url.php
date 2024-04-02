@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\invariant;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Comparable<self>
@@ -16,13 +16,10 @@ final class Url implements Comparable, Equality
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __construct(
         private readonly string $url
     ) {
-        Assertion::url($url, 'URL "%s" is not valid');
+        invariant(filter_var($url, FILTER_VALIDATE_URL) !== false, 'URL "%s" is not valid', $url);
     }
 
     public function __toString(): string
@@ -30,12 +27,9 @@ final class Url implements Comparable, Equality
         return $this->url;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->url <=> $other->url;
     }

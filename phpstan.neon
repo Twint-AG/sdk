@@ -6,15 +6,13 @@ parameters:
             tooWideThrowType: true
         uncheckedExceptionClasses:
             - "PHPUnit\\Framework\\ExpectationFailedException"
+            - "Psl\\Exception\\ExceptionInterface"
     paths:
         - src
         - tests
         - checks
         - resources
     ignoreErrors:
-        -
-            message: "#^Method .* throws checked exception Psl\\\\Type\\\\Exception\\\\AssertException but it's missing from the PHPDoc @throws tag.$#"
-            path: src/Generated/TwintSoapClient.php
         -
             message: "#^Method .* has .* in PHPDoc @throws tag but it's not thrown#"
             path: src/Generated/*
@@ -28,9 +26,4 @@ parameters:
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
-
-services:
-	-
-		class: Twint\Sdk\Checks\PHPStan\AssertionThrowTypeExtension
-		tags:
-			- phpstan.dynamicStaticMethodThrowTypeExtension
+    - vendor/php-standard-library/phpstan-extension/extension.neon

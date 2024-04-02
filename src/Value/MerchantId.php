@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Comparable<self>
@@ -21,9 +20,6 @@ final class MerchantId implements Comparable, Equality
     ) {
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function fromString(string $uuid): self
     {
         return new self(new Uuid($uuid));
@@ -34,12 +30,9 @@ final class MerchantId implements Comparable, Equality
         return (string) $this->uuid;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->uuid->compare($other->uuid);
     }

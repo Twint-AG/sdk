@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\instance_of;
+use function Psl\Type\union;
 
 /**
  * @template-implements Enum<OrderKind::*>
@@ -29,49 +29,33 @@ final class OrderKind implements Enum, Comparable, Equality
 
     /**
      * @param OrderKind::* $kind
-     * @throws AssertionFailed
      */
     public function __construct(
         private readonly string $kind
     ) {
-        Assertion::choice($kind, self::all(), '"%s" is not a order kind. Supported: %s');
+        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($kind);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function PAYMENT_IMMEDIATE(): self
     {
         return new self(self::PAYMENT_IMMEDIATE);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function PAYMENT_DEFERRED(): self
     {
         return new self(self::PAYMENT_DEFERRED);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function PAYMENT_RECURRING(): self
     {
         return new self(self::PAYMENT_RECURRING);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function REVERSAL(): self
     {
         return new self(self::REVERSAL);
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public static function CREDIT(): self
     {
         return new self(self::CREDIT);
@@ -96,12 +80,9 @@ final class OrderKind implements Enum, Comparable, Equality
         return $this->kind;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->kind <=> $other->kind;
     }

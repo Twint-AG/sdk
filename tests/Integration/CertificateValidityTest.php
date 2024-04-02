@@ -7,16 +7,18 @@ namespace Twint\Sdk\Tests\Integration;
 use DateTimeImmutable;
 use DOMDocument;
 use DOMNode;
+use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
 use OpenSSLCertificateSigningRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Assertion;
 use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 use Twint\Sdk\Checks\PHPUnit\MutableResponse;
 use Twint\Sdk\Checks\PHPUnit\Vcr;
 use VCR\Request;
 use VeeWee\Xml\Dom\Document;
+use function Psl\Type\instance_of;
+use function Psl\Type\string;
 use function VeeWee\Xml\Dom\Builder\value;
 use function VeeWee\Xml\Dom\Locator\elements_with_namespaced_tagname;
 
@@ -27,15 +29,11 @@ final class CertificateValidityTest extends IntegrationTest
     {
         $doc = new DOMDocument('1.0');
         $doc->loadXML((string) $request->getBody());
-        $element = $doc->getElementsByTagName('CertificatePassword')
-            ->item(0);
-        Assertion::isInstanceOf($element, DOMNode::class, 'CertificatePassword element not found');
+        $element = instance_of(DOMNode::class)->assert($doc->getElementsByTagName('CertificatePassword') ->item(0));
+
         $element->nodeValue = base64_encode('secret');
 
-        $body = $doc->saveXML();
-        Assertion::string($body, 'Failed to save XML');
-
-        $request->setBody($body);
+        $request->setBody(string()->assert($doc->saveXML()));
     }
 
     public static function rewriteRenewCertificateResponse(MutableResponse $response): void
@@ -46,7 +44,7 @@ final class CertificateValidityTest extends IntegrationTest
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
             'encrypt_key' => true,
         ];
-        $privateKey = openssl_pkey_new($config);
+        $privateKey = instance_of(OpenSSLAsymmetricKey::class)->assert(openssl_pkey_new($config));
 
         $dn = [
             'C' => 'CH',
@@ -56,10 +54,8 @@ final class CertificateValidityTest extends IntegrationTest
             'UID' => self::getMerchantId(),
         ];
 
-        $csr = openssl_csr_new($dn, $privateKey, $config);
-        Assertion::isInstanceOf($csr, OpenSSLCertificateSigningRequest::class, 'Failed to create CSR');
-        $cert = openssl_csr_sign($csr, null, $privateKey, 365, $config);
-        Assertion::isInstanceOf($cert, OpenSSLCertificate::class, 'Failed to sign CSR');
+        $csr = instance_of(OpenSSLCertificateSigningRequest::class)->assert(openssl_csr_new($dn, $privateKey, $config));
+        $cert = instance_of(OpenSSLCertificate::class)->assert(openssl_csr_sign($csr, null, $privateKey, 365, $config));
 
         $password = self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE');
         openssl_pkcs12_export($cert, $p12, $privateKey, $password);

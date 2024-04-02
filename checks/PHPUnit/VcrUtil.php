@@ -7,7 +7,8 @@ namespace Twint\Sdk\Checks\PHPUnit;
 use PHPUnit\Event\Code\Test;
 use PHPUnit\Event\Code\TestMethod;
 use ReflectionMethod;
-use Twint\Sdk\Assertion;
+use function Psl\Type\non_empty_string;
+use function Psl\Type\uint;
 
 final class VcrUtil
 {
@@ -39,9 +40,7 @@ final class VcrUtil
             : $test->id()
         );
 
-        Assertion::string($name, 'Cassette name must be a string');
-
-        return $name;
+        return non_empty_string()->assert($name);
     }
 
     public static function tryGetFixtureRevision(Test $test): ?int
@@ -51,10 +50,6 @@ final class VcrUtil
 
     public static function getFixtureRevision(Test $test): int
     {
-        $fixtureRevision = self::tryGetFixtureRevision($test);
-
-        Assertion::integer($fixtureRevision, 'Fixture fixture revision must be set for VCR recording, "%s" given');
-
-        return $fixtureRevision;
+        return uint()->assert(self::tryGetFixtureRevision($test));
     }
 }

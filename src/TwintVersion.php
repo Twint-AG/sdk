@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Twint\Sdk;
 
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Value\Comparable;
 use Twint\Sdk\Value\ComparableToEquality;
 use Twint\Sdk\Value\Enum;
 use Twint\Sdk\Value\Equality;
+use function Psl\Type\instance_of;
 
 /**
  * @phpstan-type ExistingVersionId = TwintVersion::V*
@@ -59,12 +59,9 @@ final class TwintVersion implements Enum, Comparable, Equality
         return (string) $this->versionId;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->versionId <=> $other->versionId;
     }

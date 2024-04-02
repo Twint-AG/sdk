@@ -44,6 +44,11 @@ use Twint\Sdk\Value\OrderKind;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\TransactionReference;
 use Twint\Sdk\Value\TransactionStatus;
+use function Psl\invariant;
+use function Psl\Type\non_empty_string;
+use function Psl\Type\shape;
+use function Psl\Type\string;
+use function Psl\Type\vec;
 
 final class ApiClient implements Client
 {
@@ -106,12 +111,11 @@ final class ApiClient implements Client
                     )
                 );
 
-            $certificateBlob = $response->getMerchantCertificate();
-            Assertion::string($certificateBlob, 'Expected certificate blob to be a string');
-            Assertion::notEmpty($certificateBlob, 'Expected certificate blob to be non-empty');
-
             $certificate = CertificateContainer::fromPkcs12(
-                new Pkcs12Certificate(new InMemoryStream($certificateBlob), $this->certificate->pkcs12()->passphrase())
+                new Pkcs12Certificate(new InMemoryStream(non_empty_string()->assert(
+                    $response->getMerchantCertificate()
+                )), $this->certificate->pkcs12()
+                    ->passphrase())
             );
             $this->setCertificate($certificate);
 
@@ -210,15 +214,14 @@ final class ApiClient implements Client
                     )
                 );
 
-            $merchantTransactionReference = $response->getOrder()
-                ->getMerchantTransactionReference();
-            Assertion::notEmpty($merchantTransactionReference, 'Expected merchant reference to be non-empty');
-
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference($merchantTransactionReference),
+                new TransactionReference(non_empty_string()->assert(
+                    $response->getOrder()
+                        ->getMerchantTransactionReference()
+                )),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -245,15 +248,14 @@ final class ApiClient implements Client
                     )
                 );
 
-            $merchantTransactionReference = $response->getOrder()
-                ->getMerchantTransactionReference();
-            Assertion::notEmpty($merchantTransactionReference, 'Expected merchant reference to be non-empty');
-
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference($merchantTransactionReference),
+                new TransactionReference(non_empty_string()->assert(
+                    $response->getOrder()
+                        ->getMerchantTransactionReference()
+                )),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -261,6 +263,7 @@ final class ApiClient implements Client
     }
 
     /**
+     * @phpstan-ignore-next-line
      * @throws SdkError
      */
     public function detectDevice(string $userAgent): DetectedDevice
@@ -288,14 +291,20 @@ final class ApiClient implements Client
             throw ApiFailure::fromThrowable($e);
         }
 
-        Assertion::eq(
-            200,
-            $response->getStatusCode(),
-            'Failed to fetch iOS app schemes. Expected status code %s, got %s'
+        invariant(
+            $response->getStatusCode() === 200,
+            'Failed to fetch iOS app schemes. Expected status code 200, got %d',
+            $response->getStatusCode()
         );
         $contentType = $response->getHeader('content-type');
-        Assertion::count($contentType, 1, 'Expected single content type header');
-        Assertion::eq('application/json', $contentType[0], 'Invalid content type. Expected "%s", got "%s"');
+        invariant(count($contentType) === 1, 'Expected single content type header');
+        invariant(
+            vec(string())
+                ->assert($contentType)[0] === 'application/json',
+            'Invalid content type. Expected "%s", got "%s"',
+            'application/json',
+            $contentType[0]
+        );
 
         try {
             $parsed = json_decode($response->getBody()->getContents(), true, flags: JSON_THROW_ON_ERROR);
@@ -303,23 +312,21 @@ final class ApiClient implements Client
             throw ApiFailure::fromThrowable($e);
         }
 
-        Assertion::isArray($parsed, 'Parsed response must be an array');
-        Assertion::keyExists($parsed, 'appSwitchConfigList', 'Parsed response must contain appSwitchConfigList');
-        Assertion::isArray($parsed['appSwitchConfigList'], 'appSwitchConfigList must be an array');
-        Assertion::allKeyExists(
-            $parsed['appSwitchConfigList'],
-            'issuerUrlScheme',
-            'issuerUrlScheme must exist in each appSwitchConfigList item'
-        );
-        Assertion::allKeyExists(
-            $parsed['appSwitchConfigList'],
-            'displayName',
-            'displayName must exist in each appSwitchConfigList item'
-        );
-
         return array_map(
-            static fn (array $config) => new IosAppScheme($config['issuerUrlScheme'], $config['displayName']),
-            $parsed['appSwitchConfigList']
+            static fn (array $config) => new IosAppScheme(
+                non_empty_string()
+                    ->assert($config['issuerUrlScheme']),
+                non_empty_string()
+                    ->assert($config['displayName'])
+            ),
+            shape([
+                'appSwitchConfigList' => vec(
+                    shape([
+                        'issuerUrlScheme' => non_empty_string(),
+                        'displayName' => non_empty_string(),
+                    ], true)
+                ),
+            ], true)->assert($parsed)['appSwitchConfigList']
         );
     }
 

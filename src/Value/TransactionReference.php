@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\invariant;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Comparable<self>
@@ -20,15 +20,17 @@ final class TransactionReference implements Comparable, Equality
     private const MAX_LENGTH = 50;
 
     /**
-     * @throws AssertionFailed
+     * @param non-empty-string $value
      */
     public function __construct(
         private readonly string $value
     ) {
-        Assertion::maxLength(
+        invariant(
+            strlen($value) <= self::MAX_LENGTH,
+            'Transaction reference "%s" is too long. Must be %d characters or less, got %d',
             $value,
             self::MAX_LENGTH,
-            'Transaction reference "%s" is too long. Must be %d characters or less, got %d'
+            strlen($value)
         );
     }
 
@@ -37,12 +39,9 @@ final class TransactionReference implements Comparable, Equality
         return $this->value;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->value <=> $other->value;
     }

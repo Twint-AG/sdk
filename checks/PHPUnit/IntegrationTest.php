@@ -7,7 +7,6 @@ namespace Twint\Sdk\Checks\PHPUnit;
 use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Assertion;
 use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
@@ -18,6 +17,7 @@ use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\TransactionReference;
 use Twint\Sdk\Value\Uuid;
+use function Psl\Type\non_empty_string;
 
 abstract class IntegrationTest extends TestCase
 {
@@ -30,12 +30,7 @@ abstract class IntegrationTest extends TestCase
      */
     protected static function getEnvironmentVariable(string $name): string
     {
-        $value = $_SERVER[$name] ?? null;
-
-        Assertion::string($value, 'Environment variable ' . $name . ' is not set');
-        Assertion::notEmpty($value, 'Environment variable ' . $name . ' is empty');
-
-        return $value;
+        return non_empty_string()->assert($_SERVER[$name] ?? '');
     }
 
     protected static function getMerchantId(): MerchantId

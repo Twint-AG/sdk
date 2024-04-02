@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\invariant;
+use function Psl\Regex\matches;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Comparable<Uuid>
@@ -16,14 +17,14 @@ final class Uuid implements Comparable, Equality
     /** @use ComparableToEquality<Uuid> */
     use ComparableToEquality;
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __construct(
         private string $uuid
     ) {
-        Assertion::uuid($uuid);
-        Assertion::length($uuid, 36, 'UUID "%s" has incorrect length. Must be exactly %d characters, got %d');
+        invariant(
+            matches($uuid, '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i'),
+            'Invalid UUID "%s". Must be in the format "8-4-4-4-12"',
+            $uuid
+        );
         $this->uuid = strtolower($uuid);
     }
 
@@ -32,12 +33,9 @@ final class Uuid implements Comparable, Equality
         return $this->uuid;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->uuid <=> $other->uuid;
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\instance_of;
+use function Psl\Type\union;
 
 /**
  * @template-implements Enum<OrderStatus::*>
@@ -23,13 +23,10 @@ final class OrderStatus implements Enum, Comparable, Equality
 
     public const SUCCESS = 'SUCCESS';
 
-    /**
-     * @throws AssertionFailed
-     */
     public function __construct(
         private readonly string $status
     ) {
-        Assertion::choice($status, self::all(), '"%s" is not a valid order status. Supported: %s');
+        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
     }
 
     public static function all(): array
@@ -42,12 +39,9 @@ final class OrderStatus implements Enum, Comparable, Equality
         return $this->status;
     }
 
-    /**
-     * @throws AssertionFailed
-     */
     public function compare($other): int
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->status <=> $other->status;
     }

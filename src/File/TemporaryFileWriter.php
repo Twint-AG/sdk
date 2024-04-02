@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\File;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
 use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\File;
 use Webimpress\SafeWriter\FileWriter as SafeFileWriter;
+use function Psl\invariant;
+use function Psl\Type\non_empty_string;
 
 /**
  * @phpstan-import-type Length from DefaultRandomStringFactory
@@ -28,26 +28,13 @@ final class TemporaryFileWriter implements FileWriter
 
     /**
      * @param callable(Length): string $createRandomString
-     * @throws AssertionFailed
      */
     public function __construct(
         ?File $baseDirectory = null,
         private readonly string $prefix = 'twint-sdk-',
         private readonly mixed $createRandomString = new DefaultRandomStringFactory()
     ) {
-        $this->baseDirectory = $baseDirectory ?? new File(self::getTempDir());
-    }
-
-    /**
-     * @throws AssertionFailed
-     * @return non-empty-string
-     */
-    private static function getTempDir(): string
-    {
-        $tempDir = sys_get_temp_dir();
-        Assertion::notEmpty($tempDir, 'Temp dir must be a string');
-
-        return $tempDir;
+        $this->baseDirectory = $baseDirectory ?? new File(non_empty_string()->assert(sys_get_temp_dir()));
     }
 
     /**
@@ -58,7 +45,7 @@ final class TemporaryFileWriter implements FileWriter
         return Resilience::retry(5, function () use ($input, $extension): File {
             $path = $this->baseDirectory . '/' . $this->prefix . ($this->createRandomString)(32) . $extension;
 
-            Assertion::false(file_exists($path), sprintf('File already exists: %s', $path));
+            invariant(!file_exists($path), 'File already exists: %s', $path);
             SafeFileWriter::writeFile($path, $input, 0400);
 
             $file = new File($path);

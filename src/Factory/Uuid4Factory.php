@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace Twint\Sdk\Factory;
 
 use Throwable;
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\Uuid;
+use function Psl\invariant;
 
 /**
  * @phpstan-import-type Attempts from Resilience
@@ -17,7 +16,6 @@ use Twint\Sdk\Value\Uuid;
 final class Uuid4Factory
 {
     /**
-     * @throws AssertionFailed
      * @throws CryptographyFailure
      */
     public function __invoke(): Uuid
@@ -43,7 +41,12 @@ final class Uuid4Factory
                 static function () use ($length): string {
                     $random = random_bytes($length);
 
-                    Assertion::byteLength($random, $length, 'Random data has to be exactly %d bytes long, got %d.');
+                    invariant(
+                        strlen($random) === $length,
+                        'Random data has to be exactly %d bytes long, got %d',
+                        $length,
+                        strlen($random)
+                    );
 
                     return $random;
                 }

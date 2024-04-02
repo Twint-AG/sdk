@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
+use function Psl\Type\instance_of;
 
 /**
  * @template T of object
@@ -15,11 +14,10 @@ trait ComparableToEquality
 {
     /**
      * @param T $other
-     * @throws AssertionFailed
      */
     public function equals($other): bool
     {
-        Assertion::isInstanceOf($other, self::class);
+        instance_of(self::class)->assert($other);
 
         return $this->compare($other) === 0;
     }

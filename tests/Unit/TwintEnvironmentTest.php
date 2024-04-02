@@ -106,7 +106,7 @@ final class TwintEnvironmentTest extends TestCase
 
     public function testInvalidEnvironment(): void
     {
-        $this->expectExceptionMessage('Invalid environment "INVALID" specified. Expected one of TESTING, PRODUCTION.');
+        $this->expectExceptionMessage('Expected ""TESTING"|"PRODUCTION"", got "string"');
 
         /** @phpstan-ignore-next-line */
         new TwintEnvironment('INVALID');

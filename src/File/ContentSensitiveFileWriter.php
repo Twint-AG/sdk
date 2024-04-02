@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Twint\Sdk\File;
 
 use Throwable;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\Exception\IoError;
 use Twint\Sdk\Value\File;
 use Webimpress\SafeWriter\FileWriter as SafeFileWriter;
@@ -24,7 +23,6 @@ final class ContentSensitiveFileWriter implements FileWriter
     /**
      * @param non-empty-string $baseDirectory
      * @param callable(string): string $toFilename
-     * @throws AssertionFailed
      */
     public static function fromBaseDirectory(string $baseDirectory, callable $toFilename): self
     {
@@ -33,7 +31,6 @@ final class ContentSensitiveFileWriter implements FileWriter
 
     /**
      * @throws IoError
-     * @throws AssertionFailed
      */
     public function write(string $input, string $extension = ''): File
     {

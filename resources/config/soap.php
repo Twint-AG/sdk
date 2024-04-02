@@ -26,10 +26,9 @@ use Soap\Engine\Metadata\Model\TypeMeta;
 use Soap\Engine\Metadata\Model\XsdType;
 use Soap\Wsdl\Loader\FlatteningLoader;
 use Soap\Wsdl\Loader\StreamWrapperLoader;
-use Twint\Sdk\Assertion;
-use Twint\Sdk\Exception\AssertionFailed;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
+use function Psl\Type\non_empty_string;
 
 const BASE_DIR = __DIR__ . '/../..';
 const GENERATED_NAMESPACE = 'Twint\Sdk\Generated';
@@ -108,15 +107,11 @@ $engine = CodeGeneratorEngineFactory::create(
             }
 
             /**
-             * @throws AssertionFailed
              * @return non-empty-string
              */
             private static function replace(string $name): string
             {
-                $result = preg_replace('/Element$/', 'Type', $name);
-                Assertion::notEmpty($result, 'Failed to replace "%s"');
-
-                return $result;
+                return non_empty_string()->assert(preg_replace('/Element$/', 'Type', $name));
             }
         }),
 );
