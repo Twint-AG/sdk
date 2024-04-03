@@ -33,7 +33,9 @@
         "php-soap/psr18-transport": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
         "webimpress/safe-writer": "^2.0",
-        "azjezz/psl": "^2.5.0"
+        "azjezz/psl": "^2.5.0",
+        "psr/clock": "^1.0",
+        "symfony/clock": "^6.4"
     },
     "require-dev": {
         "ext-xdebug": "*",

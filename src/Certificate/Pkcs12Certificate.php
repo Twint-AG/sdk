@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
+use Psr\Clock\ClockInterface;
+use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\File\FileWriter;
 use function Psl\invariant;
 
@@ -13,6 +15,20 @@ final class Pkcs12Certificate implements Certificate
         private readonly Stream $content,
         private readonly string $passphrase
     ) {
+    }
+
+    /**
+     * @throws InvalidCertificate
+     */
+    public static function establishTrust(Stream $content, string $passphrase, ClockInterface $clock): self
+    {
+        if (!openssl_pkcs12_read($content->read(), $certs, $passphrase)) {
+            throw InvalidCertificate::fromOpensslErrors();
+        }
+
+        (new Trustor($certs['cert'], $clock))->check();
+
+        return new self($content, $passphrase);
     }
 
     public function content(): string

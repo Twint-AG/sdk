@@ -29,7 +29,9 @@ final class CertificateValidityTest extends IntegrationTest
     {
         $doc = new DOMDocument('1.0');
         $doc->loadXML((string) $request->getBody());
-        $element = instance_of(DOMNode::class)->assert($doc->getElementsByTagName('CertificatePassword') ->item(0));
+
+        $element = instance_of(DOMNode::class)
+            ->assert($doc->getElementsByTagName('CertificatePassword')->item(0));
 
         $element->nodeValue = base64_encode('secret');
 
