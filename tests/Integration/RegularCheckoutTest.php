@@ -40,7 +40,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $transactionReference
         );
 
-        $monitorOrder = $this->client->monitorOrderByOrderId(self::getMerchantId(), $order->id());
+        $monitorOrder = $this->client->monitorOrder(self::getMerchantId(), $order->id());
 
         self::assertTrue($order->equals($monitorOrder));
     }
@@ -57,7 +57,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $transactionReference
         );
 
-        $monitorOrder = $this->client->monitorOrderByTransactionReference(self::getMerchantId(), $transactionReference);
+        $monitorOrder = $this->client->monitorOrder(self::getMerchantId(), $transactionReference);
 
         self::assertTrue($order->equals($monitorOrder));
     }
@@ -74,7 +74,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $transactionReference
         );
 
-        $confirmedOrder = $this->client->confirmOrderByOrderId(self::getMerchantId(), $order->id(), Money::CHF(100));
+        $confirmedOrder = $this->client->confirmOrder(self::getMerchantId(), $order->id(), Money::CHF(100));
 
         self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
     }
@@ -91,7 +91,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $transactionReference
         );
 
-        $confirmedOrder = $this->client->confirmOrderByTransactionReference(
+        $confirmedOrder = $this->client->confirmOrder(
             self::getMerchantId(),
             $transactionReference,
             Money::CHF(100)

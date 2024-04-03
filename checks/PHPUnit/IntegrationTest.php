@@ -15,7 +15,7 @@ use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
-use Twint\Sdk\Value\TransactionReference;
+use Twint\Sdk\Value\MerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use function Psl\Type\non_empty_string;
 
@@ -38,11 +38,11 @@ abstract class IntegrationTest extends TestCase
         return MerchantId::fromString(self::getEnvironmentVariable('TWINT_SDK_TEST_MERCHANT_ID'));
     }
 
-    protected function createTransactionReference(): TransactionReference
+    protected function createTransactionReference(): MerchantTransactionReference
     {
         $testMethod = TestMethodBuilder::fromTestCase($this);
 
-        return new TransactionReference(substr(
+        return new MerchantTransactionReference(substr(
             hash('sha3-256', sprintf('%d-%s', VcrUtil::getFixtureRevision($testMethod), $testMethod->id())),
             0,
             50

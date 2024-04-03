@@ -6,16 +6,16 @@ namespace Twint\Sdk\Tests\Unit\Value;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
-use Twint\Sdk\Value\TransactionReference;
+use Twint\Sdk\Value\MerchantTransactionReference;
 
-#[CoversClass(TransactionReference::class)]
-final class TransactionReferenceTest extends TestCase
+#[CoversClass(MerchantTransactionReference::class)]
+final class MerchantTransactionReferenceTest extends TestCase
 {
     public function testCreateTransactionReferenceThatIsTooLong(): void
     {
         $this->expectExceptionMessageMatches(
             '/Transaction reference ".+" is too long. Must be 50 characters or less, got \d+/'
         );
-        new TransactionReference(str_repeat('x', 51));
+        new MerchantTransactionReference(str_repeat('x', 51));
     }
 }

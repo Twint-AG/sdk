@@ -38,12 +38,12 @@ use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\MerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderKind;
 use Twint\Sdk\Value\OrderStatus;
-use Twint\Sdk\Value\TransactionReference;
 use Twint\Sdk\Value\TransactionStatus;
 use function Psl\invariant;
 use function Psl\Type\non_empty_string;
@@ -147,7 +147,7 @@ final class ApiClient implements Client
         MerchantId $merchantId,
         Money $requestedAmount,
         OrderKind $orderKind,
-        TransactionReference $transactionReference,
+        MerchantTransactionReference $transactionReference,
     ): Order {
         $this->enrollCashRegister($merchantId);
 
@@ -194,7 +194,7 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function monitorOrderByOrderId(MerchantId $merchantId, OrderId $orderId): Order
+    public function monitorOrder(MerchantId $merchantId, OrderId|MerchantTransactionReference $id): Order
     {
         $this->enrollCashRegister($merchantId);
 
@@ -205,8 +205,8 @@ final class ApiClient implements Client
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $merchantId)
                             ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: (string) $orderId,
-                        MerchantTransactionReference: null,
+                        OrderUuid: $id instanceof OrderId ? (string) $id : null,
+                        MerchantTransactionReference: $id instanceof MerchantTransactionReference ? (string) $id : null,
                         WaitForResponse: false
                     )
                 );
@@ -215,7 +215,7 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference(non_empty_string()->assert(
+                new MerchantTransactionReference(non_empty_string()->assert(
                     $response->getOrder()
                         ->getMerchantTransactionReference()
                 )),
@@ -228,82 +228,9 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function monitorOrderByTransactionReference(
+    public function confirmOrder(
         MerchantId $merchantId,
-        TransactionReference $transactionReference
-    ): Order {
-        $this->enrollCashRegister($merchantId);
-
-        try {
-            $response = $this->soapClient()
-                ->monitorOrder(
-                    new MonitorOrderRequestType(
-                        MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: null,
-                        MerchantTransactionReference: (string) $transactionReference,
-                        WaitForResponse: false
-                    )
-                );
-
-            return new Order(
-                OrderId::fromString($response->getOrder()->getUuid()),
-                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference(non_empty_string()->assert(
-                    $response->getOrder()
-                        ->getMerchantTransactionReference()
-                )),
-            );
-        } catch (SoapException $e) {
-            throw ApiFailure::fromThrowable($e);
-        }
-    }
-
-    /**
-     * @throws SdkError
-     */
-    public function confirmOrderByOrderId(MerchantId $merchantId, OrderId $orderId, Money $requestedAmount): Order
-    {
-        $this->enrollCashRegister($merchantId);
-
-        try {
-            $response = $this->soapClient()
-                ->confirmOrder(
-                    new ConfirmOrderRequestType(
-                        MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: (string) $orderId,
-                        MerchantTransactionReference: null,
-                        RequestedAmount: (new CurrencyAmountType())
-                            ->withAmount($requestedAmount->amount())
-                            ->withCurrency($requestedAmount->currency()),
-                        PartialConfirmation: false
-                    )
-                );
-
-            return new Order(
-                OrderId::fromString($response->getOrder()->getUuid()),
-                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference(non_empty_string()->assert(
-                    $response->getOrder()
-                        ->getMerchantTransactionReference()
-                )),
-            );
-        } catch (SoapException $e) {
-            throw ApiFailure::fromThrowable($e);
-        }
-    }
-
-    /**
-     * @throws SdkError
-     */
-    public function confirmOrderByTransactionReference(
-        MerchantId $merchantId,
-        TransactionReference $transactionReference,
+        OrderId|MerchantTransactionReference $id,
         Money $requestedAmount
     ): Order {
         $this->enrollCashRegister($merchantId);
@@ -315,8 +242,8 @@ final class ApiClient implements Client
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $merchantId)
                             ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: null,
-                        MerchantTransactionReference: (string) $transactionReference,
+                        OrderUuid: $id instanceof OrderId ? (string) $id : null,
+                        MerchantTransactionReference: $id instanceof MerchantTransactionReference ? (string) $id : null,
                         RequestedAmount: (new CurrencyAmountType())
                             ->withAmount($requestedAmount->amount())
                             ->withCurrency($requestedAmount->currency()),
@@ -328,7 +255,7 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new TransactionReference(non_empty_string()->assert(
+                new MerchantTransactionReference(non_empty_string()->assert(
                     $response->getOrder()
                         ->getMerchantTransactionReference()
                 )),

@@ -9,11 +9,11 @@ use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\MerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderKind;
-use Twint\Sdk\Value\TransactionReference;
 
 interface Client
 {
@@ -25,21 +25,14 @@ interface Client
         MerchantId $merchantId,
         Money $requestedAmount,
         OrderKind $orderKind,
-        TransactionReference $transactionReference,
+        MerchantTransactionReference $transactionReference,
     ): Order;
 
-    public function monitorOrderByOrderId(MerchantId $merchantId, OrderId $orderId): Order;
+    public function monitorOrder(MerchantId $merchantId, OrderId|MerchantTransactionReference $id): Order;
 
-    public function monitorOrderByTransactionReference(
+    public function confirmOrder(
         MerchantId $merchantId,
-        TransactionReference $transactionReference
-    ): Order;
-
-    public function confirmOrderByOrderId(MerchantId $merchantId, OrderId $orderId, Money $requestedAmount): Order;
-
-    public function confirmOrderByTransactionReference(
-        MerchantId $merchantId,
-        TransactionReference $transactionReference,
+        OrderId|MerchantTransactionReference $id,
         Money $requestedAmount
     ): Order;
 

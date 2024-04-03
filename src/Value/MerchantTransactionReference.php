@@ -11,7 +11,7 @@ use function Psl\Type\instance_of;
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class TransactionReference implements Comparable, Equality
+final class MerchantTransactionReference implements Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
 
