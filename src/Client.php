@@ -35,6 +35,14 @@ interface Client
         TransactionReference $transactionReference
     ): Order;
 
+    public function confirmOrderByOrderId(MerchantId $merchantId, OrderId $orderId, Money $requestedAmount): Order;
+
+    public function confirmOrderByTransactionReference(
+        MerchantId $merchantId,
+        TransactionReference $transactionReference,
+        Money $requestedAmount
+    ): Order;
+
     public function detectDevice(string $userAgent): DetectedDevice;
 
     /**

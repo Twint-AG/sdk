@@ -61,4 +61,42 @@ final class RegularCheckoutTest extends IntegrationTest
 
         self::assertTrue($order->equals($monitorOrder));
     }
+
+    #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    public function testConfirmOrderByOrderId(): void
+    {
+        $transactionReference = $this->createTransactionReference();
+
+        $order = $this->client->startOrder(
+            self::getMerchantId(),
+            Money::CHF(100),
+            OrderKind::PAYMENT_IMMEDIATE(),
+            $transactionReference
+        );
+
+        $confirmedOrder = $this->client->confirmOrderByOrderId(self::getMerchantId(), $order->id(), Money::CHF(100));
+
+        self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
+    }
+
+    #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    public function testConfirmOrderByMerchantReference(): void
+    {
+        $transactionReference = $this->createTransactionReference();
+
+        $order = $this->client->startOrder(
+            self::getMerchantId(),
+            Money::CHF(100),
+            OrderKind::PAYMENT_IMMEDIATE(),
+            $transactionReference
+        );
+
+        $confirmedOrder = $this->client->confirmOrderByTransactionReference(
+            self::getMerchantId(),
+            $transactionReference,
+            Money::CHF(100)
+        );
+
+        self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
+    }
 }

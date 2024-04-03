@@ -24,6 +24,7 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\File\TemporaryFileWriter;
 use Twint\Sdk\Generated\TwintSoapClient;
+use Twint\Sdk\Generated\Type\ConfirmOrderRequestType;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
 use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
@@ -61,6 +62,11 @@ final class ApiClient implements Client
     private ?ClientInterface $httpClient = null;
 
     private ?RequestFactoryInterface $httpRequestFactory = null;
+
+    /**
+     * @var list<string>
+     */
+    private static array $enrolledCacheRegisters = [];
 
     /**
      * @param callable(FileWriter, CertificateContainer, TwintVersion, TwintEnvironment): Engine $soapEngineFactory
@@ -143,20 +149,9 @@ final class ApiClient implements Client
         OrderKind $orderKind,
         TransactionReference $transactionReference,
     ): Order {
-        try {
-            $this->soapClient()
-                ->enrollCashRegister(
-                    new EnrollCashRegisterRequestType(
-                        MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
-                        CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
-                        FormerCashRegisterId: null,
-                        BeaconInventoryNumber: null,
-                        BeaconDaemonVersion: null
-                    )
-                );
+        $this->enrollCashRegister($merchantId);
 
+        try {
             $response = $this->soapClient()
                 ->startOrder(
                     new StartOrderRequestType(
@@ -201,6 +196,8 @@ final class ApiClient implements Client
      */
     public function monitorOrderByOrderId(MerchantId $merchantId, OrderId $orderId): Order
     {
+        $this->enrollCashRegister($merchantId);
+
         try {
             $response = $this->soapClient()
                 ->monitorOrder(
@@ -235,6 +232,8 @@ final class ApiClient implements Client
         MerchantId $merchantId,
         TransactionReference $transactionReference
     ): Order {
+        $this->enrollCashRegister($merchantId);
+
         try {
             $response = $this->soapClient()
                 ->monitorOrder(
@@ -245,6 +244,83 @@ final class ApiClient implements Client
                         OrderUuid: null,
                         MerchantTransactionReference: (string) $transactionReference,
                         WaitForResponse: false
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrder()->getUuid()),
+                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
+                new TransactionReference(non_empty_string()->assert(
+                    $response->getOrder()
+                        ->getMerchantTransactionReference()
+                )),
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function confirmOrderByOrderId(MerchantId $merchantId, OrderId $orderId, Money $requestedAmount): Order
+    {
+        $this->enrollCashRegister($merchantId);
+
+        try {
+            $response = $this->soapClient()
+                ->confirmOrder(
+                    new ConfirmOrderRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        OrderUuid: (string) $orderId,
+                        MerchantTransactionReference: null,
+                        RequestedAmount: (new CurrencyAmountType())
+                            ->withAmount($requestedAmount->amount())
+                            ->withCurrency($requestedAmount->currency()),
+                        PartialConfirmation: false
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrder()->getUuid()),
+                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
+                new TransactionReference(non_empty_string()->assert(
+                    $response->getOrder()
+                        ->getMerchantTransactionReference()
+                )),
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function confirmOrderByTransactionReference(
+        MerchantId $merchantId,
+        TransactionReference $transactionReference,
+        Money $requestedAmount
+    ): Order {
+        $this->enrollCashRegister($merchantId);
+
+        try {
+            $response = $this->soapClient()
+                ->confirmOrder(
+                    new ConfirmOrderRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        OrderUuid: null,
+                        MerchantTransactionReference: (string) $transactionReference,
+                        RequestedAmount: (new CurrencyAmountType())
+                            ->withAmount($requestedAmount->amount())
+                            ->withCurrency($requestedAmount->currency()),
+                        PartialConfirmation: false
                     )
                 );
 
@@ -328,6 +404,35 @@ final class ApiClient implements Client
                 ),
             ], true)->assert($parsed)['appSwitchConfigList']
         );
+    }
+
+    /**
+     * @throws SdkError
+     */
+    private function enrollCashRegister(MerchantId $merchantId): void
+    {
+        if (in_array((string) $merchantId, self::$enrolledCacheRegisters, true)) {
+            return;
+        }
+
+        try {
+            $this->soapClient()
+                ->enrollCashRegister(
+                    new EnrollCashRegisterRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
+                        FormerCashRegisterId: null,
+                        BeaconInventoryNumber: null,
+                        BeaconDaemonVersion: null
+                    )
+                );
+
+            self::$enrolledCacheRegisters[] = (string) $merchantId;
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
     }
 
     private function soapClient(): TwintSoapClient

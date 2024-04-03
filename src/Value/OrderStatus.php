@@ -29,6 +29,21 @@ final class OrderStatus implements Enum, Comparable, Equality
         union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
     }
 
+    public static function IN_PROGRESS(): self
+    {
+        return new self(self::IN_PROGRESS);
+    }
+
+    public static function FAILURE(): self
+    {
+        return new self(self::FAILURE);
+    }
+
+    public static function SUCCESS(): self
+    {
+        return new self(self::SUCCESS);
+    }
+
     public static function all(): array
     {
         return [self::IN_PROGRESS, self::FAILURE, self::SUCCESS];
