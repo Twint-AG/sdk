@@ -145,4 +145,6 @@ return static function (ECSConfig $ecsConfig): void {
             'method',
         ],
     ]);
+
+    $ecsConfig->parallel(120, 4, 10);
 };
