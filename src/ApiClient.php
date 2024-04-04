@@ -81,6 +81,7 @@ final class ApiClient implements Client
      */
     public function __construct(
         private CertificateContainer $certificate,
+        private readonly MerchantId $merchantId,
         private readonly TwintVersion $version,
         private readonly TwintEnvironment $environment,
         private readonly FileWriter $fileWriter = new TemporaryFileWriter(),
@@ -93,11 +94,11 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function getCertificateValidity(MerchantId $merchantId): CertificateValidity
+    public function getCertificateValidity(): CertificateValidity
     {
         try {
             $response = $this->soapClient()
-                ->getCertificateValidity(new GetCertificateValidityRequestType((string) $merchantId, null));
+                ->getCertificateValidity(new GetCertificateValidityRequestType((string) $this->merchantId, null));
             return new CertificateValidity(
                 DateTimeImmutable::createFromInterface($response->getCertificateExpiryDate()),
                 $response->getRenewalAllowed()
@@ -110,13 +111,13 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function renewCertificate(MerchantId $merchantId): CertificateRenewal
+    public function renewCertificate(): CertificateRenewal
     {
         try {
             $response = $this->soapClient()
                 ->renewCertificate(
                     new RenewCertificateRequestType(
-                        (string) $merchantId,
+                        (string) $this->merchantId,
                         MerchantAliasId: null,
                         CertificatePassword: $this->certificate->pkcs12()
                             ->passphrase()
@@ -150,19 +151,18 @@ final class ApiClient implements Client
      * @throws SdkError
      */
     public function startOrder(
-        MerchantId $merchantId,
         UnfiledMerchantTransactionReference $orderReference,
         Money $requestedAmount,
     ): Order {
-        $this->enrollCashRegister($merchantId);
+        $this->enrollCashRegister();
 
         try {
             $response = $this->soapClient()
                 ->startOrder(
                     new StartOrderRequestType(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
@@ -199,17 +199,17 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function monitorOrder(MerchantId $merchantId, OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
     {
-        $this->enrollCashRegister($merchantId);
+        $this->enrollCashRegister();
 
         try {
             $response = $this->soapClient()
                 ->monitorOrder(
                     new MonitorOrderRequestType(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
                         OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
                         MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
                         WaitForResponse: false
@@ -234,19 +234,18 @@ final class ApiClient implements Client
      * @throws SdkError
      */
     public function confirmOrder(
-        MerchantId $merchantId,
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
         Money $requestedAmount
     ): Order {
-        $this->enrollCashRegister($merchantId);
+        $this->enrollCashRegister();
 
         try {
             $response = $this->soapClient()
                 ->confirmOrder(
                     new ConfirmOrderRequestType(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
                         OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
                         MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
                         RequestedAmount: (new CurrencyAmountType())
@@ -274,20 +273,19 @@ final class ApiClient implements Client
      * @throws SdkError
      */
     public function reverseOrder(
-        MerchantId $merchantId,
         UnfiledMerchantTransactionReference $reversalReference,
-        Money $reversalAmount,
-        OrderId|FiledMerchantTransactionReference $orderIdOrRef
+        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
+        Money $reversalAmount
     ): Order {
-        $this->enrollCashRegister($merchantId);
+        $this->enrollCashRegister();
 
         try {
             $response = $this->soapClient()
                 ->startOrder(
                     new StartOrderRequestType(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
@@ -399,9 +397,9 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    private function enrollCashRegister(MerchantId $merchantId): void
+    private function enrollCashRegister(): void
     {
-        if (in_array((string) $merchantId, self::$enrolledCacheRegisters, true)) {
+        if (in_array((string) $this->merchantId, self::$enrolledCacheRegisters, true)) {
             return;
         }
 
@@ -410,8 +408,8 @@ final class ApiClient implements Client
                 ->enrollCashRegister(
                     new EnrollCashRegisterRequestType(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $merchantId)
-                            ->withCashRegisterId((string) $merchantId),
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
                         CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
                         FormerCashRegisterId: null,
                         BeaconInventoryNumber: null,
@@ -419,7 +417,7 @@ final class ApiClient implements Client
                     )
                 );
 
-            self::$enrolledCacheRegisters[] = (string) $merchantId;
+            self::$enrolledCacheRegisters[] = (string) $this->merchantId;
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
         }

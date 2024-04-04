@@ -67,6 +67,7 @@ abstract class IntegrationTest extends TestCase
                     self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
+            self::getMerchantId(),
             TwintVersion::latest(),
             TwintEnvironment::TESTING(),
             new ContentSensitiveFileWriter(

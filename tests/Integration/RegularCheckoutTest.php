@@ -17,11 +17,7 @@ final class RegularCheckoutTest extends IntegrationTest
     #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testStartOrder(): void
     {
-        $order = $this->client->startOrder(
-            self::getMerchantId(),
-            $this->createTransactionReference(),
-            Money::CHF(100)
-        );
+        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
         self::assertSame(OrderStatus::IN_PROGRESS, (string) $order->status());
     }
@@ -31,9 +27,9 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
-        $monitorOrder = $this->client->monitorOrder(self::getMerchantId(), $order->id());
+        $monitorOrder = $this->client->monitorOrder($order->id());
 
         self::assertTrue($order->equals($monitorOrder));
     }
@@ -43,9 +39,9 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
-        $monitorOrder = $this->client->monitorOrder(self::getMerchantId(), $order->merchantTransactionReference());
+        $monitorOrder = $this->client->monitorOrder($order->merchantTransactionReference());
 
         self::assertTrue($order->equals($monitorOrder));
     }
@@ -55,9 +51,9 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
-        $confirmedOrder = $this->client->confirmOrder(self::getMerchantId(), $order->id(), Money::CHF(100));
+        $confirmedOrder = $this->client->confirmOrder($order->id(), Money::CHF(100));
 
         self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
     }
@@ -67,13 +63,9 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
-        $confirmedOrder = $this->client->confirmOrder(
-            self::getMerchantId(),
-            $order->merchantTransactionReference(),
-            Money::CHF(100)
-        );
+        $confirmedOrder = $this->client->confirmOrder($order->merchantTransactionReference(), Money::CHF(100));
 
         self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
     }
@@ -83,15 +75,10 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
         $reversalReference = $this->createTransactionReference();
-        $reversed = $this->client->reverseOrder(
-            self::getMerchantId(),
-            $reversalReference,
-            Money::CHF(100),
-            $order->id()
-        );
+        $reversed = $this->client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
 
         self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));
     }
@@ -101,14 +88,13 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder(self::getMerchantId(), $transactionReference, Money::CHF(100));
+        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
         $reversalReference = $this->createTransactionReference();
         $reversed = $this->client->reverseOrder(
-            self::getMerchantId(),
             $reversalReference,
-            Money::CHF(100),
-            $order->merchantTransactionReference()
+            $order->merchantTransactionReference(),
+            Money::CHF(100)
         );
 
         self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));

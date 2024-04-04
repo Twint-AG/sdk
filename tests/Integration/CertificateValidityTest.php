@@ -91,7 +91,7 @@ final class CertificateValidityTest extends IntegrationTest
     #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testCertificateValidity(): void
     {
-        $certificateValidity = $this->client->getCertificateValidity(self::getMerchantId());
+        $certificateValidity = $this->client->getCertificateValidity();
 
         self::assertIsBool($certificateValidity->isRenewalAllowed());
         self::assertInstanceOf(DateTimeImmutable::class, $certificateValidity->expiresAt());
@@ -105,7 +105,7 @@ final class CertificateValidityTest extends IntegrationTest
     )]
     public function testRenewCertificate(): void
     {
-        $renewal = $this->client->renewCertificate(self::getMerchantId());
+        $renewal = $this->client->renewCertificate();
         self::assertStringStartsWith('-----BEGIN CERTIFICATE-----', $renewal->certificate()->pem()->content());
         self::assertSame('2100-08-08T22:00:00+00:00', $renewal->expiresAt()->format('c'));
     }
