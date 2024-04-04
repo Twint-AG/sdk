@@ -20,7 +20,7 @@ final class Order implements Comparable, Equality
         private readonly OrderId $id,
         private readonly OrderStatus $status,
         private readonly TransactionStatus $transactionStatus,
-        private readonly MerchantTransactionReference $merchantTransactionReference,
+        private readonly FiledMerchantTransactionReference $merchantTransactionReference,
     ) {
     }
 
@@ -39,7 +39,7 @@ final class Order implements Comparable, Equality
         return $this->transactionStatus;
     }
 
-    public function merchantTransactionReference(): MerchantTransactionReference
+    public function merchantTransactionReference(): FiledMerchantTransactionReference
     {
         return $this->merchantTransactionReference;
     }

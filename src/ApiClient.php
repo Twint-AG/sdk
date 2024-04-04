@@ -30,21 +30,23 @@ use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
 use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
 use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
+use Twint\Sdk\Generated\Type\OrderLinkType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
 use Twint\Sdk\Generated\Type\RenewCertificateRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
 use Twint\Sdk\Value\CertificateRenewal;
 use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\MerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
-use Twint\Sdk\Value\OrderKind;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\TransactionStatus;
+use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use function Psl\invariant;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
@@ -56,6 +58,10 @@ final class ApiClient implements Client
     private const POSTING_TYPE_GOODS = 'GOODS';
 
     private const CASH_REGISTER_TYPE_EPOS = 'EPOS';
+
+    private const ORDER_KIND_PAYMENT_IMMEDIATE = 'PAYMENT_IMMEDIATE';
+
+    private const ORDER_KIND_REVERSAL = 'REVERSAL';
 
     private ?TwintSoapClient $soapClient = null;
 
@@ -145,9 +151,8 @@ final class ApiClient implements Client
      */
     public function startOrder(
         MerchantId $merchantId,
+        UnfiledMerchantTransactionReference $orderReference,
         Money $requestedAmount,
-        OrderKind $orderKind,
-        MerchantTransactionReference $transactionReference,
     ): Order {
         $this->enrollCashRegister($merchantId);
 
@@ -164,8 +169,8 @@ final class ApiClient implements Client
                                     ->withAmount($requestedAmount->amount())
                                     ->withCurrency($requestedAmount->currency())
                             )
-                            ->withMerchantTransactionReference((string) $transactionReference)
-                            ->withType((string) $orderKind)
+                            ->withMerchantTransactionReference((string) $orderReference)
+                            ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
                             ->withConfirmationNeeded(true),
                         Coupons: null,
@@ -184,7 +189,7 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrderUuid()),
                 new OrderStatus($response->getOrderStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrderStatus()->getReason()->get_()),
-                $transactionReference
+                new FiledMerchantTransactionReference((string) $orderReference)
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -194,7 +199,7 @@ final class ApiClient implements Client
     /**
      * @throws SdkError
      */
-    public function monitorOrder(MerchantId $merchantId, OrderId|MerchantTransactionReference $id): Order
+    public function monitorOrder(MerchantId $merchantId, OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
     {
         $this->enrollCashRegister($merchantId);
 
@@ -205,8 +210,8 @@ final class ApiClient implements Client
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $merchantId)
                             ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: $id instanceof OrderId ? (string) $id : null,
-                        MerchantTransactionReference: $id instanceof MerchantTransactionReference ? (string) $id : null,
+                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
+                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
                         WaitForResponse: false
                     )
                 );
@@ -215,7 +220,7 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new MerchantTransactionReference(non_empty_string()->assert(
+                new FiledMerchantTransactionReference(non_empty_string()->assert(
                     $response->getOrder()
                         ->getMerchantTransactionReference()
                 )),
@@ -230,7 +235,7 @@ final class ApiClient implements Client
      */
     public function confirmOrder(
         MerchantId $merchantId,
-        OrderId|MerchantTransactionReference $id,
+        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
         Money $requestedAmount
     ): Order {
         $this->enrollCashRegister($merchantId);
@@ -242,8 +247,8 @@ final class ApiClient implements Client
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $merchantId)
                             ->withCashRegisterId((string) $merchantId),
-                        OrderUuid: $id instanceof OrderId ? (string) $id : null,
-                        MerchantTransactionReference: $id instanceof MerchantTransactionReference ? (string) $id : null,
+                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
+                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
                         RequestedAmount: (new CurrencyAmountType())
                             ->withAmount($requestedAmount->amount())
                             ->withCurrency($requestedAmount->currency()),
@@ -255,10 +260,68 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrder()->getUuid()),
                 new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
                 new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new MerchantTransactionReference(non_empty_string()->assert(
+                new FiledMerchantTransactionReference(non_empty_string()->assert(
                     $response->getOrder()
                         ->getMerchantTransactionReference()
                 )),
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function reverseOrder(
+        MerchantId $merchantId,
+        UnfiledMerchantTransactionReference $reversalReference,
+        Money $reversalAmount,
+        OrderId|FiledMerchantTransactionReference $orderIdOrRef
+    ): Order {
+        $this->enrollCashRegister($merchantId);
+
+        try {
+            $response = $this->soapClient()
+                ->startOrder(
+                    new StartOrderRequestType(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $merchantId)
+                            ->withCashRegisterId((string) $merchantId),
+                        Order: (new OrderRequestType())
+                            ->withRequestedAmount(
+                                (new CurrencyAmountType())
+                                    ->withAmount($reversalAmount->amount())
+                                    ->withCurrency($reversalAmount->currency())
+                            )
+                            ->withMerchantTransactionReference((string) $reversalReference)
+                            ->withLink(
+                                (new OrderLinkType())
+                                    ->withMerchantTransactionReference(
+                                        $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null
+                                    )
+                                    ->withOrderUuid($orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null)
+                            )
+                            ->withType(self::ORDER_KIND_REVERSAL)
+                            ->withPostingType(self::POSTING_TYPE_GOODS)
+                            ->withConfirmationNeeded(false),
+                        Coupons: null,
+                        OfflineAuthorization: null,
+                        CustomerRelationUuid: null,
+                        PairingUuid: null,
+                        UnidentifiedCustomer: true,
+                        ExpressMerchantAuthorization: null,
+                        QRCodeRendering: null,
+                        PaymentLayerRendering: null,
+                        OrderUpdateNotificationURL: null
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrderUuid()),
+                new OrderStatus($response->getOrderStatus()->getStatus()->get_()),
+                new TransactionStatus($response->getOrderStatus()->getReason()->get_()),
+                new FiledMerchantTransactionReference((string) $reversalReference)
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

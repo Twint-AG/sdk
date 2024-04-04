@@ -15,15 +15,20 @@ use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
-use Twint\Sdk\Value\MerchantTransactionReference;
+use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
 use function Psl\Type\non_empty_string;
 
 abstract class IntegrationTest extends TestCase
 {
-    protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'soap_operation'];
+    protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
     protected Client $client;
+
+    /**
+     * @var array<string, int>
+     */
+    private static array $merchantTransactionReferenceVersions = [];
 
     /**
      * @return non-empty-string
@@ -38,12 +43,16 @@ abstract class IntegrationTest extends TestCase
         return MerchantId::fromString(self::getEnvironmentVariable('TWINT_SDK_TEST_MERCHANT_ID'));
     }
 
-    protected function createTransactionReference(): MerchantTransactionReference
+    protected function createTransactionReference(): UnfiledMerchantTransactionReference
     {
         $testMethod = TestMethodBuilder::fromTestCase($this);
 
-        return new MerchantTransactionReference(substr(
-            hash('sha3-256', sprintf('%d-%s', VcrUtil::getFixtureRevision($testMethod), $testMethod->id())),
+        $testId = $testMethod->id();
+        $suffix = self::$merchantTransactionReferenceVersions[$testId] ?? '';
+        self::$merchantTransactionReferenceVersions[$testId] = (self::$merchantTransactionReferenceVersions[$testId] ?? -1) + 1;
+
+        return new UnfiledMerchantTransactionReference(substr(
+            hash('sha3-256', sprintf('%d-%s%s', VcrUtil::getFixtureRevision($testMethod), $testId, $suffix)),
             0,
             50
         ));

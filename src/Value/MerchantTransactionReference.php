@@ -6,12 +6,13 @@ namespace Twint\Sdk\Value;
 
 use function Psl\invariant;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_string;
 
 /**
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class MerchantTransactionReference implements Comparable, Equality
+abstract class MerchantTransactionReference implements Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
 
@@ -25,6 +26,7 @@ final class MerchantTransactionReference implements Comparable, Equality
     public function __construct(
         private readonly string $value
     ) {
+        non_empty_string()->assert($value);
         invariant(
             strlen($value) <= self::MAX_LENGTH,
             'Transaction reference "%s" is too long. Must be %d characters or less, got %d',
@@ -34,6 +36,9 @@ final class MerchantTransactionReference implements Comparable, Equality
         );
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function __toString(): string
     {
         return $this->value;
