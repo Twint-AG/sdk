@@ -8,13 +8,13 @@ use function Psl\Type\instance_of;
 use function Psl\Type\union;
 
 /**
- * @template-implements Enum<Money::*>
- * @template-implements Comparable<Money>
- * @template-implements Equality<Money>
+ * @template-implements Enum<self::*>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
  */
 final class Money implements Enum, Comparable, Equality
 {
-    /** @use ComparableToEquality<Money> */
+    /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
     public const EUR = 'EUR';

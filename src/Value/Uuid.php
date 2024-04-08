@@ -9,12 +9,12 @@ use function Psl\Regex\matches;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<Uuid>
- * @template-implements Equality<Uuid>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
  */
 final class Uuid implements Comparable, Equality
 {
-    /** @use ComparableToEquality<Uuid> */
+    /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
     public function __construct(

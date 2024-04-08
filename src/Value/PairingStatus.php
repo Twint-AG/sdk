@@ -12,16 +12,16 @@ use function Psl\Type\union;
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class OrderStatus implements Enum, Comparable, Equality
+final class PairingStatus implements Enum, Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
-    public const IN_PROGRESS = 'IN_PROGRESS';
+    public const NO_PAIRING = 'NO_PAIRING';
 
-    public const FAILURE = 'FAILURE';
+    public const PAIRING_IN_PROGRESS = 'PAIRING_IN_PROGRESS';
 
-    public const SUCCESS = 'SUCCESS';
+    public const PAIRING_ACTIVE = 'PAIRING_ACTIVE';
 
     /**
      * @param self::* $status
@@ -46,24 +46,9 @@ final class OrderStatus implements Enum, Comparable, Equality
         return union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
     }
 
-    public static function IN_PROGRESS(): self
-    {
-        return new self(self::IN_PROGRESS);
-    }
-
-    public static function FAILURE(): self
-    {
-        return new self(self::FAILURE);
-    }
-
-    public static function SUCCESS(): self
-    {
-        return new self(self::SUCCESS);
-    }
-
     public static function all(): array
     {
-        return [self::IN_PROGRESS, self::FAILURE, self::SUCCESS];
+        return [self::NO_PAIRING, self::PAIRING_IN_PROGRESS, self::PAIRING_ACTIVE];
     }
 
     public function __toString(): string

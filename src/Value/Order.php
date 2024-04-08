@@ -18,9 +18,10 @@ final class Order implements Comparable, Equality
 
     public function __construct(
         private readonly OrderId $id,
+        private readonly FiledMerchantTransactionReference $merchantTransactionReference,
         private readonly OrderStatus $status,
         private readonly TransactionStatus $transactionStatus,
-        private readonly FiledMerchantTransactionReference $merchantTransactionReference,
+        private readonly ?PairingStatus $pairingStatus = null,
     ) {
     }
 
@@ -37,6 +38,11 @@ final class Order implements Comparable, Equality
     public function transactionStatus(): TransactionStatus
     {
         return $this->transactionStatus;
+    }
+
+    public function pairingStatus(): ?PairingStatus
+    {
+        return $this->pairingStatus;
     }
 
     public function merchantTransactionReference(): FiledMerchantTransactionReference

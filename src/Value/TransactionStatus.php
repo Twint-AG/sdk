@@ -8,13 +8,13 @@ use function Psl\Type\instance_of;
 use function Psl\Type\union;
 
 /**
- * @template-implements Enum<TransactionStatus::*>
- * @template-implements Comparable<TransactionStatus>
- * @template-implements Equality<TransactionStatus>
+ * @template-implements Enum<self::*>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
  */
 final class TransactionStatus implements Enum, Comparable, Equality
 {
-    /** @use ComparableToEquality<TransactionStatus> */
+    /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
     public const ORDER_OK = 'ORDER_OK';
@@ -35,12 +35,23 @@ final class TransactionStatus implements Enum, Comparable, Equality
 
     public const CLIENT_ABORT = 'CLIENT_ABORT';
 
+    /**
+     * @param self::* $status
+     */
     public function __construct(
         private readonly string $status
     ) {
-        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
+        self::assert($status);
     }
 
+    public static function fromString(string $status): self
+    {
+        return new self(self::assert($status));
+    }
+
+    /**
+     * @return list<self::*>
+     */
     public static function all(): array
     {
         return [
@@ -59,6 +70,15 @@ final class TransactionStatus implements Enum, Comparable, Equality
     public function __toString(): string
     {
         return $this->status;
+    }
+
+    /**
+     * @return self::*
+     */
+    private static function assert(string $status): string
+    {
+        /** @var self::* */
+        return union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
     }
 
     public function compare($other): int

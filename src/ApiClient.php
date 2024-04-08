@@ -45,6 +45,7 @@ use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
+use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use function Psl\invariant;
@@ -125,10 +126,11 @@ final class ApiClient implements Client
                 );
 
             $certificate = CertificateContainer::fromPkcs12(
-                new Pkcs12Certificate(new InMemoryStream(non_empty_string()->assert(
-                    $response->getMerchantCertificate()
-                )), $this->certificate->pkcs12()
-                    ->passphrase())
+                new Pkcs12Certificate(
+                    new InMemoryStream(non_empty_string()->assert($response->getMerchantCertificate())),
+                    $this->certificate->pkcs12()
+                        ->passphrase()
+                )
             );
             $this->setCertificate($certificate);
 
@@ -187,9 +189,10 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
-                new OrderStatus($response->getOrderStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrderStatus()->getReason()->get_()),
-                new FiledMerchantTransactionReference((string) $orderReference)
+                new FiledMerchantTransactionReference((string) $orderReference),
+                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                PairingStatus::fromString($response->getPairingStatus())
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -218,12 +221,13 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
-                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new FiledMerchantTransactionReference(non_empty_string()->assert(
-                    $response->getOrder()
-                        ->getMerchantTransactionReference()
-                )),
+                new FiledMerchantTransactionReference(
+                    non_empty_string()
+                        ->assert($response->getOrder()->getMerchantTransactionReference())
+                ),
+                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                PairingStatus::fromString($response->getPairingStatus()),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -257,12 +261,12 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrder()->getUuid()),
-                new OrderStatus($response->getOrder()->getStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrder()->getStatus()->getReason()->get_()),
-                new FiledMerchantTransactionReference(non_empty_string()->assert(
-                    $response->getOrder()
-                        ->getMerchantTransactionReference()
-                )),
+                new FiledMerchantTransactionReference(
+                    non_empty_string()
+                        ->assert($response->getOrder()->getMerchantTransactionReference())
+                ),
+                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -317,9 +321,10 @@ final class ApiClient implements Client
 
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
-                new OrderStatus($response->getOrderStatus()->getStatus()->get_()),
-                new TransactionStatus($response->getOrderStatus()->getReason()->get_()),
-                new FiledMerchantTransactionReference((string) $reversalReference)
+                new FiledMerchantTransactionReference((string) $reversalReference),
+                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                PairingStatus::fromString($response->getPairingStatus())
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
