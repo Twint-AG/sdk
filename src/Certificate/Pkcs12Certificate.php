@@ -22,11 +22,19 @@ final class Pkcs12Certificate implements Certificate
      */
     public static function establishTrust(Stream $content, string $passphrase, ClockInterface $clock): self
     {
+        return self::establishTrustVia($content, $passphrase, new DefaultTrustor($clock));
+    }
+
+    /**
+     * @throws InvalidCertificate
+     */
+    public static function establishTrustVia(Stream $content, string $passphrase, Trustor $trustor): self
+    {
         if (!openssl_pkcs12_read($content->read(), $certs, $passphrase)) {
             throw InvalidCertificate::fromOpensslErrors();
         }
 
-        (new Trustor($certs['cert'], $clock))->check();
+        $trustor->check($certs['cert']);
 
         return new self($content, $passphrase);
     }

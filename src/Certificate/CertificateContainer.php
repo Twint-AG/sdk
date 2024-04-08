@@ -15,9 +15,8 @@ final class CertificateContainer
     /**
      * @throws CryptographyFailure
      */
-    private function __construct(
-        Certificate $main,
-    ) {
+    private function __construct(Certificate $main)
+    {
         if ($main instanceof Pkcs12Certificate) {
             $this->pkcs12 = $main;
         } elseif ($main instanceof PemCertificate) {
