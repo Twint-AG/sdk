@@ -169,9 +169,8 @@
                             <ns2:Status code="0">SUCCESS</ns2:Status>
                             <ns2:Reason code="0">ORDER_OK</ns2:Reason>
                         </ns2:OrderStatus>
-                        <ns2:Token>51231</ns2:Token>
                         <ns2:CustomerInformation/>
-                        <ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus>
+                        <ns2:PairingStatus>NO_PAIRING</ns2:PairingStatus>
                     </ns2:StartOrderResponseElement>
                 </soap:Body>
             </soap:Envelope>

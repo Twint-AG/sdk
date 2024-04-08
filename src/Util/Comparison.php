@@ -16,14 +16,16 @@ final class Comparison
      *
      * Returns the first non-zero result of the comparison or 0 if all pairs are equal.
      *
-     * @template T of Comparable
+     * @template T of Comparable|scalar|null
      * @param list<array{T, T}> $pairs
      * @return ComparisonResult
      */
     public static function comparePairs(array $pairs): int
     {
         foreach ($pairs as [$left, $right]) {
-            $result = $left->compare($right);
+            $result = !$left instanceof Comparable || !$right instanceof Comparable
+                ? $left <=> $right
+                : $left->compare($right);
 
             if ($result !== 0) {
                 return $result;

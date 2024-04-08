@@ -10,6 +10,7 @@ use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 use Twint\Sdk\Checks\PHPUnit\Vcr;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
+use Twint\Sdk\Value\PairingStatus;
 
 #[CoversClass(ApiClient::class)]
 final class RegularCheckoutTest extends IntegrationTest
@@ -20,6 +21,10 @@ final class RegularCheckoutTest extends IntegrationTest
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
         self::assertSame(OrderStatus::IN_PROGRESS, (string) $order->status());
+        self::assertTrue($order->requiresPairing());
+        self::assertNotNull($order->pairingStatus());
+        self::assertTrue(PairingStatus::PAIRING_IN_PROGRESS()->equals($order->pairingStatus()));
+        self::assertNotNull($order->pairingToken());
     }
 
     #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -31,7 +36,9 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $monitorOrder = $this->client->monitorOrder($order->id());
 
-        self::assertTrue($order->equals($monitorOrder));
+        self::assertTrue($order->id()->equals($monitorOrder->id()));
+        self::assertTrue($order->transactionStatus()->equals($monitorOrder->transactionStatus()));
+        self::assertTrue($order->pairingStatus()->equals($monitorOrder->pairingStatus()));
     }
 
     #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -43,7 +50,9 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $monitorOrder = $this->client->monitorOrder($order->merchantTransactionReference());
 
-        self::assertTrue($order->equals($monitorOrder));
+        self::assertTrue($order->id()->equals($monitorOrder->id()));
+        self::assertTrue($order->transactionStatus()->equals($monitorOrder->transactionStatus()));
+        self::assertTrue($order->pairingStatus()->equals($monitorOrder->pairingStatus()));
     }
 
     #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -81,6 +90,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $reversed = $this->client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
 
         self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));
+        self::assertFalse($reversed->requiresPairing());
     }
 
     #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -98,5 +108,7 @@ final class RegularCheckoutTest extends IntegrationTest
         );
 
         self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));
+        self::assertFalse($reversed->requiresPairing());
+        self::assertNull($reversed->pairingToken());
     }
 }

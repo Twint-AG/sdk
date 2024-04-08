@@ -46,12 +46,14 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use function Psl\invariant;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
 use function Psl\Type\string;
+use function Psl\Type\uint;
 use function Psl\Type\vec;
 
 final class ApiClient implements Client
@@ -192,7 +194,8 @@ final class ApiClient implements Client
                 new FiledMerchantTransactionReference((string) $orderReference),
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
-                PairingStatus::fromString($response->getPairingStatus())
+                PairingStatus::fromString($response->getPairingStatus()),
+                new PairingToken(uint() ->assert($response->getToken()))
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -323,8 +326,7 @@ final class ApiClient implements Client
                 OrderId::fromString($response->getOrderUuid()),
                 new FiledMerchantTransactionReference((string) $reversalReference),
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
-                PairingStatus::fromString($response->getPairingStatus())
+                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_())
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

@@ -8,20 +8,27 @@ use Twint\Sdk\Util\Comparison;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template TPairingStatus of PairingStatus|null
+ * @template TPairingToken of PairingToken|null
+ * @template-implements Comparable<self<PairingStatus, TPairingToken>>
+ * @template-implements Equality<self<PairingStatus, TPairingToken>>
  */
 final class Order implements Comparable, Equality
 {
-    /** @use ComparableToEquality<self> */
+    /** @use ComparableToEquality<self<PairingStatus, TPairingToken>> */
     use ComparableToEquality;
 
+    /**
+     * @param TPairingStatus $pairingStatus
+     * @param TPairingToken $pairingToken
+     */
     public function __construct(
         private readonly OrderId $id,
         private readonly FiledMerchantTransactionReference $merchantTransactionReference,
         private readonly OrderStatus $status,
         private readonly TransactionStatus $transactionStatus,
         private readonly ?PairingStatus $pairingStatus = null,
+        private readonly ?PairingToken $pairingToken = null,
     ) {
     }
 
@@ -40,9 +47,25 @@ final class Order implements Comparable, Equality
         return $this->transactionStatus;
     }
 
+    /**
+     * @return TPairingStatus
+     */
     public function pairingStatus(): ?PairingStatus
     {
         return $this->pairingStatus;
+    }
+
+    public function requiresPairing(): bool
+    {
+        return $this->pairingStatus !== null && $this->pairingStatus->equals(PairingStatus::PAIRING_IN_PROGRESS());
+    }
+
+    /**
+     * @return TPairingToken
+     */
+    public function pairingToken(): ?PairingToken
+    {
+        return $this->pairingToken;
     }
 
     public function merchantTransactionReference(): FiledMerchantTransactionReference
@@ -56,9 +79,11 @@ final class Order implements Comparable, Equality
 
         return Comparison::comparePairs([
             [$this->id, $other->id],
+            [$this->merchantTransactionReference, $other->merchantTransactionReference],
             [$this->status, $other->status],
             [$this->transactionStatus, $other->transactionStatus],
-            [$this->merchantTransactionReference, $other->merchantTransactionReference],
+            [$this->pairingStatus, $other->pairingStatus],
+            [$this->pairingToken, $other->pairingToken],
         ]);
     }
 }

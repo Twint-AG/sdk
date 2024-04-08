@@ -51,6 +51,21 @@ final class PairingStatus implements Enum, Comparable, Equality
         return [self::NO_PAIRING, self::PAIRING_IN_PROGRESS, self::PAIRING_ACTIVE];
     }
 
+    public static function PAIRING_IN_PROGRESS(): self
+    {
+        return new self(self::PAIRING_IN_PROGRESS);
+    }
+
+    public static function NO_PAIRING(): self
+    {
+        return new self(self::NO_PAIRING);
+    }
+
+    public static function PAIRING_ACTIVE(): self
+    {
+        return new self(self::PAIRING_ACTIVE);
+    }
+
     public function __toString(): string
     {
         return $this->status;

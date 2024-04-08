@@ -12,6 +12,8 @@ use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 interface Client
@@ -20,18 +22,27 @@ interface Client
 
     public function renewCertificate(): CertificateRenewal;
 
-    public function startOrder(
-        UnfiledMerchantTransactionReference $orderReference,
-        Money $requestedAmount,
-    ): Order;
+    /**
+     * @return Order<PairingStatus, PairingToken>
+     */
+    public function startOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order;
 
+    /**
+     * @return Order<PairingStatus, null>
+     */
     public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order;
 
+    /**
+     * @return Order<null, null>
+     */
     public function confirmOrder(
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
         Money $requestedAmount
     ): Order;
 
+    /**
+     * @return Order<null, null>
+     */
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
