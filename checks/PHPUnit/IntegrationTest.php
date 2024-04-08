@@ -71,7 +71,11 @@ abstract class IntegrationTest extends TestCase
             TwintEnvironment::TESTING(),
             new ContentSensitiveFileWriter(
                 new File(__DIR__ . '/../../build/'),
-                static fn (string $content) => openssl_x509_fingerprint($content) ?: hash('sha3-384', $content)
+                static function (string $content) {
+                    $fingerprint = openssl_x509_fingerprint($content);
+
+                    return $fingerprint !== false ? $fingerprint : hash('sha3-384', $content);
+                }
             ),
             new DefaultSoapEngineFactory(static fn () => new Uuid('00000000-0000-0000-0000-000000000000'))
         );

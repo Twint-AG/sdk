@@ -22,7 +22,6 @@ parameters:
         -
             message: "#^Method .* throws checked exception#"
             path: checks/PHPUnit/*
-        - '#Short ternary operator is not allowed#'
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
