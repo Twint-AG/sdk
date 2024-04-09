@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk;
 
-use DateTimeImmutable;
-
 use Http\Discovery\Psr17FactoryDiscovery;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
@@ -15,8 +13,6 @@ use Psr\Http\Message\RequestFactoryInterface;
 use Soap\Engine\Engine;
 use Throwable;
 use Twint\Sdk\Certificate\CertificateContainer;
-use Twint\Sdk\Certificate\InMemoryStream;
-use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
@@ -27,15 +23,11 @@ use Twint\Sdk\Generated\TwintSoapClient;
 use Twint\Sdk\Generated\Type\ConfirmOrderRequestType;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
-use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
 use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
 use Twint\Sdk\Generated\Type\OrderLinkType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
-use Twint\Sdk\Generated\Type\RenewCertificateRequestType;
 use Twint\Sdk\Generated\Type\StartOrderRequestType;
-use Twint\Sdk\Value\CertificateRenewal;
-use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\IosAppScheme;
@@ -66,11 +58,11 @@ final class ApiClient implements Client
 
     private const ORDER_KIND_REVERSAL = 'REVERSAL';
 
-    private ?TwintSoapClient $soapClient = null;
+    private readonly ?TwintSoapClient $soapClient;
 
-    private ?ClientInterface $httpClient = null;
+    private readonly ?ClientInterface $httpClient;
 
-    private ?RequestFactoryInterface $httpRequestFactory = null;
+    private readonly ?RequestFactoryInterface $httpRequestFactory;
 
     /**
      * @var list<string>
@@ -83,7 +75,7 @@ final class ApiClient implements Client
      * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
      */
     public function __construct(
-        private CertificateContainer $certificate,
+        private readonly CertificateContainer $certificate,
         private readonly MerchantId $merchantId,
         private readonly TwintVersion $version,
         private readonly TwintEnvironment $environment,
@@ -92,63 +84,6 @@ final class ApiClient implements Client
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
     ) {
-    }
-
-    /**
-     * @throws SdkError
-     */
-    public function getCertificateValidity(): CertificateValidity
-    {
-        try {
-            $response = $this->soapClient()
-                ->getCertificateValidity(new GetCertificateValidityRequestType((string) $this->merchantId, null));
-            return new CertificateValidity(
-                DateTimeImmutable::createFromInterface($response->getCertificateExpiryDate()),
-                $response->getRenewalAllowed()
-            );
-        } catch (SoapException $e) {
-            throw ApiFailure::fromThrowable($e);
-        }
-    }
-
-    /**
-     * @throws SdkError
-     */
-    public function renewCertificate(): CertificateRenewal
-    {
-        try {
-            $response = $this->soapClient()
-                ->renewCertificate(
-                    new RenewCertificateRequestType(
-                        (string) $this->merchantId,
-                        MerchantAliasId: null,
-                        CertificatePassword: $this->certificate->pkcs12()
-                            ->passphrase()
-                    )
-                );
-
-            $certificate = CertificateContainer::fromPkcs12(
-                new Pkcs12Certificate(
-                    new InMemoryStream(non_empty_string()->assert($response->getMerchantCertificate())),
-                    $this->certificate->pkcs12()
-                        ->passphrase()
-                )
-            );
-            $this->setCertificate($certificate);
-
-            return new CertificateRenewal(
-                $certificate,
-                DateTimeImmutable::createFromInterface($response->getExpirationDate())
-            );
-        } catch (SoapException $e) {
-            throw ApiFailure::fromThrowable($e);
-        }
-    }
-
-    private function setCertificate(CertificateContainer $container): void
-    {
-        $this->certificate = $container;
-        $this->soapClient = null;
     }
 
     /**

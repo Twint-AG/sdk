@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk;
 
-use Twint\Sdk\Value\CertificateRenewal;
-use Twint\Sdk\Value\CertificateValidity;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\IosAppScheme;
@@ -18,10 +16,6 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 interface Client
 {
-    public function getCertificateValidity(): CertificateValidity;
-
-    public function renewCertificate(): CertificateRenewal;
-
     /**
      * @return Order<PairingStatus, PairingToken>
      */
