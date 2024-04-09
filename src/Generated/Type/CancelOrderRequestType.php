@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class CancelOrderRequestType implements RequestInterface
+class CancelOrderRequestType
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -27,16 +25,6 @@ class CancelOrderRequestType implements RequestInterface
      *  this voucher in his own applications.
      */
     protected ?string $MerchantTransactionReference;
-
-    /**
-     * Constructor
-     */
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $OrderUuid, ?string $MerchantTransactionReference)
-    {
-        $this->MerchantInformation = $MerchantInformation;
-        $this->OrderUuid = $OrderUuid;
-        $this->MerchantTransactionReference = $MerchantTransactionReference;
-    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

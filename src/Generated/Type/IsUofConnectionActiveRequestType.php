@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class IsUofConnectionActiveRequestType implements RequestInterface
+class IsUofConnectionActiveRequestType
 {
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -23,16 +21,6 @@ class IsUofConnectionActiveRequestType implements RequestInterface
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
     protected string $CustomerRelationUuid;
-
-    /**
-     * Constructor
-     */
-    public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, string $CustomerRelationUuid)
-    {
-        $this->MerchantUuid = $MerchantUuid;
-        $this->MerchantAliasId = $MerchantAliasId;
-        $this->CustomerRelationUuid = $CustomerRelationUuid;
-    }
 
     public function getMerchantUuid(): ?string
     {

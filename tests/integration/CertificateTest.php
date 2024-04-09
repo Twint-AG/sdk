@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Integration\Certificate;
+namespace Twint\Sdk\Tests\Integration;
 
 use DateTimeImmutable;
 use OpenSSLAsymmetricKey;
@@ -17,7 +17,6 @@ use Twint\Sdk\Certificate\FileStream;
 use Twint\Sdk\Certificate\InMemoryStream;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
-use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Value\File;
 use function Psl\invariant;

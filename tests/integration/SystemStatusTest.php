@@ -6,7 +6,6 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 
 #[CoversClass(ApiClient::class)]
 final class SystemStatusTest extends IntegrationTest

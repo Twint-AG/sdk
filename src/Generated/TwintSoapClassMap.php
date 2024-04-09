@@ -91,7 +91,36 @@ class TwintSoapClassMap
             new ClassMap('GetOrderRequestType', Type\GetOrderRequestType::class),
             new ClassMap('GetOrderResponseType', Type\GetOrderResponseType::class),
             new ClassMap('RegistrationType', Type\RegistrationType::class),
+            new ClassMap('RequestCheckInRequestElement', Type\RequestCheckInRequestElement::class),
+            new ClassMap('MonitorCheckInRequestElement', Type\MonitorCheckInRequestElement::class),
+            new ClassMap('CancelCheckInRequestElement', Type\CancelCheckInRequestElement::class),
+            new ClassMap('StartOrderRequestElement', Type\StartOrderRequestElement::class),
+            new ClassMap('MonitorOrderRequestElement', Type\MonitorOrderRequestElement::class),
+            new ClassMap('IsUofConnectionActiveRequestElement', Type\IsUofConnectionActiveRequestElement::class),
+            new ClassMap('ConfirmOrderRequestElement', Type\ConfirmOrderRequestElement::class),
+            new ClassMap('CancelOrderRequestElement', Type\CancelOrderRequestElement::class),
+            new ClassMap('FindOrderRequestElement', Type\FindOrderRequestElement::class),
+            new ClassMap('EnrollCashRegisterRequestElement', Type\EnrollCashRegisterRequestElement::class),
             new ClassMap('CheckSystemStatusRequestElement', Type\CheckSystemStatusRequestElement::class),
+            new ClassMap('GetCertificateValidityRequestElement', Type\GetCertificateValidityRequestElement::class),
+            new ClassMap('RenewCertificateRequestElement', Type\RenewCertificateRequestElement::class),
+            new ClassMap('GetOrderRequestElement', Type\GetOrderRequestElement::class),
+            new ClassMap(
+                'StartOrderAndUofRegistrationRequestElement',
+                Type\StartOrderAndUofRegistrationRequestElement::class
+            ),
+            new ClassMap(
+                'MonitorOrderAndUofRegistrationRequestElement',
+                Type\MonitorOrderAndUofRegistrationRequestElement::class
+            ),
+            new ClassMap(
+                'ConfirmOrderAndUofRegistrationRequestElement',
+                Type\ConfirmOrderAndUofRegistrationRequestElement::class
+            ),
+            new ClassMap(
+                'CancelOrderAndUofRegistrationRequestElement',
+                Type\CancelOrderAndUofRegistrationRequestElement::class
+            ),
             new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
             new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
             new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),
@@ -99,8 +128,11 @@ class TwintSoapClassMap
             new ClassMap('RegistrationRequestType', Type\RegistrationRequestType::class),
             new ClassMap('RequestHeaderType', Type\RequestHeaderType::class),
             new ClassMap('ResponseHeaderType', Type\ResponseHeaderType::class),
+            new ClassMap('RequestHeaderElement', Type\RequestHeaderElement::class),
+            new ClassMap('ResponseHeaderElement', Type\ResponseHeaderElement::class),
             new ClassMap('BaseFault', Type\BaseFault::class),
             new ClassMap('ErrorCode', Type\ErrorCode::class),
+            new ClassMap('BaseFaultElement', Type\BaseFaultElement::class),
             new ClassMap('SystemError', Type\SystemError::class),
             new ClassMap('InvalidParameter', Type\InvalidParameter::class),
             new ClassMap('InvalidMerchant', Type\InvalidMerchant::class),

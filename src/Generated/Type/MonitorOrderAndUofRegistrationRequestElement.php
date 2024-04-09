@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class MonitorOrderAndUofRegistrationRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class MonitorOrderAndUofRegistrationRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -27,6 +29,17 @@ class MonitorOrderAndUofRegistrationRequestType
     protected ?string $MerchantTransactionReference;
 
     protected ?bool $WaitForResponse;
+
+    /**
+     * Constructor
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference, ?bool $WaitForResponse)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->PaymentOrderUuid = $PaymentOrderUuid;
+        $this->MerchantTransactionReference = $MerchantTransactionReference;
+        $this->WaitForResponse = $WaitForResponse;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

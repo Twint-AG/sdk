@@ -8,41 +8,41 @@ use Phpro\SoapClient\Caller\Caller;
 use Phpro\SoapClient\Exception\SoapException;
 use Phpro\SoapClient\Type\RequestInterface;
 use Phpro\SoapClient\Type\ResultInterface;
-use Twint\Sdk\Generated\Type\CancelCheckInRequestType;
+use Twint\Sdk\Generated\Type\CancelCheckInRequestElement;
 use Twint\Sdk\Generated\Type\CancelCheckInResponseType;
-use Twint\Sdk\Generated\Type\CancelOrderAndUofRegistrationRequestType;
+use Twint\Sdk\Generated\Type\CancelOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\CancelOrderAndUofRegistrationResponseType;
-use Twint\Sdk\Generated\Type\CancelOrderRequestType;
+use Twint\Sdk\Generated\Type\CancelOrderRequestElement;
 use Twint\Sdk\Generated\Type\CancelOrderResponseType;
 use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
 use Twint\Sdk\Generated\Type\CheckSystemStatusResponseType;
-use Twint\Sdk\Generated\Type\ConfirmOrderAndUofRegistrationRequestType;
+use Twint\Sdk\Generated\Type\ConfirmOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\ConfirmOrderAndUofRegistrationResponseType;
-use Twint\Sdk\Generated\Type\ConfirmOrderRequestType;
+use Twint\Sdk\Generated\Type\ConfirmOrderRequestElement;
 use Twint\Sdk\Generated\Type\ConfirmOrderResponseType;
-use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
+use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestElement;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterResponseType;
-use Twint\Sdk\Generated\Type\FindOrderRequestType;
+use Twint\Sdk\Generated\Type\FindOrderRequestElement;
 use Twint\Sdk\Generated\Type\FindOrderResponseType;
-use Twint\Sdk\Generated\Type\GetCertificateValidityRequestType;
+use Twint\Sdk\Generated\Type\GetCertificateValidityRequestElement;
 use Twint\Sdk\Generated\Type\GetCertificateValidityResponseType;
-use Twint\Sdk\Generated\Type\GetOrderRequestType;
+use Twint\Sdk\Generated\Type\GetOrderRequestElement;
 use Twint\Sdk\Generated\Type\GetOrderResponseType;
-use Twint\Sdk\Generated\Type\IsUofConnectionActiveRequestType;
+use Twint\Sdk\Generated\Type\IsUofConnectionActiveRequestElement;
 use Twint\Sdk\Generated\Type\IsUofConnectionActiveResponseType;
-use Twint\Sdk\Generated\Type\MonitorCheckInRequestType;
+use Twint\Sdk\Generated\Type\MonitorCheckInRequestElement;
 use Twint\Sdk\Generated\Type\MonitorCheckInResponseType;
-use Twint\Sdk\Generated\Type\MonitorOrderAndUofRegistrationRequestType;
+use Twint\Sdk\Generated\Type\MonitorOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\MonitorOrderAndUofRegistrationResponseType;
-use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
+use Twint\Sdk\Generated\Type\MonitorOrderRequestElement;
 use Twint\Sdk\Generated\Type\MonitorOrderResponseType;
-use Twint\Sdk\Generated\Type\RenewCertificateRequestType;
+use Twint\Sdk\Generated\Type\RenewCertificateRequestElement;
 use Twint\Sdk\Generated\Type\RenewCertificateResponseType;
-use Twint\Sdk\Generated\Type\RequestCheckInRequestType;
+use Twint\Sdk\Generated\Type\RequestCheckInRequestElement;
 use Twint\Sdk\Generated\Type\RequestCheckInResponseType;
-use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationRequestType;
+use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationResponseType;
-use Twint\Sdk\Generated\Type\StartOrderRequestType;
+use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Generated\Type\StartOrderResponseType;
 use function Psl\Type\instance_of;
 
@@ -59,11 +59,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\RequestCheckInRequestType $request
+     * @param RequestInterface & Type\RequestCheckInRequestElement $request
      * @return ResultInterface & Type\RequestCheckInResponseType
      * @throws SoapException
      */
-    public function requestCheckIn(RequestCheckInRequestType $request): RequestCheckInResponseType
+    public function requestCheckIn(RequestCheckInRequestElement $request): RequestCheckInResponseType
     {
         $response = ($this->caller)('RequestCheckIn', $request);
 
@@ -74,11 +74,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\MonitorCheckInRequestType $request
+     * @param RequestInterface & Type\MonitorCheckInRequestElement $request
      * @return ResultInterface & Type\MonitorCheckInResponseType
      * @throws SoapException
      */
-    public function monitorCheckIn(MonitorCheckInRequestType $request): MonitorCheckInResponseType
+    public function monitorCheckIn(MonitorCheckInRequestElement $request): MonitorCheckInResponseType
     {
         $response = ($this->caller)('MonitorCheckIn', $request);
 
@@ -89,12 +89,13 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\IsUofConnectionActiveRequestType $request
+     * @param RequestInterface & Type\IsUofConnectionActiveRequestElement $request
      * @return ResultInterface & Type\IsUofConnectionActiveResponseType
      * @throws SoapException
      */
-    public function isUofConnectionActive(IsUofConnectionActiveRequestType $request): IsUofConnectionActiveResponseType
-    {
+    public function isUofConnectionActive(
+        IsUofConnectionActiveRequestElement $request
+    ): IsUofConnectionActiveResponseType {
         $response = ($this->caller)('IsUofConnectionActive', $request);
 
         instance_of(IsUofConnectionActiveResponseType::class)->assert($response);
@@ -104,11 +105,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\CancelCheckInRequestType $request
+     * @param RequestInterface & Type\CancelCheckInRequestElement $request
      * @return ResultInterface & Type\CancelCheckInResponseType
      * @throws SoapException
      */
-    public function cancelCheckIn(CancelCheckInRequestType $request): CancelCheckInResponseType
+    public function cancelCheckIn(CancelCheckInRequestElement $request): CancelCheckInResponseType
     {
         $response = ($this->caller)('CancelCheckIn', $request);
 
@@ -119,11 +120,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\StartOrderRequestType $request
+     * @param RequestInterface & Type\StartOrderRequestElement $request
      * @return ResultInterface & Type\StartOrderResponseType
      * @throws SoapException
      */
-    public function startOrder(StartOrderRequestType $request): StartOrderResponseType
+    public function startOrder(StartOrderRequestElement $request): StartOrderResponseType
     {
         $response = ($this->caller)('StartOrder', $request);
 
@@ -134,11 +135,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\MonitorOrderRequestType $request
+     * @param RequestInterface & Type\MonitorOrderRequestElement $request
      * @return ResultInterface & Type\MonitorOrderResponseType
      * @throws SoapException
      */
-    public function monitorOrder(MonitorOrderRequestType $request): MonitorOrderResponseType
+    public function monitorOrder(MonitorOrderRequestElement $request): MonitorOrderResponseType
     {
         $response = ($this->caller)('MonitorOrder', $request);
 
@@ -149,11 +150,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\ConfirmOrderRequestType $request
+     * @param RequestInterface & Type\ConfirmOrderRequestElement $request
      * @return ResultInterface & Type\ConfirmOrderResponseType
      * @throws SoapException
      */
-    public function confirmOrder(ConfirmOrderRequestType $request): ConfirmOrderResponseType
+    public function confirmOrder(ConfirmOrderRequestElement $request): ConfirmOrderResponseType
     {
         $response = ($this->caller)('ConfirmOrder', $request);
 
@@ -164,11 +165,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\CancelOrderRequestType $request
+     * @param RequestInterface & Type\CancelOrderRequestElement $request
      * @return ResultInterface & Type\CancelOrderResponseType
      * @throws SoapException
      */
-    public function cancelOrder(CancelOrderRequestType $request): CancelOrderResponseType
+    public function cancelOrder(CancelOrderRequestElement $request): CancelOrderResponseType
     {
         $response = ($this->caller)('CancelOrder', $request);
 
@@ -179,11 +180,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\FindOrderRequestType $request
+     * @param RequestInterface & Type\FindOrderRequestElement $request
      * @return ResultInterface & Type\FindOrderResponseType
      * @throws SoapException
      */
-    public function findOrder(FindOrderRequestType $request): FindOrderResponseType
+    public function findOrder(FindOrderRequestElement $request): FindOrderResponseType
     {
         $response = ($this->caller)('FindOrder', $request);
 
@@ -194,11 +195,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\EnrollCashRegisterRequestType $request
+     * @param RequestInterface & Type\EnrollCashRegisterRequestElement $request
      * @return ResultInterface & Type\EnrollCashRegisterResponseType
      * @throws SoapException
      */
-    public function enrollCashRegister(EnrollCashRegisterRequestType $request): EnrollCashRegisterResponseType
+    public function enrollCashRegister(EnrollCashRegisterRequestElement $request): EnrollCashRegisterResponseType
     {
         $response = ($this->caller)('EnrollCashRegister', $request);
 
@@ -224,12 +225,12 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\GetCertificateValidityRequestType $request
+     * @param RequestInterface & Type\GetCertificateValidityRequestElement $request
      * @return ResultInterface & Type\GetCertificateValidityResponseType
      * @throws SoapException
      */
     public function getCertificateValidity(
-        GetCertificateValidityRequestType $request
+        GetCertificateValidityRequestElement $request
     ): GetCertificateValidityResponseType {
         $response = ($this->caller)('GetCertificateValidity', $request);
 
@@ -240,11 +241,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\RenewCertificateRequestType $request
+     * @param RequestInterface & Type\RenewCertificateRequestElement $request
      * @return ResultInterface & Type\RenewCertificateResponseType
      * @throws SoapException
      */
-    public function renewCertificate(RenewCertificateRequestType $request): RenewCertificateResponseType
+    public function renewCertificate(RenewCertificateRequestElement $request): RenewCertificateResponseType
     {
         $response = ($this->caller)('RenewCertificate', $request);
 
@@ -255,11 +256,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\GetOrderRequestType $request
+     * @param RequestInterface & Type\GetOrderRequestElement $request
      * @return ResultInterface & Type\GetOrderResponseType
      * @throws SoapException
      */
-    public function getOrder(GetOrderRequestType $request): GetOrderResponseType
+    public function getOrder(GetOrderRequestElement $request): GetOrderResponseType
     {
         $response = ($this->caller)('GetOrder', $request);
 
@@ -270,12 +271,12 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\StartOrderAndUofRegistrationRequestType $request
+     * @param RequestInterface & Type\StartOrderAndUofRegistrationRequestElement $request
      * @return ResultInterface & Type\StartOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function startOrderAndUofRegistration(
-        StartOrderAndUofRegistrationRequestType $request
+        StartOrderAndUofRegistrationRequestElement $request
     ): StartOrderAndUofRegistrationResponseType {
         $response = ($this->caller)('StartOrderAndUofRegistration', $request);
 
@@ -286,12 +287,12 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\MonitorOrderAndUofRegistrationRequestType $request
+     * @param RequestInterface & Type\MonitorOrderAndUofRegistrationRequestElement $request
      * @return ResultInterface & Type\MonitorOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function monitorOrderAndUofRegistration(
-        MonitorOrderAndUofRegistrationRequestType $request
+        MonitorOrderAndUofRegistrationRequestElement $request
     ): MonitorOrderAndUofRegistrationResponseType {
         $response = ($this->caller)('MonitorOrderAndUofRegistration', $request);
 
@@ -302,12 +303,12 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\ConfirmOrderAndUofRegistrationRequestType $request
+     * @param RequestInterface & Type\ConfirmOrderAndUofRegistrationRequestElement $request
      * @return ResultInterface & Type\ConfirmOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function confirmOrderAndUofRegistration(
-        ConfirmOrderAndUofRegistrationRequestType $request
+        ConfirmOrderAndUofRegistrationRequestElement $request
     ): ConfirmOrderAndUofRegistrationResponseType {
         $response = ($this->caller)('ConfirmOrderAndUofRegistration', $request);
 
@@ -318,12 +319,12 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\CancelOrderAndUofRegistrationRequestType $request
+     * @param RequestInterface & Type\CancelOrderAndUofRegistrationRequestElement $request
      * @return ResultInterface & Type\CancelOrderAndUofRegistrationResponseType
      * @throws SoapException
      */
     public function cancelOrderAndUofRegistration(
-        CancelOrderAndUofRegistrationRequestType $request
+        CancelOrderAndUofRegistrationRequestElement $request
     ): CancelOrderAndUofRegistrationResponseType {
         $response = ($this->caller)('CancelOrderAndUofRegistration', $request);
 

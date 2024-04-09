@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit\Subscriber;
+namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
 use PHPUnit\Event\Test\Finished;
 use PHPUnit\Event\Test\FinishedSubscriber;

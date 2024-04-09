@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit;
+namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +11,7 @@ use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\File\ContentSensitiveFileWriter;
+use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\File;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit;
+namespace Twint\Sdk\Tools\PHPUnit;
 
 use PHPUnit\Event\Code\Test;
 use PHPUnit\Event\Code\TestMethod;

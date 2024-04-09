@@ -4,54 +4,54 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class RenewCertificateRequestType
+class RequestHeaderElement
 {
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    protected ?string $MerchantUuid;
+    protected string $MessageId;
 
-    protected ?string $MerchantAliasId;
+    protected string $ClientSoftwareName;
 
-    protected mixed $CertificatePassword;
+    protected string $ClientSoftwareVersion;
 
-    public function getMerchantUuid(): ?string
+    public function getMessageId(): string
     {
-        return $this->MerchantUuid;
+        return $this->MessageId;
     }
 
-    public function withMerchantUuid(?string $MerchantUuid): static
+    public function withMessageId(string $MessageId): static
     {
         $new = clone $this;
-        $new->MerchantUuid = $MerchantUuid;
+        $new->MessageId = $MessageId;
 
         return $new;
     }
 
-    public function getMerchantAliasId(): ?string
+    public function getClientSoftwareName(): string
     {
-        return $this->MerchantAliasId;
+        return $this->ClientSoftwareName;
     }
 
-    public function withMerchantAliasId(?string $MerchantAliasId): static
+    public function withClientSoftwareName(string $ClientSoftwareName): static
     {
         $new = clone $this;
-        $new->MerchantAliasId = $MerchantAliasId;
+        $new->ClientSoftwareName = $ClientSoftwareName;
 
         return $new;
     }
 
-    public function getCertificatePassword(): mixed
+    public function getClientSoftwareVersion(): string
     {
-        return $this->CertificatePassword;
+        return $this->ClientSoftwareVersion;
     }
 
-    public function withCertificatePassword(mixed $CertificatePassword): static
+    public function withClientSoftwareVersion(string $ClientSoftwareVersion): static
     {
         $new = clone $this;
-        $new->CertificatePassword = $CertificatePassword;
+        $new->ClientSoftwareVersion = $ClientSoftwareVersion;
 
         return $new;
     }

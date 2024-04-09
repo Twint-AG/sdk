@@ -130,7 +130,7 @@ return static function (ECSConfig $ecsConfig): void {
         'dir' => 'tests',
     ]);
     $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
-        'dir' => 'checks',
+        'dir' => 'tools',
     ]);
 
     $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [

@@ -7,7 +7,6 @@ namespace Twint\Sdk\Tests\Integration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
 use Twint\Sdk\Value\DetectedDevice;
 
 #[CoversClass(ApiClient::class)]

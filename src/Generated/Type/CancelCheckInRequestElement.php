@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class CancelCheckInRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class CancelCheckInRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -33,6 +35,20 @@ class CancelCheckInRequestType
     protected ?string $PairingUuid;
 
     protected ?CouponListType $Coupons;
+
+    /**
+     * Constructor
+     *
+     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, string $Reason, ?string $CustomerRelationUuid, ?string $PairingUuid, ?CouponListType $Coupons)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->Reason = $Reason;
+        $this->CustomerRelationUuid = $CustomerRelationUuid;
+        $this->PairingUuid = $PairingUuid;
+        $this->Coupons = $Coupons;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class MonitorOrderAndUofRegistrationRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class CancelOrderRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -18,7 +20,7 @@ class MonitorOrderAndUofRegistrationRequestType
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    protected ?string $PaymentOrderUuid;
+    protected ?string $OrderUuid;
 
     /**
      * Reference number by which the merchant might want to identify
@@ -26,7 +28,15 @@ class MonitorOrderAndUofRegistrationRequestType
      */
     protected ?string $MerchantTransactionReference;
 
-    protected ?bool $WaitForResponse;
+    /**
+     * Constructor
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $OrderUuid, ?string $MerchantTransactionReference)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->OrderUuid = $OrderUuid;
+        $this->MerchantTransactionReference = $MerchantTransactionReference;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {
@@ -41,15 +51,15 @@ class MonitorOrderAndUofRegistrationRequestType
         return $new;
     }
 
-    public function getPaymentOrderUuid(): ?string
+    public function getOrderUuid(): ?string
     {
-        return $this->PaymentOrderUuid;
+        return $this->OrderUuid;
     }
 
-    public function withPaymentOrderUuid(?string $PaymentOrderUuid): static
+    public function withOrderUuid(?string $OrderUuid): static
     {
         $new = clone $this;
-        $new->PaymentOrderUuid = $PaymentOrderUuid;
+        $new->OrderUuid = $OrderUuid;
 
         return $new;
     }
@@ -63,19 +73,6 @@ class MonitorOrderAndUofRegistrationRequestType
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
-
-        return $new;
-    }
-
-    public function getWaitForResponse(): ?bool
-    {
-        return $this->WaitForResponse;
-    }
-
-    public function withWaitForResponse(?bool $WaitForResponse): static
-    {
-        $new = clone $this;
-        $new->WaitForResponse = $WaitForResponse;
 
         return $new;
     }

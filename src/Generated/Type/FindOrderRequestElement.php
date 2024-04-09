@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Twint\Sdk\Generated\Type;
 
 use DateTimeInterface;
+use Phpro\SoapClient\Type\RequestInterface;
 
-class FindOrderRequestType
+class FindOrderRequestElement implements RequestInterface
 {
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -35,6 +36,20 @@ class FindOrderRequestType
      *  this voucher in his own applications.
      */
     protected ?string $MerchantTransactionReference;
+
+    /**
+     * Constructor
+     */
+    public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, ?string $CashRegisterId, DateTimeInterface $SearchStartDate, DateTimeInterface $SearchEndDate, ?string $OrderUuid, ?string $MerchantTransactionReference)
+    {
+        $this->MerchantUuid = $MerchantUuid;
+        $this->MerchantAliasId = $MerchantAliasId;
+        $this->CashRegisterId = $CashRegisterId;
+        $this->SearchStartDate = $SearchStartDate;
+        $this->SearchEndDate = $SearchEndDate;
+        $this->OrderUuid = $OrderUuid;
+        $this->MerchantTransactionReference = $MerchantTransactionReference;
+    }
 
     public function getMerchantUuid(): ?string
     {

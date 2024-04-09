@@ -21,14 +21,14 @@ use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\File\TemporaryFileWriter;
 use Twint\Sdk\Generated\TwintSoapClient;
 use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
-use Twint\Sdk\Generated\Type\ConfirmOrderRequestType;
+use Twint\Sdk\Generated\Type\ConfirmOrderRequestElement;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
-use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
+use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestElement;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
-use Twint\Sdk\Generated\Type\MonitorOrderRequestType;
+use Twint\Sdk\Generated\Type\MonitorOrderRequestElement;
 use Twint\Sdk\Generated\Type\OrderLinkType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
-use Twint\Sdk\Generated\Type\StartOrderRequestType;
+use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\IosAppScheme;
@@ -121,7 +121,7 @@ final class ApiClient implements Client
         try {
             $response = $this->soapClient()
                 ->startOrder(
-                    new StartOrderRequestType(
+                    new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
                             ->withCashRegisterId((string) $this->merchantId),
@@ -170,7 +170,7 @@ final class ApiClient implements Client
         try {
             $response = $this->soapClient()
                 ->monitorOrder(
-                    new MonitorOrderRequestType(
+                    new MonitorOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
                             ->withCashRegisterId((string) $this->merchantId),
@@ -207,7 +207,7 @@ final class ApiClient implements Client
         try {
             $response = $this->soapClient()
                 ->confirmOrder(
-                    new ConfirmOrderRequestType(
+                    new ConfirmOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
                             ->withCashRegisterId((string) $this->merchantId),
@@ -247,7 +247,7 @@ final class ApiClient implements Client
         try {
             $response = $this->soapClient()
                 ->startOrder(
-                    new StartOrderRequestType(
+                    new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
                             ->withCashRegisterId((string) $this->merchantId),
@@ -371,7 +371,7 @@ final class ApiClient implements Client
         try {
             $this->soapClient()
                 ->enrollCashRegister(
-                    new EnrollCashRegisterRequestType(
+                    new EnrollCashRegisterRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
                             ->withCashRegisterId((string) $this->merchantId),

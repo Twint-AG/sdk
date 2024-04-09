@@ -10,7 +10,7 @@ parameters:
     paths:
         - src
         - tests
-        - checks
+        - tools
         - resources
     ignoreErrors:
         -
@@ -21,7 +21,7 @@ parameters:
             path: tests/*
         -
             message: "#^Method .* throws checked exception#"
-            path: checks/PHPUnit/*
+            path: tools/PHPUnit/*
         -
             message: "#^Class Twint\\\\Sdk\\\\ApiClient has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
             count: 3

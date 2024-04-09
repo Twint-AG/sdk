@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class MonitorOrderAndUofRegistrationRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class ConfirmOrderAndUofRegistrationRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -26,7 +28,27 @@ class MonitorOrderAndUofRegistrationRequestType
      */
     protected ?string $MerchantTransactionReference;
 
-    protected ?bool $WaitForResponse;
+    protected ?bool $ConfirmPaymentOrder;
+
+    protected ?CurrencyAmountType $RequestedAmount;
+
+    protected ?bool $PartialConfirmation;
+
+    protected bool $ConfirmRegistration;
+
+    /**
+     * Constructor
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference, ?bool $ConfirmPaymentOrder, ?CurrencyAmountType $RequestedAmount, ?bool $PartialConfirmation, bool $ConfirmRegistration)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->PaymentOrderUuid = $PaymentOrderUuid;
+        $this->MerchantTransactionReference = $MerchantTransactionReference;
+        $this->ConfirmPaymentOrder = $ConfirmPaymentOrder;
+        $this->RequestedAmount = $RequestedAmount;
+        $this->PartialConfirmation = $PartialConfirmation;
+        $this->ConfirmRegistration = $ConfirmRegistration;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {
@@ -67,15 +89,54 @@ class MonitorOrderAndUofRegistrationRequestType
         return $new;
     }
 
-    public function getWaitForResponse(): ?bool
+    public function getConfirmPaymentOrder(): ?bool
     {
-        return $this->WaitForResponse;
+        return $this->ConfirmPaymentOrder;
     }
 
-    public function withWaitForResponse(?bool $WaitForResponse): static
+    public function withConfirmPaymentOrder(?bool $ConfirmPaymentOrder): static
     {
         $new = clone $this;
-        $new->WaitForResponse = $WaitForResponse;
+        $new->ConfirmPaymentOrder = $ConfirmPaymentOrder;
+
+        return $new;
+    }
+
+    public function getRequestedAmount(): ?CurrencyAmountType
+    {
+        return $this->RequestedAmount;
+    }
+
+    public function withRequestedAmount(?CurrencyAmountType $RequestedAmount): static
+    {
+        $new = clone $this;
+        $new->RequestedAmount = $RequestedAmount;
+
+        return $new;
+    }
+
+    public function getPartialConfirmation(): ?bool
+    {
+        return $this->PartialConfirmation;
+    }
+
+    public function withPartialConfirmation(?bool $PartialConfirmation): static
+    {
+        $new = clone $this;
+        $new->PartialConfirmation = $PartialConfirmation;
+
+        return $new;
+    }
+
+    public function getConfirmRegistration(): bool
+    {
+        return $this->ConfirmRegistration;
+    }
+
+    public function withConfirmRegistration(bool $ConfirmRegistration): static
+    {
+        $new = clone $this;
+        $new->ConfirmRegistration = $ConfirmRegistration;
 
         return $new;
     }

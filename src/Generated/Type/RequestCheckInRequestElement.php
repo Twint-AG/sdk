@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class RequestCheckInRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class RequestCheckInRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -34,6 +36,23 @@ class RequestCheckInRequestType
     protected ?string $RequestCustomerRelationAlias;
 
     protected ?bool $QRCodeRendering;
+
+    /**
+     * Constructor
+     *
+     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $OfflineAuthorization, ?string $CouponCode, ?string $CustomerRelationUuid, ?bool $UnidentifiedCustomer, ?LoyaltyType $LoyaltyInformation, ?string $RequestCustomerRelationAlias, ?bool $QRCodeRendering)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->OfflineAuthorization = $OfflineAuthorization;
+        $this->CouponCode = $CouponCode;
+        $this->CustomerRelationUuid = $CustomerRelationUuid;
+        $this->UnidentifiedCustomer = $UnidentifiedCustomer;
+        $this->LoyaltyInformation = $LoyaltyInformation;
+        $this->RequestCustomerRelationAlias = $RequestCustomerRelationAlias;
+        $this->QRCodeRendering = $QRCodeRendering;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

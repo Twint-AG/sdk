@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit\Subscriber;
+namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
 use PHPUnit\Event\Test\Prepared;
 use PHPUnit\Event\Test\PreparedSubscriber;
-use Twint\Sdk\Checks\PHPUnit\VcrUtil;
+use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 use VCR\VCR;
 
 final class PrepareVcr implements PreparedSubscriber

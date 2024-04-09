@@ -12,8 +12,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Twint\\Sdk\\Tests\\": "tests/",
-            "Twint\\Sdk\\Checks\\": "checks/"
+            "Twint\\Sdk\\Tests\\Integration\\": "tests/integration",
+            "Twint\\Sdk\\Tests\\Unit\\": "tests/unit",
+            "Twint\\Sdk\\Tools\\": "tools/"
         }
     },
     "authors": [

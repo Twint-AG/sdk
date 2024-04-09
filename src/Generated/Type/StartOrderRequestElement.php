@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class StartOrderRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class StartOrderRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -45,6 +47,26 @@ class StartOrderRequestType
     protected ?string $PaymentLayerRendering;
 
     protected ?string $OrderUpdateNotificationURL;
+
+    /**
+     * Constructor
+     *
+     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, OrderRequestType $Order, ?CouponListType $Coupons, ?string $OfflineAuthorization, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $UnidentifiedCustomer, ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization, ?bool $QRCodeRendering, ?string $PaymentLayerRendering, ?string $OrderUpdateNotificationURL)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->Order = $Order;
+        $this->Coupons = $Coupons;
+        $this->OfflineAuthorization = $OfflineAuthorization;
+        $this->CustomerRelationUuid = $CustomerRelationUuid;
+        $this->PairingUuid = $PairingUuid;
+        $this->UnidentifiedCustomer = $UnidentifiedCustomer;
+        $this->ExpressMerchantAuthorization = $ExpressMerchantAuthorization;
+        $this->QRCodeRendering = $QRCodeRendering;
+        $this->PaymentLayerRendering = $PaymentLayerRendering;
+        $this->OrderUpdateNotificationURL = $OrderUpdateNotificationURL;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

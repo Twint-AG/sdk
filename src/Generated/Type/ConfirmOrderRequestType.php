@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class ConfirmOrderRequestType implements RequestInterface
+class ConfirmOrderRequestType
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -31,18 +29,6 @@ class ConfirmOrderRequestType implements RequestInterface
     protected CurrencyAmountType $RequestedAmount;
 
     protected ?bool $PartialConfirmation;
-
-    /**
-     * Constructor
-     */
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $OrderUuid, ?string $MerchantTransactionReference, CurrencyAmountType $RequestedAmount, ?bool $PartialConfirmation)
-    {
-        $this->MerchantInformation = $MerchantInformation;
-        $this->OrderUuid = $OrderUuid;
-        $this->MerchantTransactionReference = $MerchantTransactionReference;
-        $this->RequestedAmount = $RequestedAmount;
-        $this->PartialConfirmation = $PartialConfirmation;
-    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

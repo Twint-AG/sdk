@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit;
+namespace Twint\Sdk\Tools\PHPUnit;
 
 use Attribute;
 use Closure;

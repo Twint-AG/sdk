@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class EnrollCashRegisterRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class EnrollCashRegisterRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -23,6 +25,20 @@ class EnrollCashRegisterRequestType
     protected ?string $BeaconInventoryNumber;
 
     protected ?string $BeaconDaemonVersion;
+
+    /**
+     * Constructor
+     *
+     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' | 'OTHER' $CashRegisterType
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, string $CashRegisterType, ?string $FormerCashRegisterId, ?string $BeaconInventoryNumber, ?string $BeaconDaemonVersion)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->CashRegisterType = $CashRegisterType;
+        $this->FormerCashRegisterId = $FormerCashRegisterId;
+        $this->BeaconInventoryNumber = $BeaconInventoryNumber;
+        $this->BeaconDaemonVersion = $BeaconDaemonVersion;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {

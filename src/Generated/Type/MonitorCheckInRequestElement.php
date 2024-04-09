@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class CancelCheckInRequestType
+use Phpro\SoapClient\Type\RequestInterface;
+
+class MonitorCheckInRequestElement implements RequestInterface
 {
     /**
      * Restriction of the Base Merchant Information.
@@ -12,11 +14,6 @@ class CancelCheckInRequestType
      *  within the *-POS Cases, where the Actions are performed by specific CashRegisters
      */
     protected MerchantInformationType $MerchantInformation;
-
-    /**
-     * @var 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
-     */
-    protected string $Reason;
 
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -32,7 +29,18 @@ class CancelCheckInRequestType
      */
     protected ?string $PairingUuid;
 
-    protected ?CouponListType $Coupons;
+    protected ?bool $WaitForResponse;
+
+    /**
+     * Constructor
+     */
+    public function __construct(MerchantInformationType $MerchantInformation, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $WaitForResponse)
+    {
+        $this->MerchantInformation = $MerchantInformation;
+        $this->CustomerRelationUuid = $CustomerRelationUuid;
+        $this->PairingUuid = $PairingUuid;
+        $this->WaitForResponse = $WaitForResponse;
+    }
 
     public function getMerchantInformation(): MerchantInformationType
     {
@@ -43,25 +51,6 @@ class CancelCheckInRequestType
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
-
-        return $new;
-    }
-
-    /**
-     * @return 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
-     */
-    public function getReason(): string
-    {
-        return $this->Reason;
-    }
-
-    /**
-     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
-     */
-    public function withReason(string $Reason): static
-    {
-        $new = clone $this;
-        $new->Reason = $Reason;
 
         return $new;
     }
@@ -92,15 +81,15 @@ class CancelCheckInRequestType
         return $new;
     }
 
-    public function getCoupons(): ?CouponListType
+    public function getWaitForResponse(): ?bool
     {
-        return $this->Coupons;
+        return $this->WaitForResponse;
     }
 
-    public function withCoupons(?CouponListType $Coupons): static
+    public function withWaitForResponse(?bool $WaitForResponse): static
     {
         $new = clone $this;
-        $new->Coupons = $Coupons;
+        $new->WaitForResponse = $WaitForResponse;
 
         return $new;
     }

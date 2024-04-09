@@ -6,8 +6,7 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Checks\PHPUnit\IntegrationTest;
-use Twint\Sdk\Checks\PHPUnit\Vcr;
+use Twint\Sdk\Tools\PHPUnit\Vcr;
 
 #[CoversClass(ApiClient::class)]
 final class AppSchemeTest extends IntegrationTest

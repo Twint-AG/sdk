@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Checks\PHPUnit\Subscriber;
+namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
 use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Event\TestRunner\BootstrapFinished;
 use PHPUnit\Event\TestRunner\BootstrapFinishedSubscriber;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Twint\Sdk\Checks\PHPUnit\MutableResponse;
-use Twint\Sdk\Checks\PHPUnit\VcrUtil;
+use Twint\Sdk\Tools\PHPUnit\MutableResponse;
+use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 use VCR\Event\BeforePlaybackEvent;
 use VCR\Event\BeforeRecordEvent;
 use VCR\Request;
