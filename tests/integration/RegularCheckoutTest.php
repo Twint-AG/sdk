@@ -10,23 +10,32 @@ use Twint\Sdk\Tools\PHPUnit\Vcr;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\TransactionStatus;
 
 #[CoversClass(ApiClient::class)]
 final class RegularCheckoutTest extends IntegrationTest
 {
-    #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    private const WIREMOCK_SCENARIO_NAME_SUCCESS = 'OKScenario';
+
+    private const WIREMOCK_SCENARIO_NAME_FAILURE = 'FailureScenario';
+
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_TIMEOUT = 'SetupClientTimeout';
+
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_ABORT = 'SetupClientAborted';
+
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR = 'SetupGeneralError';
+
     public function testStartOrder(): void
     {
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
-        self::assertSame(OrderStatus::IN_PROGRESS, (string) $order->status());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $order->status());
         self::assertTrue($order->requiresPairing());
         self::assertNotNull($order->pairingStatus());
-        self::assertTrue(PairingStatus::PAIRING_IN_PROGRESS()->equals($order->pairingStatus()));
+        self::assertEquals(PairingStatus::PAIRING_IN_PROGRESS(), $order->pairingStatus());
         self::assertNotNull($order->pairingToken());
     }
 
-    #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testMonitorOrderByOrderId(): void
     {
         $transactionReference = $this->createTransactionReference();
@@ -35,12 +44,11 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $monitorOrder = $this->client->monitorOrder($order->id());
 
-        self::assertTrue($order->id()->equals($monitorOrder->id()));
-        self::assertTrue($order->transactionStatus()->equals($monitorOrder->transactionStatus()));
-        self::assertTrue($order->pairingStatus()->equals($monitorOrder->pairingStatus()));
+        self::assertEquals($order->id(), $monitorOrder->id());
+        self::assertEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
+        self::assertEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
     }
 
-    #[Vcr(fixtureRevision: 10, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testMonitorOrderByMerchantTransactionReference(): void
     {
         $transactionReference = $this->createTransactionReference();
@@ -49,9 +57,9 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $monitorOrder = $this->client->monitorOrder($order->merchantTransactionReference());
 
-        self::assertTrue($order->id()->equals($monitorOrder->id()));
-        self::assertTrue($order->transactionStatus()->equals($monitorOrder->transactionStatus()));
-        self::assertTrue($order->pairingStatus()->equals($monitorOrder->pairingStatus()));
+        self::assertEquals($order->id(), $monitorOrder->id());
+        self::assertEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
+        self::assertEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
     }
 
     #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -75,7 +83,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $confirmedOrder = $this->client->confirmOrder($order->merchantTransactionReference(), Money::CHF(100));
 
-        self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
+        self::assertEquals($confirmedOrder->status(), OrderStatus::SUCCESS());
     }
 
     #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
@@ -106,8 +114,122 @@ final class RegularCheckoutTest extends IntegrationTest
             Money::CHF(100)
         );
 
-        self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));
+        self::assertNotEquals($order->merchantTransactionReference(), $reversed->merchantTransactionReference());
         self::assertFalse($reversed->requiresPairing());
         self::assertNull($reversed->pairingToken());
+    }
+
+    public function testOrderSuccessScenario(): void
+    {
+        $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
+        $this->wireMock()
+            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_SUCCESS);
+
+        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+
+        $awaitConfirmation = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $awaitConfirmation->status());
+        self::assertEquals(TransactionStatus::ORDER_PENDING(), $awaitConfirmation->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $awaitConfirmation->pairingStatus());
+
+        $confirmation = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::SUCCESS(), $confirmation->status());
+        self::assertEquals(TransactionStatus::ORDER_OK(), $confirmation->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $confirmation->pairingStatus());
+    }
+
+    public function testOrderFailureScenarioClientTimeout(): void
+    {
+        $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
+        $this->wireMock()
+            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+
+        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+
+        $this->wireMock()
+            ->setScenarioState(
+                self::WIREMOCK_SCENARIO_NAME_FAILURE,
+                self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_TIMEOUT
+            );
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::FAILURE(), $started->status());
+        self::assertEquals(TransactionStatus::CLIENT_TIMEOUT(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus()); // @todo is this correct?
+    }
+
+    public function testOrderFailureScenarioClientAbort(): void
+    {
+        $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
+        $this->wireMock()
+            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+
+        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+
+        $this->wireMock()
+            ->setScenarioState(
+                self::WIREMOCK_SCENARIO_NAME_FAILURE,
+                self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_ABORT
+            );
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::FAILURE(), $started->status());
+        self::assertEquals(TransactionStatus::CLIENT_ABORT(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus()); // @todo is this correct?
+    }
+
+    public function testOrderFailureScenarioGeneralError(): void
+    {
+        $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
+        $this->wireMock()
+            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+
+        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
+        self::assertEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+
+        $this->wireMock()
+            ->setScenarioState(
+                self::WIREMOCK_SCENARIO_NAME_FAILURE,
+                self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR
+            );
+
+        $started = $this->client->monitorOrder($order->id());
+        self::assertEquals(OrderStatus::FAILURE(), $started->status());
+        self::assertEquals(TransactionStatus::GENERAL_ERROR(), $started->transactionStatus());
+        self::assertEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus()); // @todo is this correct?
     }
 }

@@ -6,12 +6,10 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\ApiClient;
-use Twint\Sdk\Tools\PHPUnit\Vcr;
 
 #[CoversClass(ApiClient::class)]
 final class AppSchemeTest extends IntegrationTest
 {
-    #[Vcr(fixtureRevision: 1, requestMatchers: ['method', 'url', 'query_string'])]
     public function testGetIosAppSchemes(): void
     {
         $schemes = $this->client->getIosAppSchemes();

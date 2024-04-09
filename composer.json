@@ -29,7 +29,6 @@
         "ext-dom": "*",
         "ext-openssl": "*",
         "phpro/soap-client": "3.1.0",
-        "php-soap/wsdl-reader": "dev-sequence-fix as 0.9.1",
         "php-soap/engine": "^2.4.0",
         "php-soap/psr18-transport": "^1.0",
         "guzzlehttp/guzzle": "^7.3",
@@ -49,7 +48,8 @@
         "php-vcr/php-vcr": "dev-fix-stream-handler-set-option as 1.7.0",
         "php-standard-library/phpstan-extension": "^1.0",
         "symfony/event-dispatcher": "^6.4",
-        "symfony/clock": "^6.4"
+        "symfony/clock": "^6.4",
+        "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0"
     },
     "config": {
         "allow-plugins": {
@@ -61,11 +61,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/lstrojny/wsdl-reader.git"
+            "url": "https://github.com/lstrojny/php-vcr.git"
         },
         {
             "type": "vcs",
-            "url": "https://github.com/lstrojny/php-vcr.git"
+            "url": "https://github.com/lstrojny/wiremock-php.git"
         }
     ]
 }

@@ -120,7 +120,7 @@ final class TwintEnvironmentTest extends TestCase
     {
         $environment = new TwintEnvironment($environmentName);
 
-        self::assertTrue($appSchemeUrl->equals($environment->appSchemeUrl()));
+        self::assertEquals($appSchemeUrl, $environment->appSchemeUrl());
     }
 
     #[DataProvider('getEnvironments')]
@@ -132,7 +132,7 @@ final class TwintEnvironmentTest extends TestCase
     #[DataProvider('getSoapEndpoints')]
     public function testGetSoapEndpoints(TwintEnvironment $environment, TwintVersion $version, Url $expectedUrl): void
     {
-        self::assertTrue($expectedUrl->equals($environment->soapEndpoint($version)));
+        self::assertEquals($expectedUrl, $environment->soapEndpoint($version));
     }
 
     #[DataProvider('getSoapTargetNamespaces')]
@@ -141,12 +141,12 @@ final class TwintEnvironmentTest extends TestCase
         TwintVersion $version,
         Url $expectedUrl
     ): void {
-        self::assertTrue($expectedUrl->equals($environment->soapTargetNamespace($version)));
+        self::assertEquals($expectedUrl, $environment->soapTargetNamespace($version));
     }
 
     #[DataProvider('getSoapWsdlPaths')]
     public function testSoapWsdlPaths(TwintEnvironment $environment, TwintVersion $version, File $wsdl): void
     {
-        self::assertTrue($wsdl->equals($environment->soapWsdlPath($version)));
+        self::assertEquals($wsdl, $environment->soapWsdlPath($version));
     }
 }

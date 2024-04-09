@@ -29,7 +29,6 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
-use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
@@ -57,7 +56,6 @@ return static function (ECSConfig $ecsConfig): void {
             FullyQualifiedStrictTypesFixer::class,
             GlobalNamespaceImportFixer::class,
             NoLeadingImportSlashFixer::class,
-            PhpUnitStrictFixer::class,
             StaticLambdaFixer::class,
             ReferenceUsedNamesOnlySniff::class,
         ]

@@ -49,6 +49,51 @@ final class TransactionStatus implements Enum, Comparable, Equality
         return new self(self::assert($status));
     }
 
+    public static function ORDER_OK(): self
+    {
+        return new self(self::ORDER_OK);
+    }
+
+    public static function ORDER_PARTIAL_OK(): self
+    {
+        return new self(self::ORDER_PARTIAL_OK);
+    }
+
+    public static function ORDER_RECEIVED(): self
+    {
+        return new self(self::ORDER_RECEIVED);
+    }
+
+    public static function ORDER_PENDING(): self
+    {
+        return new self(self::ORDER_PENDING);
+    }
+
+    public static function ORDER_CONFIRMATION_PENDING(): self
+    {
+        return new self(self::ORDER_CONFIRMATION_PENDING);
+    }
+
+    public static function GENERAL_ERROR(): self
+    {
+        return new self(self::GENERAL_ERROR);
+    }
+
+    public static function CLIENT_TIMEOUT(): self
+    {
+        return new self(self::CLIENT_TIMEOUT);
+    }
+
+    public static function MERCHANT_ABORT(): self
+    {
+        return new self(self::MERCHANT_ABORT);
+    }
+
+    public static function CLIENT_ABORT(): self
+    {
+        return new self(self::CLIENT_ABORT);
+    }
+
     /**
      * @return list<self::*>
      */

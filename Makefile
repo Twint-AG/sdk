@@ -18,6 +18,12 @@ MAKEFLAGS += --jobs=32
 test:
 	$(PHPUNIT)
 
+test-unit:
+	$(PHPUNIT) --testsuite=unit
+
+test-integration:
+	$(PHPUNIT) --testsuite=integration
+
 static-analysis:
 	test $$GITLAB_CI && $(PHPSTAN) --error-format=gitlab > build/phpstan.json || $(PHPSTAN)
 
@@ -28,6 +34,9 @@ check-format:
 	$(ECS)
 
 check: static-analysis test check-format
+	$(MAKE) check-codegen
+
+quickcheck: static-analysis test-unit check-format
 	$(MAKE) check-codegen
 
 codegen-clean:

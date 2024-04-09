@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "062aff08be6ed925c3abd03b98649886",
+    "content-hash": "5914a5de912fb96d3c0a37e172dd64de",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -1428,16 +1428,16 @@
         },
         {
             "name": "php-soap/wsdl-reader",
-            "version": "dev-sequence-fix",
+            "version": "0.10.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lstrojny/wsdl-reader.git",
-                "reference": "ea990be0ef31afa266f372fc2da4ecd293c880b4"
+                "url": "https://github.com/php-soap/wsdl-reader.git",
+                "reference": "535251d71d22a48b894e4a2a72fe5e06d6a7bc19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/wsdl-reader/zipball/ea990be0ef31afa266f372fc2da4ecd293c880b4",
-                "reference": "ea990be0ef31afa266f372fc2da4ecd293c880b4",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/535251d71d22a48b894e4a2a72fe5e06d6a7bc19",
+                "reference": "535251d71d22a48b894e4a2a72fe5e06d6a7bc19",
                 "shasum": ""
             },
             "require": {
@@ -1463,11 +1463,7 @@
                     "Soap\\WsdlReader\\": "src/"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Soap\\WsdlReader\\Test\\": "tests/"
-                }
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1479,15 +1475,16 @@
             ],
             "description": "A WSDL reader in PHP",
             "support": {
-                "source": "https://github.com/lstrojny/wsdl-reader/tree/sequence-fix"
+                "issues": "https://github.com/php-soap/wsdl-reader/issues",
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.10.0"
             },
             "funding": [
                 {
-                    "type": "open_collective",
-                    "url": "https://opencollective.com/php-soap"
+                    "url": "https://opencollective.com/php-soap",
+                    "type": "open_collective"
                 }
             ],
-            "time": "2024-03-29T16:34:40+00:00"
+            "time": "2024-04-02T13:51:57+00:00"
         },
         {
             "name": "php-soap/xml",
@@ -6032,26 +6029,91 @@
                 }
             ],
             "time": "2024-03-03T12:36:25+00:00"
+        },
+        {
+            "name": "wiremock-php/wiremock-php",
+            "version": "dev-cloud-support",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lstrojny/wiremock-php.git",
+                "reference": "0cabf68e51f87717d4efe44035adad092c26417b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lstrojny/wiremock-php/zipball/0cabf68e51f87717d4efe44035adad092c26417b",
+                "reference": "0cabf68e51f87717d4efe44035adad092c26417b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "hamcrest/hamcrest-php": "^2.0",
+                "phake/phake": "^4.2",
+                "phpdocumentor/reflection-docblock": "^5.3",
+                "phpdocumentor/type-resolver": "^1.6",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "phpunit/phpunit": "Thrown VerificationExceptions automatically fail tests"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "WireMock\\": "src"
+                }
+            },
+            "archive": {
+                "exclude": [
+                    "/test",
+                    "composer.phar",
+                    "wiremock"
+                ]
+            },
+            "scripts": {
+                "serdegen": [
+                    "WireMock\\SerdeGen\\WireMockSerdeGen::generateAndSaveWireMockSerdeLookup"
+                ],
+                "test": [
+                    "cd test && phpunit --configuration phpunit.xml --debug --verbose && cd .."
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rowan Hill"
+                }
+            ],
+            "description": "PHP API for WireMock JSON interface",
+            "homepage": "http://github.com/rowanhill/wiremock-php",
+            "support": {
+                "source": "https://github.com/lstrojny/wiremock-php/tree/cloud-support"
+            },
+            "time": "2024-04-09T14:46:48+00:00"
         }
     ],
     "aliases": [
-        {
-            "package": "php-soap/wsdl-reader",
-            "version": "dev-sequence-fix",
-            "alias": "0.9.1",
-            "alias_normalized": "0.9.1.0"
-        },
         {
             "package": "php-vcr/php-vcr",
             "version": "dev-fix-stream-handler-set-option",
             "alias": "1.7.0",
             "alias_normalized": "1.7.0.0"
+        },
+        {
+            "package": "wiremock-php/wiremock-php",
+            "version": "dev-cloud-support",
+            "alias": "2.39.0",
+            "alias_normalized": "2.39.0.0"
         }
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "php-soap/wsdl-reader": 20,
-        "php-vcr/php-vcr": 20
+        "php-vcr/php-vcr": 20,
+        "wiremock-php/wiremock-php": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
