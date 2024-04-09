@@ -20,6 +20,7 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\File\TemporaryFileWriter;
 use Twint\Sdk\Generated\TwintSoapClient;
+use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
 use Twint\Sdk\Generated\Type\ConfirmOrderRequestType;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestType;
@@ -39,6 +40,7 @@ use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingToken;
+use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use function Psl\invariant;
@@ -84,6 +86,27 @@ final class ApiClient implements Client
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
     ) {
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function checkSystemStatus(): SystemStatus
+    {
+        try {
+            $response = $this->soapClient()
+                ->checkSystemStatus(
+                    new CheckSystemStatusRequestElement(
+                        (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId('')
+                    )
+                );
+
+            return new SystemStatus($response->getStatus());
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
     }
 
     /**

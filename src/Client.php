@@ -12,10 +12,13 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingToken;
+use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 interface Client
 {
+    public function checkSystemStatus(): SystemStatus;
+
     /**
      * @return Order<PairingStatus, PairingToken>
      */

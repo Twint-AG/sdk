@@ -91,6 +91,7 @@ class TwintSoapClassMap
             new ClassMap('GetOrderRequestType', Type\GetOrderRequestType::class),
             new ClassMap('GetOrderResponseType', Type\GetOrderResponseType::class),
             new ClassMap('RegistrationType', Type\RegistrationType::class),
+            new ClassMap('CheckSystemStatusRequestElement', Type\CheckSystemStatusRequestElement::class),
             new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
             new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
             new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),

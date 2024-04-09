@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-use Phpro\SoapClient\Type\RequestInterface;
-
-class CheckSystemStatusRequestType implements RequestInterface
+class CheckSystemStatusRequestType
 {
     /**
      * Basic identification of a Merchant. MAY contain a CashRegisterId, if the Merchant wants to provide it.
@@ -14,14 +12,6 @@ class CheckSystemStatusRequestType implements RequestInterface
      *  Terminals of the Merchant.
      */
     protected MerchantInformationBaseType $MerchantInformation;
-
-    /**
-     * Constructor
-     */
-    public function __construct(MerchantInformationBaseType $MerchantInformation)
-    {
-        $this->MerchantInformation = $MerchantInformation;
-    }
 
     public function getMerchantInformation(): MerchantInformationBaseType
     {

@@ -38,6 +38,8 @@ const GENERATED_TYPES_PATH = BASE_DIR . '/src/Generated/Type';
 const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
+const IGNORED_ELEMENTS = ['CheckSystemStatusRequestElement'];
+
 $engine = CodeGeneratorEngineFactory::create(
     (string) TwintEnvironment::PRODUCTION()->soapWsdlPath(TwintVersion::latest()),
     new FlatteningLoader(new StreamWrapperLoader()),
@@ -81,7 +83,11 @@ $engine = CodeGeneratorEngineFactory::create(
                 new class() implements TypesManipulatorInterface {
                     public function __invoke(TypeCollection $types): TypeCollection
                     {
-                        return $types->filter(static fn (Type $type) => !str_ends_with($type->getName(), 'Element'));
+                        return $types->filter(
+                            static fn (Type $type) =>
+                                !str_ends_with($type->getName(), 'Element')
+                                || in_array($type->getName(), IGNORED_ELEMENTS, true)
+                        );
                     }
                 },
             )
@@ -111,6 +117,10 @@ $engine = CodeGeneratorEngineFactory::create(
              */
             private static function replace(string $name): string
             {
+                if (in_array($name, IGNORED_ELEMENTS, true)) {
+                    return $name;
+                }
+
                 return non_empty_string()->assert(preg_replace('/Element$/', 'Type', $name));
             }
         }),

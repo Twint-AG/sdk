@@ -14,7 +14,7 @@ use Twint\Sdk\Generated\Type\CancelOrderAndUofRegistrationRequestType;
 use Twint\Sdk\Generated\Type\CancelOrderAndUofRegistrationResponseType;
 use Twint\Sdk\Generated\Type\CancelOrderRequestType;
 use Twint\Sdk\Generated\Type\CancelOrderResponseType;
-use Twint\Sdk\Generated\Type\CheckSystemStatusRequestType;
+use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
 use Twint\Sdk\Generated\Type\CheckSystemStatusResponseType;
 use Twint\Sdk\Generated\Type\ConfirmOrderAndUofRegistrationRequestType;
 use Twint\Sdk\Generated\Type\ConfirmOrderAndUofRegistrationResponseType;
@@ -209,11 +209,11 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & Type\CheckSystemStatusRequestType $request
+     * @param RequestInterface & Type\CheckSystemStatusRequestElement $request
      * @return ResultInterface & Type\CheckSystemStatusResponseType
      * @throws SoapException
      */
-    public function checkSystemStatus(CheckSystemStatusRequestType $request): CheckSystemStatusResponseType
+    public function checkSystemStatus(CheckSystemStatusRequestElement $request): CheckSystemStatusResponseType
     {
         $response = ($this->caller)('CheckSystemStatus', $request);
 
