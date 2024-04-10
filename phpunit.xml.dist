@@ -12,7 +12,9 @@
          failOnWarning="true">
     <testsuites>
         <testsuite name="unit">
-            <directory>tests/unit</directory>
+            <directory suffix="">tests/unit</directory>
+            <exclude>tests/unit/Value/ValueTest.php</exclude>
+            <exclude>tests/unit/Util/ComparableImpl.php</exclude>
         </testsuite>
         <testsuite name="integration">
             <directory>tests/integration</directory>
@@ -23,12 +25,16 @@
         <report>
             <html outputDirectory="build/coverage/html"/>
             <clover outputFile="build/coverage/clover.xml"/>
+            <text outputFile="/dev/stderr" showOnlySummary="true" showUncoveredFiles="true"/>
         </report>
     </coverage>
     <source>
         <include>
             <directory suffix=".php">src</directory>
         </include>
+        <exclude>
+            <directory>src/Generated</directory>
+        </exclude>
     </source>
     <extensions>
         <bootstrap class="Twint\Sdk\Tools\PHPUnit\VcrExtension" />

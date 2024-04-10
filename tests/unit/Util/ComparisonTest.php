@@ -18,6 +18,7 @@ final class ComparisonTest extends TestCase
      */
     public static function getComparisons(): iterable
     {
+        yield [[], 0];
         yield [[[null, null]], 0];
         yield [[[new ComparableImpl(1), new ComparableImpl(1)]], 0];
         yield [

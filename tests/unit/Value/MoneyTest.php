@@ -6,11 +6,13 @@ namespace Twint\Sdk\Tests\Unit\Value;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\Money;
 
+/**
+ * @template-extends ValueTest<Money>
+ */
 #[CoversClass(Money::class)]
-final class MoneyTest extends TestCase
+final class MoneyTest extends ValueTest
 {
     /**
      * @return iterable<array{Money, Money, int}>
@@ -51,5 +53,15 @@ final class MoneyTest extends TestCase
     public function testCompare(Money $left, Money $right, int $expected): void
     {
         self::assertSame($expected, $left->compare($right));
+    }
+
+    protected function createValue(): object
+    {
+        return Money::CHF(1000.12);
+    }
+
+    protected static function getValueType(): string
+    {
+        return Money::class;
     }
 }

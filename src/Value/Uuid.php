@@ -17,8 +17,10 @@ final class Uuid implements Comparable, Equality
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
+    private readonly string $uuid;
+
     public function __construct(
-        private string $uuid
+        string $uuid
     ) {
         invariant(
             matches($uuid, '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i'),
