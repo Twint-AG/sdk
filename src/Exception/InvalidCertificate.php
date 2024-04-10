@@ -6,7 +6,6 @@ namespace Twint\Sdk\Exception;
 
 use RuntimeException;
 use Throwable;
-use function Psl\invariant;
 
 final class InvalidCertificate extends RuntimeException implements SdkError
 {
@@ -43,30 +42,6 @@ final class InvalidCertificate extends RuntimeException implements SdkError
     public static function notTrusted(array $errors, ?Throwable $previous = null): self
     {
         return new self('Cannot trust certificate', $errors, $previous);
-    }
-
-    public static function fromOpensslErrors(): self
-    {
-        return new self('Cannot trust certificate', self::accumulateErrors());
-    }
-
-    /**
-     * @return non-empty-list<self::*>
-     */
-    private static function accumulateErrors(): array
-    {
-        $errors = [];
-
-        while (($error = openssl_error_string()) !== false) {
-            $errors[] = match ($error) {
-                'error:11800071:PKCS12 routines::mac verify failure' => self::ERROR_INVALID_PASSPHRASE,
-                default => self::ERROR_INVALID_CERTIFICATE_FORMAT
-            };
-        }
-
-        invariant(count($errors) > 0, 'Expected at least one error');
-
-        return array_unique($errors);
     }
 
     /**

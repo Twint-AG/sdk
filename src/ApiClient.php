@@ -153,7 +153,7 @@ final class ApiClient implements Client
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
                 PairingStatus::fromString($response->getPairingStatus()),
-                new PairingToken(uint() ->assert($response->getToken()))
+                new PairingToken(uint()->assert($response->getToken()))
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
