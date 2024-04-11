@@ -32,6 +32,11 @@ interface Client
     /**
      * @return Order<null, null>
      */
+    public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order;
+
+    /**
+     * @return Order<null, null>
+     */
     public function confirmOrder(
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
         Money $requestedAmount

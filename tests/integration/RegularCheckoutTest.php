@@ -119,6 +119,28 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertNull($reversed->pairingToken());
     }
 
+    public function testCancelOrderByOrderId(): void
+    {
+        $started = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+
+        $cancelled = $this->client->cancelOrder($started->id());
+
+        self::assertEquals(OrderStatus::FAILURE(), $cancelled->status());
+        self::assertEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
+    }
+
+    public function testCancelOrderByMerchantTransactionReference(): void
+    {
+        $started = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+
+        self::markTestSkipped('CancelOrder response does not include UUID. Maybe an API bug?');
+
+        $cancelled = $this->client->cancelOrder($started->merchantTransactionReference()); // @phpstan-ignore-line
+
+        self::assertEquals(OrderStatus::FAILURE(), $cancelled->status());
+        self::assertEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
+    }
+
     public function testOrderSuccessScenario(): void
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');

@@ -20,6 +20,7 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\File\TemporaryFileWriter;
 use Twint\Sdk\Generated\TwintSoapClient;
+use Twint\Sdk\Generated\Type\CancelOrderRequestElement;
 use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
 use Twint\Sdk\Generated\Type\ConfirmOrderRequestElement;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
@@ -189,6 +190,39 @@ final class ApiClient implements Client
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
                 PairingStatus::fromString($response->getPairingStatus()),
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    {
+        $this->enrollCashRegister();
+
+        try {
+            $response = $this->soapClient()
+                ->cancelOrder(
+                    new CancelOrderRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
+                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
+                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrder()->getUuid()),
+                new FiledMerchantTransactionReference(
+                    non_empty_string()
+                        ->assert($response->getOrder()->getMerchantTransactionReference())
+                ),
+                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
