@@ -15,15 +15,19 @@ use Twint\Sdk\Value\TransactionStatus;
 #[CoversClass(ApiClient::class)]
 final class RegularCheckoutTest extends IntegrationTest
 {
-    private const WIREMOCK_SCENARIO_NAME_SUCCESS = 'OKScenario';
+    private const WIREMOCK_SCENARIO_NAME_SUCCESS = 'SuccessScenario';
 
     private const WIREMOCK_SCENARIO_NAME_FAILURE = 'FailureScenario';
 
-    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_TIMEOUT = 'SetupClientTimeout';
+    private const WIREMOCK_SCENARIO_STATE_SUCCESS_SETUP = 'SetupSuccess';
 
-    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_ABORT = 'SetupClientAborted';
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP = 'SetupFailure';
 
-    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR = 'SetupGeneralError';
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_TIMEOUT = 'SetupFailureClientTimeout';
+
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_ABORT = 'SetupFailureClientAborted';
+
+    private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR = 'SetupFailureGeneralError';
 
     public function testStartOrder(): void
     {
@@ -145,9 +149,12 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
         $this->wireMock()
-            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_SUCCESS);
+            ->resetAllScenarios();
 
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+
+        $this->wireMock()
+            ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_SUCCESS, self::WIREMOCK_SCENARIO_STATE_SUCCESS_SETUP);
 
         $started = $this->client->monitorOrder($order->id());
         self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
@@ -169,9 +176,12 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
         $this->wireMock()
-            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+            ->resetAllScenarios();
 
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $this->wireMock()
+            ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
         $started = $this->client->monitorOrder($order->id());
         self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
@@ -199,9 +209,12 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
         $this->wireMock()
-            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+            ->resetAllScenarios();
 
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $this->wireMock()
+            ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
         $started = $this->client->monitorOrder($order->id());
         self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());
@@ -229,9 +242,12 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
         $this->wireMock()
-            ->resetScenario(self::WIREMOCK_SCENARIO_NAME_FAILURE);
+            ->resetAllScenarios();
 
         $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+
+        $this->wireMock()
+            ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
         $started = $this->client->monitorOrder($order->id());
         self::assertEquals(OrderStatus::IN_PROGRESS(), $started->status());

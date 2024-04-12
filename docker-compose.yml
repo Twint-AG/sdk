@@ -1,0 +1,18 @@
+services:
+  php:
+    build:
+      additional_contexts:
+        php_base_image: docker-image://php:${TWINT_SDK_PHP_VERSION}-alpine
+    entrypoint: [sleep, infinity]
+    working_dir: /src
+    environment:
+      - XDEBUG_MODE=coverage
+    stop_signal: SIGKILL
+    volumes:
+      - ./:/src
+    depends_on:
+        - wiremock
+
+  wiremock:
+    image: wiremock/wiremock:3x
+    entrypoint: [/docker-entrypoint.sh, --verbose]

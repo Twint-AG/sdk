@@ -18,6 +18,7 @@ use Twint\Sdk\Certificate\InMemoryStream;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\InvalidCertificate;
+use Twint\Sdk\Tools\Environment;
 use Twint\Sdk\Value\File;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
@@ -93,8 +94,8 @@ final class CertificateTest extends IntegrationTest
     public function testDeterministicPemConversion(): void
     {
         $pkcs12 = new Pkcs12Certificate(
-            new FileStream(new File(self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'))),
-            self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+            new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
         );
 
         $pem = $pkcs12->pem()
@@ -116,8 +117,8 @@ final class CertificateTest extends IntegrationTest
     public function testSuccessfullyEstablishTrust(): void
     {
         $cert = Pkcs12Certificate::establishTrust(
-            new FileStream(new File(self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'))),
-            self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+            new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
             new Clock()
         );
 
@@ -128,7 +129,7 @@ final class CertificateTest extends IntegrationTest
     {
         try {
             Pkcs12Certificate::establishTrust(
-                new FileStream(new File(self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
                 'invalidPassword',
                 new Clock()
             );

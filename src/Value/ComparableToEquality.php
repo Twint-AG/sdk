@@ -15,7 +15,7 @@ trait ComparableToEquality
     /**
      * @param T $other
      */
-    public function equals($other): bool
+    final public function equals($other): bool
     {
         instance_of(self::class)->assert($other);
 

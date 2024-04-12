@@ -35,6 +35,7 @@ final class ConfigureVcr implements BootstrapFinishedSubscriber
                 );
             }
         );
+        $configuration->enableLibraryHooks(['soap', 'curl']);
 
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(
@@ -52,7 +53,7 @@ final class ConfigureVcr implements BootstrapFinishedSubscriber
         $dispatcher->addListener(VCREvents::VCR_BEFORE_RECORD, [self::class, 'censorResponse'](...));
         VCR::setEventDispatcher($dispatcher);
 
-        VCR::turnOn();
+        VcrUtil::turnOn();
     }
 
     private static function censorRequest(BeforeRecordEvent|BeforePlaybackEvent $event): void

@@ -16,26 +16,20 @@ use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\File\ContentSensitiveFileWriter;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
+use Twint\Sdk\Tools\Environment;
 use Twint\Sdk\Tools\PHPUnit\VcrUtil;
+use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
-use WireMock\Client\Authentication\TokenAuthenticator;
-use WireMock\Client\Curl;
-use WireMock\Client\HttpWait;
 use WireMock\Client\WireMock;
-use WireMock\Serde\SerializerFactory;
-use function Psl\Type\non_empty_string;
-use function Psl\Type\optional;
-use function Psl\Type\shape;
-use function Psl\Type\uint;
 
 abstract class IntegrationTest extends TestCase
 {
-    protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
+    final protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
     protected Client $client;
 
@@ -51,20 +45,12 @@ abstract class IntegrationTest extends TestCase
      */
     private static array $merchantTransactionReferenceVersions = [];
 
-    /**
-     * @return non-empty-string
-     */
-    protected static function getEnvironmentVariable(string $name): string
+    final protected static function getMerchantId(): MerchantId
     {
-        return non_empty_string()->assert($_SERVER[$name] ?? '');
+        return MerchantId::fromString(Environment::get('TWINT_SDK_TEST_MERCHANT_ID'));
     }
 
-    protected static function getMerchantId(): MerchantId
-    {
-        return MerchantId::fromString(self::getEnvironmentVariable('TWINT_SDK_TEST_MERCHANT_ID'));
-    }
-
-    protected function createTransactionReference(): UnfiledMerchantTransactionReference
+    final protected function createTransactionReference(): UnfiledMerchantTransactionReference
     {
         $testMethod = TestMethodBuilder::fromTestCase($this);
 
@@ -83,13 +69,13 @@ abstract class IntegrationTest extends TestCase
         }
     }
 
-    protected function setUp(): void
+    final protected function setUp(): void
     {
         $this->client = new ApiClient(
             Certificate\CertificateContainer::fromPkcs12(
                 new Certificate\Pkcs12Certificate(
-                    new Certificate\FileStream(new File(self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PATH'))),
-                    self::getEnvironmentVariable('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+                    new Certificate\FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                    Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
             self::getMerchantId(),
@@ -112,7 +98,7 @@ abstract class IntegrationTest extends TestCase
                     new SoapRequest(
                         $request->getRequest(),
                         in_array($method, $this->wireMockMethods, true)
-                            ? rtrim(self::getEnvironmentVariable('TWINT_SDK_TEST_WIREMOCK_BASE_URL'), '/')
+                            ? rtrim(Environment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL'), '/')
                             . parse_url($request->getLocation(), PHP_URL_PATH)
                             : $request->getLocation(),
                         $request->getAction(),
@@ -127,34 +113,18 @@ abstract class IntegrationTest extends TestCase
     /**
      * @param non-empty-string ...$methods
      */
-    protected function enableWireMockForSoapMethod(string ...$methods): void
+    final protected function enableWireMockForSoapMethod(string ...$methods): void
     {
         $this->wireMockMethods = array_unique(array_values([...$this->wireMockMethods, ...$methods]));
     }
 
-    protected function wireMock(): WireMock
+    final protected function wireMock(): WireMock
     {
         return $this->wireMock ??= $this->createWireMock();
     }
 
-    private function createWireMock(): WireMock
+    protected function createWireMock(): WireMock
     {
-        $baseUrl = self::getEnvironmentVariable('TWINT_SDK_TEST_WIREMOCK_BASE_URL');
-        $urlParts = shape([
-            'host' => non_empty_string(),
-            'port' => optional(uint()),
-            'scheme' => non_empty_string(),
-        ], true)->assert(parse_url($baseUrl));
-
-        $curl = new Curl(new TokenAuthenticator(self::getEnvironmentVariable('TWINT_SDK_TEST_WIREMOCK_AUTH_TOKEN')));
-        $httpWait = new HttpWait($curl);
-        return new WireMock(
-            $httpWait,
-            $curl,
-            SerializerFactory::default(),
-            $urlParts['host'],
-            $urlParts['port'] ?? ($urlParts['scheme'] === 'https' ? 443 : 80),
-            $urlParts['scheme']
-        );
+        return (new DefaultWireMockFactory())();
     }
 }

@@ -25,7 +25,7 @@
         <report>
             <html outputDirectory="build/coverage/html"/>
             <clover outputFile="build/coverage/clover.xml"/>
-            <text outputFile="/dev/stderr" showOnlySummary="true" showUncoveredFiles="true"/>
+            <text outputFile="php://stdout" showOnlySummary="true" showUncoveredFiles="true"/>
         </report>
     </coverage>
     <source>

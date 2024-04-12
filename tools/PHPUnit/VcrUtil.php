@@ -7,11 +7,14 @@ namespace Twint\Sdk\Tools\PHPUnit;
 use PHPUnit\Event\Code\Test;
 use PHPUnit\Event\Code\TestMethod;
 use ReflectionMethod;
+use VCR\VCR as VCRFacade;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\uint;
 
 final class VcrUtil
 {
+    private static bool $on = false;
+
     public static function tryGetAttribute(Test $test): ?Vcr
     {
         if (!$test instanceof TestMethod) {
@@ -51,5 +54,21 @@ final class VcrUtil
     public static function getFixtureRevision(Test $test): int
     {
         return uint()->assert(self::tryGetFixtureRevision($test));
+    }
+
+    public static function turnOn(): void
+    {
+        if (!self::$on) {
+            VCRFacade::turnOn();
+            self::$on = true;
+        }
+    }
+
+    public static function turnOff(): void
+    {
+        if (self::$on) {
+            VCRFacade::turnOff();
+            self::$on = false;
+        }
     }
 }

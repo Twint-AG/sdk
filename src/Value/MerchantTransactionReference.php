@@ -23,7 +23,7 @@ abstract class MerchantTransactionReference implements Comparable, Equality
     /**
      * @param non-empty-string $value
      */
-    public function __construct(
+    final public function __construct(
         private readonly string $value
     ) {
         non_empty_string()->assert($value);
@@ -39,12 +39,12 @@ abstract class MerchantTransactionReference implements Comparable, Equality
     /**
      * @return non-empty-string
      */
-    public function __toString(): string
+    final public function __toString(): string
     {
         return $this->value;
     }
 
-    public function compare($other): int
+    final public function compare($other): int
     {
         instance_of(self::class)->assert($other);
 

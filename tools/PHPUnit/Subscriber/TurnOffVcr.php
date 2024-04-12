@@ -6,12 +6,12 @@ namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
 use PHPUnit\Event\Test\Finished;
 use PHPUnit\Event\Test\FinishedSubscriber;
-use VCR\VCR;
+use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 
 final class TurnOffVcr implements FinishedSubscriber
 {
     public function notify(Finished $event): void
     {
-        VCR::turnOff();
+        VcrUtil::turnOff();
     }
 }

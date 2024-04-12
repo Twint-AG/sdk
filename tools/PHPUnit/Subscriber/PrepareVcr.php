@@ -21,7 +21,7 @@ final class PrepareVcr implements PreparedSubscriber
         $attribute = VcrUtil::tryGetAttribute($event->test());
 
         if ($attribute === null) {
-            VCR::turnOff();
+            VcrUtil::turnOff();
             return;
         }
 
@@ -30,7 +30,7 @@ final class PrepareVcr implements PreparedSubscriber
 
         $configuration->enableRequestMatchers([$this->fixtureVersionMatcher, ...$attribute->requestMatchers]);
 
-        VCR::turnOn();
+        VcrUtil::turnOn();
         VCR::insertCassette(VcrUtil::getCassetteName($event->test()) . '.yaml');
     }
 }

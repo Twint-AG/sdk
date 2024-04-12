@@ -11,6 +11,8 @@ ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
 
+DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BASE_DIR)/.env
+
 MAKEFLAGS += --jobs=32
 
 .PHONY: *
@@ -60,3 +62,22 @@ check-codegen: codegen
 
 container-checksum:
 	echo TWINT_SDK_PHP_IMAGE_BASE=$$CI_REGISTRY_IMAGE/php:$$(sha3sum composer.lock Dockerfile .gitlab-ci.yml Makefile | sha3sum | cut -d " " -f 1) > .docker-env
+
+wiremock-setup:
+	php $(BASE_DIR)/tools/wiremock-setup.php
+
+start: docker-compose-build
+	$(DOCKER_COMPOSE) up --detach --remove-orphans
+
+stop:
+	$(DOCKER_COMPOSE) down
+
+docker-compose-build:
+	$(DOCKER_COMPOSE) build
+
+restart:
+	$(MAKE) stop
+	$(MAKE) start
+
+dev: start
+	$(DOCKER_COMPOSE) exec -it php sh

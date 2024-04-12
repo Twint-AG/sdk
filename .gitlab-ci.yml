@@ -68,38 +68,25 @@ container-build:
       - .gitlab-ci.yml
       - Makefile
 
-quickcheck:
+check:
   stage: check
   variables:
     XDEBUG_MODE: coverage
+  services:
+    - name: "wiremock/wiremock:3x"
+      alias: wiremock
   script:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
     - test $COMPOSER_DEPENDENCY_VERSION == "lowest" && composer update --prefer-lowest || composer install
     - mkdir -p build
     - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - make quickcheck
+    - make wiremock-setup
+    - make check
   extends: .php-with-high-low-dependencies
+  coverage: '/Lines:\s+\d+(?:\.\d+)?%/'
   artifacts:
     reports:
       # Needs GitLab 14.10
       #coverage: build/coverage/clover.xml
       junit: build/junit.xml
       codequality: build/phpstan.json
-
-integration:
-  stage: check
-  variables:
-    XDEBUG_MODE: coverage
-  resource_group: integration # Make sure we only run a single integration test suite at a time
-  script:
-    - cp ${TWINT_SDK_CI_DOT_ENV} .env
-    - test $COMPOSER_DEPENDENCY_VERSION == "lowest" && composer update --prefer-lowest || composer install
-    - mkdir -p build
-    - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - make test-integration
-  extends: .php-with-high-low-dependencies
-  artifacts:
-    reports:
-      # Needs GitLab 14.10
-      #coverage: build/coverage/clover.xml
-      junit: build/junit.xml
