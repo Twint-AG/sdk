@@ -10,17 +10,19 @@ use function Psl\Type\instance_of;
 /**
  * @template TPairingStatus of PairingStatus|null
  * @template TPairingToken of PairingToken|null
- * @template-implements Comparable<self<PairingStatus, TPairingToken>>
- * @template-implements Equality<self<PairingStatus, TPairingToken>>
+ * @template TQrCode of QrCode|null
+ * @template-implements Comparable<self<PairingStatus, TPairingToken, TQrCode>>
+ * @template-implements Equality<self<PairingStatus, TPairingToken, TQrCode>>
  */
 final class Order implements Comparable, Equality
 {
-    /** @use ComparableToEquality<self<PairingStatus, TPairingToken>> */
+    /** @use ComparableToEquality<self<PairingStatus, TPairingToken, TQrCode>> */
     use ComparableToEquality;
 
     /**
      * @param TPairingStatus $pairingStatus
      * @param TPairingToken $pairingToken
+     * @param TQrCode $qrCode
      */
     public function __construct(
         private readonly OrderId $id,
@@ -29,6 +31,7 @@ final class Order implements Comparable, Equality
         private readonly TransactionStatus $transactionStatus,
         private readonly ?PairingStatus $pairingStatus = null,
         private readonly ?PairingToken $pairingToken = null,
+        private readonly ?QrCode $qrCode = null,
     ) {
     }
 
@@ -71,6 +74,11 @@ final class Order implements Comparable, Equality
     public function merchantTransactionReference(): FiledMerchantTransactionReference
     {
         return $this->merchantTransactionReference;
+    }
+
+    public function qrCode(): ?QrCode
+    {
+        return $this->qrCode;
     }
 
     public function compare($other): int

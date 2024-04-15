@@ -12,6 +12,7 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingToken;
+use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
@@ -20,22 +21,22 @@ interface Client
     public function checkSystemStatus(): SystemStatus;
 
     /**
-     * @return Order<PairingStatus, PairingToken>
+     * @return Order<PairingStatus, PairingToken, QrCode>
      */
     public function startOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order;
 
     /**
-     * @return Order<PairingStatus, null>
+     * @return Order<PairingStatus, null, null>
      */
     public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order;
 
     /**
-     * @return Order<null, null>
+     * @return Order<null, null, null>
      */
     public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order;
 
     /**
-     * @return Order<null, null>
+     * @return Order<null, null, null>
      */
     public function confirmOrder(
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
@@ -43,7 +44,7 @@ interface Client
     ): Order;
 
     /**
-     * @return Order<null, null>
+     * @return Order<null, null, null>
      */
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,

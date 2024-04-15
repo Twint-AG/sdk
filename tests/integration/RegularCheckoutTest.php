@@ -38,6 +38,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertNotNull($order->pairingStatus());
         self::assertEquals(PairingStatus::PAIRING_IN_PROGRESS(), $order->pairingStatus());
         self::assertNotNull($order->pairingToken());
+        self::assertNotNull($order->qrCode());
     }
 
     public function testMonitorOrderByOrderId(): void
@@ -66,7 +67,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
     }
 
-    #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByOrderId(): void
     {
         $transactionReference = $this->createTransactionReference();
@@ -78,7 +79,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
     }
 
-    #[Vcr(fixtureRevision: 1, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByMerchantTransactionReference(): void
     {
         $transactionReference = $this->createTransactionReference();
@@ -104,7 +105,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertFalse($reversed->requiresPairing());
     }
 
-    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    #[Vcr(fixtureRevision: 3, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testReverseOrderByMerchantTransactionReference(): void
     {
         $transactionReference = $this->createTransactionReference();

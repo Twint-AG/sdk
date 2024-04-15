@@ -41,6 +41,7 @@ use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingToken;
+use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
@@ -142,7 +143,7 @@ final class ApiClient implements Client
                         PairingUuid: null,
                         UnidentifiedCustomer: true,
                         ExpressMerchantAuthorization: null,
-                        QRCodeRendering: null,
+                        QRCodeRendering: true,
                         PaymentLayerRendering: null,
                         OrderUpdateNotificationURL: null
                     )
@@ -154,7 +155,8 @@ final class ApiClient implements Client
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
                 PairingStatus::fromString($response->getPairingStatus()),
-                new PairingToken(uint()->assert($response->getToken()))
+                new PairingToken(uint()->assert($response->getToken())),
+                new QrCode(non_empty_string()->assert($response->getQRCode()))
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

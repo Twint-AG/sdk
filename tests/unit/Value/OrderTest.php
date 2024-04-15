@@ -13,7 +13,7 @@ use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\Uuid;
 
 /**
- * @template-extends ValueTest<Order<null, null>>
+ * @template-extends ValueTest<Order<null, null, null>>
  */
 #[CoversClass(Order::class)]
 final class OrderTest extends ValueTest

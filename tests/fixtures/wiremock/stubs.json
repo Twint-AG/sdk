@@ -32,12 +32,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T11:35:00.272633033Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_FailureScenario (Client Timeout Step) (fixed)"
+        "response-example-attachment" : "MonitorOrder_FailureScenario (Client Timeout Step)"
       }
     },
     "postServeActions" : [ ]
@@ -74,12 +69,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T11:34:55.460303529Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_FailureScenario (General Error Step) (fixed)"
+        "response-example-attachment" : "MonitorOrder_FailureScenario (General Error Step)"
       }
     },
     "postServeActions" : [ ]
@@ -116,12 +106,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T11:34:47.958232189Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_FailureScenario (ClientAbort Step) (fixed)"
+        "response-example-attachment" : "MonitorOrder_FailureScenario (ClientAbort Step)"
       }
     },
     "postServeActions" : [ ]
@@ -158,12 +143,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T11:34:38.994741923Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_FailureScenario (Step2) (fixed)"
+        "response-example-attachment" : "MonitorOrder_FailureScenario (Step2)"
       }
     },
     "postServeActions" : [ ]
@@ -200,12 +180,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T14:12:49.986889683Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_FailureScenario (Step1) (fixed)"
+        "response-example-attachment" : "MonitorOrder_FailureScenario (Step1)"
       }
     },
     "postServeActions" : [ ]
@@ -242,12 +217,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T14:16:20.507134431Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_SuccessScenario (OK Step) (fixed)"
+        "response-example-attachment" : "MonitorOrder_SuccessScenario (OK Step)"
       }
     },
     "postServeActions" : [ ]
@@ -284,12 +254,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T11:34:10.308083456Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_SuccessScenario (Step2) (fixed)"
+        "response-example-attachment" : "MonitorOrder_SuccessScenario (Step2)"
       }
     },
     "postServeActions" : [ ]
@@ -326,12 +291,7 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
-        "updated" : {
-          "at" : "2024-04-11T14:16:49.983888271Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
-        },
-        "response-example-attachment" : "MonitorOrder_SuccessScenario (Step1) (fixed)"
+        "response-example-attachment" : "MonitorOrder_SuccessScenario (Step1)"
       }
     },
     "postServeActions" : [ ]
@@ -351,7 +311,7 @@
     },
     "response" : {
       "status" : 200,
-      "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v8=\"http://service.twint.ch/header/types/v8_5\" xmlns:v81=\"http://service.twint.ch/merchant/types/v8_5\" xmlns:v82=\"http://service.twint.ch/base/types/v8_5\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}</v8:MessageId>\n          </v8:ResponseHeaderElement>\n      </soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}</v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS</v81:Status>\n                  <v81:Reason code=\"80\">ORDER_RECEIVED</v81:Reason>\n              </v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}</v81:Token>\n              <v81:CustomerInformation>\n              </v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_IN_PROGRESS</v81:PairingStatus>\n          </v81:StartOrderResponseElement>\n      </soapenv:Body>\n</soapenv:Envelope>",
+      "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v8=\"http://service.twint.ch/header/types/v8_5\" xmlns:v81=\"http://service.twint.ch/merchant/types/v8_5\" xmlns:v82=\"http://service.twint.ch/base/types/v8_5\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}</v8:MessageId>\n          </v8:ResponseHeaderElement>\n      </soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}</v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS</v81:Status>\n                  <v81:Reason code=\"80\">ORDER_RECEIVED</v81:Reason>\n              </v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}</v81:Token>\n              <v81:CustomerInformation>\n              </v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_IN_PROGRESS</v81:PairingStatus>\n              <v81:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4////DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy/cr+C4YOoQwXD/2/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k/WD4UsAUPZLXBaQiDkIFLs/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==</v81:QRCode>\n          </v81:StartOrderResponseElement>\n      </soapenv:Body>\n</soapenv:Envelope>",
       "headers" : { },
       "transformers" : [ "response-template" ]
     },
@@ -366,11 +326,11 @@
           "by" : "w7z21"
         },
         "updated" : {
-          "at" : "2024-04-11T11:33:53.864634194Z",
+          "at" : "2024-04-15T08:57:32.007507236Z",
           "via" : "ADMIN_API",
           "by" : "4y9e2"
         },
-        "response-example-attachment" : "StartOrder (fixed)"
+        "response-example-attachment" : "StartOrder"
       }
     },
     "postServeActions" : [ ]
@@ -403,11 +363,6 @@
           "at" : "2024-04-01T14:31:32.409150933Z",
           "via" : "ADMIN_API",
           "by" : "w7z21"
-        },
-        "updated" : {
-          "at" : "2024-04-11T11:18:29.524875089Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
         },
         "response-example-attachment" : "CancelOrder"
       }
