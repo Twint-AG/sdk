@@ -81,3 +81,12 @@ restart:
 
 dev: start
 	$(DOCKER_COMPOSE) exec -it php sh
+
+install:
+ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "lowest")
+	composer update --prefer-lowest
+else ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "highest")
+	composer update
+else
+	composer install
+endif
