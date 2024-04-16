@@ -9,29 +9,36 @@ use PHPUnit\Framework\TestCase;
 use Psl\Type\Exception\AssertException;
 use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
-use Twint\Sdk\ApiClient;
+use Twint\Sdk\Capability\Capability;
 use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
-use Twint\Sdk\File\ContentSensitiveFileWriter;
+use Twint\Sdk\Io\ContentSensitiveFileWriter;
+use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
-use Twint\Sdk\Tools\Environment;
 use Twint\Sdk\Tools\PHPUnit\VcrUtil;
+use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
-use Twint\Sdk\TwintEnvironment;
-use Twint\Sdk\TwintVersion;
+use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
+use Twint\Sdk\Value\Version;
 use WireMock\Client\WireMock;
 
+/**
+ * @template T of Capability
+ */
 abstract class IntegrationTest extends TestCase
 {
     final protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
-    protected Client $client;
+    /**
+     * @var T
+     */
+    protected Capability $client;
 
     private ?WireMock $wireMock = null;
 
@@ -47,7 +54,7 @@ abstract class IntegrationTest extends TestCase
 
     final protected static function getMerchantId(): MerchantId
     {
-        return MerchantId::fromString(Environment::get('TWINT_SDK_TEST_MERCHANT_ID'));
+        return MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID'));
     }
 
     final protected function createTransactionReference(): UnfiledMerchantTransactionReference
@@ -71,16 +78,16 @@ abstract class IntegrationTest extends TestCase
 
     final protected function setUp(): void
     {
-        $this->client = new ApiClient(
+        $client = new Client(
             Certificate\CertificateContainer::fromPkcs12(
                 new Certificate\Pkcs12Certificate(
-                    new Certificate\FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
-                    Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+                    new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                    SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
             self::getMerchantId(),
-            TwintVersion::latest(),
-            TwintEnvironment::TESTING(),
+            Version::latest(),
+            Environment::TESTING(),
             new ContentSensitiveFileWriter(
                 new File(__DIR__ . '/../../build/'),
                 static function (string $content) {
@@ -98,7 +105,7 @@ abstract class IntegrationTest extends TestCase
                     new SoapRequest(
                         $request->getRequest(),
                         in_array($method, $this->wireMockMethods, true)
-                            ? rtrim(Environment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL'), '/')
+                            ? rtrim(SystemEnvironment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL'), '/')
                             . parse_url($request->getLocation(), PHP_URL_PATH)
                             : $request->getLocation(),
                         $request->getAction(),
@@ -108,6 +115,8 @@ abstract class IntegrationTest extends TestCase
                 )
             )
         );
+        // @phpstan-ignore-next-line
+        $this->client = $client;
     }
 
     /**

@@ -23,13 +23,13 @@ parameters:
             message: "#^Method .* throws checked exception#"
             path: tools/PHPUnit/*
         -
-            message: "#^Class Twint\\\\Sdk\\\\ApiClient has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
+            message: "#^Class Twint\\\\Sdk\\\\Client has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
             count: 3
-            path: src/ApiClient.php
+            path: src/Client.php
         -
-            message: "#^Readonly property Twint\\\\Sdk\\\\ApiClient\\:\\:\\$.* is assigned outside of the constructor\\.$#"
+            message: "#^Readonly property Twint\\\\Sdk\\\\Client\\:\\:\\$.* is assigned outside of the constructor\\.$#"
             count: 3
-            path: src/ApiClient.php
+            path: src/Client.php
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

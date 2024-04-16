@@ -19,8 +19,8 @@ use Soap\Wsdl\Loader\StreamWrapperLoader;
 use Twint\Sdk\Tools\Soap\ManipulatePropertyType;
 use Twint\Sdk\Tools\Soap\RemoveTypes;
 use Twint\Sdk\Tools\Soap\RenameReturnTypeByRegex;
-use Twint\Sdk\TwintEnvironment;
-use Twint\Sdk\TwintVersion;
+use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\Version;
 
 const BASE_DIR = __DIR__ . '/../..';
 const GENERATED_NAMESPACE = 'Twint\Sdk\Generated';
@@ -31,7 +31,7 @@ const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
 $engine = CodeGeneratorEngineFactory::create(
-    (string) TwintEnvironment::PRODUCTION()->soapWsdlPath(TwintVersion::latest()),
+    (string) Environment::PRODUCTION()->soapWsdlPath(Version::latest()),
     new FlatteningLoader(new StreamWrapperLoader()),
     MetadataOptions::empty()
         ->withTypesManipulator(

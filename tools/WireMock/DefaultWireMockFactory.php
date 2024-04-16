@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tools\WireMock;
 
 use Psl\Type\Exception\AssertException;
-use Twint\Sdk\Tools\Environment;
+use Twint\Sdk\Tools\SystemEnvironment;
 use WireMock\Client\Authentication\TokenAuthenticator;
 use WireMock\Client\Curl;
 use WireMock\Client\HttpWait;
@@ -20,7 +20,7 @@ final class DefaultWireMockFactory
 {
     public function __invoke(): WireMock
     {
-        $baseUrl = Environment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL');
+        $baseUrl = SystemEnvironment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL');
         $urlParts = shape([
             'host' => non_empty_string(),
             'port' => optional(uint()),
@@ -28,7 +28,7 @@ final class DefaultWireMockFactory
         ], true)->assert(parse_url($baseUrl));
 
         try {
-            $curl = new Curl(new TokenAuthenticator(Environment::get('TWINT_SDK_TEST_WIREMOCK_AUTH_TOKEN')));
+            $curl = new Curl(new TokenAuthenticator(SystemEnvironment::get('TWINT_SDK_TEST_WIREMOCK_AUTH_TOKEN')));
         } catch (AssertException $e) {
             $curl = new Curl();
         }

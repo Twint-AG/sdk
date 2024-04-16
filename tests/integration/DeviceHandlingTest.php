@@ -6,11 +6,15 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Twint\Sdk\ApiClient;
+use Twint\Sdk\Capability\DeviceHandling;
+use Twint\Sdk\Client;
 use Twint\Sdk\Value\DetectedDevice;
 
-#[CoversClass(ApiClient::class)]
-final class DetectDeviceTest extends IntegrationTest
+/**
+ * @template-extends IntegrationTest<DeviceHandling>
+ */
+#[CoversClass(Client::class)]
+final class DeviceHandlingTest extends IntegrationTest
 {
     /**
      * @return iterable<array{string, DetectedDevice::*}>
@@ -136,5 +140,17 @@ final class DetectDeviceTest extends IntegrationTest
 
         self::assertSame($userAgent, $detectedDevice->userAgent());
         self::assertSame($expectedType, $detectedDevice->deviceType());
+    }
+
+    public function testGetIosAppSchemes(): void
+    {
+        $schemes = $this->client->getIosAppSchemes();
+
+        self::assertGreaterThan(10, count($schemes));
+
+        foreach ($schemes as $scheme) {
+            self::assertStringStartsWith('twint-issuer', $scheme->scheme());
+            self::assertNotEmpty($scheme->displayName());
+        }
     }
 }

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
-use Twint\Sdk\File\FileWriter;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\FileWriter;
 
 interface Certificate
 {

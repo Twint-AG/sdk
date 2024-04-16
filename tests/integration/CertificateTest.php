@@ -10,16 +10,18 @@ use OpenSSLCertificate;
 use OpenSSLCertificateSigningRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\MockClock;
-use Twint\Sdk\Certificate\FileStream;
-use Twint\Sdk\Certificate\InMemoryStream;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\InvalidCertificate;
-use Twint\Sdk\Tools\Environment;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\InMemoryStream;
+use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\MerchantId;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\shape;
@@ -27,7 +29,7 @@ use function Psl\Type\uint;
 
 #[CoversClass(Pkcs12Certificate::class)]
 #[CoversClass(PemCertificate::class)]
-final class CertificateTest extends IntegrationTest
+final class CertificateTest extends TestCase
 {
     private const PASSPHRASE = 'secret';
 
@@ -94,8 +96,8 @@ final class CertificateTest extends IntegrationTest
     public function testDeterministicPemConversion(): void
     {
         $pkcs12 = new Pkcs12Certificate(
-            new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
-            Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+            new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
         );
 
         $pem = $pkcs12->pem()
@@ -117,8 +119,8 @@ final class CertificateTest extends IntegrationTest
     public function testSuccessfullyEstablishTrust(): void
     {
         $cert = Pkcs12Certificate::establishTrust(
-            new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
-            Environment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+            new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
             new Clock()
         );
 
@@ -129,7 +131,7 @@ final class CertificateTest extends IntegrationTest
     {
         try {
             Pkcs12Certificate::establishTrust(
-                new FileStream(new File(Environment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
                 'invalidPassword',
                 new Clock()
             );
@@ -188,7 +190,7 @@ final class CertificateTest extends IntegrationTest
             'O' => $org,
             'OU' => 'MerchantCustomers',
             'CN' => 'TWINT-TechUser NFQ Integration Test',
-            'UID' => self::getMerchantId(),
+            'UID' => MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID')),
         ];
 
         $csr = instance_of(OpenSSLCertificateSigningRequest::class)

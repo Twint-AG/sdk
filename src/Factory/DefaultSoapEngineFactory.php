@@ -25,13 +25,13 @@ use Soap\Psr18Transport\Middleware\SoapHeaderMiddleware;
 use Soap\Psr18Transport\Psr18Transport;
 use Soap\Xml\Builder\SoapHeader;
 use Twint\Sdk\Certificate\CertificateContainer;
-use Twint\Sdk\File\FileWriter;
 use Twint\Sdk\Generated\TwintSoapClassMap;
-use Twint\Sdk\TwintEnvironment;
-use Twint\Sdk\TwintVersion;
+use Twint\Sdk\Io\FileWriter;
+use Twint\Sdk\SdkVersion;
 use Twint\Sdk\Util\HigherOrder;
+use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\Uuid;
-use Twint\Sdk\Version;
+use Twint\Sdk\Value\Version;
 use function VeeWee\Xml\Dom\Builder\children;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\value;
@@ -53,8 +53,8 @@ final class DefaultSoapEngineFactory
     public function __invoke(
         FileWriter $writer,
         CertificateContainer $certificate,
-        TwintVersion $version,
-        TwintEnvironment $environment
+        Version $version,
+        Environment $environment
     ): Engine {
         return new LazyEngine(
             function () use ($environment, $certificate, $version, $writer) {
@@ -90,8 +90,8 @@ final class DefaultSoapEngineFactory
                                         'RequestHeaderElement',
                                         fn (DOMNode $node) => children(
                                             element('MessageId', value((string) ($this->createUuid)())),
-                                            element('ClientSoftwareName', value(Version::NAME)),
-                                            element('ClientSoftwareVersion', value(Version::VERSION))
+                                            element('ClientSoftwareName', value(SdkVersion::NAME)),
+                                            element('ClientSoftwareVersion', value(SdkVersion::VERSION))
                                         )($node)
                                     )
                                 ),

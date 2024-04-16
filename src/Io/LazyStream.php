@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Certificate;
+namespace Twint\Sdk\Io;
 
 final class LazyStream implements Stream
 {

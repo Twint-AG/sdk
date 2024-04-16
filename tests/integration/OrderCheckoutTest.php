@@ -5,15 +5,19 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
-use Twint\Sdk\ApiClient;
+use Twint\Sdk\Capability\OrderCheckout;
+use Twint\Sdk\Client;
 use Twint\Sdk\Tools\PHPUnit\Vcr;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\TransactionStatus;
 
-#[CoversClass(ApiClient::class)]
-final class RegularCheckoutTest extends IntegrationTest
+/**
+ * @template-extends IntegrationTest<OrderCheckout>
+ */
+#[CoversClass(Client::class)]
+final class OrderCheckoutTest extends IntegrationTest
 {
     private const WIREMOCK_SCENARIO_NAME_SUCCESS = 'SuccessScenario';
 
@@ -67,7 +71,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
     }
 
-    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    #[Vcr(fixtureRevision: 3, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByOrderId(): void
     {
         $transactionReference = $this->createTransactionReference();
@@ -79,7 +83,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
     }
 
-    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
+    #[Vcr(fixtureRevision: 4, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByMerchantTransactionReference(): void
     {
         $transactionReference = $this->createTransactionReference();

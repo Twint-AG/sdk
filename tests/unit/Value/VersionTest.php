@@ -2,28 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\Tests\Unit;
+namespace Twint\Sdk\Tests\Unit\Value;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use Twint\Sdk\Tests\Unit\Value\ValueTest;
-use Twint\Sdk\TwintVersion;
+use Twint\Sdk\Value\Version;
 
 /**
- * @phpstan-import-type ExistingVersionId from TwintVersion
- * @phpstan-import-type VersionId from TwintVersion
- * @template-extends ValueTest<TwintVersion>
+ * @phpstan-import-type ExistingVersionId from Version
+ * @phpstan-import-type VersionId from Version
+ * @template-extends ValueTest<Version>
  */
-#[CoversClass(TwintVersion::class)]
-final class TwintVersionTest extends ValueTest
+#[CoversClass(Version::class)]
+final class VersionTest extends ValueTest
 {
     /**
      * @return iterable<array{VersionId}>
      */
     public static function getVersionIds(): iterable
     {
-        yield [TwintVersion::V8_5_0];
-        yield [TwintVersion::V8_6_0];
+        yield [Version::V8_5_0];
+        yield [Version::V8_6_0];
         yield [10_16_01];
     }
 
@@ -32,18 +31,18 @@ final class TwintVersionTest extends ValueTest
      */
     public static function getVersionExamples(): iterable
     {
-        yield [TwintVersion::V8_5_0, 8, 5, 0, '8.5', '8_5'];
-        yield [TwintVersion::V8_6_0, 8, 6, 0, '8.6', '8_6'];
+        yield [Version::V8_5_0, 8, 5, 0, '8.5', '8_5'];
+        yield [Version::V8_6_0, 8, 6, 0, '8.6', '8_6'];
         yield [10_16_01, 10, 16, 1, '10.16.1', '10_16_1'];
     }
 
     /**
-     * @return iterable<array{VersionId, TwintVersion}>
+     * @return iterable<array{VersionId, Version}>
      */
     public static function getAliasVersions(): iterable
     {
-        yield [TwintVersion::V8_6_0, TwintVersion::next()];
-        yield [TwintVersion::V8_5_0, TwintVersion::latest()];
+        yield [Version::V8_6_0, Version::next()];
+        yield [Version::V8_5_0, Version::latest()];
     }
 
     /**
@@ -52,7 +51,7 @@ final class TwintVersionTest extends ValueTest
     #[DataProvider('getVersionIds')]
     public function testInstantiation(int $versionId): void
     {
-        $version = new TwintVersion($versionId);
+        $version = new Version($versionId);
 
         self::assertSame($versionId, $version->id());
     }
@@ -69,7 +68,7 @@ final class TwintVersionTest extends ValueTest
         string $dotVersion,
         string $underscoreVersion
     ): void {
-        $version = new TwintVersion($versionId);
+        $version = new Version($versionId);
 
         self::assertSame($versionId, $version->id());
         self::assertSame($major, $version->major());
@@ -80,18 +79,18 @@ final class TwintVersionTest extends ValueTest
     }
 
     #[DataProvider('getAliasVersions')]
-    public function testNamedConstructors(int $versionId, TwintVersion $version): void
+    public function testNamedConstructors(int $versionId, Version $version): void
     {
         self::assertSame($versionId, $version->id());
     }
 
     protected function createValue(): object
     {
-        return TwintVersion::latest();
+        return Version::latest();
     }
 
     protected static function getValueType(): string
     {
-        return TwintVersion::class;
+        return Version::class;
     }
 }

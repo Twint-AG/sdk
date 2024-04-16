@@ -2,23 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk;
+namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Value\Comparable;
-use Twint\Sdk\Value\ComparableToEquality;
-use Twint\Sdk\Value\Enum;
-use Twint\Sdk\Value\Equality;
 use function Psl\Type\instance_of;
 
 /**
- * @phpstan-type ExistingVersionId = TwintVersion::V*
+ * @phpstan-type ExistingVersionId = Version::V*
  * @phpstan-type FutureVersionId = int<self::NEXT,max>
  * @phpstan-type VersionId = ExistingVersionId|FutureVersionId
  * @template-implements Enum<ExistingVersionId>
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class TwintVersion implements Enum, Comparable, Equality
+final class Version implements Enum, Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

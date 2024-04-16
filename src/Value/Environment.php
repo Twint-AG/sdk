@@ -2,14 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk;
+namespace Twint\Sdk\Value;
 
-use Twint\Sdk\Value\Comparable;
-use Twint\Sdk\Value\ComparableToEquality;
-use Twint\Sdk\Value\Enum;
-use Twint\Sdk\Value\Equality;
-use Twint\Sdk\Value\File;
-use Twint\Sdk\Value\Url;
 use function Psl\Type\instance_of;
 use function Psl\Type\union;
 
@@ -18,7 +12,7 @@ use function Psl\Type\union;
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class TwintEnvironment implements Enum, Comparable, Equality
+final class Environment implements Enum, Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -68,21 +62,21 @@ final class TwintEnvironment implements Enum, Comparable, Equality
         return new Url('https://' . $this->appSchemeHost() . '/appSwitch/v1/configs');
     }
 
-    public function soapWsdlPath(TwintVersion $version): File
+    public function soapWsdlPath(Version $version): File
     {
         return new File(
-            __DIR__ . '/../resources/wsdl/v' . $version->dotVersion() . '/TWINTMerchantService_v' . $version->dotVersion() . '.wsdl'
+            __DIR__ . '/../../resources/wsdl/v' . $version->dotVersion() . '/TWINTMerchantService_v' . $version->dotVersion() . '.wsdl'
         );
     }
 
-    public function soapEndpoint(TwintVersion $version): Url
+    public function soapEndpoint(Version $version): Url
     {
         return new Url(
             'https://' . $this->getServiceHost() . '/merchant/service/TWINTMerchantServiceV' . $version->underscoreVersion()
         );
     }
 
-    public function soapTargetNamespace(TwintVersion $version): Url
+    public function soapTargetNamespace(Version $version): Url
     {
         return new Url('http://service.twint.ch/header/types/v' . $version->underscoreVersion());
     }

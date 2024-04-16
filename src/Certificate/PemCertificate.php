@@ -7,7 +7,10 @@ namespace Twint\Sdk\Certificate;
 use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
 use SensitiveParameter;
-use Twint\Sdk\File\FileWriter;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\FileWriter;
+use Twint\Sdk\Io\ProcessingStream;
+use Twint\Sdk\Io\Stream;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 

@@ -6,7 +6,10 @@ namespace Twint\Sdk\Certificate;
 
 use Psr\Clock\ClockInterface;
 use Twint\Sdk\Exception\InvalidCertificate;
-use Twint\Sdk\File\FileWriter;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\FileWriter;
+use Twint\Sdk\Io\ProcessingStream;
+use Twint\Sdk\Io\Stream;
 use function Psl\invariant;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\non_empty_vec;

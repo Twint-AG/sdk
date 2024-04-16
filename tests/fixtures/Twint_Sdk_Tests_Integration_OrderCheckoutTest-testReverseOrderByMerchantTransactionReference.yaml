@@ -18,7 +18,7 @@
             code: 200
             message: OK
         headers:
-            Date: 'Mon, 15 Apr 2024 08:48:26 GMT'
+            Date: 'Tue, 16 Apr 2024 15:44:45 GMT'
             Server: Apache
             Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
             Content-Type: text/xml;charset=UTF-8
@@ -33,36 +33,35 @@
             filetime: -1
             ssl_verify_result: 0
             redirect_count: 0
-            total_time: 0.302423
-            namelookup_time: 0.007038
-            connect_time: 0.033788
-            pretransfer_time: 0.09621
+            total_time: 0.41426
+            namelookup_time: 0.002772
+            connect_time: 0.029141
+            pretransfer_time: 0.092448
             size_upload: 1020.0
             size_download: 883.0
-            speed_download: 2919.0
-            speed_upload: 3372.0
+            speed_download: 2131.0
+            speed_upload: 2462.0
             download_content_length: 883.0
             upload_content_length: 1020.0
-            starttransfer_time: 0.302345
+            starttransfer_time: 0.414216
             redirect_time: 0.0
             redirect_url: ''
             primary_ip: 138.190.125.186
             certinfo: {  }
             primary_port: 443
-            local_ip: 172.31.0.3
-            local_port: 51266
+            local_ip: 192.168.0.3
+            local_port: 50978
             http_version: 2
             protocol: 2
             ssl_verifyresult: 0
             scheme: HTTPS
-            appconnect_time_us: 96168
-            connect_time_us: 33788
-            namelookup_time_us: 7038
-            pretransfer_time_us: 96210
+            appconnect_time_us: 92407
+            connect_time_us: 29141
+            namelookup_time_us: 2772
+            pretransfer_time_us: 92448
             redirect_time_us: 0
-            starttransfer_time_us: 302345
-            total_time_us: 302423
-            effective_method: POST
+            starttransfer_time_us: 414216
+            total_time_us: 414260
     index: 0
 -
     request:
@@ -77,18 +76,18 @@
             Content-Type: 'text/xml; charset="utf-8"'
             Accept: ''
             Twint-SDK-Fixture-Version: '3'
-        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>3475035242469fdd05023c6624227537f09755922c348dc7ff</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer><ns2:QRCodeRendering>true</ns2:QRCodeRendering></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"true\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>0b493726918ed0b480df480a854aea4f78d35e29b0e919b4be</ns2:MerchantTransactionReference></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer><ns2:QRCodeRendering>true</ns2:QRCodeRendering></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
     response:
         status:
             code: 200
             message: OK
         headers:
-            Date: 'Mon, 15 Apr 2024 08:48:26 GMT'
+            Date: 'Tue, 16 Apr 2024 15:44:45 GMT'
             Server: Apache
             Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
             Content-Type: text/xml;charset=UTF-8
             Content-Length: '1184'
-        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>bfda2bcf-2d4a-4c2b-aac7-c8e63cae694b</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>10590</ns2:Token><ns2:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4////DwY04oOcQwXD96v3Kxi+RF8EEpEgIjgQKHY7voLhgyhQ9v+v+h8MXyO+/WD4aXrzB8P3wOIfDP8W36tg+CwdApT9sApoikwPUMcd5R8MX4J6QUbdAbLCy0Gm3AXKiodWoNsLIgCNOFcWjfh5rAAAAABJRU5ErkJggg==</ns2:QRCode><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
+        body: '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><header:ResponseHeaderElement xmlns:header="http://service.twint.ch/header/types/v8_5"><header:MessageId>00000000-0000-0000-0000-000000000000</header:MessageId></header:ResponseHeaderElement></soap:Header><soap:Body><ns2:StartOrderResponseElement xmlns="http://service.twint.ch/base/types/v8_5" xmlns:ns2="http://service.twint.ch/merchant/types/v8_5" xmlns:ns3="http://service.twint.ch/fault/types/v8_5" xmlns:ns4="http://service.twint.ch/header/types/v8_5"><ns2:OrderUuid>acf1e4f8-259e-4b18-a3ab-e3035f27818e</ns2:OrderUuid><ns2:OrderStatus><ns2:Status code="1">IN_PROGRESS</ns2:Status><ns2:Reason code="80">ORDER_RECEIVED</ns2:Reason></ns2:OrderStatus><ns2:Token>25884</ns2:Token><ns2:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcUlEQVR4XmP4////DwY04oPggQqG77fiKxi+RF8EEqGBQCIcSHy/dL+C4YOoQwXD/0/1Pxi+uzUDJWzyfjB8O3LwB8PHjxN/MPy8LwOU/SgLUmcFVHIj6wfDl4AjQHVRWUAiBqju+90pQDtEQeowLQcAUntWRN254UcAAAAASUVORK5CYII=</ns2:QRCode><ns2:CustomerInformation/><ns2:PairingStatus>PAIRING_IN_PROGRESS</ns2:PairingStatus></ns2:StartOrderResponseElement></soap:Body></soap:Envelope>'
         curl_info:
             url: 'https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_5'
             content_type: text/xml;charset=UTF-8
@@ -98,36 +97,35 @@
             filetime: -1
             ssl_verify_result: 0
             redirect_count: 0
-            total_time: 0.62466
-            namelookup_time: 0.013273
-            connect_time: 0.040028
-            pretransfer_time: 0.102848
+            total_time: 0.657614
+            namelookup_time: 0.004399
+            connect_time: 0.031113
+            pretransfer_time: 0.096318
             size_upload: 1395.0
             size_download: 1184.0
-            speed_download: 1895.0
-            speed_upload: 2233.0
+            speed_download: 1800.0
+            speed_upload: 2121.0
             download_content_length: 1184.0
             upload_content_length: 1395.0
-            starttransfer_time: 0.624576
+            starttransfer_time: 0.657545
             redirect_time: 0.0
             redirect_url: ''
             primary_ip: 138.190.125.186
             certinfo: {  }
             primary_port: 443
-            local_ip: 172.31.0.3
-            local_port: 51272
+            local_ip: 192.168.0.3
+            local_port: 50986
             http_version: 2
             protocol: 2
             ssl_verifyresult: 0
             scheme: HTTPS
-            appconnect_time_us: 102787
-            connect_time_us: 40028
-            namelookup_time_us: 13273
-            pretransfer_time_us: 102848
+            appconnect_time_us: 96263
+            connect_time_us: 31113
+            namelookup_time_us: 4399
+            pretransfer_time_us: 96318
             redirect_time_us: 0
-            starttransfer_time_us: 624576
-            total_time_us: 624660
-            effective_method: POST
+            starttransfer_time_us: 657545
+            total_time_us: 657614
     index: 0
 -
     request:
@@ -142,17 +140,17 @@
             Content-Type: 'text/xml; charset="utf-8"'
             Accept: ''
             Twint-SDK-Fixture-Version: '3'
-        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"REVERSAL\" confirmationNeeded=\"false\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>c833b5a5c1bf31fdb2fff9ee696029ea1e4512367c398d8471</ns2:MerchantTransactionReference><ns2:Link><ns2:MerchantTransactionReference>3475035242469fdd05023c6624227537f09755922c348dc7ff</ns2:MerchantTransactionReference></ns2:Link></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://service.twint.ch/base/types/v8_5\" xmlns:ns2=\"http://service.twint.ch/merchant/types/v8_5\"><soap:Header xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:default=\"http://service.twint.ch/header/types/v8_5\"><default:RequestHeaderElement xmlns=\"http://service.twint.ch/header/types/v8_5\"><MessageId>00000000-0000-0000-0000-000000000000</MessageId><ClientSoftwareName>TWINT PHP SDK</ClientSoftwareName><ClientSoftwareVersion>0.0.1</ClientSoftwareVersion></default:RequestHeaderElement></soap:Header><SOAP-ENV:Body><ns2:StartOrderRequestElement><ns2:MerchantInformation><ns1:MerchantUuid>0141908c-363f-47ee-9465-c952535af977</ns1:MerchantUuid><ns1:CashRegisterId>0141908c-363f-47ee-9465-c952535af977</ns1:CashRegisterId></ns2:MerchantInformation><ns2:Order type=\"REVERSAL\" confirmationNeeded=\"false\"><ns2:PostingType>GOODS</ns2:PostingType><ns2:RequestedAmount><ns1:Amount>100</ns1:Amount><ns1:Currency>CHF</ns1:Currency></ns2:RequestedAmount><ns2:MerchantTransactionReference>df67c3deb819afb4f2b4c27822cf24adb72ddb47cb30993e15</ns2:MerchantTransactionReference><ns2:Link><ns2:MerchantTransactionReference>0b493726918ed0b480df480a854aea4f78d35e29b0e919b4be</ns2:MerchantTransactionReference></ns2:Link></ns2:Order><ns2:UnidentifiedCustomer>true</ns2:UnidentifiedCustomer></ns2:StartOrderRequestElement></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
     response:
         status:
-            code: 500
-            message: 'Internal Server Error'
+            code: 200
+            message: 'OK'
         headers:
-            Date: 'Mon, 15 Apr 2024 08:48:27 GMT'
+            Date: 'Tue, 16 Apr 2024 15:44:46 GMT'
             Server: Apache
             Strict-Transport-Security: 'max-age=15724800; includeSubDomains'
             Content-Type: text/xml;charset=UTF-8
-            Content-Length: '816'
+            Content-Length: '933'
             Connection: close
         body: >-
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -185,34 +183,33 @@
             filetime: -1
             ssl_verify_result: 0
             redirect_count: 0
-            total_time: 0.247684
-            namelookup_time: 0.015225
-            connect_time: 0.041305
-            pretransfer_time: 0.104353
+            total_time: 0.244908
+            namelookup_time: 0.005897
+            connect_time: 0.032511
+            pretransfer_time: 0.099464
             size_upload: 1480.0
-            size_download: 816.0
-            speed_download: 3294.0
-            speed_upload: 5975.0
-            download_content_length: 816.0
+            size_download: 933.0
+            speed_download: 3809.0
+            speed_upload: 6043.0
+            download_content_length: 933.0
             upload_content_length: 1480.0
-            starttransfer_time: 0.247656
+            starttransfer_time: 0.244798
             redirect_time: 0.0
             redirect_url: ''
             primary_ip: 138.190.125.186
             certinfo: {  }
             primary_port: 443
-            local_ip: 172.31.0.3
-            local_port: 51282
+            local_ip: 192.168.0.3
+            local_port: 51072
             http_version: 2
             protocol: 2
             ssl_verifyresult: 0
             scheme: HTTPS
-            appconnect_time_us: 104280
-            connect_time_us: 41305
-            namelookup_time_us: 15225
-            pretransfer_time_us: 104353
+            appconnect_time_us: 99390
+            connect_time_us: 32511
+            namelookup_time_us: 5897
+            pretransfer_time_us: 99464
             redirect_time_us: 0
-            starttransfer_time_us: 247656
-            total_time_us: 247684
-            effective_method: POST
+            starttransfer_time_us: 244798
+            total_time_us: 244908
     index: 0

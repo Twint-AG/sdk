@@ -6,7 +6,7 @@ namespace Twint\Sdk\Tools;
 
 use function Psl\Type\non_empty_string;
 
-final class Environment
+final class SystemEnvironment
 {
     /**
      * @param non-empty-string $name

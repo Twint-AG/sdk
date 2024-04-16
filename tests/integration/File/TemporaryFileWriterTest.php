@@ -7,7 +7,7 @@ namespace Twint\Sdk\Tests\Integration\File;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
-use Twint\Sdk\File\TemporaryFileWriter;
+use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\File;
 
 #[CoversClass(TemporaryFileWriter::class)]

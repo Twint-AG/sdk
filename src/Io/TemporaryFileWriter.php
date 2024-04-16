@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twint\Sdk\File;
+namespace Twint\Sdk\Io;
 
 use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
