@@ -7,6 +7,7 @@ PHP SDK for TWINT to enable e-commerce use cases.
 ### Setup
  * Run `make dev` to start the development environment based on `docker compose` and enter a shell
  * Copy `.env.example` to `.env` and configure your values
+ * Run `make install` to install composer dependencies
 
 ### Tests
  * Run `make test`
