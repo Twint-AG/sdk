@@ -6,14 +6,17 @@ namespace Twint\Sdk\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Twint\Sdk\Tests\Unit\Value\ValueTest;
 use Twint\Sdk\TwintEnvironment;
 use Twint\Sdk\TwintVersion;
 use Twint\Sdk\Value\File;
 use Twint\Sdk\Value\Url;
 
+/**
+ * @template-extends ValueTest<TwintEnvironment>
+ */
 #[CoversClass(TwintEnvironment::class)]
-final class TwintEnvironmentTest extends TestCase
+final class TwintEnvironmentTest extends ValueTest
 {
     /**
      * @return iterable<array{TwintEnvironment::*}>
@@ -148,5 +151,15 @@ final class TwintEnvironmentTest extends TestCase
     public function testSoapWsdlPaths(TwintEnvironment $environment, TwintVersion $version, File $wsdl): void
     {
         self::assertEquals($wsdl, $environment->soapWsdlPath($version));
+    }
+
+    protected function createValue(): object
+    {
+        return TwintEnvironment::TESTING();
+    }
+
+    protected static function getValueType(): string
+    {
+        return TwintEnvironment::class;
     }
 }

@@ -6,15 +6,16 @@ namespace Twint\Sdk\Tests\Unit;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
+use Twint\Sdk\Tests\Unit\Value\ValueTest;
 use Twint\Sdk\TwintVersion;
 
 /**
  * @phpstan-import-type ExistingVersionId from TwintVersion
  * @phpstan-import-type VersionId from TwintVersion
+ * @template-extends ValueTest<TwintVersion>
  */
 #[CoversClass(TwintVersion::class)]
-final class TwintVersionTest extends TestCase
+final class TwintVersionTest extends ValueTest
 {
     /**
      * @return iterable<array{VersionId}>
@@ -82,5 +83,15 @@ final class TwintVersionTest extends TestCase
     public function testNamedConstructors(int $versionId, TwintVersion $version): void
     {
         self::assertSame($versionId, $version->id());
+    }
+
+    protected function createValue(): object
+    {
+        return TwintVersion::latest();
+    }
+
+    protected static function getValueType(): string
+    {
+        return TwintVersion::class;
     }
 }

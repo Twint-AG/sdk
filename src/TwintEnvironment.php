@@ -31,7 +31,7 @@ final class TwintEnvironment implements Enum, Comparable, Equality
      * @param self::* $value
      */
     public function __construct(
-        private string $value
+        private readonly string $value
     ) {
         union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($value);
     }

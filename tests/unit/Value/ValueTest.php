@@ -10,10 +10,12 @@ use ReflectionClass;
 use Twint\Sdk\Value\Comparable;
 use Twint\Sdk\Value\Enum;
 use Twint\Sdk\Value\Equality;
+use function Psl\Type\int;
 use function Psl\Type\string;
+use function Psl\Type\union;
 
 /**
- * @template T of (Comparable&Equality)|(Comparable&Enum&Equality)
+ * @template T of (Equality&Comparable)
  */
 abstract class ValueTest extends TestCase
 {
@@ -23,7 +25,7 @@ abstract class ValueTest extends TestCase
     protected object $value;
 
     /**
-     * @return iterable<string, array{string, string}>
+     * @return iterable<string, array{string, string|int}>
      */
     public static function getValueConstants(): iterable
     {
@@ -35,7 +37,7 @@ abstract class ValueTest extends TestCase
         }
 
         foreach ($class->getConstants() as $name => $value) {
-            yield $name => [$name, string()->assert($value)];
+            yield $name => [$name, union(string(), int())->assert($value)];
         }
     }
 
@@ -50,7 +52,7 @@ abstract class ValueTest extends TestCase
     abstract protected function createValue(): object;
 
     /**
-     * @return class-string
+     * @return class-string<T>
      */
     abstract protected static function getValueType(): string;
 
@@ -95,10 +97,12 @@ abstract class ValueTest extends TestCase
     }
 
     #[DataProvider('getValueConstants')]
-    public function testConstantNameAndValueMatches(string $constantName, string $constantValue): void
+    public function testConstantNameAndValueMatches(string $constantName, mixed $constantValue): void
     {
-        if (!$this->value instanceof Enum) {
-            self::markTestSkipped('This test is only for Enum values');
+        self::requireEnum();
+
+        if (!is_string($constantValue)) {
+            self::markTestSkipped('Integer constants are not supported');
         }
 
         self::assertSame($constantName, $constantValue);
@@ -107,9 +111,7 @@ abstract class ValueTest extends TestCase
     #[DataProvider('getValueConstants')]
     public function testNamedConstructorExistsForEachPossibleValue(string $constantName): void
     {
-        if (!$this->value instanceof Enum) {
-            self::markTestSkipped('This test is only for Enum values');
-        }
+        self::requireEnum();
 
         $class = new ReflectionClass(static::getValueType());
         self::assertTrue($class->hasMethod($constantName));
@@ -120,9 +122,7 @@ abstract class ValueTest extends TestCase
     #[DataProvider('getValueConstants')]
     public function testNamedConstructorCanBeUsedToInstantiateValue(string $constantName): void
     {
-        if (!$this->value instanceof Enum) {
-            self::markTestSkipped('This test is only for Enum values');
-        }
+        self::requireEnum();
 
         $class = new ReflectionClass(static::getValueType());
         if ($class->getMethod($constantName)->getNumberOfParameters() > 0) {
@@ -131,5 +131,21 @@ abstract class ValueTest extends TestCase
 
         $value = (static::getValueType())::$constantName(); // @phpstan-ignore-line
         self::assertInstanceOf(static::getValueType(), $value);
+    }
+
+    #[DataProvider('getValueConstants')]
+    public function testConstantValuesContainedInAll(string $constantName, mixed $constantValue): void
+    {
+        self::requireEnum();
+
+        // @phpstan-ignore-next-line
+        self::assertContains($constantValue, (static::getValueType())::all());
+    }
+
+    private static function requireEnum(): void
+    {
+        if (!is_subclass_of(static::getValueType(), Enum::class)) {
+            self::markTestSkipped('This test is only for Enum values');
+        }
     }
 }

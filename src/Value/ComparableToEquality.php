@@ -7,7 +7,7 @@ namespace Twint\Sdk\Value;
 use function Psl\Type\instance_of;
 
 /**
- * @template T of object
+ * @template T of Equality
  * @phpstan-require-implements Comparable<T>
  */
 trait ComparableToEquality
@@ -15,7 +15,7 @@ trait ComparableToEquality
     /**
      * @param T $other
      */
-    final public function equals($other): bool
+    final public function equals(Equality $other): bool
     {
         instance_of(self::class)->assert($other);
 

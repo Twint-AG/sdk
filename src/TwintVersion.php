@@ -49,6 +49,16 @@ final class TwintVersion implements Enum, Comparable, Equality
         return new self(self::NEXT);
     }
 
+    public static function V8_5_0(): self
+    {
+        return new self(self::V8_5_0);
+    }
+
+    public static function V8_6_0(): self
+    {
+        return new self(self::V8_6_0);
+    }
+
     public static function all(): array
     {
         return [self::V8_5_0, self::V8_6_0];
