@@ -4,11 +4,22 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use function Psl\Type\literal_scalar;
-use function Psl\Type\union;
+use Twint\Sdk\Util\Comparison;
+use Twint\Sdk\Util\Type;
+use function Psl\Type\instance_of;
 
-final class DetectedDevice
+/**
+ * @template-implements Enum<self::*>
+ * @template-implements Comparable<self>
+ * @template-implements Equality<self>
+ */
+final class DetectedDevice implements Enum, Comparable, Equality
 {
+    /**
+     * @use ComparableToEquality<self>
+     */
+    use ComparableToEquality;
+
     public const UNKNOWN = 0;
 
     public const IOS = 1;
@@ -19,11 +30,32 @@ final class DetectedDevice
         private readonly string $userAgent,
         private readonly int $deviceType
     ) {
-        union(
-            literal_scalar(self::UNKNOWN),
-            literal_scalar(self::IOS),
-            literal_scalar(self::ANDROID)
-        )->assert($deviceType);
+        Type::unionOfLiterals(...self::all())->assert($this->deviceType);
+    }
+
+    public static function UNKNOWN(string $userAgent): self
+    {
+        return new self($userAgent, self::UNKNOWN);
+    }
+
+    public static function IOS(string $userAgent): self
+    {
+        return new self($userAgent, self::IOS);
+    }
+
+    public static function ANDROID(string $userAgent): self
+    {
+        return new self($userAgent, self::ANDROID);
+    }
+
+    public static function all(): array
+    {
+        return [self::UNKNOWN, self::IOS, self::ANDROID];
+    }
+
+    public function __toString(): string
+    {
+        return sprintf('%s (%d)', $this->userAgent, $this->deviceType);
     }
 
     public function userAgent(): string
@@ -49,5 +81,20 @@ final class DetectedDevice
     public function isMobile(): bool
     {
         return $this->isIos() || $this->isAndroid();
+    }
+
+    public function isUnknown(): bool
+    {
+        return $this->deviceType === self::UNKNOWN;
+    }
+
+    public function compare($other): int
+    {
+        instance_of(self::class)->assert($other);
+
+        return Comparison::comparePairs([
+            [$this->deviceType, $other->deviceType],
+            [$this->userAgent, $other->userAgent],
+        ]);
     }
 }

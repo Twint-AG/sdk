@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Unit\Value;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use Psl\Type\Exception\AssertException;
 use Twint\Sdk\Value\TransactionStatus;
 
 /**
@@ -21,5 +22,19 @@ final class TransactionStatusTest extends ValueTest
     protected static function getValueType(): string
     {
         return TransactionStatus::class;
+    }
+
+    public function testCreateFromInvalidString(): void
+    {
+        $this->expectException(AssertException::class);
+
+        TransactionStatus::fromString('invalid');
+    }
+
+    public function testCreateFromString(): void
+    {
+        $transactionStatus = TransactionStatus::fromString(TransactionStatus::ORDER_OK);
+
+        self::assertObjectEquals(TransactionStatus::ORDER_OK(), $transactionStatus);
     }
 }

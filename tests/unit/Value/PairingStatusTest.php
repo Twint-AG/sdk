@@ -24,9 +24,17 @@ final class PairingStatusTest extends ValueTest
         return PairingStatus::class;
     }
 
-    public function testFromStringThrowsException(): void
+    public function testCreateFromInvalidString(): void
     {
         $this->expectException(AssertException::class);
+
         PairingStatus::fromString('invalid');
+    }
+
+    public function testCreateFromString(): void
+    {
+        $pairingStatus = PairingStatus::fromString(PairingStatus::PAIRING_IN_PROGRESS);
+
+        self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $pairingStatus);
     }
 }

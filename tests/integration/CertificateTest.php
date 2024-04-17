@@ -14,6 +14,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Clock\MockClock;
+use Twint\Sdk\Certificate\DefaultTrustor;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\InvalidCertificate;
@@ -29,6 +30,7 @@ use function Psl\Type\uint;
 
 #[CoversClass(Pkcs12Certificate::class)]
 #[CoversClass(PemCertificate::class)]
+#[CoversClass(DefaultTrustor::class)]
 final class CertificateTest extends TestCase
 {
     private const PASSPHRASE = 'secret';

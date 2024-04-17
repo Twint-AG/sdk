@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
-use function Psl\Type\union;
 
 /**
  * @template-implements Enum<self::*>
@@ -17,20 +17,18 @@ final class Money implements Enum, Comparable, Equality
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
-    public const EUR = 'EUR';
-
     public const CHF = 'CHF';
+
+    /**
+     * @internal
+     */
+    public const XXX = 'XXX';
 
     public function __construct(
         private readonly string $currency,
         private readonly float $amount,
     ) {
-        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($currency);
-    }
-
-    public static function EUR(float $amount): self
-    {
-        return new self(self::EUR, $amount);
+        Type::unionOfLiterals(...self::all())->assert($currency);
     }
 
     public static function CHF(float $amount): self
@@ -38,9 +36,18 @@ final class Money implements Enum, Comparable, Equality
         return new self(self::CHF, $amount);
     }
 
+    /**
+     * @internal
+     * @codeCoverageIgnore
+     */
+    public static function XXX(float $amount): self
+    {
+        return new self(self::XXX, $amount);
+    }
+
     public static function all(): array
     {
-        return [self::EUR, self::CHF];
+        return [self::CHF, self::XXX];
     }
 
     public function __toString(): string

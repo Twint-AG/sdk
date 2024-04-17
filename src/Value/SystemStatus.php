@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
-use function Psl\Type\union;
 
 /**
  * @template-implements Equality<self>
@@ -27,16 +27,7 @@ final class SystemStatus implements Comparable, Equality, Enum
     public function __construct(
         private readonly string $status,
     ) {
-        self::assert($status);
-    }
-
-    /**
-     * @return self::*
-     */
-    public static function assert(string $status): string
-    {
-        /** @var self::* */
-        return union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($status);
+        Type::unionOfLiterals(...self::all())->assert($status);
     }
 
     public static function all(): array

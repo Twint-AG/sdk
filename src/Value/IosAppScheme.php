@@ -7,8 +7,17 @@ namespace Twint\Sdk\Value;
 use function Psl\invariant;
 use function Psl\Regex\matches;
 
-final class IosAppScheme
+/**
+ * @template-implements Comparable<self>
+ * @implements Equality<self>
+ */
+final class IosAppScheme implements Equality, Comparable
 {
+    /**
+     * @use ComparableToEquality<self>
+     */
+    use ComparableToEquality;
+
     /**
      * @param non-empty-string $scheme
      * @param non-empty-string $displayName
@@ -34,5 +43,10 @@ final class IosAppScheme
     public function displayName(): string
     {
         return $this->displayName;
+    }
+
+    public function compare($other): int
+    {
+        return $this->scheme <=> $other->scheme;
     }
 }

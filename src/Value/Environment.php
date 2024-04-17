@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
-use function Psl\Type\union;
 
 /**
  * @template-implements Enum<self::*>
@@ -27,7 +27,7 @@ final class Environment implements Enum, Comparable, Equality
     public function __construct(
         private readonly string $value
     ) {
-        union(...array_map('Psl\Type\literal_scalar', self::all()))->assert($value);
+        Type::unionOfLiterals(...self::all())->assert($value);
     }
 
     public static function all(): array
