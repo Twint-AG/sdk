@@ -6,6 +6,8 @@ namespace Twint\Sdk\Util;
 
 use Throwable;
 use Twint\Sdk\Exception\Timeout;
+use function Psl\Type\positive_int;
+use function Psl\Type\uint;
 
 /**
  * @phpstan-type DelayMs = int<0, max>
@@ -23,6 +25,11 @@ final class Resilience
      */
     public static function retry(int $times, callable $operation, int $delayMs = 0): mixed
     {
+        positive_int()
+            ->assert($times);
+        uint()
+            ->assert($delayMs);
+
         $attempts = 0;
 
         do {
@@ -39,6 +46,8 @@ final class Resilience
             }
         } while ($attempts < $times);
 
-        throw new Timeout('Unreachable');
+        // @codeCoverageIgnoreStart
+        throw new Timeout('Unreachable code reached');
+        // @codeCoverageIgnoreEnd
     }
 }

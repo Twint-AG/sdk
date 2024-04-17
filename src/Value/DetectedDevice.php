@@ -30,7 +30,7 @@ final class DetectedDevice implements Enum, Comparable, Equality
         private readonly string $userAgent,
         private readonly int $deviceType
     ) {
-        Type::unionOfLiterals(...self::all())->assert($this->deviceType);
+        Type::maybeUnionOfLiterals(...self::all())->assert($this->deviceType);
     }
 
     public static function UNKNOWN(string $userAgent): self

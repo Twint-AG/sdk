@@ -27,7 +27,7 @@ final class Environment implements Enum, Comparable, Equality
     public function __construct(
         private readonly string $value
     ) {
-        Type::unionOfLiterals(...self::all())->assert($value);
+        Type::maybeUnionOfLiterals(...self::all())->assert($value);
     }
 
     public static function all(): array

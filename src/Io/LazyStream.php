@@ -6,7 +6,7 @@ namespace Twint\Sdk\Io;
 
 final class LazyStream implements Stream
 {
-    private ?string $content = null;
+    private readonly ?string $content;
 
     public function __construct(
         private readonly Stream $stream

@@ -13,13 +13,21 @@ use Twint\Sdk\Exception\CryptographyFailure;
 final class DefaultRandomStringFactory
 {
     /**
+     * @param callable(int<1,max>): string $randomBytes
+     */
+    public function __construct(
+        private readonly mixed $randomBytes = 'random_bytes'
+    ) {
+    }
+
+    /**
      * @param Length $length
      * @throws CryptographyFailure
      */
     public function __invoke(int $length): string
     {
         try {
-            return bin2hex(random_bytes($length / 2));
+            return bin2hex(($this->randomBytes)($length / 2));
         } catch (Throwable $e) {
             throw CryptographyFailure::fromThrowable($e);
         }

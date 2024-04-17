@@ -8,12 +8,14 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Capability\DeviceHandling;
 use Twint\Sdk\Client;
+use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Value\DetectedDevice;
 
 /**
  * @template-extends IntegrationTest<DeviceHandling>
  */
 #[CoversClass(Client::class)]
+#[CoversClass(DefaultHttpClientFactory::class)]
 final class DeviceHandlingTest extends IntegrationTest
 {
     /**

@@ -41,13 +41,13 @@ final class TransactionStatus implements Enum, Comparable, Equality
     public function __construct(
         private readonly string $status
     ) {
-        Type::unionOfLiterals(...self::all())->assert($status);
+        Type::maybeUnionOfLiterals(...self::all())->assert($status);
     }
 
     public static function fromString(string $status): self
     {
         /** @var self::* $status */
-        $status = Type::unionOfLiterals(...self::all())->assert($status);
+        $status = Type::maybeUnionOfLiterals(...self::all())->assert($status);
 
         return new self($status);
     }

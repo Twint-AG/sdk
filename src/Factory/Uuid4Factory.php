@@ -16,11 +16,19 @@ use function Psl\invariant;
 final class Uuid4Factory
 {
     /**
+     * @param callable(int<1,max>): string $randomBytes
+     */
+    public function __construct(
+        private readonly mixed $randomBytes = 'random_bytes'
+    ) {
+    }
+
+    /**
      * @throws CryptographyFailure
      */
     public function __invoke(): Uuid
     {
-        $bytes = self::getRandomBytes(32, 5);
+        $bytes = $this->getRandomBytes(32, 5);
 
         $bytes[6] = chr(ord($bytes[6]) & 0x0f | 0x40);
         $bytes[8] = chr(ord($bytes[8]) & 0x3f | 0x80);
@@ -33,13 +41,13 @@ final class Uuid4Factory
      * @param Attempts $attempts
      * @throws CryptographyFailure
      */
-    private static function getRandomBytes(int $length, int $attempts): string
+    private function getRandomBytes(int $length, int $attempts): string
     {
         try {
             return Resilience::retry(
                 $attempts,
-                static function () use ($length): string {
-                    $random = random_bytes($length);
+                function () use ($length): string {
+                    $random = ($this->randomBytes)($length);
 
                     invariant(
                         strlen($random) === $length,

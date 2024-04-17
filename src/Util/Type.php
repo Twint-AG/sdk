@@ -29,7 +29,7 @@ final class Type
      * @param T ...$literals
      * @return TypeInterface<T>
      */
-    public static function unionOfLiterals(bool|float|int|string ...$literals): TypeInterface
+    public static function maybeUnionOfLiterals(bool|float|int|string ...$literals): TypeInterface
     {
         return self::maybeUnion(...array_map(static fn (bool|float|int|string $v) => literal_scalar($v), $literals));
     }

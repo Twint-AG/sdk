@@ -28,7 +28,7 @@ final class Money implements Enum, Comparable, Equality
         private readonly string $currency,
         private readonly float $amount,
     ) {
-        Type::unionOfLiterals(...self::all())->assert($currency);
+        Type::maybeUnionOfLiterals(...self::all())->assert($currency);
     }
 
     public static function CHF(float $amount): self

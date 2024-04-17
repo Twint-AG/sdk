@@ -4,39 +4,32 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
-use Twint\Sdk\Exception\CryptographyFailure;
+use function Psl\Type\instance_of;
+use function Psl\Type\union;
 
 final class CertificateContainer
 {
-    private PemCertificate $pem;
+    private readonly PemCertificate $pem;
 
-    private Pkcs12Certificate $pkcs12;
+    private readonly Pkcs12Certificate $pkcs12;
 
-    /**
-     * @throws CryptographyFailure
-     */
-    private function __construct(Certificate $main)
+    private function __construct(Certificate $certificate)
     {
-        if ($main instanceof Pkcs12Certificate) {
-            $this->pkcs12 = $main;
-        } elseif ($main instanceof PemCertificate) {
-            $this->pem = $main;
+        $certificate = union(instance_of(PemCertificate::class), instance_of(Pkcs12Certificate::class))
+            ->assert($certificate);
+
+        if ($certificate instanceof Pkcs12Certificate) {
+            $this->pkcs12 = $certificate;
         } else {
-            throw new CryptographyFailure(sprintf('Unsupported certificate type "%s"', get_class($main)));
+            $this->pem = $certificate;
         }
     }
 
-    /**
-     * @throws CryptographyFailure
-     */
     public static function fromPem(PemCertificate $pem): self
     {
         return new self($pem);
     }
 
-    /**
-     * @throws CryptographyFailure
-     */
     public static function fromPkcs12(Pkcs12Certificate $pkcs12): self
     {
         return new self($pkcs12);

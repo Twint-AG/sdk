@@ -31,6 +31,7 @@ use function Psl\Type\uint;
 #[CoversClass(Pkcs12Certificate::class)]
 #[CoversClass(PemCertificate::class)]
 #[CoversClass(DefaultTrustor::class)]
+#[CoversClass(InvalidCertificate::class)]
 final class CertificateTest extends TestCase
 {
     private const PASSPHRASE = 'secret';
@@ -170,6 +171,21 @@ final class CertificateTest extends TestCase
             self::assertInstanceOf(Pkcs12Certificate::class, $cert);
         } catch (InvalidCertificate $e) {
             self::assertSame($expectedErrors, $e->getErrors());
+        }
+    }
+
+    public function testX509ParseReturnsIncorrectShape(): void
+    {
+        try {
+            Pkcs12Certificate::establishTrustVia(
+                new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+                new DefaultTrustor(new Clock(), static fn () => [])
+            );
+
+            self::fail('Expected exception');
+        } catch (InvalidCertificate $e) {
+            self::assertSame([InvalidCertificate::ERROR_CANNOT_PARSE_CERTIFICATE], $e->getErrors());
         }
     }
 

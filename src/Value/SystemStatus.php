@@ -27,7 +27,7 @@ final class SystemStatus implements Comparable, Equality, Enum
     public function __construct(
         private readonly string $status,
     ) {
-        Type::unionOfLiterals(...self::all())->assert($status);
+        Type::maybeUnionOfLiterals(...self::all())->assert($status);
     }
 
     public static function all(): array

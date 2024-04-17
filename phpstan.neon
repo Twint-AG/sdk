@@ -23,13 +23,9 @@ parameters:
             message: "#^Method .* throws checked exception#"
             path: tools/PHPUnit/*
         -
-            message: "#^Class Twint\\\\Sdk\\\\Client has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
-            count: 3
-            path: src/Client.php
+            message: "#^Class .* has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
         -
-            message: "#^Readonly property Twint\\\\Sdk\\\\Client\\:\\:\\$.* is assigned outside of the constructor\\.$#"
-            count: 3
-            path: src/Client.php
+            message: "#^Readonly property .* is assigned outside of the constructor\\.$#"
 
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon

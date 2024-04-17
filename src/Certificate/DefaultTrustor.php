@@ -16,8 +16,16 @@ use function Psl\Type\uint;
 
 final class DefaultTrustor implements Trustor
 {
+    private const ISSUER_ORG = 'TWINT AG';
+
+    private const ISSUER_COUNTRY = 'CH';
+
+    /**
+     * @param callable(OpenSSLCertificate|string): (array<string,mixed>|false) $opensslX509Parse
+     */
     public function __construct(
-        private readonly ClockInterface $clock
+        private readonly ClockInterface $clock,
+        private readonly mixed $opensslX509Parse = 'openssl_x509_parse'
     ) {
     }
 
@@ -49,16 +57,16 @@ final class DefaultTrustor implements Trustor
                 'validFrom_time_t' => uint(),
                 'validTo_time_t' => uint(),
             ], true)
-                ->assert(openssl_x509_parse($certificate));
+                ->assert(($this->opensslX509Parse)($certificate));
         } catch (AssertException $e) {
             throw InvalidCertificate::notTrusted([InvalidCertificate::ERROR_CANNOT_PARSE_CERTIFICATE], $e);
         }
 
-        if ($metadata['issuer']['C'] !== 'CH') {
+        if ($metadata['issuer']['C'] !== self::ISSUER_COUNTRY) {
             yield InvalidCertificate::ERROR_INVALID_ISSUER_COUNTRY;
         }
 
-        if ($metadata['issuer']['O'] !== 'TWINT AG') {
+        if ($metadata['issuer']['O'] !== self::ISSUER_ORG) {
             yield InvalidCertificate::ERROR_INVALID_ISSUER_ORGANIZATION;
         }
 

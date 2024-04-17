@@ -16,7 +16,7 @@ final class ContentSensitiveFileWriter implements FileWriter
      */
     public function __construct(
         private readonly File $baseDirectory,
-        private mixed $toFilename
+        private readonly mixed $toFilename
     ) {
     }
 
