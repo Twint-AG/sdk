@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\invariant;
 use function Psl\Regex\matches;
 use function Psl\Type\instance_of;
@@ -30,11 +31,13 @@ final class Uuid implements Comparable, Equality
         $this->uuid = strtolower($uuid);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->uuid;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

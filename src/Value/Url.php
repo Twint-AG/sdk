@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 
@@ -22,11 +23,13 @@ final class Url implements Comparable, Equality
         invariant(filter_var($url, FILTER_VALIDATE_URL) !== false, 'URL "%s" is not valid', $url);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->url;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

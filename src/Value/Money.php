@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
@@ -46,11 +47,13 @@ final class Money implements Enum, Comparable, Equality
         return new self(self::XXX, $amount);
     }
 
+    #[Override]
     public static function all(): array
     {
         return [self::CHF, self::XXX];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return sprintf('%s %s', number_format($this->amount, 2, '.', ''), $this->currency);
@@ -66,6 +69,7 @@ final class Money implements Enum, Comparable, Equality
         return $this->currency;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

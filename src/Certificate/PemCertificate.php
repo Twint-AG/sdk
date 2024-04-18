@@ -6,6 +6,7 @@ namespace Twint\Sdk\Certificate;
 
 use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
+use Override;
 use SensitiveParameter;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\FileWriter;
@@ -23,11 +24,13 @@ final class PemCertificate implements Certificate
     ) {
     }
 
+    #[Override]
     public function content(): string
     {
         return $this->content->read();
     }
 
+    #[Override]
     public function passphrase(): string
     {
         return $this->passphrase;
@@ -58,6 +61,7 @@ final class PemCertificate implements Certificate
         );
     }
 
+    #[Override]
     public function toFile(FileWriter $writer): FileStream
     {
         return new FileStream($writer->write($this->content->read(), '.pem'));

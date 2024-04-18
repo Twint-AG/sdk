@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tools\Soap;
 
+use Override;
 use Phpro\SoapClient\Soap\Metadata\Manipulators\TypesManipulatorInterface;
 use Soap\Engine\Exception\MetadataException;
 use Soap\Engine\Metadata\Collection\PropertyCollection;
@@ -27,6 +28,7 @@ final class ManipulatePropertyType implements TypesManipulatorInterface
     /**
      * @throws MetadataException
      */
+    #[Override]
     public function __invoke(TypeCollection $types): TypeCollection
     {
         $originalType = $types->fetchFirstByName($this->type);

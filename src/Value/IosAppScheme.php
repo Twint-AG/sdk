@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\invariant;
 use function Psl\Regex\matches;
 
@@ -45,6 +46,7 @@ final class IosAppScheme implements Equality, Comparable
         return $this->displayName;
     }
 
+    #[Override]
     public function compare($other): int
     {
         return $this->scheme <=> $other->scheme;

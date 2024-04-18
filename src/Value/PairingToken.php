@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\Type\instance_of;
 use function Psl\Type\uint;
 
@@ -25,6 +26,7 @@ final class PairingToken implements Comparable, Equality
         uint()->assert($token);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->token;
@@ -35,6 +37,7 @@ final class PairingToken implements Comparable, Equality
         return $this->token;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

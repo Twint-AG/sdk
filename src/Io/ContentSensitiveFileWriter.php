@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Io;
 
+use Override;
 use Throwable;
 use Twint\Sdk\Exception\IoError;
 use Twint\Sdk\Value\File;
@@ -32,6 +33,7 @@ final class ContentSensitiveFileWriter implements FileWriter
     /**
      * @throws IoError
      */
+    #[Override]
     public function write(string $input, string $extension = ''): File
     {
         $fileName = $this->baseDirectory . '/' . ($this->toFilename)($input) . $extension;

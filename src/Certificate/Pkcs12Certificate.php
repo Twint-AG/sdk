@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
+use Override;
 use Psr\Clock\ClockInterface;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
@@ -79,11 +80,13 @@ final class Pkcs12Certificate implements Certificate
         return array_values(array_unique($errors));
     }
 
+    #[Override]
     public function content(): string
     {
         return $this->content->read();
     }
 
+    #[Override]
     public function passphrase(): string
     {
         return $this->passphrase;
@@ -109,6 +112,7 @@ final class Pkcs12Certificate implements Certificate
         );
     }
 
+    #[Override]
     public function toFile(FileWriter $writer): FileStream
     {
         return new FileStream($writer->write($this->content->read(), '.p12'));

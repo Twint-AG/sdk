@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -41,6 +42,7 @@ abstract class ValueTest extends TestCase
         }
     }
 
+    #[Override]
     protected function setUp(): void
     {
         $this->value = $this->createValue();

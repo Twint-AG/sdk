@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
@@ -39,11 +40,13 @@ abstract class MerchantTransactionReference implements Comparable, Equality
     /**
      * @return non-empty-string
      */
+    #[Override]
     final public function __toString(): string
     {
         return $this->value;
     }
 
+    #[Override]
     final public function compare($other): int
     {
         instance_of(self::class)->assert($other);

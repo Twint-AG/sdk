@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration\Io;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
@@ -18,6 +19,7 @@ final class TemporaryFileWriterTest extends TestCase
 {
     private TemporaryFileWriter $fileWriter;
 
+    #[Override]
     protected function setUp(): void
     {
         $this->fileWriter = new TemporaryFileWriter();

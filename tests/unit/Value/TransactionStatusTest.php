@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Psl\Type\Exception\AssertException;
 use Twint\Sdk\Value\TransactionStatus;
@@ -15,11 +16,13 @@ use Twint\Sdk\Value\TransactionStatus;
 #[CoversClass(TransactionStatus::class)]
 final class TransactionStatusTest extends ValueTest
 {
+    #[Override]
     protected function createValue(): object
     {
         return TransactionStatus::GENERAL_ERROR();
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return TransactionStatus::class;

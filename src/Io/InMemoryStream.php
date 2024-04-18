@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Io;
 
+use Override;
 use SensitiveParameter;
 
 final class InMemoryStream implements Stream
@@ -14,6 +15,7 @@ final class InMemoryStream implements Stream
     ) {
     }
 
+    #[Override]
     public function read(): string
     {
         return $this->content;

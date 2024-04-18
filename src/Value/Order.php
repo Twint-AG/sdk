@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use Twint\Sdk\Util\Comparison;
 use function Psl\Type\instance_of;
 
@@ -81,6 +82,7 @@ final class Order implements Comparable, Equality
         return $this->qrCode;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

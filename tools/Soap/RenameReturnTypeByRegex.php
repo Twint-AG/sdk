@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tools\Soap;
 
+use Override;
 use Phpro\SoapClient\Soap\Metadata\Manipulators\MethodsManipulatorInterface;
 use Soap\Engine\Metadata\Collection\MethodCollection;
 use Soap\Engine\Metadata\Model\Method;
@@ -21,6 +22,7 @@ final class RenameReturnTypeByRegex implements MethodsManipulatorInterface
     ) {
     }
 
+    #[Override]
     public function __invoke(MethodCollection $methods): MethodCollection
     {
         return new MethodCollection(...$methods->map(

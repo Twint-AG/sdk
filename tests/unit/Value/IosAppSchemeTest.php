@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Value\IosAppScheme;
 
@@ -18,11 +19,13 @@ final class IosAppSchemeTest extends ValueTest
 
     private const ISSUER = 'twint-issuer123://';
 
+    #[Override]
     protected function createValue(): object
     {
         return new IosAppScheme(self::ISSUER, self::DISPLAY_NAME);
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return IosAppScheme::class;

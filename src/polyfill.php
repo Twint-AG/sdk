@@ -8,3 +8,10 @@ if (PHP_VERSION_ID < 80200) {
     {
     }
 }
+
+if (PHP_VERSION_ID < 80300) {
+    #[Attribute(Attribute::TARGET_METHOD)]
+    final class Override
+    {
+    }
+}

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Value\Url;
 
@@ -20,11 +21,13 @@ final class UrlTest extends ValueTest
         new Url('not-a-url');
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return new Url('https://example.com');
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Url::class;

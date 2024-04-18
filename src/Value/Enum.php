@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Stringable;
+
 /**
  * @template T
  */
-interface Enum
+interface Enum extends Stringable
 {
     /**
      * @return list<T>
      */
     public static function all(): array;
-
-    public function __toString(): string;
 }

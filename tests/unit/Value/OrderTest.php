@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
@@ -42,6 +43,7 @@ final class OrderTest extends ValueTest
         yield 'Pairing status is PAIRING_ACTIVE' => [false, PairingStatus::PAIRING_ACTIVE()];
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return new Order(
@@ -52,6 +54,7 @@ final class OrderTest extends ValueTest
         );
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Order::class;

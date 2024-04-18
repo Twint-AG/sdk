@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\Type\instance_of;
 
 /**
@@ -25,11 +26,13 @@ final class MerchantId implements Comparable, Equality
         return new self(new Uuid($uuid));
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->uuid;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

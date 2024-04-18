@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
+use Override;
 use PHPUnit\Event\Test\Prepared;
 use PHPUnit\Event\Test\PreparedSubscriber;
 use Twint\Sdk\Tools\PHPUnit\VcrUtil;
@@ -16,6 +17,7 @@ final class PrepareVcr implements PreparedSubscriber
     ) {
     }
 
+    #[Override]
     public function notify(Prepared $event): void
     {
         $attribute = VcrUtil::tryGetAttribute($event->test());

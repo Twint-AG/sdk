@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\Uuid;
@@ -23,11 +24,13 @@ final class OrderIdTest extends ValueTest
         self::assertSame(self::UUID, (string) $orderId);
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return new OrderId(new Uuid(self::UUID));
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return OrderId::class;

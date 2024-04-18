@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\Filesystem\canonicalize;
 use function Psl\Filesystem\is_readable;
 use function Psl\invariant;
@@ -38,11 +39,13 @@ final class File implements Comparable, Equality
     /**
      * @return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->path;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\DetectedDevice;
@@ -33,11 +34,13 @@ final class DetectedDeviceTest extends ValueTest
         ];
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return new DetectedDevice(self::IPHONE_USER_AGENT, DetectedDevice::IOS);
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return DetectedDevice::class;

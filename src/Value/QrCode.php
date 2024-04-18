@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\invariant;
 
 /**
@@ -29,11 +30,13 @@ final class QrCode implements Comparable, Equality
     /**
      * @return non-empty-string
      */
+    #[Override]
     public function __toString(): string
     {
         return $this->qrCode;
     }
 
+    #[Override]
     public function compare($other): int
     {
         return $this->qrCode <=> $other->qrCode;

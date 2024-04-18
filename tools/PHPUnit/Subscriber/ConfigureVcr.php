@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tools\PHPUnit\Subscriber;
 
+use Override;
 use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Event\TestRunner\BootstrapFinished;
 use PHPUnit\Event\TestRunner\BootstrapFinishedSubscriber;
@@ -24,6 +25,7 @@ final class ConfigureVcr implements BootstrapFinishedSubscriber
     ) {
     }
 
+    #[Override]
     public function notify(BootstrapFinished $event): void
     {
         $configuration = VCR::configure();

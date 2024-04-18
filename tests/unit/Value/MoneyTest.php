@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\Money;
@@ -55,11 +56,13 @@ final class MoneyTest extends ValueTest
         self::assertSame($expected, $left->compare($right));
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return Money::CHF(1000.12);
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Money::class;

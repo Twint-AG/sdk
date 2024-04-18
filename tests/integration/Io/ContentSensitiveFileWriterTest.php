@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration\Io;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
@@ -15,11 +16,13 @@ use function Psl\Type\non_empty_string;
 #[CoversClass(ContentSensitiveFileWriter::class)]
 final class ContentSensitiveFileWriterTest extends TestCase
 {
+    #[Override]
     protected function setUp(): void
     {
         $this->reset();
     }
 
+    #[Override]
     protected function tearDown(): void
     {
         $this->reset();

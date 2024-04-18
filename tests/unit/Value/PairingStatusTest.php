@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Psl\Type\Exception\AssertException;
 use Twint\Sdk\Value\PairingStatus;
@@ -15,11 +16,13 @@ use Twint\Sdk\Value\PairingStatus;
 #[CoversClass(PairingStatus::class)]
 final class PairingStatusTest extends ValueTest
 {
+    #[Override]
     protected function createValue(): object
     {
         return PairingStatus::NO_PAIRING();
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return PairingStatus::class;

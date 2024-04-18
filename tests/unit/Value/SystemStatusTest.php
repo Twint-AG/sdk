@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Value\SystemStatus;
 
@@ -14,11 +15,13 @@ use Twint\Sdk\Value\SystemStatus;
 #[CoversClass(SystemStatus::class)]
 final class SystemStatusTest extends ValueTest
 {
+    #[Override]
     protected function createValue(): object
     {
         return SystemStatus::ERROR();
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return SystemStatus::class;

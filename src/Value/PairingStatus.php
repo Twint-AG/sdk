@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -40,6 +41,7 @@ final class PairingStatus implements Enum, Comparable, Equality
         return new self($status);
     }
 
+    #[Override]
     public static function all(): array
     {
         return [self::NO_PAIRING, self::PAIRING_IN_PROGRESS, self::PAIRING_ACTIVE];
@@ -60,11 +62,13 @@ final class PairingStatus implements Enum, Comparable, Equality
         return new self(self::PAIRING_ACTIVE);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->status;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

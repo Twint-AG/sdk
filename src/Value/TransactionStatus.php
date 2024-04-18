@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -100,6 +101,7 @@ final class TransactionStatus implements Enum, Comparable, Equality
     /**
      * @return list<self::*>
      */
+    #[Override]
     public static function all(): array
     {
         return [
@@ -115,11 +117,13 @@ final class TransactionStatus implements Enum, Comparable, Equality
         ];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->status;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

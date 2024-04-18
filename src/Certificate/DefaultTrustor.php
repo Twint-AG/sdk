@@ -6,6 +6,7 @@ namespace Twint\Sdk\Certificate;
 
 use DateTimeImmutable;
 use OpenSSLCertificate;
+use Override;
 use Psl\Type\Exception\AssertException;
 use Psr\Clock\ClockInterface;
 use Throwable;
@@ -32,6 +33,7 @@ final class DefaultTrustor implements Trustor
     /**
      * @throws InvalidCertificate
      */
+    #[Override]
     public function check(OpenSSLCertificate|string $certificate): void
     {
         $errors = [...$this->validate($certificate)];

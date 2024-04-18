@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Util;
 
+use Override;
 use Twint\Sdk\Value\Comparable;
 use function Psl\Type\instance_of;
 
@@ -17,6 +18,7 @@ final class ComparableImpl implements Comparable
     ) {
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

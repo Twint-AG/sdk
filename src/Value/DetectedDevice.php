@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use Twint\Sdk\Util\Comparison;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
@@ -48,11 +49,13 @@ final class DetectedDevice implements Enum, Comparable, Equality
         return new self($userAgent, self::ANDROID);
     }
 
+    #[Override]
     public static function all(): array
     {
         return [self::UNKNOWN, self::IOS, self::ANDROID];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return sprintf('%s (%d)', $this->userAgent, $this->deviceType);
@@ -88,6 +91,7 @@ final class DetectedDevice implements Enum, Comparable, Equality
         return $this->deviceType === self::UNKNOWN;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

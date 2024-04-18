@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psl\Exception\InvariantViolationException;
@@ -48,11 +49,13 @@ final class UuidTest extends ValueTest
         self::assertSame(self::UUID, (string) $uuid);
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return new Uuid(self::UUID);
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Uuid::class;

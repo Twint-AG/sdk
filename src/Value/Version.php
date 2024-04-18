@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use function Psl\Type\instance_of;
 
 /**
@@ -55,16 +56,19 @@ final class Version implements Enum, Comparable, Equality
         return new self(self::V8_6_0);
     }
 
+    #[Override]
     public static function all(): array
     {
         return [self::V8_5_0, self::V8_6_0];
     }
 
+    #[Override]
     public function __toString(): string
     {
         return (string) $this->versionId;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

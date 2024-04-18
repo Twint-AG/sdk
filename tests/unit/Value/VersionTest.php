@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\Version;
@@ -85,11 +86,13 @@ final class VersionTest extends ValueTest
         self::assertSame($versionId, $version->id());
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return Version::latest();
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Version::class;

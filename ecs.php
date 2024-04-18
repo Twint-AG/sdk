@@ -5,6 +5,7 @@ declare(strict_types=1);
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting\DocCommentAlignmentSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
+use PhpCsFixer\Fixer\AttributeNotation\AttributeEmptyParenthesesFixer;
 use PhpCsFixer\Fixer\Basic\PsrAutoloadingFixer;
 use PhpCsFixer\Fixer\CastNotation\CastSpacesFixer;
 use PhpCsFixer\Fixer\ClassNotation\ClassAttributesSeparationFixer;
@@ -53,6 +54,11 @@ use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
+use SlevomatCodingStandard\Sniffs\Attributes\AttributeAndTargetSpacingSniff;
+use SlevomatCodingStandard\Sniffs\Attributes\AttributesOrderSniff;
+use SlevomatCodingStandard\Sniffs\Attributes\DisallowAttributesJoiningSniff;
+use SlevomatCodingStandard\Sniffs\Attributes\DisallowMultipleAttributesPerLineSniff;
+use SlevomatCodingStandard\Sniffs\Attributes\RequireAttributeAfterDocCommentSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
@@ -193,6 +199,21 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
     $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, [
         'align' => 'left',
+    ]);
+
+    // Attributes
+    $ecsConfig->rules(
+        [
+            ClassAttributesSeparationFixer::class,
+            AttributeEmptyParenthesesFixer::class,
+            RequireAttributeAfterDocCommentSniff::class,
+            DisallowMultipleAttributesPerLineSniff::class,
+            DisallowAttributesJoiningSniff::class,
+            AttributeAndTargetSpacingSniff::class,
+        ]
+    );
+    $ecsConfig->ruleWithConfiguration(AttributesOrderSniff::class, [
+        'orderAlphabetically' => true,
     ]);
 
     $ecsConfig->parallel(120, 4, 10);

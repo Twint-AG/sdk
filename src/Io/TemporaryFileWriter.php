@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Io;
 
+use Override;
 use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
 use Twint\Sdk\Util\Resilience;
@@ -40,6 +41,7 @@ final class TemporaryFileWriter implements FileWriter
     /**
      * @throws Timeout
      */
+    #[Override]
     public function write(string $input, string $extension = ''): File
     {
         return Resilience::retry(5, function () use ($input, $extension): File {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\Environment;
@@ -153,11 +154,13 @@ final class EnvironmentTest extends ValueTest
         self::assertObjectEquals($wsdl, $environment->soapWsdlPath($version));
     }
 
+    #[Override]
     protected function createValue(): object
     {
         return Environment::TESTING();
     }
 
+    #[Override]
     protected static function getValueType(): string
     {
         return Environment::class;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration;
 
+use Override;
 use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Framework\TestCase;
 use Psl\Type\Exception\AssertException;
@@ -76,6 +77,7 @@ abstract class IntegrationTest extends TestCase
         }
     }
 
+    #[Override]
     final protected function setUp(): void
     {
         $client = new Client(

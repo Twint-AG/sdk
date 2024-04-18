@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Override;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -30,6 +31,7 @@ final class SystemStatus implements Comparable, Equality, Enum
         Type::maybeUnionOfLiterals(...self::all())->assert($status);
     }
 
+    #[Override]
     public static function all(): array
     {
         return [self::OK, self::ERROR];
@@ -45,6 +47,7 @@ final class SystemStatus implements Comparable, Equality, Enum
         return new self(self::ERROR);
     }
 
+    #[Override]
     public function __toString(): string
     {
         return $this->status;
@@ -55,6 +58,7 @@ final class SystemStatus implements Comparable, Equality, Enum
         return $this->status === self::OK;
     }
 
+    #[Override]
     public function compare($other): int
     {
         instance_of(self::class)->assert($other);

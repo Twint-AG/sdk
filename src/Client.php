@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk;
 
 use Http\Discovery\Psr17FactoryDiscovery;
+use Override;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -101,6 +102,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function checkSystemStatus(): SystemStatus
     {
         try {
@@ -122,6 +124,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function startOrder(
         UnfiledMerchantTransactionReference $orderReference,
         Money $requestedAmount,
@@ -174,6 +177,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
     {
         $this->enrollCashRegister();
@@ -209,6 +213,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
     {
         $this->enrollCashRegister();
@@ -242,6 +247,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function confirmOrder(
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
         Money $requestedAmount
@@ -281,6 +287,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,
         OrderId|FiledMerchantTransactionReference $orderIdOrRef,
@@ -352,6 +359,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @throws SdkError
      */
+    #[Override]
     public function getIosAppSchemes(): array
     {
         try {
