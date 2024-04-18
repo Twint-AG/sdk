@@ -40,7 +40,7 @@ final class ConfigureVcr implements BootstrapFinishedSubscriber
         $dispatcher = new EventDispatcher();
         $dispatcher->addListener(
             VCREvents::VCR_BEFORE_RECORD,
-            function (BeforeRecordEvent $event) {
+            function (BeforeRecordEvent $event): void {
                 $event->getRequest()
                     ->setHeader(
                         $this->fixtureVersionHeader,

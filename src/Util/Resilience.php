@@ -17,8 +17,8 @@ final class Resilience
 {
     /**
      * @template T
-     * @param callable(): T $operation
      * @param Attempts $times
+     * @param callable(): T $operation
      * @param DelayMs $delayMs
      * @throws Timeout
      * @return T

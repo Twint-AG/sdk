@@ -43,8 +43,8 @@ final class DefaultTrustor implements Trustor
     }
 
     /**
-     * @return iterable<InvalidCertificate::*>
      * @throws InvalidCertificate
+     * @return iterable<InvalidCertificate::*>
      */
     private function validate(OpenSSLCertificate|string $certificate): iterable
     {

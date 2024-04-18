@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting\DocCommentAlignmentSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\LanguageConstructSpacingSniff;
 use PHP_CodeSniffer\Standards\Squiz\Sniffs\WhiteSpace\SuperfluousWhitespaceSniff;
 use PhpCsFixer\Fixer\Basic\PsrAutoloadingFixer;
@@ -27,6 +28,10 @@ use PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocNoUselessInheritdocFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderByValueFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocOrderFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocParamOrderFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer;
@@ -65,7 +70,6 @@ return static function (ECSConfig $ecsConfig): void {
         [
             NoUnusedImportsFixer::class,
             FinalClassFixer::class,
-            PhpdocIndentFixer::class,
             OrderedImportsFixer::class,
             FullyQualifiedStrictTypesFixer::class,
             GlobalNamespaceImportFixer::class,
@@ -85,7 +89,6 @@ return static function (ECSConfig $ecsConfig): void {
             FunctionTypehintSpaceFixer::class,
             NoBlankLinesAfterClassOpeningFixer::class,
             NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
-            PhpdocSingleLineVarSpacingFixer::class,
             NoLeadingNamespaceWhitespaceFixer::class,
             NoSpacesAroundOffsetFixer::class,
             NoWhitespaceInBlankLineFixer::class,
@@ -129,12 +132,6 @@ return static function (ECSConfig $ecsConfig): void {
         SetList::PSR_12,
     ]);
 
-    $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
-        'annotations' => ['author', 'package', 'category'],
-    ]);
-    $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, [
-        'align' => 'left',
-    ]);
     $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
         'dir' => 'src',
     ]);
@@ -177,6 +174,25 @@ return static function (ECSConfig $ecsConfig): void {
 
     $ecsConfig->ruleWithConfiguration(PhpUnitTestCaseStaticMethodCallsFixer::class, [
         'call_type' => 'self',
+    ]);
+
+    // Doc blocks
+    $ecsConfig->rules(
+        [
+            PhpdocSingleLineVarSpacingFixer::class,
+            PhpdocIndentFixer::class,
+            PhpdocOrderFixer::class,
+            PhpdocParamOrderFixer::class,
+            PhpdocOrderByValueFixer::class,
+            DocCommentAlignmentSniff::class,
+            PhpdocNoUselessInheritdocFixer::class,
+        ]
+    );
+    $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
+        'annotations' => ['author', 'package', 'category'],
+    ]);
+    $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, [
+        'align' => 'left',
     ]);
 
     $ecsConfig->parallel(120, 4, 10);
