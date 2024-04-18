@@ -28,6 +28,9 @@ use function Psl\Type\instance_of;
 use function Psl\Type\shape;
 use function Psl\Type\uint;
 
+/**
+ * @internal
+ */
 #[CoversClass(Pkcs12Certificate::class)]
 #[CoversClass(PemCertificate::class)]
 #[CoversClass(DefaultTrustor::class)]

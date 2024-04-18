@@ -11,6 +11,7 @@ use Twint\Sdk\Value\Uuid;
 
 /**
  * @template-extends ValueTest<Uuid>
+ * @internal
  */
 #[CoversClass(Uuid::class)]
 final class UuidTest extends ValueTest

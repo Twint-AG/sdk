@@ -9,6 +9,7 @@ use Twint\Sdk\Value\PairingToken;
 
 /**
  * @template-extends ValueTest<PairingToken>
+ * @internal
  */
 #[CoversClass(PairingToken::class)]
 final class PairingTokenTest extends ValueTest

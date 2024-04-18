@@ -9,6 +9,7 @@ use Twint\Sdk\Value\File;
 
 /**
  * @template-extends ValueTest<File>
+ * @internal
  */
 #[CoversClass(File::class)]
 final class FileTest extends ValueTest

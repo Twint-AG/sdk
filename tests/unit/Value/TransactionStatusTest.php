@@ -10,6 +10,7 @@ use Twint\Sdk\Value\TransactionStatus;
 
 /**
  * @template-extends ValueTest<TransactionStatus>
+ * @internal
  */
 #[CoversClass(TransactionStatus::class)]
 final class TransactionStatusTest extends ValueTest

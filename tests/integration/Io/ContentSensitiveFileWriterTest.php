@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use function Psl\Type\non_empty_string;
 
+/**
+ * @internal
+ */
 #[CoversClass(ContentSensitiveFileWriter::class)]
 final class ContentSensitiveFileWriterTest extends TestCase
 {

@@ -11,6 +11,9 @@ use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Io\InMemoryStream;
 
+/**
+ * @internal
+ */
 #[CoversClass(CertificateContainer::class)]
 final class CertificateContainerTest extends TestCase
 {

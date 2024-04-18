@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Util\Comparison;
 use Twint\Sdk\Value\Comparable;
 
+/**
+ * @internal
+ */
 #[CoversClass(Comparison::class)]
 final class ComparisonTest extends TestCase
 {

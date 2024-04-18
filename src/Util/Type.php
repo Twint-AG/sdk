@@ -31,6 +31,8 @@ final class Type
      */
     public static function maybeUnionOfLiterals(bool|float|int|string ...$literals): TypeInterface
     {
-        return self::maybeUnion(...array_map(static fn (bool|float|int|string $v) => literal_scalar($v), $literals));
+        return self::maybeUnion(
+            ...array_map(static fn (bool|float|int|string $v) => literal_scalar($v), $literals)
+        );
     }
 }

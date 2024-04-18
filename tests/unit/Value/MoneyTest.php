@@ -10,6 +10,7 @@ use Twint\Sdk\Value\Money;
 
 /**
  * @template-extends ValueTest<Money>
+ * @internal
  */
 #[CoversClass(Money::class)]
 final class MoneyTest extends ValueTest

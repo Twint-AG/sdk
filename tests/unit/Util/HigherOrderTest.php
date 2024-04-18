@@ -8,6 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Util\HigherOrder;
 
+/**
+ * @internal
+ */
 #[CoversClass(HigherOrder::class)]
 final class HigherOrderTest extends TestCase
 {

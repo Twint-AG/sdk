@@ -24,6 +24,9 @@ use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 
+/**
+ * @internal
+ */
 #[CoversClass(Client::class)]
 #[CoversClass(ApiFailure::class)]
 final class ClientTest extends TestCase

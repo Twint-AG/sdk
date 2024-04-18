@@ -18,6 +18,7 @@ use Twint\Sdk\Value\Uuid;
 
 /**
  * @template-extends ValueTest<Order<null, null, null>>
+ * @internal
  */
 #[CoversClass(Order::class)]
 final class OrderTest extends ValueTest

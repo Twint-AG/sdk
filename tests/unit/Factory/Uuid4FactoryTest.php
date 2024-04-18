@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Factory\Uuid4Factory;
 
+/**
+ * @internal
+ */
 #[CoversClass(Uuid4Factory::class)]
 #[CoversClass(CryptographyFailure::class)]
 final class Uuid4FactoryTest extends TestCase

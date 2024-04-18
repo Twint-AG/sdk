@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\LazyStream;
 use Twint\Sdk\Io\Stream;
 
+/**
+ * @internal
+ */
 #[CoversClass(LazyStream::class)]
 final class LazyStreamTest extends TestCase
 {

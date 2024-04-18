@@ -10,6 +10,9 @@ use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
 
+/**
+ * @internal
+ */
 #[CoversClass(RequestModifyingEncoder::class)]
 final class RequestModifyingEncoderTest extends TestCase
 {

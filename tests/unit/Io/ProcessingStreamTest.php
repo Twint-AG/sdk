@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\ProcessingStream;
 
+/**
+ * @internal
+ */
 #[CoversClass(ProcessingStream::class)]
 final class ProcessingStreamTest extends TestCase
 {

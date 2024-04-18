@@ -9,6 +9,7 @@ use Twint\Sdk\Value\IosAppScheme;
 
 /**
  * @template-extends ValueTest<IosAppScheme>
+ * @internal
  */
 #[CoversClass(IosAppScheme::class)]
 final class IosAppSchemeTest extends ValueTest

@@ -11,6 +11,9 @@ use Psl\Type\Exception\AssertException;
 use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Util\Resilience;
 
+/**
+ * @internal
+ */
 #[CoversClass(Resilience::class)]
 #[CoversClass(Timeout::class)]
 final class ResilienceTest extends TestCase

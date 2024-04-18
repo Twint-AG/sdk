@@ -10,6 +10,7 @@ use Twint\Sdk\Value\OrderStatus;
 
 /**
  * @template-extends ValueTest<OrderStatus>
+ * @internal
  */
 #[CoversClass(OrderStatus::class)]
 final class OrderStatusTest extends ValueTest

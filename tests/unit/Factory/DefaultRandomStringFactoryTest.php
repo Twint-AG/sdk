@@ -10,6 +10,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
 
+/**
+ * @internal
+ */
 #[CoversClass(DefaultRandomStringFactory::class)]
 final class DefaultRandomStringFactoryTest extends TestCase
 {

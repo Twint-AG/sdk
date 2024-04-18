@@ -10,6 +10,7 @@ use Twint\Sdk\Value\Uuid;
 
 /**
  * @template-extends ValueTest<MerchantId>
+ * @internal
  */
 #[CoversClass(MerchantId::class)]
 final class MerchantIdTest extends ValueTest

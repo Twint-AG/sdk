@@ -9,6 +9,9 @@ use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Value\File;
 
+/**
+ * @internal
+ */
 #[CoversClass(FileStream::class)]
 final class FileStreamTest extends TestCase
 {

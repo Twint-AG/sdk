@@ -10,6 +10,9 @@ use Twint\Sdk\Util\Type;
 use function Psl\Type\int;
 use function Psl\Type\string;
 
+/**
+ * @internal
+ */
 #[CoversClass(Type::class)]
 final class TypeTest extends TestCase
 {

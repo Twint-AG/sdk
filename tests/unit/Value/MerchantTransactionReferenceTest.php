@@ -11,6 +11,7 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 /**
  * @template-extends ValueTest<UnfiledMerchantTransactionReference>
+ * @internal
  */
 #[CoversClass(MerchantTransactionReference::class)]
 final class MerchantTransactionReferenceTest extends ValueTest

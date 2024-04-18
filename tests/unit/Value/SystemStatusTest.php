@@ -9,6 +9,7 @@ use Twint\Sdk\Value\SystemStatus;
 
 /**
  * @template-extends ValueTest<SystemStatus>
+ * @internal
  */
 #[CoversClass(SystemStatus::class)]
 final class SystemStatusTest extends ValueTest

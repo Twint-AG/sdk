@@ -8,6 +8,9 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Io\InMemoryStream;
 
+/**
+ * @internal
+ */
 #[CoversClass(InMemoryStream::class)]
 final class InMemoryStreamTest extends TestCase
 {

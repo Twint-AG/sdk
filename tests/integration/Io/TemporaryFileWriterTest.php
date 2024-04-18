@@ -10,6 +10,9 @@ use Twint\Sdk\Factory\DefaultRandomStringFactory;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\File;
 
+/**
+ * @internal
+ */
 #[CoversClass(TemporaryFileWriter::class)]
 final class TemporaryFileWriterTest extends TestCase
 {

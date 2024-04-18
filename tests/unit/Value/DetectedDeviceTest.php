@@ -10,6 +10,7 @@ use Twint\Sdk\Value\DetectedDevice;
 
 /**
  * @template-extends ValueTest<DetectedDevice>
+ * @internal
  */
 #[CoversClass(DetectedDevice::class)]
 final class DetectedDeviceTest extends ValueTest

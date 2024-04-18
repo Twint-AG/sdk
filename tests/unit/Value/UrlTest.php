@@ -9,6 +9,7 @@ use Twint\Sdk\Value\Url;
 
 /**
  * @template-extends ValueTest<Url>
+ * @internal
  */
 #[CoversClass(Url::class)]
 final class UrlTest extends ValueTest

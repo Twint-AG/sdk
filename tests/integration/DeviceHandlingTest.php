@@ -13,6 +13,7 @@ use Twint\Sdk\Value\DetectedDevice;
 
 /**
  * @template-extends IntegrationTest<DeviceHandling>
+ * @internal
  */
 #[CoversClass(Client::class)]
 #[CoversClass(DefaultHttpClientFactory::class)]

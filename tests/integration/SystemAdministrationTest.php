@@ -13,6 +13,7 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 
 /**
  * @template-extends IntegrationTest<SystemAdministration>
+ * @internal
  */
 #[CoversClass(Client::class)]
 #[CoversClass(DefaultSoapEngineFactory::class)]

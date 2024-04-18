@@ -12,6 +12,7 @@ use Twint\Sdk\Value\Version;
  * @phpstan-import-type ExistingVersionId from Version
  * @phpstan-import-type VersionId from Version
  * @template-extends ValueTest<Version>
+ * @internal
  */
 #[CoversClass(Version::class)]
 final class VersionTest extends ValueTest

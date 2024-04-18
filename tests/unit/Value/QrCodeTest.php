@@ -9,6 +9,7 @@ use Twint\Sdk\Value\QrCode;
 
 /**
  * @template-extends ValueTest<QrCode>
+ * @internal
  */
 #[CoversClass(QrCode::class)]
 final class QrCodeTest extends ValueTest

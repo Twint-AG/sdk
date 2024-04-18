@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -38,8 +39,8 @@ final class Money implements Enum, Comparable, Equality
 
     /**
      * @internal
-     * @codeCoverageIgnore
      */
+    #[CodeCoverageIgnore]
     public static function XXX(float $amount): self
     {
         return new self(self::XXX, $amount);

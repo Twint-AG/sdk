@@ -29,6 +29,20 @@ use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocIndentFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocSingleLineVarSpacingFixer;
 use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitConstructFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderNameFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderReturnTypeFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderStaticFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDedicateAssertInternalTypeFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitExpectationFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitInternalClassFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitMethodCasingFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitMockShortWillReturnFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitNamespacedFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
@@ -142,6 +156,27 @@ return static function (ECSConfig $ecsConfig): void {
             'magic',
             'method',
         ],
+    ]);
+
+    // PHPUnit
+    $ecsConfig->rules([
+        PhpUnitConstructFixer::class,
+        PhpUnitDataProviderNameFixer::class,
+        PhpUnitDataProviderReturnTypeFixer::class,
+        PhpUnitDataProviderStaticFixer::class,
+        PhpUnitDedicateAssertFixer::class,
+        PhpUnitDedicateAssertInternalTypeFixer::class,
+        PhpUnitExpectationFixer::class,
+        PhpUnitInternalClassFixer::class,
+        PhpUnitMethodCasingFixer::class,
+        PhpUnitMockFixer::class,
+        PhpUnitMockShortWillReturnFixer::class,
+        PhpUnitNamespacedFixer::class,
+        PhpUnitStrictFixer::class,
+    ]);
+
+    $ecsConfig->ruleWithConfiguration(PhpUnitTestCaseStaticMethodCallsFixer::class, [
+        'call_type' => 'self',
     ]);
 
     $ecsConfig->parallel(120, 4, 10);

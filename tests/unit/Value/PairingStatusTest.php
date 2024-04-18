@@ -10,6 +10,7 @@ use Twint\Sdk\Value\PairingStatus;
 
 /**
  * @template-extends ValueTest<PairingStatus>
+ * @internal
  */
 #[CoversClass(PairingStatus::class)]
 final class PairingStatusTest extends ValueTest

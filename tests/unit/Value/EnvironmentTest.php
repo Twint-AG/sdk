@@ -13,6 +13,7 @@ use Twint\Sdk\Value\Version;
 
 /**
  * @template-extends ValueTest<Environment>
+ * @internal
  */
 #[CoversClass(Environment::class)]
 final class EnvironmentTest extends ValueTest
@@ -122,7 +123,7 @@ final class EnvironmentTest extends ValueTest
     {
         $environment = new Environment($environmentName);
 
-        self::assertEquals($appSchemeUrl, $environment->appSchemeUrl());
+        self::assertObjectEquals($appSchemeUrl, $environment->appSchemeUrl());
     }
 
     #[DataProvider('getEnvironments')]
@@ -134,7 +135,7 @@ final class EnvironmentTest extends ValueTest
     #[DataProvider('getSoapEndpoints')]
     public function testGetSoapEndpoints(Environment $environment, Version $version, Url $expectedUrl): void
     {
-        self::assertEquals($expectedUrl, $environment->soapEndpoint($version));
+        self::assertObjectEquals($expectedUrl, $environment->soapEndpoint($version));
     }
 
     #[DataProvider('getSoapTargetNamespaces')]
@@ -143,13 +144,13 @@ final class EnvironmentTest extends ValueTest
         Version $version,
         Url $expectedUrl
     ): void {
-        self::assertEquals($expectedUrl, $environment->soapTargetNamespace($version));
+        self::assertObjectEquals($expectedUrl, $environment->soapTargetNamespace($version));
     }
 
     #[DataProvider('getSoapWsdlPaths')]
     public function testSoapWsdlPaths(Environment $environment, Version $version, File $wsdl): void
     {
-        self::assertEquals($wsdl, $environment->soapWsdlPath($version));
+        self::assertObjectEquals($wsdl, $environment->soapWsdlPath($version));
     }
 
     protected function createValue(): object
