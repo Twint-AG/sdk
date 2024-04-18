@@ -343,8 +343,8 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     }
 
     /**
-     * @phpstan-ignore-next-line
      * @throws SdkError
+     * @phpstan-ignore-next-line
      */
     public function detectDevice(string $userAgent): DetectedDevice
     {

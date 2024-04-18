@@ -126,7 +126,7 @@ abstract class IntegrationTest extends TestCase
      */
     final protected function enableWireMockForSoapMethod(string ...$methods): void
     {
-        $this->wireMockMethods = array_unique(array_values([...$this->wireMockMethods, ...$methods]));
+        $this->wireMockMethods = array_values(array_unique([...$this->wireMockMethods, ...$methods]));
     }
 
     final protected function wireMock(): WireMock

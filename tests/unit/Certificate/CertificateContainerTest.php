@@ -23,7 +23,7 @@ final class CertificateContainerTest extends TestCase
         $certificate = CertificateContainer::fromPem($pem);
 
         self::assertSame($pem, $certificate->pem());
-        self::assertNotNull($certificate->pkcs12());
+        self::assertInstanceOf(Pkcs12Certificate::class, $certificate->pkcs12());
     }
 
     public function testConvertsToPemWhenCreatedFromPkcs12(): void
@@ -32,6 +32,6 @@ final class CertificateContainerTest extends TestCase
         $certificate = CertificateContainer::fromPkcs12($pkcs12);
 
         self::assertSame($pkcs12, $certificate->pkcs12());
-        self::assertNotNull($certificate->pem());
+        self::assertInstanceOf(PemCertificate::class, $certificate->pem());
     }
 }

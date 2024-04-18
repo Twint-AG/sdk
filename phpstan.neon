@@ -1,6 +1,7 @@
 parameters:
     level: max
     checkMissingOverrideMethodAttribute: true
+    treatPhpDocTypesAsCertain: false
     exceptions:
         check:
             missingCheckedExceptionInThrows: true
@@ -35,3 +36,4 @@ parameters:
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
     - vendor/php-standard-library/phpstan-extension/extension.neon
+    - phar://phpstan.phar/conf/bleedingEdge.neon
