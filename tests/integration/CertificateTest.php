@@ -96,7 +96,7 @@ final class CertificateTest extends TestCase
         DateTimeImmutable $from,
         DateTimeImmutable $to
     ): array {
-        return [new MockClock($from->modify($clockAdjustment)), $cert];
+        return [new MockClock(instance_of(DateTimeImmutable::class)->assert($from->modify($clockAdjustment))), $cert];
     }
 
     public function testDeterministicPemConversion(): void

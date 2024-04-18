@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
-use function Psl\Type\instance_of;
-use function Psl\Type\union;
-
 final class CertificateContainer
 {
     private readonly PemCertificate $pem;
 
     private readonly Pkcs12Certificate $pkcs12;
 
-    private function __construct(Certificate $certificate)
+    private function __construct()
     {
-        $certificate = union(instance_of(PemCertificate::class), instance_of(Pkcs12Certificate::class))
-            ->assert($certificate);
-
-        if ($certificate instanceof Pkcs12Certificate) {
-            $this->pkcs12 = $certificate;
-        } else {
-            $this->pem = $certificate;
-        }
     }
 
     public static function fromPem(PemCertificate $pem): self
     {
-        return new self($pem);
+        $container = new self();
+        $container->pem = $pem;
+
+        return $container;
     }
 
     public static function fromPkcs12(Pkcs12Certificate $pkcs12): self
     {
-        return new self($pkcs12);
+        $container = new self();
+        $container->pkcs12 = $pkcs12;
+
+        return $container;
     }
 
     public function pem(): PemCertificate

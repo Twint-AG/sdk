@@ -2,6 +2,11 @@ parameters:
     level: max
     checkMissingOverrideMethodAttribute: true
     treatPhpDocTypesAsCertain: false
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkBenevolentUnionTypes: true
+    reportWrongPhpDocTypeInVarTag: true
+    reportAnyTypeWideningInVarTag: true
     exceptions:
         check:
             missingCheckedExceptionInThrows: true
