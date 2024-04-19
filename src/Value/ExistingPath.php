@@ -14,7 +14,7 @@ use function Psl\Type\instance_of;
  * @template-implements Comparable<self>
  * @template-implements Equality<self>
  */
-final class File implements Comparable, Equality
+final class ExistingPath implements Comparable, Equality
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

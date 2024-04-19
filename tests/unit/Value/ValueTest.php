@@ -23,7 +23,7 @@ abstract class ValueTest extends TestCase
     /**
      * @var T
      */
-    protected object $value;
+    protected readonly object $value;
 
     /**
      * @return iterable<string, array{string, string|int}>

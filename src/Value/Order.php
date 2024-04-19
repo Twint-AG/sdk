@@ -82,6 +82,21 @@ final class Order implements Comparable, Equality
         return $this->qrCode;
     }
 
+    public function isSuccessful(): bool
+    {
+        return $this->status->equals(OrderStatus::SUCCESS());
+    }
+
+    public function isFailure(): bool
+    {
+        return $this->status->equals(OrderStatus::FAILURE());
+    }
+
+    public function isPending(): bool
+    {
+        return $this->status->equals(OrderStatus::IN_PROGRESS());
+    }
+
     #[Override]
     public function compare($other): int
     {

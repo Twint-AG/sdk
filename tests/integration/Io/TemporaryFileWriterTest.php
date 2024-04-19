@@ -9,7 +9,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
 use Twint\Sdk\Io\TemporaryFileWriter;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 
 /**
  * @internal
@@ -17,7 +17,7 @@ use Twint\Sdk\Value\File;
 #[CoversClass(TemporaryFileWriter::class)]
 final class TemporaryFileWriterTest extends TestCase
 {
-    private TemporaryFileWriter $fileWriter;
+    private readonly TemporaryFileWriter $fileWriter;
 
     #[Override]
     protected function setUp(): void
@@ -25,7 +25,7 @@ final class TemporaryFileWriterTest extends TestCase
         $this->fileWriter = new TemporaryFileWriter();
     }
 
-    public function testCreateTemporaryFile(): void
+    public function testCreatesTemporaryFile(): void
     {
         $file = $this->fileWriter->write('test', '.foo');
 
@@ -54,7 +54,7 @@ final class TemporaryFileWriterTest extends TestCase
         $count = 0;
 
         $fileWriter = new TemporaryFileWriter(
-            new File($tempDir),
+            new ExistingPath($tempDir),
             'test-',
             static function () use (&$count): string {
                 return $count++ === 0 ? 'a' : 'b';
@@ -67,5 +67,12 @@ final class TemporaryFileWriterTest extends TestCase
         $file = $fileWriter->write('test', '.ext');
 
         self::assertStringEndsWith('/test-b.ext', (string) $file);
+    }
+
+    public function testSetsMinimalPermissions(): void
+    {
+        $file = $this->fileWriter->write('test', '.foo');
+
+        self::assertSame(0400, fileperms((string) $file) & 0700);
     }
 }

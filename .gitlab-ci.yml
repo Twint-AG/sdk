@@ -68,6 +68,20 @@ container-build:
       - .gitlab-ci.yml
       - Makefile
 
+docs:
+  stage: build
+  image: sphinxdoc/sphinx:7.1.2
+  script:
+    - mkdir -p build
+    - make docs
+    - cp -r build/docs/html docs
+  extends: .base
+  needs: []
+  artifacts:
+    name: "Documentation"
+    paths:
+      - docs/**/*
+
 check:
   stage: check
   variables:
@@ -90,4 +104,13 @@ check:
       # Needs GitLab 14.10
       #coverage: build/coverage/clover.xml
       junit: build/junit.xml
-      codequality: build/phpstan.json
+      codequality:
+        - build/phpstan-src.json
+        # See https://gitlab.com/gitlab-org/gitlab/-/issues/351546
+        #- build/phpstan-docs.json
+  needs:
+    - job: container-build-hash
+      artifacts: true
+    - job: container-build
+      optional: true
+      artifacts: false

@@ -8,7 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\Environment;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
 
@@ -72,19 +72,19 @@ final class EnvironmentTest extends ValueTest
     }
 
     /**
-     * @return iterable<array{Environment, Version, File}>
+     * @return iterable<array{Environment, Version, ExistingPath}>
      */
     public static function getSoapWsdlPaths(): iterable
     {
         yield [
             Environment::PRODUCTION(),
             new Version(Version::V8_5_0),
-            new File(__DIR__ . '/../../../resources/wsdl/v8.5/TWINTMerchantService_v8.5.wsdl'),
+            new ExistingPath(__DIR__ . '/../../../resources/wsdl/v8.5/TWINTMerchantService_v8.5.wsdl'),
         ];
         yield [
             Environment::TESTING(),
             new Version(Version::V8_6_0),
-            new File(__DIR__ . '/../../../resources/wsdl/v8.6/TWINTMerchantService_v8.6.wsdl'),
+            new ExistingPath(__DIR__ . '/../../../resources/wsdl/v8.6/TWINTMerchantService_v8.6.wsdl'),
         ];
     }
 
@@ -149,7 +149,7 @@ final class EnvironmentTest extends ValueTest
     }
 
     #[DataProvider('getSoapWsdlPaths')]
-    public function testSoapWsdlPaths(Environment $environment, Version $version, File $wsdl): void
+    public function testSoapWsdlPaths(Environment $environment, Version $version, ExistingPath $wsdl): void
     {
         self::assertObjectEquals($wsdl, $environment->soapWsdlPath($version));
     }

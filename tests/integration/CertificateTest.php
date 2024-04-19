@@ -21,7 +21,7 @@ use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Tools\SystemEnvironment;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\MerchantId;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
@@ -102,7 +102,7 @@ final class CertificateTest extends TestCase
     public function testDeterministicPemConversion(): void
     {
         $pkcs12 = new Pkcs12Certificate(
-            new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
             SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
         );
 
@@ -125,7 +125,7 @@ final class CertificateTest extends TestCase
     public function testSuccessfullyEstablishTrust(): void
     {
         $cert = Pkcs12Certificate::establishTrust(
-            new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
             SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
             new Clock()
         );
@@ -137,7 +137,7 @@ final class CertificateTest extends TestCase
     {
         try {
             Pkcs12Certificate::establishTrust(
-                new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
                 'invalidPassword',
                 new Clock()
             );
@@ -181,7 +181,7 @@ final class CertificateTest extends TestCase
     {
         try {
             Pkcs12Certificate::establishTrustVia(
-                new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
                 SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
                 new DefaultTrustor(new Clock(), static fn () => [])
             );

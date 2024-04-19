@@ -1,6 +1,6 @@
 # TWINT SDK
 
-PHP SDK for TWINT to enable e-commerce use cases.
+PHP SDK for TWINT for e-commerce use cases.
 
 ## Development
 
@@ -20,6 +20,10 @@ PHP SDK for TWINT to enable e-commerce use cases.
   changes.
 * Run `make static-analysis` to run PHPStan
 * Run `make format` to apply auto-formatting
+
+### Documentation
+* Run `make dev-docs` to enter shell
+* Run `make docs` to generate documentation
 
 ### Code generation
 Place new WSDL and XSD files in `resources/wsdl` directory and run `make codegen` to update the generated code.

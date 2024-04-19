@@ -1,0 +1,34 @@
+<?php
+
+namespace Acme;
+
+use Symfony\Component\Clock\Clock;
+use Symfony\Component\Dotenv\Dotenv;
+use Twint\Sdk\Certificate\CertificateContainer;
+use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Tools\SystemEnvironment;
+use Twint\Sdk\Value\ExistingPath;
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+$env = new Dotenv();
+$env->load(__DIR__ . '/../../../.env');
+
+$orderReference = bin2hex(random_bytes(16));
+$merchantId = SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID');
+$certificatePath = SystemEnvironment::get(
+    'TWINT_SDK_TEST_CERT_P12_PATH'
+);
+$certificatePassphrase = SystemEnvironment::get(
+    'TWINT_SDK_TEST_CERT_P12_PASSPHRASE'
+);
+$clock = new Clock();
+$certificateContainer = CertificateContainer::fromPkcs12(
+    new Pkcs12Certificate(new FileStream(new ExistingPath(
+        $certificatePath
+    )), $certificatePassphrase)
+);
+function handle(): void
+{
+}

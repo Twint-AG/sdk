@@ -1,7 +1,14 @@
 {
     "name": "twint-ch/twint-sdk",
-    "description": "TWINT software development kit for PHP",
+    "description": "The TWINT SDK for PHP",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "NFQ",
+            "email": "global-twint@nfq.com",
+            "role": "Maintainer"
+        }
+    ],
     "autoload": {
         "files": [
             "src/polyfill.php"
@@ -17,12 +24,6 @@
             "Twint\\Sdk\\Tools\\": "tools/"
         }
     },
-    "authors": [
-        {
-            "name": "Lars Strojny",
-            "email": "lars.strojny@nfq.com"
-        }
-    ],
     "require": {
         "php": ">=8.1",
         "ext-xsl": "*",

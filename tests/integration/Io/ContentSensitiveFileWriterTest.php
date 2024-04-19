@@ -70,4 +70,15 @@ final class ContentSensitiveFileWriterTest extends TestCase
 
         self::assertStringEqualsFile('/tmp/foo.txt', 'existing content');
     }
+
+    public function testSetsMinimalPermissions(): void
+    {
+        $writer = ContentSensitiveFileWriter::fromBaseDirectory(
+            non_empty_string()
+                ->assert(sys_get_temp_dir()),
+            static fn (string $content) => $content . '.txt'
+        );
+        $writer->write('foo');
+        self::assertSame(0400, fileperms(sys_get_temp_dir() . '/foo.txt') & 0700);
+    }
 }

@@ -6,14 +6,14 @@ namespace Twint\Sdk\Io;
 
 use Override;
 use SensitiveParameter;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 use function Psl\File\read;
 
 final class FileStream implements Stream
 {
     public function __construct(
         #[SensitiveParameter]
-        private readonly File $file
+        private readonly ExistingPath $file
     ) {
     }
 
@@ -23,7 +23,7 @@ final class FileStream implements Stream
         return read((string) $this->file);
     }
 
-    public function path(): File
+    public function path(): ExistingPath
     {
         return $this->file;
     }

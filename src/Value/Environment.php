@@ -66,9 +66,9 @@ final class Environment implements Enum, Comparable, Equality
         return new Url('https://' . $this->appSchemeHost() . '/appSwitch/v1/configs');
     }
 
-    public function soapWsdlPath(Version $version): File
+    public function soapWsdlPath(Version $version): ExistingPath
     {
-        return new File(
+        return new ExistingPath(
             __DIR__ . '/../../resources/wsdl/v' . $version->dotVersion() . '/TWINTMerchantService_v' . $version->dotVersion() . '.wsdl'
         );
     }

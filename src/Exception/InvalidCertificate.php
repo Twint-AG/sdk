@@ -9,17 +9,17 @@ use Throwable;
 
 final class InvalidCertificate extends RuntimeException implements SdkError
 {
+    public const ERROR_INVALID_CERTIFICATE_FORMAT = 'Invalid certificate';
+
+    public const ERROR_CANNOT_PARSE_CERTIFICATE = 'Cannot parse certificate';
+
+    public const ERROR_INVALID_PASSPHRASE = 'Invalid passphrase';
+
     public const ERROR_INVALID_ISSUER_COUNTRY = 'Invalid issuer country code';
 
     public const ERROR_INVALID_ISSUER_ORGANIZATION = 'Invalid issuer organization';
 
-    public const ERROR_CANNOT_PARSE_CERTIFICATE = 'Cannot parse certificate';
-
     public const ERROR_INVALID_EXPIRY_DATE = 'Invalid expiry date';
-
-    public const ERROR_INVALID_CERTIFICATE_FORMAT = 'Invalid certificate';
-
-    public const ERROR_INVALID_PASSPHRASE = 'Invalid passphrase';
 
     public const ERROR_CERTIFICATE_EXPIRED = 'Certificate expired';
 

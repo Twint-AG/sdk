@@ -22,7 +22,7 @@ use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Uuid;
@@ -39,7 +39,7 @@ abstract class IntegrationTest extends TestCase
     /**
      * @var T
      */
-    protected Capability $client;
+    protected readonly Capability $client;
 
     private ?WireMock $wireMock = null;
 
@@ -83,7 +83,7 @@ abstract class IntegrationTest extends TestCase
         $client = new Client(
             Certificate\CertificateContainer::fromPkcs12(
                 new Certificate\Pkcs12Certificate(
-                    new FileStream(new File(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                    new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
                     SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
@@ -91,7 +91,7 @@ abstract class IntegrationTest extends TestCase
             Version::latest(),
             Environment::TESTING(),
             new ContentSensitiveFileWriter(
-                new File(__DIR__ . '/../../build/'),
+                new ExistingPath(__DIR__ . '/../../build/'),
                 static function (string $content) {
                     $fingerprint = openssl_x509_fingerprint($content);
 

@@ -1,0 +1,9 @@
+includes:
+	- phpstan.base.neon
+parameters:
+    bootstrapFiles:
+        - resources/docs/_examples/bootstrap.php
+    paths:
+        - resources/docs/_examples
+    scopeClass: Twint\Sdk\Tools\PhpStan\DocumentationScope
+    tmpDir: build/phpstan/docs

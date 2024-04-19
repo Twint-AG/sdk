@@ -8,7 +8,7 @@ use Override;
 use Twint\Sdk\Exception\Timeout;
 use Twint\Sdk\Factory\DefaultRandomStringFactory;
 use Twint\Sdk\Util\Resilience;
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 use Webimpress\SafeWriter\FileWriter as SafeFileWriter;
 use function Psl\invariant;
 use function Psl\Type\non_empty_string;
@@ -18,10 +18,10 @@ use function Psl\Type\non_empty_string;
  */
 final class TemporaryFileWriter implements FileWriter
 {
-    private readonly File $baseDirectory;
+    private readonly ExistingPath $baseDirectory;
 
     /**
-     * @var list<File>
+     * @var list<ExistingPath>
      */
     private array $files = [];
 
@@ -31,26 +31,26 @@ final class TemporaryFileWriter implements FileWriter
      * @param callable(Length): string $createRandomString
      */
     public function __construct(
-        ?File $baseDirectory = null,
+        ?ExistingPath $baseDirectory = null,
         private readonly string $prefix = 'twint-sdk-',
         private readonly mixed $createRandomString = new DefaultRandomStringFactory()
     ) {
-        $this->baseDirectory = $baseDirectory ?? new File(non_empty_string()->assert(sys_get_temp_dir()));
+        $this->baseDirectory = $baseDirectory ?? new ExistingPath(non_empty_string()->assert(sys_get_temp_dir()));
     }
 
     /**
      * @throws Timeout
      */
     #[Override]
-    public function write(string $input, string $extension = ''): File
+    public function write(string $input, string $extension = ''): ExistingPath
     {
-        return Resilience::retry(5, function () use ($input, $extension): File {
+        return Resilience::retry(5, function () use ($input, $extension): ExistingPath {
             $path = $this->baseDirectory . '/' . $this->prefix . ($this->createRandomString)(32) . $extension;
 
             invariant(!file_exists($path), 'File already exists: %s', $path);
             SafeFileWriter::writeFile($path, $input, 0400);
 
-            $file = new File($path);
+            $file = new ExistingPath($path);
 
             $this->scheduleFlush($file);
 
@@ -65,7 +65,7 @@ final class TemporaryFileWriter implements FileWriter
         }
     }
 
-    private function scheduleFlush(File $file): void
+    private function scheduleFlush(ExistingPath $file): void
     {
         $this->files[] = $file;
 

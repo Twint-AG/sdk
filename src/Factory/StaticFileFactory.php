@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Factory;
 
-use Twint\Sdk\Value\File;
+use Twint\Sdk\Value\ExistingPath;
 
 final class StaticFileFactory
 {
     public function __construct(
-        private readonly File $file
+        private readonly ExistingPath $file
     ) {
     }
 
-    public function __invoke(): File
+    public function __invoke(): ExistingPath
     {
         return $this->file;
     }

@@ -43,6 +43,16 @@ final class OrderTest extends ValueTest
         yield 'Pairing status is PAIRING_ACTIVE' => [false, PairingStatus::PAIRING_ACTIVE()];
     }
 
+    /**
+     * @return iterable<string, array{OrderStatus, bool, bool, bool}>
+     */
+    public static function getStatusExamples(): iterable
+    {
+        yield 'Success' => [OrderStatus::SUCCESS(), true, false, false];
+        yield 'Failure' => [OrderStatus::FAILURE(), false, true, false];
+        yield 'In progress' => [OrderStatus::IN_PROGRESS(), false, false, true];
+    }
+
     #[Override]
     protected function createValue(): object
     {
@@ -96,5 +106,20 @@ final class OrderTest extends ValueTest
         );
 
         self::assertSame($expected, $order->requiresPairing());
+    }
+
+    #[DataProvider('getStatusExamples')]
+    public function testStatus(OrderStatus $status, bool $isSuccessful, bool $isFailure, bool $isPending): void
+    {
+        $order = new Order(
+            new OrderId(new Uuid(self::ORDER_ID)),
+            new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
+            $status,
+            TransactionStatus::ORDER_PENDING()
+        );
+
+        self::assertSame($isSuccessful, $order->isSuccessful());
+        self::assertSame($isFailure, $order->isFailure());
+        self::assertSame($isPending, $order->isPending());
     }
 }

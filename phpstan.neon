@@ -1,24 +1,14 @@
+includes:
+	- phpstan.base.neon
 parameters:
-    level: max
-    checkMissingOverrideMethodAttribute: true
-    treatPhpDocTypesAsCertain: false
-    checkAlwaysTrueCheckTypeFunctionCall: true
-    checkAlwaysTrueInstanceof: true
-    checkBenevolentUnionTypes: true
-    reportWrongPhpDocTypeInVarTag: true
-    reportAnyTypeWideningInVarTag: true
-    exceptions:
-        check:
-            missingCheckedExceptionInThrows: true
-            tooWideThrowType: true
-        uncheckedExceptionClasses:
-            - "PHPUnit\\Framework\\ExpectationFailedException"
-            - "Psl\\Exception\\ExceptionInterface"
+    tmpDir: build/phpstan/src
     paths:
         - src
         - tests
         - tools
         - resources
+    excludePaths:
+        - resources/docs/_examples
     ignoreErrors:
         -
             message: "#^Method .* has .* in PHPDoc @throws tag but it's not thrown#"
@@ -37,8 +27,3 @@ parameters:
             message: "#^Class .* has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
         -
             message: "#^Readonly property .* is assigned outside of the constructor\\.$#"
-
-includes:
-    - vendor/phpstan/phpstan-strict-rules/rules.neon
-    - vendor/php-standard-library/phpstan-extension/extension.neon
-    - phar://phpstan.phar/conf/bleedingEdge.neon

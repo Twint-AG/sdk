@@ -4,18 +4,21 @@ BASE_DIR := $(realpath $(dir $(MAKEFILE)))
 
 CODEGEN_DIR := $(BASE_DIR)/src/Generated
 VENDOR_BIN_DIR := $(BASE_DIR)/vendor/bin
+DOC_EXAMPLES := $(wildcard $(BASE_DIR)/resources/docs/_examples/*.example.php)
 
 SOAP_CONFIG := $(BASE_DIR)/resources/config/soap.php
 SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
 ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
+ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
+PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon
 
 DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BASE_DIR)/.env
 
 MAKEFLAGS += --jobs=32
 
-.PHONY: *
+.PHONY: * $(DOC_EXAMPLES)
 
 test:
 	$(PHPUNIT)
@@ -26,16 +29,31 @@ test-unit:
 test-integration:
 	$(PHPUNIT) --testsuite=integration
 
-static-analysis:
-	test $$GITLAB_CI && $(PHPSTAN) --error-format=gitlab > build/phpstan.json || $(PHPSTAN)
+static-analysis: static-analysis-src static-analysis-docs
 
-format:
+static-analysis-src:
+	test $$GITLAB_CI && $(PHPSTAN) --error-format=gitlab > build/phpstan-src.json || $(PHPSTAN)
+
+static-analysis-docs:
+	test $$GITLAB_CI && $(PHPSTAN_DOCS) --error-format=gitlab > build/phpstan-docs.json || $(PHPSTAN_DOCS)
+
+format: format-src format-docs
+
+format-src:
 	$(ECS) --fix
 
-check-format:
+format-docs:
+	$(ECS_DOCS) --fix
+
+check-format: check-format-docs check-format-src
+
+check-format-src:
 	$(ECS)
 
-check: static-analysis test check-format
+check-format-docs:
+	$(ECS_DOCS)
+
+check: static-analysis test check-format check-docs
 	$(MAKE) check-codegen
 
 quickcheck: static-analysis test-unit check-format
@@ -81,6 +99,18 @@ restart:
 
 dev: start
 	$(DOCKER_COMPOSE) exec -it php sh
+
+dev-docs: start
+	$(DOCKER_COMPOSE) exec -it sphinx bash
+
+check-docs: check-format-docs static-analysis-docs $(DOC_EXAMPLES)
+
+$(DOC_EXAMPLES):
+	php -l $@
+	php -d auto_prepend_file=$(BASE_DIR)/resources/docs/_examples/bootstrap.php $@
+
+docs:
+	sphinx-build -M html resources/docs build/docs -W
 
 install:
 ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "lowest")

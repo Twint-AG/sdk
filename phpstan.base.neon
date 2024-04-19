@@ -1,0 +1,20 @@
+parameters:
+    level: max
+    checkMissingOverrideMethodAttribute: true
+    treatPhpDocTypesAsCertain: false
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkBenevolentUnionTypes: true
+    reportWrongPhpDocTypeInVarTag: true
+    reportAnyTypeWideningInVarTag: true
+    exceptions:
+        check:
+            missingCheckedExceptionInThrows: true
+            tooWideThrowType: true
+        uncheckedExceptionClasses:
+            - "PHPUnit\\Framework\\ExpectationFailedException"
+            - "Psl\\Exception\\ExceptionInterface"
+includes:
+    - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/php-standard-library/phpstan-extension/extension.neon
+    - phar://phpstan.phar/conf/bleedingEdge.neon

@@ -16,3 +16,11 @@ services:
   wiremock:
     image: wiremock/wiremock:3x
     entrypoint: [/docker-entrypoint.sh, --verbose]
+
+  sphinx:
+    image: sphinxdoc/sphinx:7.1.2
+    entrypoint: [sleep, infinity]
+    working_dir: /src
+    volumes:
+      - ./:/src
+    stop_signal: SIGKILL
