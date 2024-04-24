@@ -99,9 +99,10 @@ final class OrderCheckoutTest extends IntegrationTest
         self::assertObjectEquals($confirmedOrder->status(), OrderStatus::SUCCESS());
     }
 
-    #[Vcr(fixtureRevision: 2, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testReverseOrderByOrderId(): void
     {
+        $this->enableWireMockForSoapMethod('StartOrder');
+
         $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder($transactionReference, Money::CHF(100));
@@ -113,9 +114,10 @@ final class OrderCheckoutTest extends IntegrationTest
         self::assertFalse($reversed->requiresPairing());
     }
 
-    #[Vcr(fixtureRevision: 3, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testReverseOrderByMerchantTransactionReference(): void
     {
+        $this->enableWireMockForSoapMethod('StartOrder');
+
         $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder($transactionReference, Money::CHF(100));

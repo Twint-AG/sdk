@@ -1,5 +1,88 @@
 {
   "mappings" : [ {
+    "id" : "844ac622-4924-4a10-bbd7-06c583ebf14f",
+    "name" : "ReverseOrderWithMerchantTransactionID",
+    "request" : {
+      "urlPath" : "/mer1/merchant/service/TWINTMerchantServiceV8_5",
+      "method" : "POST",
+      "headers" : {
+        "SOAPAction" : {
+          "equalTo" : "\"StartOrder\""
+        }
+      },
+      "pathParameters" : { },
+      "formParameters" : { },
+      "bodyPatterns" : [ {
+        "contains" : "REVERSAL"
+      }, {
+        "not" : {
+          "contains" : "OrderUuid"
+        }
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v8=\"http://service.twint.ch/header/types/v8_5\" xmlns:v81=\"http://service.twint.ch/merchant/types/v8_5\" xmlns:v82=\"http://service.twint.ch/base/types/v8_5\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}</v8:MessageId>\n          </v8:ResponseHeaderElement>\n      </soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}</v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS</v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK</v81:Reason>\n              </v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}</v81:Token>\n              <v81:CustomerInformation>\n              </v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING</v81:PairingStatus>\n              <v81:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4////DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy/cr+C4YOoQwXD/2/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k/WD4UsAUPZLXBaQiDkIFLs/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==</v81:QRCode>\n          </v81:StartOrderResponseElement>\n      </soapenv:Body>\n</soapenv:Envelope>",
+      "headers" : { },
+      "transformers" : [ "response-template" ]
+    },
+    "uuid" : "844ac622-4924-4a10-bbd7-06c583ebf14f",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2024-04-01T14:31:32.409150933Z",
+          "via" : "ADMIN_API",
+          "by" : "w7z21"
+        },
+        "response-example-attachment" : "ReverseOrderWithMerchantTransactionID"
+      }
+    },
+    "postServeActions" : [ ]
+  }, {
+    "id" : "2d1513d3-356d-4fbf-8c9b-df17bcb599a6",
+    "name" : "ReverseOrderWithOrderUUID",
+    "request" : {
+      "urlPath" : "/mer1/merchant/service/TWINTMerchantServiceV8_5",
+      "method" : "POST",
+      "headers" : {
+        "SOAPAction" : {
+          "equalTo" : "\"StartOrder\""
+        }
+      },
+      "pathParameters" : { },
+      "formParameters" : { },
+      "bodyPatterns" : [ {
+        "contains" : "REVERSAL"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v8=\"http://service.twint.ch/header/types/v8_5\" xmlns:v81=\"http://service.twint.ch/merchant/types/v8_5\" xmlns:v82=\"http://service.twint.ch/base/types/v8_5\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}</v8:MessageId>\n          </v8:ResponseHeaderElement>\n      </soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}</v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS</v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK</v81:Reason>\n              </v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}</v81:Token>\n              <v81:CustomerInformation>\n              </v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING</v81:PairingStatus>\n              <v81:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4////DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy/cr+C4YOoQwXD/2/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k/WD4UsAUPZLXBaQiDkIFLs/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==</v81:QRCode>\n          </v81:StartOrderResponseElement>\n      </soapenv:Body>\n</soapenv:Envelope>",
+      "headers" : { },
+      "transformers" : [ "response-template" ]
+    },
+    "uuid" : "2d1513d3-356d-4fbf-8c9b-df17bcb599a6",
+    "persistent" : true,
+    "priority" : 5,
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2024-04-01T14:31:32.409150933Z",
+          "via" : "ADMIN_API",
+          "by" : "w7z21"
+        },
+        "updated" : {
+          "at" : "2024-04-24T08:33:36.955962661Z",
+          "via" : "ADMIN_API",
+          "by" : "w7z21"
+        },
+        "response-example-attachment" : "Reverse Order"
+      }
+    },
+    "postServeActions" : [ ]
+  }, {
     "id" : "0dc275bc-1b6b-4693-a080-ca6c845445cd",
     "name" : "MonitorOrder_FailureScenario (Client Timeout Step)",
     "request" : {
@@ -307,7 +390,12 @@
         }
       },
       "pathParameters" : { },
-      "formParameters" : { }
+      "formParameters" : { },
+      "bodyPatterns" : [ {
+        "not" : {
+          "contains" : "REVERSAL"
+        }
+      } ]
     },
     "response" : {
       "status" : 200,
@@ -326,9 +414,9 @@
           "by" : "w7z21"
         },
         "updated" : {
-          "at" : "2024-04-15T08:57:32.007507236Z",
+          "at" : "2024-04-24T08:31:38.696866639Z",
           "via" : "ADMIN_API",
-          "by" : "4y9e2"
+          "by" : "w7z21"
         },
         "response-example-attachment" : "StartOrder"
       }
@@ -370,6 +458,6 @@
     "postServeActions" : [ ]
   } ],
   "meta" : {
-    "total" : 10
+    "total" : 12
   }
 }
