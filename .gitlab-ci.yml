@@ -122,9 +122,7 @@ renovate:
   variables:
     RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME"
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-      when: manual
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
   tags:
     - d13-runner
