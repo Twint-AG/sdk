@@ -5,6 +5,7 @@ stages:
 
 include:
   - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.192.0/templates/renovate.gitlab-ci.yml
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.190.0/templates/renovate-config-validator.gitlab-ci.yml
 
 .base:
   before_script:
@@ -45,6 +46,7 @@ container-build:
     STORAGE_DRIVER: vfs
   script:
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - podman login -u "$DOCKER_USER" -p "$DOCKER_TOKEN" docker.io
     - >-
       podman build
       --pull=newer
@@ -126,3 +128,12 @@ renovate:
   stage: build
   tags:
     - d13-runner
+  needs: []
+
+renovate-config-validator:
+  variables:
+    RENOVATE_CONFIG_VALIDATOR_EXTRA_FLAGS: "--strict"
+  stage: check
+  tags:
+    - d13-runner
+  needs: []

@@ -17,6 +17,19 @@
       "depNameTemplate": "renovate-runner",
       "packageNameTemplate": "renovate-bot/renovate-runner",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Update PHP extension installer remote include version",
+      "fileMatch": [
+        "Dockerfile"
+      ],
+      "matchStrings": [
+        "https://github\\.com/mlocati/docker-php-extension-installer/releases/download/(?<currentValue>[0-9.]+)/"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "mlocati/docker-php-extension-installer",
+      "versioningTemplate": "semver"
     }
   ],
   "branchConcurrentLimit": 20
