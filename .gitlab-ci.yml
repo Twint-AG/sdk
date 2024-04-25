@@ -3,6 +3,9 @@ stages:
   - build
   - check
 
+include:
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.190.0/templates/renovate.gitlab-ci.yml
+
 .base:
   before_script:
     - set -euo pipefail
@@ -114,3 +117,14 @@ check:
     - job: container-build
       optional: true
       artifacts: false
+
+renovate:
+  variables:
+    RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      when: manual
+  stage: build
+  tags:
+    - d13-runner
