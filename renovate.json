@@ -3,5 +3,21 @@
   "extends": [
     "config:best-practices"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Update renovate remote includes version",
+      "fileMatch": [
+        "\\.gitlab-ci\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "-\\s+remote:\\s+https://gitlab\\.com/renovate-bot/renovate-runner/-/raw/(?<currentValue>v[0-9.]+)/"
+      ],
+      "datasourceTemplate": "gitlab-releases",
+      "depNameTemplate": "renovate-runner",
+      "packageNameTemplate": "renovate-bot/renovate-runner",
+      "versioningTemplate": "semver"
+    }
+  ],
   "branchConcurrentLimit": 20
 }
