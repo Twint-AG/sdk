@@ -46,7 +46,6 @@
         "symplify/easy-coding-standard": "^12.1",
         "slevomat/coding-standard": "^8.14",
         "phpstan/phpstan-strict-rules": "^1.5",
-        "php-vcr/php-vcr": "dev-fix-stream-handler-set-option as 1.7.0",
         "php-standard-library/phpstan-extension": "^1.0",
         "symfony/event-dispatcher": "^6.4",
         "symfony/clock": "^6.4",

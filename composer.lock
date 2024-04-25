@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b86c32d1a3fbbd59623d433b6caa3b0a",
+    "content-hash": "044913be6e5503a526184b6616c491a9",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -3551,73 +3551,6 @@
     ],
     "packages-dev": [
         {
-            "name": "beberlei/assert",
-            "version": "v3.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/beberlei/assert.git",
-                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/beberlei/assert/zipball/cb70015c04be1baee6f5f5c953703347c0ac1655",
-                "reference": "cb70015c04be1baee6f5f5c953703347c0ac1655",
-                "shasum": ""
-            },
-            "require": {
-                "ext-ctype": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-simplexml": "*",
-                "php": "^7.0 || ^8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "*",
-                "phpstan/phpstan": "*",
-                "phpunit/phpunit": ">=6.0.0",
-                "yoast/phpunit-polyfills": "^0.1.0"
-            },
-            "suggest": {
-                "ext-intl": "Needed to allow Assertion::count(), Assertion::isCountable(), Assertion::minCount(), and Assertion::maxCount() to operate on ResourceBundles"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "lib/Assert/functions.php"
-                ],
-                "psr-4": {
-                    "Assert\\": "lib/Assert"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Benjamin Eberlei",
-                    "email": "kontakt@beberlei.de",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Collaborator"
-                }
-            ],
-            "description": "Thin assertion library for input validation in business models.",
-            "keywords": [
-                "assert",
-                "assertion",
-                "validation"
-            ],
-            "support": {
-                "issues": "https://github.com/beberlei/assert/issues",
-                "source": "https://github.com/beberlei/assert/tree/v3.3.2"
-            },
-            "time": "2021-12-16T21:41:27+00:00"
-        },
-        {
             "name": "dealerdirect/phpcodesniffer-composer-installer",
             "version": "v1.0.0",
             "source": {
@@ -3984,84 +3917,6 @@
             "time": "2022-06-10T11:39:34+00:00"
         },
         {
-            "name": "php-vcr/php-vcr",
-            "version": "dev-fix-stream-handler-set-option",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/lstrojny/php-vcr.git",
-                "reference": "ce9eea3fd519d91eb73f772e8bea6f58cdb0072a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/php-vcr/zipball/ce9eea3fd519d91eb73f772e8bea6f58cdb0072a",
-                "reference": "ce9eea3fd519d91eb73f772e8bea6f58cdb0072a",
-                "shasum": ""
-            },
-            "require": {
-                "beberlei/assert": "^3.2.5",
-                "ext-curl": "*",
-                "php": "^8,<8.2|>=8.2.9,<8.4",
-                "symfony/event-dispatcher": "^4|^5|^6|^7",
-                "symfony/event-dispatcher-contracts": "^1|^2|^3",
-                "symfony/yaml": "^3|^4|^5|^6|^7"
-            },
-            "require-dev": {
-                "editorconfig-checker/editorconfig-checker": "^10.3",
-                "ext-soap": "*",
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "guzzlehttp/guzzle": "^7",
-                "mikey179/vfsstream": "^1.6.10",
-                "phpstan/extension-installer": "^1.1",
-                "phpstan/phpstan": "^1",
-                "phpstan/phpstan-beberlei-assert": "^1",
-                "phpstan/phpstan-phpunit": "^1",
-                "phpunit/phpunit": "^9.5.10",
-                "thecodingmachine/phpstan-strict-rules": "^1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "VCR\\": "src/VCR/"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "VCR\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "test": [
-                    "./vendor/bin/phpunit"
-                ],
-                "cs": [
-                    "./vendor/bin/php-cs-fixer fix --verbose --diff --dry-run"
-                ],
-                "cs-fix": [
-                    "./vendor/bin/php-cs-fixer fix --verbose --diff"
-                ],
-                "phpstan": [
-                    "php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon --no-progress -vvv"
-                ],
-                "ec": [
-                    "./vendor/bin/ec"
-                ]
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adrian Philipp",
-                    "email": "mail@adrian-philipp.com"
-                }
-            ],
-            "description": "Record your test suite's HTTP interactions and replay them during future test runs for fast, deterministic, accurate tests.",
-            "support": {
-                "source": "https://github.com/lstrojny/php-vcr/tree/fix-stream-handler-set-option"
-            },
-            "time": "2024-04-02T11:22:34+00:00"
-        },
-        {
             "name": "phpstan/phpdoc-parser",
             "version": "1.28.0",
             "source": {
@@ -4168,16 +4023,16 @@
         },
         {
             "name": "phpstan/phpstan-strict-rules",
-            "version": "1.5.3",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan-strict-rules.git",
-                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b"
+                "reference": "2e193a07651a6f4be3baa44ddb21d822681f5918"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
-                "reference": "568210bd301f94a0d4b1e5a0808c374c1b9cf11b",
+                "url": "https://api.github.com/repos/phpstan/phpstan-strict-rules/zipball/2e193a07651a6f4be3baa44ddb21d822681f5918",
+                "reference": "2e193a07651a6f4be3baa44ddb21d822681f5918",
                 "shasum": ""
             },
             "require": {
@@ -4211,9 +4066,9 @@
             "description": "Extra strict and opinionated rules for PHPStan",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan-strict-rules/issues",
-                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.3"
+                "source": "https://github.com/phpstan/phpstan-strict-rules/tree/1.5.5"
             },
-            "time": "2024-04-06T07:43:25+00:00"
+            "time": "2024-04-19T15:12:26+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -4538,16 +4393,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.19",
+            "version": "10.5.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c726f0de022368f6ed103e452a765d3304a996a4"
+                "reference": "547d314dc24ec1e177720d45c6263fb226cc2ae3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c726f0de022368f6ed103e452a765d3304a996a4",
-                "reference": "c726f0de022368f6ed103e452a765d3304a996a4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/547d314dc24ec1e177720d45c6263fb226cc2ae3",
+                "reference": "547d314dc24ec1e177720d45c6263fb226cc2ae3",
                 "shasum": ""
             },
             "require": {
@@ -4619,7 +4474,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.19"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.20"
             },
             "funding": [
                 {
@@ -4635,7 +4490,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-04-17T14:06:18+00:00"
+            "time": "2024-04-24T06:32:35+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -5620,16 +5475,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.9.1",
+            "version": "3.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "267a4405fff1d9c847134db3a3c92f1ab7f77909"
+                "reference": "aac1f6f347a5c5ac6bc98ad395007df00990f480"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/267a4405fff1d9c847134db3a3c92f1ab7f77909",
-                "reference": "267a4405fff1d9c847134db3a3c92f1ab7f77909",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/aac1f6f347a5c5ac6bc98ad395007df00990f480",
+                "reference": "aac1f6f347a5c5ac6bc98ad395007df00990f480",
                 "shasum": ""
             },
             "require": {
@@ -5696,7 +5551,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-03-31T21:03:09+00:00"
+            "time": "2024-04-23T20:25:34+00:00"
         },
         {
             "name": "symfony/clock",
@@ -5845,78 +5700,6 @@
                 }
             ],
             "time": "2024-02-08T17:53:17+00:00"
-        },
-        {
-            "name": "symfony/yaml",
-            "version": "v6.4.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "d75715985f0f94f978e3a8fa42533e10db921b90"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/d75715985f0f94f978e3a8fa42533e10db921b90",
-                "reference": "d75715985f0f94f978e3a8fa42533e10db921b90",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.1",
-                "symfony/deprecation-contracts": "^2.5|^3",
-                "symfony/polyfill-ctype": "^1.8"
-            },
-            "conflict": {
-                "symfony/console": "<5.4"
-            },
-            "require-dev": {
-                "symfony/console": "^5.4|^6.0|^7.0"
-            },
-            "bin": [
-                "Resources/bin/yaml-lint"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Loads and dumps YAML files",
-            "homepage": "https://symfony.com",
-            "support": {
-                "source": "https://github.com/symfony/yaml/tree/v6.4.3"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2024-01-23T14:51:35+00:00"
         },
         {
             "name": "symplify/easy-coding-standard",
@@ -6094,12 +5877,6 @@
     ],
     "aliases": [
         {
-            "package": "php-vcr/php-vcr",
-            "version": "dev-fix-stream-handler-set-option",
-            "alias": "1.7.0",
-            "alias_normalized": "1.7.0.0"
-        },
-        {
             "package": "wiremock-php/wiremock-php",
             "version": "dev-cloud-support",
             "alias": "2.39.0",
@@ -6108,7 +5885,6 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "php-vcr/php-vcr": 20,
         "wiremock-php/wiremock-php": 20
     },
     "prefer-stable": false,

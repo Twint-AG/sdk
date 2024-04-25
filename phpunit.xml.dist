@@ -37,9 +37,6 @@
             <directory>src/Generated</directory>
         </exclude>
     </source>
-    <extensions>
-        <bootstrap class="Twint\Sdk\Tools\PHPUnit\VcrExtension" />
-    </extensions>
     <logging>
         <junit outputFile="build/junit.xml"/>
     </logging>

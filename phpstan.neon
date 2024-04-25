@@ -21,9 +21,6 @@ parameters:
             message: "#^Method .* throws checked exception#"
             path: tests/*
         -
-            message: "#^Method .* throws checked exception#"
-            path: tools/PHPUnit/*
-        -
             message: "#^Class .* has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
         -
             message: "#^Readonly property .* is assigned outside of the constructor\\.$#"

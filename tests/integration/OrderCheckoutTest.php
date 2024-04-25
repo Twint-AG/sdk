@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Capability\OrderCheckout;
 use Twint\Sdk\Client;
 use Twint\Sdk\Tools\PHPUnit\Assertions;
-use Twint\Sdk\Tools\PHPUnit\Vcr;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
@@ -75,27 +74,34 @@ final class OrderCheckoutTest extends IntegrationTest
         self::assertObjectEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
     }
 
-    #[Vcr(fixtureRevision: 3, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByOrderId(): void
     {
+        $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
+
         $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
         $confirmedOrder = $this->client->confirmOrder($order->id(), Money::CHF(100));
 
-        self::assertTrue($confirmedOrder->status()->equals(OrderStatus::SUCCESS()));
+        self::assertObjectEquals($order->id(), $confirmedOrder->id());
+        self::assertObjectEquals(OrderStatus::SUCCESS(), $confirmedOrder->status());
     }
 
-    #[Vcr(fixtureRevision: 4, requestMatchers: self::SOAP_REQUEST_MATCHERS)]
     public function testConfirmOrderByMerchantTransactionReference(): void
     {
+        $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
+
         $transactionReference = $this->createTransactionReference();
 
         $order = $this->client->startOrder($transactionReference, Money::CHF(100));
 
         $confirmedOrder = $this->client->confirmOrder($order->merchantTransactionReference(), Money::CHF(100));
 
+        self::assertObjectEquals(
+            $order->merchantTransactionReference(),
+            $confirmedOrder->merchantTransactionReference()
+        );
         self::assertObjectEquals($confirmedOrder->status(), OrderStatus::SUCCESS());
     }
 
@@ -110,7 +116,7 @@ final class OrderCheckoutTest extends IntegrationTest
         $reversalReference = $this->createTransactionReference();
         $reversed = $this->client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
 
-        self::assertFalse($order->merchantTransactionReference()->equals($reversed->merchantTransactionReference()));
+        self::assertObjectNotEquals($order->merchantTransactionReference(), $reversed->merchantTransactionReference());
         self::assertFalse($reversed->requiresPairing());
     }
 

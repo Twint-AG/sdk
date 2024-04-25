@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use Override;
-use PHPUnit\Event\Code\TestMethodBuilder;
 use PHPUnit\Framework\TestCase;
-use Psl\Type\Exception\AssertException;
 use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
 use Twint\Sdk\Capability\Capability;
@@ -18,7 +16,6 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
-use Twint\Sdk\Tools\PHPUnit\VcrUtil;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
@@ -48,11 +45,6 @@ abstract class IntegrationTest extends TestCase
      */
     private array $wireMockMethods = [];
 
-    /**
-     * @var array<string, int>
-     */
-    private static array $merchantTransactionReferenceVersions = [];
-
     final protected static function getMerchantId(): MerchantId
     {
         return MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID'));
@@ -60,21 +52,7 @@ abstract class IntegrationTest extends TestCase
 
     final protected function createTransactionReference(): UnfiledMerchantTransactionReference
     {
-        $testMethod = TestMethodBuilder::fromTestCase($this);
-
-        $testId = $testMethod->id();
-        $suffix = self::$merchantTransactionReferenceVersions[$testId] ?? '';
-        self::$merchantTransactionReferenceVersions[$testId] = (self::$merchantTransactionReferenceVersions[$testId] ?? -1) + 1;
-
-        try {
-            return new UnfiledMerchantTransactionReference(substr(
-                hash('sha3-256', sprintf('%d-%s%s', VcrUtil::getFixtureRevision($testMethod), $testId, $suffix)),
-                0,
-                50
-            ));
-        } catch (AssertException $e) {
-            return new UnfiledMerchantTransactionReference(substr(hash('sha3-256', random_bytes(32)), 0, 50));
-        }
+        return new UnfiledMerchantTransactionReference(substr(hash('sha3-256', random_bytes(32)), 0, 50));
     }
 
     #[Override]
