@@ -14,7 +14,7 @@ services:
         - wiremock
 
   wiremock:
-    image: wiremock/wiremock:3x
+    image: wiremock/wiremock:3x@sha256:6e9dcfd84cbec2daa7b12f4797a7e7d8f75b5c381df70ed00d2744c4de5360a4
     entrypoint: [/docker-entrypoint.sh, --verbose]
 
   sphinx:
