@@ -14,9 +14,11 @@ final class StaticFileWriter implements FileWriter
 {
     /**
      * @param non-empty-string $base
+     * @param callable(string, string, int): void $fileWriter
      */
     public function __construct(
-        private readonly string $base
+        private readonly string $base,
+        private readonly mixed $fileWriter = [SafeFileWriter::class, 'writeFile']
     ) {
     }
 
@@ -29,7 +31,7 @@ final class StaticFileWriter implements FileWriter
         $fileName = $this->base . $extension;
 
         try {
-            SafeFileWriter::writeFile($fileName, $input, 0400);
+            ($this->fileWriter)($fileName, $input, 0400);
         } catch (Throwable $e) {
             throw new IoError(sprintf('Failed to write file "%s"', $fileName), 0, $e);
         }

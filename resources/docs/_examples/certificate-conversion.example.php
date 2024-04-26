@@ -8,13 +8,16 @@ use Psr\Clock\ClockInterface;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Io\StaticFileWriter;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\ExistingPath;
 use function Psl\Type\string;
 
 $pkcs12 = Pkcs12Certificate::establishTrust(
-    new FileStream(new ExistingPath($certificatePath)),
+    new NonEmptyStream(
+        new FileStream(new ExistingPath($certificatePath))
+    ),
     $certificatePassphrase,
     /** @var ClockInterface $clock */
     $clock

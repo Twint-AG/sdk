@@ -9,6 +9,7 @@ use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\MerchantId;
@@ -17,7 +18,9 @@ use Twint\Sdk\Value\Version;
 // Establish trust
 try {
     $certificate = Pkcs12Certificate::establishTrust(
-        new FileStream(new ExistingPath($certificatePath)),
+        new NonEmptyStream(
+            new FileStream(new ExistingPath($certificatePath))
+        ),
         $certificatePassphrase,
         /** @var ClockInterface $clock */
         $clock

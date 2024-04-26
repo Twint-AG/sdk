@@ -7,6 +7,7 @@ use Symfony\Component\Dotenv\Dotenv;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\ExistingPath;
 
@@ -25,9 +26,12 @@ $certificatePassphrase = SystemEnvironment::get(
 );
 $clock = new Clock();
 $certificateContainer = CertificateContainer::fromPkcs12(
-    new Pkcs12Certificate(new FileStream(new ExistingPath(
-        $certificatePath
-    )), $certificatePassphrase)
+    new Pkcs12Certificate(
+        new NonEmptyStream(
+            new FileStream(new ExistingPath($certificatePath)),
+        ),
+        $certificatePassphrase
+    )
 );
 function handle(): void
 {

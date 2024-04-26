@@ -4,105 +4,49 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration;
 
-use DateTimeImmutable;
-use OpenSSLAsymmetricKey;
-use OpenSSLCertificate;
-use OpenSSLCertificateSigningRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
-use PHPUnit\Framework\TestCase;
-use Psr\Clock\ClockInterface;
 use Symfony\Component\Clock\Clock;
-use Symfony\Component\Clock\MockClock;
-use Twint\Sdk\Certificate\DefaultTrustor;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
+use Twint\Sdk\Io\NonEmptyStream;
+use Twint\Sdk\Io\StaticFileWriter;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\ExistingPath;
-use Twint\Sdk\Value\MerchantId;
-use function Psl\invariant;
-use function Psl\Type\instance_of;
-use function Psl\Type\shape;
-use function Psl\Type\uint;
+use function Psl\Type\non_empty_string;
 
 /**
  * @internal
  */
 #[CoversClass(Pkcs12Certificate::class)]
 #[CoversClass(PemCertificate::class)]
-#[CoversClass(DefaultTrustor::class)]
 #[CoversClass(InvalidCertificate::class)]
-final class CertificateTest extends TestCase
+final class CertificateTest extends CertificateIntegrationTest
 {
-    private const PASSPHRASE = 'secret';
+    private const PASSPHRASE = 'secret123';
 
     /**
-     * @return iterable<string, array{string}>
+     * @return iterable<string, array{non-empty-string}>
      */
     public static function getInvalidContent(): iterable
     {
         yield 'Single byte' => [str_repeat(chr(0x0), 1)];
         yield 'Garbage' => [str_repeat(chr(0x0), 1024)];
-        yield 'Garbage cert' => [substr(self::fakeCert(self::PASSPHRASE, 'DE', 'ACME')[0], 0, -1)];
-    }
-
-    /**
-     * @return iterable<string, array{ClockInterface, string, list<string>}>
-     */
-    public static function getCertificates(): iterable
-    {
-        yield 'Invalid issuer country and org' => [
-            ...self::invalidCertificateFixture('now', ...self::fakeCert(self::PASSPHRASE, 'DE', 'ACME')),
-            ['Invalid issuer country code', 'Invalid issuer organization'],
+        yield 'Garbage cert' => [
+            non_empty_string()
+                ->assert(substr(self::fakeCert(self::PASSPHRASE, 'DE', 'ACME')[0], 0, -1)),
         ];
-        yield 'Invalid issuer org' => [
-            ...self::invalidCertificateFixture('now', ...self::fakeCert(self::PASSPHRASE, 'CH', 'ACME')),
-            ['Invalid issuer organization'],
-        ];
-        yield 'Invalid issuer country' => [
-            ...self::invalidCertificateFixture('now', ...self::fakeCert(self::PASSPHRASE, 'DE', 'TWINT AG')),
-            ['Invalid issuer country code'],
-        ];
-        yield 'Inclusive validity (upper bound)' => [
-            ...self::invalidCertificateFixture('+365 days', ...self::fakeCert(self::PASSPHRASE, 'CH', 'TWINT AG')),
-            [],
-        ];
-        yield 'Just expired' => [
-            ...self::invalidCertificateFixture(
-                '+365 days +1 millisecond',
-                ...self::fakeCert(self::PASSPHRASE, 'CH', 'TWINT AG')
-            ),
-            [InvalidCertificate::ERROR_CERTIFICATE_EXPIRED],
-        ];
-        yield 'Just not yet valid' => [
-            ...self::invalidCertificateFixture('-1 millisecond', ...self::fakeCert(self::PASSPHRASE, 'CH', 'TWINT AG')),
-            [InvalidCertificate::ERROR_CERTIFICATE_NOT_YET_VALID],
-        ];
-        yield 'Inclusive validity (lower bound)' => [
-            ...self::invalidCertificateFixture('now', ...self::fakeCert(self::PASSPHRASE, 'CH', 'TWINT AG')),
-            [],
-        ];
-    }
-
-    /**
-     * @return array{ClockInterface, string}
-     */
-    private static function invalidCertificateFixture(
-        string $clockAdjustment,
-        string $cert,
-        DateTimeImmutable $from,
-        DateTimeImmutable $to
-    ): array {
-        return [new MockClock(instance_of(DateTimeImmutable::class)->assert($from->modify($clockAdjustment))), $cert];
     }
 
     public function testDeterministicPemConversion(): void
     {
         $pkcs12 = new Pkcs12Certificate(
-            new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
             SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
         );
 
@@ -115,17 +59,66 @@ final class CertificateTest extends TestCase
             ->pkcs12()
             ->pem();
 
-        $firstBytes = substr($pem->content(), 0, 1024);
+        self::assertStringStartsWith($pem->content(), $newPem->content());
+    }
 
-        // Private key is password encrypted and therefore non-deterministic, so we only compare the first bytes
-        self::assertNotEmpty($firstBytes);
-        self::assertStringStartsWith($firstBytes, $newPem->content());
+    public function testDeterministicPkcs12Conversion(): void
+    {
+        $pem = new PemCertificate(new InMemoryStream((new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+        ))->pem()
+            ->content()), SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'));
+        $pkcs12 = $pem->pkcs12();
+        $newPkcs12 = $pkcs12->pem()
+            ->pkcs12();
+
+        self::assertSame($pkcs12->content(), $newPkcs12->content());
+    }
+
+    public function testPkcs12WriteToFile(): void
+    {
+        $cert = new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+        );
+
+        $file = __DIR__ . '/../../build/cert.p12';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $cert->toFile(new StaticFileWriter(__DIR__ . '/../../build/cert'));
+        self::assertFileExists(__DIR__ . '/../../build/cert.p12');
+    }
+
+    public function testPemWriteToFile(): void
+    {
+        $cert = new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+        );
+
+        $file = __DIR__ . '/../../build/cert.pem';
+        if (file_exists($file)) {
+            unlink($file);
+        }
+        $cert->pem()
+            ->toFile(new StaticFileWriter(__DIR__ . '/../../build/cert'));
+        self::assertFileExists(__DIR__ . '/../../build/cert.pem');
     }
 
     public function testSuccessfullyEstablishTrust(): void
     {
         $cert = Pkcs12Certificate::establishTrust(
-            new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
             SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
             new Clock()
         );
@@ -137,7 +130,9 @@ final class CertificateTest extends TestCase
     {
         try {
             Pkcs12Certificate::establishTrust(
-                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                new NonEmptyStream(
+                    new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+                ),
                 'invalidPassword',
                 new Clock()
             );
@@ -147,6 +142,9 @@ final class CertificateTest extends TestCase
         }
     }
 
+    /**
+     * @param non-empty-string $content
+     */
     #[DataProvider('getInvalidContent')]
     public function testInvalidFile(string $content): void
     {
@@ -156,81 +154,5 @@ final class CertificateTest extends TestCase
         } catch (InvalidCertificate $e) {
             self::assertSame([InvalidCertificate::ERROR_INVALID_CERTIFICATE_FORMAT], $e->getErrors());
         }
-    }
-
-    /**
-     * @param list<InvalidCertificate::*> $expectedErrors
-     */
-    #[DataProvider('getCertificates')]
-    public function testEstablishTrustCases(ClockInterface $clock, string $cert, array $expectedErrors): void
-    {
-        try {
-            $cert = Pkcs12Certificate::establishTrust(new InMemoryStream($cert), self::PASSPHRASE, $clock);
-
-            if (count($expectedErrors) > 0) {
-                self::fail('Expected exception');
-            }
-
-            self::assertInstanceOf(Pkcs12Certificate::class, $cert);
-        } catch (InvalidCertificate $e) {
-            self::assertSame($expectedErrors, $e->getErrors());
-        }
-    }
-
-    public function testX509ParseReturnsIncorrectShape(): void
-    {
-        try {
-            Pkcs12Certificate::establishTrustVia(
-                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
-                SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
-                new DefaultTrustor(new Clock(), static fn () => [])
-            );
-
-            self::fail('Expected exception');
-        } catch (InvalidCertificate $e) {
-            self::assertSame([InvalidCertificate::ERROR_CANNOT_PARSE_CERTIFICATE], $e->getErrors());
-        }
-    }
-
-    /**
-     * @return array{string, DateTimeImmutable, DateTimeImmutable}
-     */
-    private static function fakeCert(string $passphrase, string $country, string $org): array
-    {
-        $config = [
-            'digest_alg' => 'sha256',
-            'private_key_bits' => 2048,
-            'private_key_type' => OPENSSL_KEYTYPE_RSA,
-            'encrypt_key' => true,
-        ];
-        $privateKey = instance_of(OpenSSLAsymmetricKey::class)
-            ->assert(openssl_pkey_new($config));
-
-        $dn = [
-            'C' => $country,
-            'O' => $org,
-            'OU' => 'MerchantCustomers',
-            'CN' => 'TWINT-TechUser NFQ Integration Test',
-            'UID' => MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID')),
-        ];
-
-        $csr = instance_of(OpenSSLCertificateSigningRequest::class)
-            ->assert(openssl_csr_new($dn, $privateKey, $config));
-        $cert = instance_of(OpenSSLCertificate::class)
-            ->assert(openssl_csr_sign($csr, null, $privateKey, 365, $config));
-
-        invariant(openssl_pkcs12_export($cert, $p12, $privateKey, $passphrase), 'Exporting PKCS12 file failed');
-
-        $metadata = shape([
-            'validFrom_time_t' => uint(),
-            'validTo_time_t' => uint(),
-        ], true)
-            ->assert(openssl_x509_parse($cert));
-
-        return [
-            $p12,
-            new DateTimeImmutable('@' . $metadata['validFrom_time_t']),
-            new DateTimeImmutable('@' . $metadata['validTo_time_t']),
-        ];
     }
 }

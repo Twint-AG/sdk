@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration\Io;
 
+use Exception;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Twint\Sdk\Exception\IoError;
 use Twint\Sdk\Io\StaticFileWriter;
 
 /**
  * @internal
  */
 #[CoversClass(StaticFileWriter::class)]
+#[CoversClass(IoError::class)]
 final class StaticFileWriterTest extends TestCase
 {
     private readonly StaticFileWriter $writer;
@@ -54,5 +57,16 @@ final class StaticFileWriterTest extends TestCase
         $this->writer->write('foo', '.txt');
 
         self::assertSame(0400, fileperms($this->file) & 0700);
+    }
+
+    public function testWriterExceptionIsHandled(): void
+    {
+        $writer = new StaticFileWriter(
+            sys_get_temp_dir() . '/simple',
+            static fn () => throw new Exception('Writer throws')
+        );
+
+        $this->expectException(IoError::class);
+        $writer->write('foo', '.txt');
     }
 }

@@ -20,6 +20,7 @@
         <testsuite name="integration">
             <directory>tests/integration</directory>
             <exclude>tests/integration/IntegrationTest.php</exclude>
+            <exclude>tests/integration/CertificateIntegrationTest.php</exclude>
         </testsuite>
     </testsuites>
     <coverage>
@@ -35,6 +36,7 @@
         </include>
         <exclude>
             <directory>src/Generated</directory>
+            <file>src/polyfill.php</file>
         </exclude>
     </source>
     <logging>

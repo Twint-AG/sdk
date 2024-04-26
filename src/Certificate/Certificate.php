@@ -9,8 +9,14 @@ use Twint\Sdk\Io\FileWriter;
 
 interface Certificate
 {
+    /**
+     * @return non-empty-string
+     */
     public function content(): string;
 
+    /**
+     * @return non-empty-string
+     */
     public function passphrase(): string;
 
     public function toFile(FileWriter $writer): FileStream;

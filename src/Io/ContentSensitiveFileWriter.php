@@ -14,10 +14,12 @@ final class ContentSensitiveFileWriter implements FileWriter
 {
     /**
      * @param callable(string): string $toFilename
+     * @param callable(string, string, int): void $fileWriter
      */
     public function __construct(
         private readonly ExistingPath $baseDirectory,
-        private readonly mixed $toFilename
+        private readonly mixed $toFilename,
+        private readonly mixed $fileWriter = [SafeFileWriter::class, 'writeFile']
     ) {
     }
 
@@ -42,7 +44,7 @@ final class ContentSensitiveFileWriter implements FileWriter
         }
 
         try {
-            SafeFileWriter::writeFile($fileName, $input, 0400);
+            ($this->fileWriter)($fileName, $input, 0400);
         } catch (Throwable $e) {
             throw new IoError(sprintf('Failed to write file "%s"', $fileName), 0, $e);
         }

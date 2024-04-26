@@ -9,6 +9,9 @@ use SensitiveParameter;
 use Twint\Sdk\Value\ExistingPath;
 use function Psl\File\read;
 
+/**
+ * @template-implements Stream<string>
+ */
 final class FileStream implements Stream
 {
     public function __construct(

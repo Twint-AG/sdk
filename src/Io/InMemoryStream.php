@@ -7,8 +7,15 @@ namespace Twint\Sdk\Io;
 use Override;
 use SensitiveParameter;
 
+/**
+ * @template T of string
+ * @template-implements Stream<T>
+ */
 final class InMemoryStream implements Stream
 {
+    /**
+     * @param T $content
+     */
     public function __construct(
         #[SensitiveParameter]
         private readonly string $content

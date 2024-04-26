@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration\Io;
 
+use Exception;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use Twint\Sdk\Exception\IoError;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
+use Twint\Sdk\Value\ExistingPath;
 use function Psl\Type\non_empty_string;
 
 /**
  * @internal
  */
 #[CoversClass(ContentSensitiveFileWriter::class)]
+#[CoversClass(IoError::class)]
 final class ContentSensitiveFileWriterTest extends TestCase
 {
     #[Override]
@@ -80,5 +84,17 @@ final class ContentSensitiveFileWriterTest extends TestCase
         );
         $writer->write('foo');
         self::assertSame(0400, fileperms(sys_get_temp_dir() . '/foo.txt') & 0700);
+    }
+
+    public function testWriterExceptionIsHandled(): void
+    {
+        $writer = new ContentSensitiveFileWriter(
+            new ExistingPath(non_empty_string()->assert(sys_get_temp_dir())),
+            static fn (string $content) => $content . '.txt',
+            static fn () => throw new Exception('Writer throws')
+        );
+
+        $this->expectException(IoError::class);
+        $writer->write('foo');
     }
 }

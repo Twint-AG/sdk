@@ -15,6 +15,7 @@ use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
@@ -61,7 +62,9 @@ abstract class IntegrationTest extends TestCase
         $client = new Client(
             Certificate\CertificateContainer::fromPkcs12(
                 new Certificate\Pkcs12Certificate(
-                    new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH'))),
+                    new NonEmptyStream(
+                        new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+                    ),
                     SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),

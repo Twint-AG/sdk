@@ -9,6 +9,7 @@ use Psr\Clock\ClockInterface;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\FileWriter;
+use Twint\Sdk\Io\LazyStream;
 use Twint\Sdk\Io\ProcessingStream;
 use Twint\Sdk\Io\Stream;
 use function Psl\invariant;
@@ -17,13 +18,20 @@ use function Psl\Type\non_empty_vec;
 
 final class Pkcs12Certificate implements Certificate
 {
+    /**
+     * @param Stream<non-empty-string> $content
+     * @param non-empty-string $passphrase
+     */
     public function __construct(
         private readonly Stream $content,
-        private readonly string $passphrase
+        private readonly string $passphrase,
+        private ?PemCertificate $parent = null
     ) {
     }
 
     /**
+     * @param Stream<non-empty-string> $content
+     * @param non-empty-string $passphrase
      * @throws InvalidCertificate
      */
     public static function establishTrust(Stream $content, string $passphrase, ClockInterface $clock): self
@@ -32,6 +40,8 @@ final class Pkcs12Certificate implements Certificate
     }
 
     /**
+     * @param Stream<non-empty-string> $content
+     * @param non-empty-string $passphrase
      * @throws InvalidCertificate
      */
     public static function establishTrustVia(Stream $content, string $passphrase, Trustor $trustor): self
@@ -94,21 +104,27 @@ final class Pkcs12Certificate implements Certificate
 
     public function pem(): PemCertificate
     {
-        return new PemCertificate(
-            new ProcessingStream(
-                $this->content,
-                function (string $content): string {
-                    invariant(openssl_pkcs12_read($content, $certs, $this->passphrase()), 'Reading PKCS12 file failed');
-                    invariant(openssl_x509_export($certs['cert'], $pemCert), 'X509 certificate export failed');
-                    invariant(
-                        openssl_pkey_export($certs['pkey'], $pemKey, $this->passphrase()),
-                        'Private key export failed'
-                    );
+        return $this->parent ??= new PemCertificate(
+            new LazyStream(
+                new ProcessingStream(
+                    $this->content,
+                    function (string $content): string {
+                        invariant(
+                            openssl_pkcs12_read($content, $certs, $this->passphrase()),
+                            'Reading PKCS12 file failed'
+                        );
+                        invariant(openssl_x509_export($certs['cert'], $pemCert), 'X509 certificate export failed');
+                        invariant(
+                            openssl_pkey_export($certs['pkey'], $pemKey, $this->passphrase()),
+                            'Private key export failed'
+                        );
 
-                    return $pemCert . $pemKey;
-                }
+                        return non_empty_string()->assert($pemCert . $pemKey);
+                    }
+                )
             ),
-            $this->passphrase
+            $this->passphrase,
+            $this
         );
     }
 

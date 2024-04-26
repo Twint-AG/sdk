@@ -6,10 +6,16 @@ namespace Twint\Sdk\Io;
 
 use Override;
 
+/**
+ * @template TInner of string
+ * @template TOuter of string
+ * @template-implements Stream<TOuter>
+ */
 final class ProcessingStream implements Stream
 {
     /**
-     * @param callable(string):string $processor
+     * @param Stream<TInner> $stream
+     * @param callable(TInner):TOuter $processor
      */
     public function __construct(
         private readonly Stream $stream,

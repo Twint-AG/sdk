@@ -107,7 +107,7 @@ check-docs: check-format-docs static-analysis-docs $(DOC_EXAMPLES)
 
 $(DOC_EXAMPLES):
 	php -l $@
-	php -d auto_prepend_file=$(BASE_DIR)/resources/docs/_examples/bootstrap.php $@
+	php -d auto_prepend_file=$(BASE_DIR)/resources/docs/_examples/bootstrap.php $@ > /dev/null
 
 docs:
 	sphinx-build -M html resources/docs build/docs -W

@@ -9,7 +9,6 @@ use OpenSSLCertificate;
 use Override;
 use Psl\Type\Exception\AssertException;
 use Psr\Clock\ClockInterface;
-use Throwable;
 use Twint\Sdk\Exception\InvalidCertificate;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
@@ -72,12 +71,10 @@ final class DefaultTrustor implements Trustor
             yield InvalidCertificate::ERROR_INVALID_ISSUER_ORGANIZATION;
         }
 
-        try {
-            $from = new DateTimeImmutable('@' . $metadata['validFrom_time_t']);
-            $to = new DateTimeImmutable('@' . $metadata['validTo_time_t']);
-        } catch (Throwable $e) {
-            throw InvalidCertificate::notTrusted([InvalidCertificate::ERROR_INVALID_EXPIRY_DATE], $e);
-        }
+        // @phpstan-ignore-next-line
+        $from = new DateTimeImmutable('@' . $metadata['validFrom_time_t']);
+        // @phpstan-ignore-next-line
+        $to = new DateTimeImmutable('@' . $metadata['validTo_time_t']);
 
         $now = $this->clock->now();
 
