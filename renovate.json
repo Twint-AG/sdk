@@ -50,5 +50,8 @@
       "matchCurrentVersion": "!/^0/",
       "automerge": true
     }
-  ]
+  ],
+  "constraints": {
+    "php": "8.1"
+  }
 }
