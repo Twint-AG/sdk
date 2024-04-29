@@ -51,9 +51,7 @@
       "automerge": true
     }
   ],
-  "force": {
-    "constraints": {
-      "php": "~8.1"
-    }
+  "constraints": {
+    "php": "~8.1"
   }
 }
