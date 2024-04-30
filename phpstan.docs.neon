@@ -4,6 +4,14 @@ parameters:
     bootstrapFiles:
         - resources/docs/_examples/bootstrap.php
     paths:
-        - resources/docs/_examples
-    scopeClass: Twint\Sdk\Tools\PhpStan\DocumentationScope
+        - resources/docs/_examples/
     tmpDir: build/phpstan/docs
+services:
+    -
+        class: Twint\Sdk\Tools\PhpStan\DocumentationScopeVisitor
+        arguments:
+            prependFilePath: resources/docs/_examples/bootstrap.php
+            parser: @currentPhpVersionSimpleParser
+            nodeFinder: PhpParser\NodeFinder()
+        tags:
+            - phpstan.parser.richParserNodeVisitor

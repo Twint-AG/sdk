@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Acme;
 
 use Psr\Clock\ClockInterface;
@@ -32,12 +30,14 @@ $pem->content();
 $staticStream = $pem->toFile(
     new StaticFileWriter('build/certificate')
 );
-// Will be ./build/certificate.pem
+
+// Return ./build/certificate.pem
 $staticStream->path();
 
 // Write to temporary file
 $temporaryStream = $pem->toFile(new TemporaryFileWriter());
-// Get the path of the file
+
+// Return path to temporary file
 $temporaryStream->path();
 
 // Write to a static file with the certificate fingerprint as the
@@ -49,5 +49,6 @@ $contentSensitiveStream = $pem->toFile(
             ->assert(openssl_x509_fingerprint($content))
     )
 );
-// Will be ./build/<fingerprint>.pem
+
+// Return ./build/<fingerprint>.pem
 $contentSensitiveStream->path();

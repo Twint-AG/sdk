@@ -12,7 +12,7 @@ ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
-PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon
+PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon analyse $(BASE_DIR)/resources/docs/_examples/*.php
 
 DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BASE_DIR)/.env
 

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Acme;
 
 use Psr\Clock\ClockInterface;
@@ -25,6 +23,7 @@ try {
         /** @var ClockInterface $clock */
         $clock
     );
+
     // Handle errors
 } catch (InvalidCertificate $e) {
     foreach ($e->getErrors() as $error) {
