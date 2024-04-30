@@ -39,7 +39,7 @@ container-build-hash:
 
 container-build:
   stage: build
-  image: "quay.io/podman/stable:v5@sha256:21f526195e8359cd3ff2f5fa47b0920d1f19165e3e15f9582ee5136d55b15765"
+  image: "quay.io/podman/stable:v5@sha256:ddd038f135458ce67370d8963b602518ce79956caebbbbfdf3d9b36aacc64235"
   variables:
     TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
     # Required to make rootless podman work
