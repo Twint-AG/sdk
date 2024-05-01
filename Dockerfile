@@ -18,7 +18,7 @@ RUN rm /tmp/composer.lock
 FROM php_base_image AS php_base
 
 COPY --from=php_base_image_extensions_prepare /tmp/php-extensions.txt /tmp/php-extensions.txt
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.2.13/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.2.14/install-php-extensions /usr/local/bin/
 RUN install-php-extensions @composer `cat /tmp/php-extensions.txt` && rm /tmp/php-extensions.txt
 
 RUN apk add --no-cache git unzip make
