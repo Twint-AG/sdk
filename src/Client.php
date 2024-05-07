@@ -147,7 +147,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                             ->withMerchantTransactionReference((string) $orderReference)
                             ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
-                            ->withConfirmationNeeded(true),
+                            ->withConfirmationNeeded(false),
                         Coupons: null,
                         OfflineAuthorization: null,
                         CustomerRelationUuid: null,
