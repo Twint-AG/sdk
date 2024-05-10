@@ -165,6 +165,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                 new FiledMerchantTransactionReference((string) $orderReference),
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                $requestedAmount,
                 PairingStatus::fromString($response->getPairingStatus()),
                 new PairingToken(uint()->assert($response->getToken())),
                 new QrCode(non_empty_string()->assert($response->getQRCode()))
@@ -203,6 +204,14 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                 ),
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                new Money(
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getCurrency(),
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getAmount()
+                ),
                 PairingStatus::fromString($response->getPairingStatus()),
             );
         } catch (SoapException $e) {
@@ -238,6 +247,14 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                 ),
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                new Money(
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getCurrency(),
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getAmount()
+                ),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -278,6 +295,14 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                 ),
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                new Money(
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getCurrency(),
+                    $response->getOrder()
+                        ->getRequestedAmount()
+                        ->getAmount()
+                ),
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
@@ -335,7 +360,8 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                 OrderId::fromString($response->getOrderUuid()),
                 new FiledMerchantTransactionReference((string) $reversalReference),
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_())
+                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                $reversalAmount
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

@@ -22,7 +22,7 @@ final class LazyStreamTest extends TestCase
             ->expects(self::never())
             ->method('read');
 
-        new LazyStream($origStream);
+        $stream = new LazyStream($origStream);
     }
 
     public function testLazyStreamIsInitializedExactlyOnce(): void

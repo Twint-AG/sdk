@@ -205,5 +205,5 @@ return static function (ECSConfig $ecsConfig): void {
         'orderAlphabetically' => true,
     ]);
 
-    $ecsConfig->parallel(120, 4, 10);
+    $ecsConfig->parallel(120, 2, 10);
 };

@@ -1,8 +1,9 @@
+.. include:: symbols.rst
 **********
 API client
 **********
 
-The TWINT SDK provides ``Twint\Sdk\Client`` as the central way to interact with the TWINT API. It provides a drastically
+The TWINT SDK provides |class-client| as the central way to interact with the TWINT API. It provides a drastically
 simplified API with a focus on ecommerce use cases. That means: if it’s not relevant for an ecommerce use case, it's not
 exposed in the SDK.
 
@@ -19,8 +20,8 @@ provided by TWINT.
     :language: PHP
     :end-before: // Production start
 
-To select the production environment, use the ``Twint\Sdk\Value\Environment::PRODUCTION``. For the testing environment,
-use the ``Twint\Sdk\Value\Environment::TESTING``.
+To select the production environment, use |fq-method-value-environment-production|. For the testing environment,
+use |fq-method-value-environment-testing|.
 
 .. literalinclude:: _examples/client-instantiation.example.php
     :language: PHP

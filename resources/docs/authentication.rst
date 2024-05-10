@@ -1,3 +1,4 @@
+.. include:: symbols.rst
 .. _authentication:
 
 ******************
@@ -18,9 +19,10 @@ trustworthy enough to present the certificate to the TWINT API.
     :language: PHP
     :end-before: // Handle errors
 
-``establishTrust`` will throw an exception of type ``Twint\Sdk\Exception\InvalidCertificate``. This exception provides
-a ``getErrors`` method that returns a list of errors that were encountered during the validation process. Check the
-constants in ``Twint\Sdk\Exception\InvalidCertificate`` for a list of possible errors.
+|method-certificate-pkcs12-certificate-establish-trust| will throw an exception of type
+|class-exception-invalid-certificate|. This exception provides a |method-exception-invalid-certificate-get-errors|
+method that returns a list of errors that were encountered during the validation process. Check the constants in
+|class-exception-invalid-certificate| for a list of possible errors.
 
 .. literalinclude:: _examples/certificate-trust-connectivity.example.php
     :language: PHP
@@ -30,8 +32,8 @@ constants in ``Twint\Sdk\Exception\InvalidCertificate`` for a list of possible e
 Ensuring connectivity
 =====================
 
-Now that the certificate is trustworthy enough to use it with the TWINT API, use the ``checkSystemStatus`` method
-provided by the SDK to ensure that the certificate is correctly configured and that the TWINT API is reachable.
+Now that the certificate is trustworthy enough to use it with the TWINT API, use the |method-client-check-system-status|
+method provided by the SDK to ensure that the certificate is correctly configured and that the TWINT API is reachable.
 
 .. literalinclude:: _examples/certificate-trust-connectivity.example.php
     :language: PHP
@@ -68,7 +70,7 @@ Or to a temporary file:
     :end-before: // Write to a static file with the certificate fingerprint
 
 Last but not least, a certificate can be written to a file with the certificate fingerprint as the filename using the
-``ContentSensitiveFileWriter``:
+|class-io-content-sensitive-file-writer|:
 
 .. literalinclude:: _examples/certificate-conversion.example.php
     :language: PHP

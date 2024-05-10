@@ -1,3 +1,5 @@
+.. include:: symbols.rst
+
 *********
 Use cases
 *********
@@ -36,8 +38,8 @@ Implementing a regular/multi-step checkout
 Start order
 -----------
 
-To start a new order the ``startOrder`` method of the ``Twint\Sdk\Client`` class is called. The method returns an
-``Twint\Sdk\Value\Order``` object that contains order ID, order status, pairing token and the QR code.
+To start a new order the |method-client-start-order| method of the |class-client| class is called. The method returns an
+|class-value-order| object that contains order ID, order status, pairing token and the QR code.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
@@ -66,61 +68,68 @@ The QR code is a visual representation of the pairing token that can be displaye
 Monitor order
 -------------
 
-Once the order is started, the customer has to confirm the order. To find out if that confirmation has happened,
-``monitorOrder`` of the ``Twint\Sdk\Client`` class should be called. The method returns an ``Twint\Sdk\Value\Order``
-object that contains the updated order status.
+Once the order is started, the customer has to confirm or cancel the order. To find
+out if the user interaction has concluded yet or any other order status changes, |method-client-monitor-order| of the
+|class-client| class should be called. The method returns an |class-value-order| object that contains the updated
+statuses.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
     :start-after: // Monitor order start
     :end-before: // Monitor order end
 
-Check if the order is pending:
+Check if the order requires user interaction (either the user has to confirm or cancel the order):
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
-    :start-after: // Check if order is pending start
-    :end-before: // Check if order is pending end
+    :start-after: // Check if order is waiting for user interaction start
+    :end-before: // Check if order is waiting for user interaction end
 
-And while the order is pending, call monitor again and again at a reasonable frequency until it is either successful
-or has failed:
+Confirm order
+-------------
+The SDK will always start orders that are implicitly confirmed, meaning: as soon as the user confirms the order, the
+amount will be charged. Still in rare cases, e.g. when the initial order has been started with requiring explicit
+merchant confirmation, it might be necessary to manually confirm the order.
+
+To check if an order needs confirmation, call |method-value-order-is-confirmation-pending| on the |class-value-order|
+object before calling the |method-client-confirm-order| method of the |class-client| object.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
-    :start-after: // Check if order status is conclusive start
-    :end-before: // Check if order status is conclusive end
+    :start-after: // Check if order needs merchant confirmation start
+    :end-before: // Check if order needs merchant confirmation end
+
+.. note::
+    Once the order has been confirmed, be it implicitly or explicitly, it can only be refunded using
+    |fq-method-client-reverse-order| and |method-client-cancel-order| will no longer work.
+
+
+Concluding the order
+--------------------
+
+Once the order is confirmed, be it implicitly or explicitly, the order is concluded and the amount is charged. The
+order status will be updated to |const-value-order-status-success|.
+
+.. literalinclude:: _examples/regular-checkout.example.php
+    :language: PHP
+    :start-after: // Conclude order start
+    :end-before: // Conclude order end
 
 Cancel order
 ------------
-Pending orders can be cancelled using the ``cancelOrder`` method of the ``Twint\Sdk\Client`` class. The method returns
-an ``Twint\Sdk\Value\Order``` object that contains the updated order status.
+Pending orders can be cancelled using the |method-client-cancel-order| method of the |class-client| class. The method
+returns an |class-value-order| object that contains the updated order status.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
     :start-after: // Cancel order start
     :end-before: // Cancel order end
 
-
-Confirm order
--------------
-If the order is successful, call the ``confirmOrder`` method of the ``Twint\Sdk\Client`` class to confirm the order.
-After confirming an order the purchased goods, physical or digital, can be safely delivered to the customer. The amount
-passed enables for partial confirmations but in 99% of the cases the amount will be the same as with ``startOrder``.
-
-.. literalinclude:: _examples/regular-checkout.example.php
-    :language: PHP
-    :start-after: // Confirm order start
-    :end-before: // Confirm order end
-
-.. note::
-    Once the order has been confirmed, it can only be refunded using ``reverseOrder`` and ``cancelOrder`` will no longer
-    work.
-
 Reverse order
 -------------
 
-To support refunds, the ``reverseOrder`` method of the ``Twint\Sdk\Client`` class can be called. For reversals, a new
-merchant reference need to be passed as a reference for the specific reversal. As multiple partial reversals are
+To support refunds, the |method-client-reverse-order| method of the |class-client| class can be called. For reversals,
+a new merchant reference need to be passed as a reference for the specific reversal. As multiple partial reversals are
 supported for a single order, the merchant reference for the reversal should be unique for each reversal.
 
 In this example, the partial amount of 9.95 CHF will be refunded.
@@ -151,15 +160,17 @@ user.
  * Android users are redirected to the installed TWINT app
  * iOS users are asked to select their TWINT app of choice and then redirected to the selected app
 
-The capability interface ``Twint\Sdk\Capability\DeviceHandling`` should be used to handle devices.
+The capability interface |interface-capability-device-handling| should be used to handle devices.
 
 Detecting the device
 --------------------
 
-The device can be detected using the ``detectDevice`` method of the ``Twint\Sdk\Client`` class. The method returns
-a ``Twint\Sdk\Value\DetectedDevice`` object. ``isIos``, ``isAndroid`` to find out if the user agent is of the respective
-platform. ``isMobile`` can be used to find out if the user agent is a mobile device (Android or iOS). ``isUnknown`` can
-be used to find out if the user agent is unknown and for the unknown case, the desktop flow should be presented.
+The device can be detected using the |method-client-detect-device| method of the |class-client| class. The method
+returns a |class-value-detected-device| object. Use |method-value-detected-device-is-ios| and
+|method-value-detected-device-is-android| to find out if the user agent is of the respective
+platform. |method-value-detected-device-is-mobile| can be used to find out if the user agent is a mobile device
+(Android or iOS). |method-value-detected-device-is-unknown| can be used to find out if the user agent is unknown and
+for the unknown case, the desktop flow should be presented.
 
 .. literalinclude:: _examples/device-detection.example.php
     :language: PHP
@@ -168,8 +179,8 @@ Get iOS app schemes
 -------------------
 
 To enable iOS users to select from the available TWINT apps, the app schemes of the available TWINT apps can be
-retrieved using the ``getIosAppSchemes`` method of the ``Twint\Sdk\Client`` class. The method returns an array of
-``Twint\Sdk\Value\IosAppScheme`` object.
+retrieved using the |method-client-get-ios-app-schemes| method of the |class-client| class. The method returns an array
+of |class-value-ios-app-scheme| object.
 
 .. literalinclude:: _examples/ios-app-schemes.example.php
     :language: PHP

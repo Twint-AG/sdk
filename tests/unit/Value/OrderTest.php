@@ -8,6 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
+use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
@@ -44,13 +45,47 @@ final class OrderTest extends ValueTest
     }
 
     /**
-     * @return iterable<string, array{OrderStatus, bool, bool, bool}>
+     * @return iterable<string, array{OrderStatus, TransactionStatus, bool, bool, bool, bool, bool}>
      */
     public static function getStatusExamples(): iterable
     {
-        yield 'Success' => [OrderStatus::SUCCESS(), true, false, false];
-        yield 'Failure' => [OrderStatus::FAILURE(), false, true, false];
-        yield 'In progress' => [OrderStatus::IN_PROGRESS(), false, false, true];
+        yield 'Success' => [OrderStatus::SUCCESS(), TransactionStatus::ORDER_OK(), true, false, false, false, false];
+        yield 'Failure' => [
+            OrderStatus::FAILURE(),
+            TransactionStatus::CLIENT_ABORT(),
+            false,
+            true,
+            false,
+            false,
+            false,
+        ];
+        yield 'In progress 1' => [
+            OrderStatus::IN_PROGRESS(),
+            TransactionStatus::ORDER_PENDING(),
+            false,
+            false,
+            true,
+            true,
+            false,
+        ];
+        yield 'In progress 2' => [
+            OrderStatus::IN_PROGRESS(),
+            TransactionStatus::ORDER_RECEIVED(),
+            false,
+            false,
+            true,
+            true,
+            false,
+        ];
+        yield 'Confirmation required' => [
+            OrderStatus::IN_PROGRESS(),
+            TransactionStatus::ORDER_CONFIRMATION_PENDING(),
+            false,
+            false,
+            true,
+            false,
+            true,
+        ];
     }
 
     #[Override]
@@ -61,6 +96,7 @@ final class OrderTest extends ValueTest
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
             OrderStatus::FAILURE(),
             TransactionStatus::GENERAL_ERROR(),
+            Money::CHF(0.20),
         );
     }
 
@@ -77,6 +113,7 @@ final class OrderTest extends ValueTest
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
             OrderStatus::FAILURE(),
             TransactionStatus::GENERAL_ERROR(),
+            Money::CHF(0.21),
             PairingStatus::PAIRING_IN_PROGRESS(),
             new PairingToken(self::PAIRING_TOKEN),
             new QrCode(self::IMAGE)
@@ -102,6 +139,7 @@ final class OrderTest extends ValueTest
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
             OrderStatus::IN_PROGRESS(),
             TransactionStatus::ORDER_PENDING(),
+            Money::CHF(0.20),
             $pairingStatus
         );
 
@@ -109,17 +147,40 @@ final class OrderTest extends ValueTest
     }
 
     #[DataProvider('getStatusExamples')]
-    public function testStatus(OrderStatus $status, bool $isSuccessful, bool $isFailure, bool $isPending): void
-    {
+    public function testStatus(
+        OrderStatus $status,
+        TransactionStatus $transactionStatus,
+        bool $isSuccessful,
+        bool $isFailure,
+        bool $isPending,
+        bool $userInteractionRequired,
+        bool $confirmationPending
+    ): void {
         $order = new Order(
             new OrderId(new Uuid(self::ORDER_ID)),
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
             $status,
-            TransactionStatus::ORDER_PENDING()
+            $transactionStatus,
+            Money::CHF(0.20)
         );
 
         self::assertSame($isSuccessful, $order->isSuccessful());
         self::assertSame($isFailure, $order->isFailure());
         self::assertSame($isPending, $order->isPending());
+        self::assertSame($userInteractionRequired, $order->userInteractionRequired());
+        self::assertSame($confirmationPending, $order->isConfirmationPending());
+    }
+
+    public function testAccessAmount(): void
+    {
+        $order = new Order(
+            new OrderId(new Uuid(self::ORDER_ID)),
+            new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
+            OrderStatus::FAILURE(),
+            TransactionStatus::GENERAL_ERROR(),
+            Money::CHF(0.21),
+        );
+
+        self::assertObjectEquals(Money::CHF(0.21), $order->amount());
     }
 }

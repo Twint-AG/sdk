@@ -39,21 +39,27 @@ $qrCode = $startedOrder->qrCode();
 $monitoredOrder = $client->monitorOrder($orderId);
 // Monitor order end
 
-// Check if order is pending start
-if ($monitoredOrder->isPending()) {
-    // Order is pending
-}
-// Check if order is pending end
 
-// Check if order status is conclusive start
+// Check if order is waiting for user interaction start
+if ($monitoredOrder->userInteractionRequired()) {
+    $monitoredOrder = $client->monitorOrder($orderId);
+    // Check again and again until user interaction
+    // is no longer required
+}
+// Check if order is waiting for user interaction end
+
+
+// Check if order needs merchant confirmation start
+if ($monitoredOrder->isConfirmationPending()) {
+    $client->confirmOrder($orderId, $monitoredOrder->amount());
+}
+// Check if order needs merchant confirmation end
+
+// Conclude order start
 if ($monitoredOrder->isSuccessful()) {
-    // Order is successful
+    // Record success
 }
-
-if ($monitoredOrder->isFailure()) {
-    // Order has failed
-}
-// // Check if order status is conclusive end
+// Conclude order end
 
 // Cancel order start
 try {

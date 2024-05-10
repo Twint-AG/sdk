@@ -3,8 +3,9 @@ MAKEFILE := $(lastword $(MAKEFILE_LIST))
 BASE_DIR := $(realpath $(dir $(MAKEFILE)))
 
 CODEGEN_DIR := $(BASE_DIR)/src/Generated
+DOCS_DIR := $(BASE_DIR)/resources/docs
 VENDOR_BIN_DIR := $(BASE_DIR)/vendor/bin
-DOC_EXAMPLES := $(wildcard $(BASE_DIR)/resources/docs/_examples/*.example.php)
+DOC_EXAMPLES := $(wildcard $(DOCS_DIR)/_examples/*.example.php)
 
 SOAP_CONFIG := $(BASE_DIR)/resources/config/soap.php
 SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
@@ -12,7 +13,7 @@ ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
-PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon analyse $(BASE_DIR)/resources/docs/_examples/*.php
+PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon analyse $(DOCS_DIR)/_examples/*.php
 
 DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BASE_DIR)/.env
 
@@ -103,14 +104,18 @@ dev: start
 dev-docs: start
 	$(DOCKER_COMPOSE) exec -it sphinx bash
 
-check-docs: check-format-docs static-analysis-docs $(DOC_EXAMPLES)
+check-doc-refs:
+	php $(BASE_DIR)/tools/doc-refs.php
+	git diff --exit-code $(DOCS_DIR)
+
+check-docs: check-format-docs check-doc-refs static-analysis-docs $(DOC_EXAMPLES)
 
 $(DOC_EXAMPLES):
 	php -l $@
-	php -d auto_prepend_file=$(BASE_DIR)/resources/docs/_examples/bootstrap.php $@ > /dev/null
+	php -d auto_prepend_file=$(DOCS_DIR)/_examples/bootstrap.php $@ > /dev/null
 
 docs:
-	sphinx-build -M html resources/docs build/docs -W
+	sphinx-build -M html $(DOCS_DIR) build/docs -W
 
 install:
 ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "lowest")

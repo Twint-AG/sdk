@@ -30,6 +30,7 @@ final class Order implements Comparable, Equality
         private readonly FiledMerchantTransactionReference $merchantTransactionReference,
         private readonly OrderStatus $status,
         private readonly TransactionStatus $transactionStatus,
+        private readonly Money $amount,
         private readonly ?PairingStatus $pairingStatus = null,
         private readonly ?PairingToken $pairingToken = null,
         private readonly ?QrCode $qrCode = null,
@@ -97,6 +98,26 @@ final class Order implements Comparable, Equality
         return $this->status->equals(OrderStatus::IN_PROGRESS());
     }
 
+    public function userInteractionRequired(): bool
+    {
+        return $this->status->equals(OrderStatus::IN_PROGRESS())
+            && (
+                $this->transactionStatus->equals(TransactionStatus::ORDER_PENDING())
+                || $this->transactionStatus->equals(TransactionStatus::ORDER_RECEIVED())
+            );
+    }
+
+    public function isConfirmationPending(): bool
+    {
+        return $this->status->equals(OrderStatus::IN_PROGRESS())
+            && $this->transactionStatus->equals(TransactionStatus::ORDER_CONFIRMATION_PENDING());
+    }
+
+    public function amount(): Money
+    {
+        return $this->amount;
+    }
+
     #[Override]
     public function compare($other): int
     {
@@ -107,8 +128,10 @@ final class Order implements Comparable, Equality
             [$this->merchantTransactionReference, $other->merchantTransactionReference],
             [$this->status, $other->status],
             [$this->transactionStatus, $other->transactionStatus],
+            [$this->amount, $other->amount],
             [$this->pairingStatus, $other->pairingStatus],
             [$this->pairingToken, $other->pairingToken],
+            [$this->qrCode, $other->qrCode],
         ]);
     }
 }
