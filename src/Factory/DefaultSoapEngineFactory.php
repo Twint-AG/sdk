@@ -10,6 +10,7 @@ use Phpro\SoapClient\Soap\ExtSoap\Metadata\Manipulators\DuplicateTypes\Intersect
 use Phpro\SoapClient\Soap\Metadata\MetadataFactory;
 use Phpro\SoapClient\Soap\Metadata\MetadataOptions;
 use Psr\Http\Client\ClientInterface;
+use Soap\Engine\Decoder;
 use Soap\Engine\Encoder;
 use Soap\Engine\Engine;
 use Soap\Engine\LazyEngine;
@@ -42,11 +43,13 @@ final class DefaultSoapEngineFactory
      * @param callable(): Uuid $createUuid
      * @param callable(FileWriter, CertificateContainer): ClientInterface $createHttpClient
      * @param callable(Encoder): Encoder $wrapEncoder
+     * @param callable(Decoder): Decoder $wrapDecoder
      */
     public function __construct(
         private readonly mixed $createUuid = new Uuid4Factory(),
         private readonly mixed $createHttpClient = new DefaultHttpClientFactory(),
         private readonly mixed $wrapEncoder = [HigherOrder::class, 'identity'],
+        private readonly mixed $wrapDecoder = [HigherOrder::class, 'identity'],
     ) {
     }
 
@@ -75,7 +78,9 @@ final class DefaultSoapEngineFactory
                     ->withTypesManipulator(new IntersectDuplicateTypesStrategy());
                 $metadata = MetadataFactory::manipulated(new ExtSoapMetadata($client), $metadataOptions);
                 $encoder = ($this->wrapEncoder)(new ExtSoapEncoder($client));
-                $decoder = new ExtSoapDecoder($client, new DummyMethodArgumentsGenerator($metadata));
+                $decoder = ($this->wrapDecoder)(
+                    new ExtSoapDecoder($client, new DummyMethodArgumentsGenerator($metadata))
+                );
                 $driver = new ExtSoapDriver($client, $encoder, $decoder, $metadata);
 
                 return new SimpleEngine(
