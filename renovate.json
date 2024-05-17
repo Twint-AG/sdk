@@ -49,6 +49,13 @@
       ],
       "matchCurrentVersion": "!/^0/",
       "automerge": true
+    },
+    {
+      "matchDepTypes": [
+        "devDependencies"
+      ],
+      "rangeStrategy": "bump",
+      "automerge": true
     }
   ],
   "constraints": {
