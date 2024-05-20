@@ -1367,16 +1367,16 @@
         },
         {
             "name": "php-soap/wsdl",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl.git",
-                "reference": "467e77107963a56df330c1ac578d20e641b4d16a"
+                "reference": "31adf0621e47db7f91152be15423be2a839a66f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/467e77107963a56df330c1ac578d20e641b4d16a",
-                "reference": "467e77107963a56df330c1ac578d20e641b4d16a",
+                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/31adf0621e47db7f91152be15423be2a839a66f3",
+                "reference": "31adf0621e47db7f91152be15423be2a839a66f3",
                 "shasum": ""
             },
             "require": {
@@ -1416,7 +1416,7 @@
             "description": "Deals with WSDLs",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl/issues",
-                "source": "https://github.com/php-soap/wsdl/tree/1.8.0"
+                "source": "https://github.com/php-soap/wsdl/tree/1.9.0"
             },
             "funding": [
                 {
@@ -1424,7 +1424,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-03-15T13:00:08+00:00"
+            "time": "2024-05-17T13:43:29+00:00"
         },
         {
             "name": "php-soap/wsdl-reader",
