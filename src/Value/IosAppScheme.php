@@ -9,10 +9,9 @@ use function Psl\invariant;
 use function Psl\Regex\matches;
 
 /**
- * @template-implements Comparable<self>
- * @implements Equality<self>
+ * @template-implements Value<self>
  */
-final class IosAppScheme implements Equality, Comparable
+final class IosAppScheme implements Value
 {
     /**
      * @use ComparableToEquality<self>
@@ -50,5 +49,17 @@ final class IosAppScheme implements Equality, Comparable
     public function compare($other): int
     {
         return $this->scheme <=> $other->scheme;
+    }
+
+    /**
+     * @return array{scheme: non-empty-string, displayName: non-empty-string}
+     */
+    #[Override]
+    public function jsonSerialize(): array
+    {
+        return [
+            'scheme' => $this->scheme,
+            'displayName' => $this->displayName,
+        ];
     }
 }

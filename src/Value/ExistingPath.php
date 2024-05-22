@@ -11,10 +11,9 @@ use function Psl\invariant;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class ExistingPath implements Comparable, Equality
+final class ExistingPath implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -51,5 +50,11 @@ final class ExistingPath implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return strcmp($this->path, $other->path);
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->path;
     }
 }

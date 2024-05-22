@@ -11,10 +11,9 @@ use function Psl\Type\instance_of;
 
 /**
  * @template-implements Enum<self::*>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class DetectedDevice implements Enum, Comparable, Equality
+final class DetectedDevice implements Value, Enum
 {
     /**
      * @use ComparableToEquality<self>
@@ -100,5 +99,17 @@ final class DetectedDevice implements Enum, Comparable, Equality
             [$this->deviceType, $other->deviceType],
             [$this->userAgent, $other->userAgent],
         ]);
+    }
+
+    /**
+     * @return array{userAgent: string, deviceType: int}
+     */
+    #[Override]
+    public function jsonSerialize(): array
+    {
+        return [
+            'userAgent' => $this->userAgent,
+            'deviceType' => $this->deviceType,
+        ];
     }
 }

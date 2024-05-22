@@ -8,10 +8,10 @@ use Override;
 use PHPUnit\Framework\TestCase;
 use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
+use Soap\Engine\Transport;
 use Twint\Sdk\Capability\Capability;
 use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
-use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
@@ -23,7 +23,6 @@ use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
-use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Value\Version;
 use WireMock\Client\WireMock;
 
@@ -80,9 +79,7 @@ abstract class IntegrationTest extends TestCase
                 }
             ),
             new DefaultSoapEngineFactory(
-                static fn () => new Uuid('00000000-0000-0000-0000-000000000000'),
-                new DefaultHttpClientFactory(),
-                fn (Encoder $encoder) => new RequestModifyingEncoder(
+                wrapEncoder: fn (Encoder $encoder) => new RequestModifyingEncoder(
                     $encoder,
                     fn (SoapRequest $request, string $method) =>
                     new SoapRequest(
@@ -95,8 +92,9 @@ abstract class IntegrationTest extends TestCase
                         $request->getVersion(),
                         $request->getOneWay()
                     )
-                )
-            )
+                ),
+                wrapTransport: [$this, 'wrapTransport']
+            ),
         );
         // @phpstan-ignore-next-line
         $this->client = $client;
@@ -118,5 +116,10 @@ abstract class IntegrationTest extends TestCase
     protected function createWireMock(): WireMock
     {
         return (new DefaultWireMockFactory())();
+    }
+
+    public function wrapTransport(Transport $transport): Transport
+    {
+        return $transport;
     }
 }

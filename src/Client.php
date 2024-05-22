@@ -13,12 +13,7 @@ use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Soap\Engine\Engine;
 use Throwable;
-use Twint\Sdk\Capability\DeviceHandling;
-use Twint\Sdk\Capability\OrderAdministration;
-use Twint\Sdk\Capability\OrderCheckout;
-use Twint\Sdk\Capability\OrderMonitoring;
-use Twint\Sdk\Capability\OrderReversal;
-use Twint\Sdk\Capability\SystemAdministration;
+use Twint\Sdk\Capability\CoreCapabilities;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\SdkError;
@@ -61,7 +56,7 @@ use function Psl\Type\string;
 use function Psl\Type\uint;
 use function Psl\Type\vec;
 
-final class Client implements DeviceHandling, OrderAdministration, OrderCheckout, OrderMonitoring, OrderReversal, SystemAdministration
+final class Client implements CoreCapabilities
 {
     private const POSTING_TYPE_GOODS = 'GOODS';
 
@@ -80,7 +75,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
     /**
      * @var list<string>
      */
-    private static array $enrolledCacheRegisters = [];
+    private static array $enrolledCashRegisters = [];
 
     /**
      * @param callable(FileWriter, CertificateContainer, Version, Environment): Engine $soapEngineFactory
@@ -442,7 +437,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
      */
     private function enrollCashRegister(): void
     {
-        if (in_array((string) $this->merchantId, self::$enrolledCacheRegisters, true)) {
+        if (in_array((string) $this->merchantId, self::$enrolledCashRegisters, true)) {
             return;
         }
 
@@ -460,7 +455,7 @@ final class Client implements DeviceHandling, OrderAdministration, OrderCheckout
                     )
                 );
 
-            self::$enrolledCacheRegisters[] = (string) $this->merchantId;
+            self::$enrolledCashRegisters[] = (string) $this->merchantId;
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
         }

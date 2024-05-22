@@ -4,8 +4,8 @@ API client
 **********
 
 The TWINT SDK provides |class-client| as the central way to interact with the TWINT API. It provides a drastically
-simplified API with a focus on ecommerce use cases. That means: if it’s not relevant for an ecommerce use case, it's not
-exposed in the SDK.
+simplified API with a focus on e-commerce use cases. That means: if it’s not relevant for an e-commerce use case, it's
+not exposed in the SDK.
 
 Instantiating the client
 ========================

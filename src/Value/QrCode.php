@@ -9,10 +9,9 @@ use function Psl\invariant;
 use function Psl\Type\non_empty_string;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class QrCode implements Comparable, Equality
+final class QrCode implements Value
 {
     /**
      * @use ComparableToEquality<self>
@@ -51,5 +50,11 @@ final class QrCode implements Comparable, Equality
     public function compare($other): int
     {
         return $this->qrCode <=> $other->qrCode;
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->qrCode;
     }
 }

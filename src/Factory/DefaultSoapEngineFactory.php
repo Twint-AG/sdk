@@ -15,6 +15,7 @@ use Soap\Engine\Encoder;
 use Soap\Engine\Engine;
 use Soap\Engine\LazyEngine;
 use Soap\Engine\SimpleEngine;
+use Soap\Engine\Transport;
 use Soap\ExtSoapEngine\AbusedClient;
 use Soap\ExtSoapEngine\ExtSoapDecoder;
 use Soap\ExtSoapEngine\ExtSoapDriver;
@@ -44,12 +45,14 @@ final class DefaultSoapEngineFactory
      * @param callable(FileWriter, CertificateContainer): ClientInterface $createHttpClient
      * @param callable(Encoder): Encoder $wrapEncoder
      * @param callable(Decoder): Decoder $wrapDecoder
+     * @param callable(Transport): Transport $wrapTransport
      */
     public function __construct(
         private readonly mixed $createUuid = new Uuid4Factory(),
         private readonly mixed $createHttpClient = new DefaultHttpClientFactory(),
         private readonly mixed $wrapEncoder = [HigherOrder::class, 'identity'],
         private readonly mixed $wrapDecoder = [HigherOrder::class, 'identity'],
+        private readonly mixed $wrapTransport = [HigherOrder::class, 'identity']
     ) {
     }
 
@@ -85,22 +88,24 @@ final class DefaultSoapEngineFactory
 
                 return new SimpleEngine(
                     $driver,
-                    Psr18Transport::createForClient(
-                        new PluginClient(
-                            ($this->createHttpClient)($writer, $certificate),
-                            [
-                                new SoapHeaderMiddleware(
-                                    new SoapHeader(
-                                        (string) $environment->soapTargetNamespace($version),
-                                        'RequestHeaderElement',
-                                        fn (DOMNode $node) => children(
-                                            element('MessageId', value((string) ($this->createUuid)())),
-                                            element('ClientSoftwareName', value(SdkVersion::NAME)),
-                                            element('ClientSoftwareVersion', value(SdkVersion::VERSION))
-                                        )($node)
-                                    )
-                                ),
-                            ]
+                    ($this->wrapTransport)(
+                        Psr18Transport::createForClient(
+                            new PluginClient(
+                                ($this->createHttpClient)($writer, $certificate),
+                                [
+                                    new SoapHeaderMiddleware(
+                                        new SoapHeader(
+                                            (string) $environment->soapTargetNamespace($version),
+                                            'RequestHeaderElement',
+                                            fn (DOMNode $node) => children(
+                                                element('MessageId', value((string) ($this->createUuid)())),
+                                                element('ClientSoftwareName', value(SdkVersion::NAME)),
+                                                element('ClientSoftwareVersion', value(SdkVersion::VERSION))
+                                            )($node)
+                                        )
+                                    ),
+                                ]
+                            )
                         )
                     )
                 );

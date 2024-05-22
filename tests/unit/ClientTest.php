@@ -98,7 +98,7 @@ final class ClientTest extends TestCase
             static fn () => $engine
         );
 
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCacheRegisters');
+        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
         $prop->setAccessible(true);
         $prop->setValue($client, []);
 

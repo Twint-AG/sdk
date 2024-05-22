@@ -10,10 +10,9 @@ use function Psl\Regex\matches;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class Uuid implements Comparable, Equality
+final class Uuid implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -43,5 +42,11 @@ final class Uuid implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return $this->uuid <=> $other->uuid;
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->uuid;
     }
 }

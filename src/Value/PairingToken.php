@@ -9,10 +9,9 @@ use function Psl\Type\instance_of;
 use function Psl\Type\uint;
 
 /**
- * @template-implements Equality<self>
- * @template-implements Comparable<self>
+ * @template-implements Value<self>
  */
-final class PairingToken implements Comparable, Equality
+final class PairingToken implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -43,5 +42,11 @@ final class PairingToken implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return $this->token <=> $other->token;
+    }
+
+    #[Override]
+    public function jsonSerialize(): int
+    {
+        return $this->token;
     }
 }

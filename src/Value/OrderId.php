@@ -8,10 +8,9 @@ use Override;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class OrderId implements Comparable, Equality
+final class OrderId implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -38,5 +37,11 @@ final class OrderId implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return $this->uuid->compare($other->uuid);
+    }
+
+    #[Override]
+    public function jsonSerialize(): Uuid
+    {
+        return $this->uuid;
     }
 }

@@ -12,10 +12,9 @@ use function Psl\Type\instance_of;
  * @template TPairingStatus of PairingStatus|null
  * @template TPairingToken of PairingToken|null
  * @template TQrCode of QrCode|null
- * @template-implements Comparable<self<PairingStatus, TPairingToken, TQrCode>>
- * @template-implements Equality<self<PairingStatus, TPairingToken, TQrCode>>
+ * @template-implements Value<self<PairingStatus, TPairingToken, TQrCode>>
  */
-final class Order implements Comparable, Equality
+final class Order implements Value
 {
     /** @use ComparableToEquality<self<PairingStatus, TPairingToken, TQrCode>> */
     use ComparableToEquality;
@@ -133,5 +132,23 @@ final class Order implements Comparable, Equality
             [$this->pairingToken, $other->pairingToken],
             [$this->qrCode, $other->qrCode],
         ]);
+    }
+
+    /**
+     * @return array{id: OrderId, merchantTransactionReference: FiledMerchantTransactionReference, status: OrderStatus, transactionStatus: TransactionStatus, amount: Money, pairingStatus: PairingStatus|null, pairingToken: PairingToken|null, qrCode: QrCode|null}
+     */
+    #[Override]
+    public function jsonSerialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'merchantTransactionReference' => $this->merchantTransactionReference,
+            'status' => $this->status,
+            'transactionStatus' => $this->transactionStatus,
+            'amount' => $this->amount,
+            'pairingStatus' => $this->pairingStatus,
+            'pairingToken' => $this->pairingToken,
+            'qrCode' => $this->qrCode,
+        ];
     }
 }

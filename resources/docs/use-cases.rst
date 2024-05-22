@@ -117,7 +117,7 @@ order status will be updated to |const-value-order-status-success|.
 
 Cancel order
 ------------
-Pending orders can be cancelled using the |method-client-cancel-order| method of the |class-client| class. The method
+Pending orders can be canceled using the |method-client-cancel-order| method of the |class-client| class. The method
 returns an |class-value-order| object that contains the updated order status.
 
 .. literalinclude:: _examples/regular-checkout.example.php
@@ -148,7 +148,7 @@ Let’s reverse the remaining amount of 90.00 CHF.
 
 .. note::
     The reversal ID in this example is computed from the order ID and for each reversal the index is increased. The
-    ecommerce platform at hand most likely offers a more sophisticated way to generate unique reversal IDs.
+    e-commerce platform at hand most likely offers a more sophisticated way to generate unique reversal IDs.
 
 Handling end-user devices
 =========================
@@ -184,3 +184,27 @@ of |class-value-ios-app-scheme| object.
 
 .. literalinclude:: _examples/ios-app-schemes.example.php
     :language: PHP
+
+
+Introspecting API interactions
+==============================
+
+The SDK provides a way to introspect the API interactions. This can be helpful to implement transactions logs to
+provide traceability. The |interface-invocation-recorder-capability-invocation-recorder| interface offers method
+|method-invocation-recorder-capability-invocation-recorder-flush-invocations| to retrieve a list of
+|class-invocation-recorder-value-invocation| objects. Each invocation object contains a list of related SOAP messages, available
+through |fq-method-invocation-recorder-value-invocation-messages|.
+
+.. note::
+    Calling |method-invocation-recorder-capability-invocation-recorder-flush-invocations| will clear the invocations.
+
+To enable the recording capability, the |class-client| object should be decorated with the
+|class-invocation-recorder-invocation-recording-client| and the SOAP transport must be wrapped with the
+|class-invocation-recorder-soap-recording-transport|.
+
+.. literalinclude:: _examples/invocation-recorder.example.php
+    :language: PHP
+
+.. note::
+    Calling |class-invocation-recorder-invocation-recording-client| implements the capability interface
+    |interface-invocation-recorder-capability-invocation-recorder|.

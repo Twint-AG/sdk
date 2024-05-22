@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
+use JsonSerializable;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionProperty;
 use Twint\Sdk\Value\Comparable;
 use Twint\Sdk\Value\Enum;
 use Twint\Sdk\Value\Equality;
@@ -149,5 +151,48 @@ abstract class ValueTest extends TestCase
         if (!is_subclass_of(static::getValueType(), Enum::class)) {
             self::markTestSkipped('This test is only for Enum values');
         }
+    }
+
+    public function testSerialize(): void
+    {
+        self::assertInstanceOf(JsonSerializable::class, $this->value);
+
+        $class = new ReflectionClass(static::getValueType());
+        $properties = $class->getProperties();
+
+        $parent = $class;
+        while ($parent = $parent->getParentClass()) {
+            $properties = [...$properties, ...$parent->getProperties()];
+        }
+
+        $serialized = json_encode($this->value, JSON_THROW_ON_ERROR);
+        self::assertJsonStringNotEqualsJsonString('{}', $serialized);
+
+        self::assertGreaterThan(0, count($properties));
+
+        if (count($properties) > 1) {
+            $shape = [];
+            foreach ($properties as $property) {
+                $shape[$property->getName()] = self::propertyToJsonValue($property, $this->value);
+            }
+            self::assertJsonStringEqualsJsonString(json_encode($shape, JSON_THROW_ON_ERROR), $serialized);
+        } else {
+            self::assertJsonStringEqualsJsonString(
+                json_encode(self::propertyToJsonValue($properties[0], $this->value), JSON_THROW_ON_ERROR),
+                $serialized
+            );
+        }
+    }
+
+    private static function propertyToJsonValue(ReflectionProperty $property, JsonSerializable $value): mixed
+    {
+        $property->setAccessible(true);
+        $value = $property->getValue($value);
+
+        while ($value instanceof JsonSerializable) {
+            $value = $value->jsonSerialize();
+        }
+
+        return $value;
     }
 }

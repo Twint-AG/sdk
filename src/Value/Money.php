@@ -11,10 +11,9 @@ use function Psl\Type\instance_of;
 
 /**
  * @template-implements Enum<self::*>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class Money implements Enum, Comparable, Equality
+final class Money implements Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -79,5 +78,17 @@ final class Money implements Enum, Comparable, Equality
         }
 
         return $this->amount <=> $other->amount;
+    }
+
+    /**
+     * @return array{currency: string, amount: float}
+     */
+    #[Override]
+    public function jsonSerialize(): array
+    {
+        return [
+            'currency' => $this->currency,
+            'amount' => $this->amount,
+        ];
     }
 }

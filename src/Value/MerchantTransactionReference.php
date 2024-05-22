@@ -10,10 +10,9 @@ use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-abstract class MerchantTransactionReference implements Comparable, Equality
+abstract class MerchantTransactionReference implements Value
 {
     /** @use ComparableToEquality<self> */
 
@@ -52,5 +51,11 @@ abstract class MerchantTransactionReference implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return $this->value <=> $other->value;
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->value;
     }
 }

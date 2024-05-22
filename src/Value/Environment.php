@@ -10,10 +10,9 @@ use function Psl\Type\instance_of;
 
 /**
  * @template-implements Enum<self::*>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class Environment implements Enum, Comparable, Equality
+final class Environment implements Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -99,5 +98,11 @@ final class Environment implements Enum, Comparable, Equality
             self::TESTING => 'app.scheme-pat.twint.ch',
             self::PRODUCTION => 'app.scheme.twint.ch',
         };
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->value;
     }
 }

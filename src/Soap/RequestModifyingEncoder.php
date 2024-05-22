@@ -14,7 +14,7 @@ final class RequestModifyingEncoder implements Encoder
      * @param callable(SoapRequest, string, array<mixed>): SoapRequest $modifier
      */
     public function __construct(
-        private readonly Encoder $wrapped,
+        private readonly Encoder $encoder,
         private readonly mixed $modifier
     ) {
     }
@@ -25,6 +25,6 @@ final class RequestModifyingEncoder implements Encoder
     #[Override]
     public function encode(string $method, array $arguments): SoapRequest
     {
-        return ($this->modifier)($this->wrapped->encode($method, $arguments), $method, $arguments);
+        return ($this->modifier)($this->encoder->encode($method, $arguments), $method, $arguments);
     }
 }

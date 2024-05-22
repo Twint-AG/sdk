@@ -12,10 +12,9 @@ use function Psl\Type\instance_of;
  * @phpstan-type FutureVersionId = int<self::NEXT,max>
  * @phpstan-type VersionId = ExistingVersionId|FutureVersionId
  * @template-implements Enum<ExistingVersionId>
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class Version implements Enum, Comparable, Equality
+final class Version implements Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -113,5 +112,11 @@ final class Version implements Enum, Comparable, Equality
             static fn (string $carry, int $part) => $part > 0 ? sprintf('%s%s%d', $carry, $separator, $part) : $carry,
             (string) $this->major()
         );
+    }
+
+    #[Override]
+    public function jsonSerialize(): int
+    {
+        return $this->versionId;
     }
 }

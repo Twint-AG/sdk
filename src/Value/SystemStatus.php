@@ -9,11 +9,10 @@ use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Equality<self>
- * @template-implements Comparable<self>
+ * @template-implements Value<self>
  * @template-implements Enum<self::*>
  */
-final class SystemStatus implements Comparable, Equality, Enum
+final class SystemStatus implements Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -64,5 +63,11 @@ final class SystemStatus implements Comparable, Equality, Enum
         instance_of(self::class)->assert($other);
 
         return $this->status <=> $other->status;
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->status;
     }
 }

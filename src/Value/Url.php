@@ -9,10 +9,9 @@ use function Psl\invariant;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Comparable<self>
- * @template-implements Equality<self>
+ * @template-implements Value<self>
  */
-final class Url implements Comparable, Equality
+final class Url implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -35,5 +34,11 @@ final class Url implements Comparable, Equality
         instance_of(self::class)->assert($other);
 
         return $this->url <=> $other->url;
+    }
+
+    #[Override]
+    public function jsonSerialize(): string
+    {
+        return $this->url;
     }
 }
