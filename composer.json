@@ -29,7 +29,7 @@
         "ext-xsl": "*",
         "ext-dom": "*",
         "ext-openssl": "*",
-        "phpro/soap-client": "^3.2.0",
+        "phpro/soap-client": "^3.3.0",
         "php-soap/engine": "^2.4.0",
         "php-soap/psr18-transport": "^1.5.0",
         "guzzlehttp/guzzle": "^7.4",
