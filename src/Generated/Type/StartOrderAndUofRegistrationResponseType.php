@@ -8,9 +8,9 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class StartOrderAndUofRegistrationResponseType implements ResultInterface
 {
-    protected ?TWINTTokenType $Token;
+    protected ?TWINTTokenType $Token = null;
 
-    protected ?string $TwintURL;
+    protected ?string $TwintURL = null;
 
     /**
      * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'

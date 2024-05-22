@@ -21,7 +21,7 @@ class CustomerInformationType
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    protected ?string $CustomerRelationUuid;
+    protected ?string $CustomerRelationUuid = null;
 
     /**
      * @var array<int<0,max>, \Twint\Sdk\Generated\Type\KeyValueType>

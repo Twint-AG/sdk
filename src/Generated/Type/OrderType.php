@@ -19,14 +19,14 @@ class OrderType extends OrderRequestType
 
     protected DateTimeInterface $CreationTimestamp;
 
-    protected ?CurrencyAmountType $AuthorizedAmount;
+    protected ?CurrencyAmountType $AuthorizedAmount = null;
 
-    protected ?CurrencyAmountType $Fee;
+    protected ?CurrencyAmountType $Fee = null;
 
-    protected ?DateTimeInterface $ProcessingTimestamp;
+    protected ?DateTimeInterface $ProcessingTimestamp = null;
 
     /**
-     * @var array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
+     * @var non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
      */
     protected array $PaymentAmount;
 
@@ -38,13 +38,13 @@ class OrderType extends OrderRequestType
      *  Note: For BNPL Payments the Fee-Element contains a blended fee of merchant's payment fee plus the BNPL
      *  markup.
      */
-    protected ?BNPLDataType $BNPLData;
+    protected ?BNPLDataType $BNPLData = null;
 
     /**
      * Reference number by which the merchant might want to identify
      *  this voucher in his own applications.
      */
-    protected ?string $MerchantTransactionReference;
+    protected ?string $MerchantTransactionReference = null;
 
     public function getUuid(): string
     {
@@ -125,7 +125,7 @@ class OrderType extends OrderRequestType
     }
 
     /**
-     * @return array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
+     * @return non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\PaymentAmountType>
      */
     public function getPaymentAmount(): array
     {
@@ -133,7 +133,7 @@ class OrderType extends OrderRequestType
     }
 
     /**
-     * @param array<int<1,max>, \Twint\Sdk\Generated\Type\PaymentAmountType> $PaymentAmount
+     * @param non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\PaymentAmountType> $PaymentAmount
      */
     public function withPaymentAmount(array $PaymentAmount): static
     {

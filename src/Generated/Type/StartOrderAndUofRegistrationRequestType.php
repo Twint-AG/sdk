@@ -20,14 +20,14 @@ class StartOrderAndUofRegistrationRequestType
 
     protected OrderRequestType $Order;
 
-    protected ?CouponListType $Coupons;
+    protected ?CouponListType $Coupons = null;
 
     /**
      * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    protected ?string $PaymentLayerRendering;
+    protected ?string $PaymentLayerRendering = null;
 
-    protected ?string $OrderUpdateNotificationURL;
+    protected ?string $OrderUpdateNotificationURL = null;
 
     public function getMerchantInformation(): MerchantInformationType
     {

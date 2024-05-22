@@ -15,36 +15,36 @@ class StartOrderRequestType
 
     protected OrderRequestType $Order;
 
-    protected ?CouponListType $Coupons;
+    protected ?CouponListType $Coupons = null;
 
-    protected ?string $OfflineAuthorization;
-
-    /**
-     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
-     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
-     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
-     */
-    protected ?string $CustomerRelationUuid;
+    protected ?string $OfflineAuthorization = null;
 
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    protected ?string $PairingUuid;
+    protected ?string $CustomerRelationUuid = null;
 
-    protected ?bool $UnidentifiedCustomer;
+    /**
+     * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
+     *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
+     *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
+     */
+    protected ?string $PairingUuid = null;
 
-    protected ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization;
+    protected ?bool $UnidentifiedCustomer = null;
 
-    protected ?bool $QRCodeRendering;
+    protected ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization = null;
+
+    protected ?bool $QRCodeRendering = null;
 
     /**
      * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
      */
-    protected ?string $PaymentLayerRendering;
+    protected ?string $PaymentLayerRendering = null;
 
-    protected ?string $OrderUpdateNotificationURL;
+    protected ?string $OrderUpdateNotificationURL = null;
 
     public function getMerchantInformation(): MerchantInformationType
     {

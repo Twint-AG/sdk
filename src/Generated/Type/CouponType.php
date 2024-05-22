@@ -8,7 +8,7 @@ class CouponType
 {
     protected string $CouponId;
 
-    protected ?CurrencyAmountType $CouponValue;
+    protected ?CurrencyAmountType $CouponValue = null;
 
     public function getCouponId(): string
     {

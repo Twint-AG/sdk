@@ -17,11 +17,11 @@ class StartOrderResponseType implements ResultInterface
 
     protected OrderStatusType $OrderStatus;
 
-    protected ?int $Token;
+    protected ?int $Token = null;
 
-    protected ?string $QRCode;
+    protected ?string $QRCode = null;
 
-    protected ?string $TwintURL;
+    protected ?string $TwintURL = null;
 
     protected CustomerInformationType $CustomerInformation;
 

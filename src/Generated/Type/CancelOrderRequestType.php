@@ -18,13 +18,13 @@ class CancelOrderRequestType
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
      */
-    protected ?string $OrderUuid;
+    protected ?string $OrderUuid = null;
 
     /**
      * Reference number by which the merchant might want to identify
      *  this voucher in his own applications.
      */
-    protected ?string $MerchantTransactionReference;
+    protected ?string $MerchantTransactionReference = null;
 
     public function getMerchantInformation(): MerchantInformationType
     {

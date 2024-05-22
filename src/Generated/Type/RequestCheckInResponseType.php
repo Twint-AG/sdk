@@ -10,9 +10,9 @@ class RequestCheckInResponseType implements ResultInterface
 {
     protected CheckInNotificationType $CheckInNotification;
 
-    protected ?int $Token;
+    protected ?int $Token = null;
 
-    protected ?string $QRCode;
+    protected ?string $QRCode = null;
 
     public function getCheckInNotification(): CheckInNotificationType
     {

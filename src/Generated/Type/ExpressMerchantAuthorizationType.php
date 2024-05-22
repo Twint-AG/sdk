@@ -6,9 +6,9 @@ namespace Twint\Sdk\Generated\Type;
 
 class ExpressMerchantAuthorizationType
 {
-    protected ?string $TerminalId;
+    protected ?string $TerminalId = null;
 
-    protected ?string $SequenceCounter;
+    protected ?string $SequenceCounter = null;
 
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -35,7 +35,7 @@ class ExpressMerchantAuthorizationType
     /**
      * @var null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT'
      */
-    protected ?string $UofPaymentType;
+    protected ?string $UofPaymentType = null;
 
     public function getTerminalId(): ?string
     {

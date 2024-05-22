@@ -20,11 +20,11 @@ class EnrollCashRegisterRequestElement implements RequestInterface
      */
     protected string $CashRegisterType;
 
-    protected ?string $FormerCashRegisterId;
+    protected ?string $FormerCashRegisterId = null;
 
-    protected ?string $BeaconInventoryNumber;
+    protected ?string $BeaconInventoryNumber = null;
 
-    protected ?string $BeaconDaemonVersion;
+    protected ?string $BeaconDaemonVersion = null;
 
     /**
      * Constructor

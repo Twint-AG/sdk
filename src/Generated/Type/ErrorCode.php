@@ -10,9 +10,9 @@ class ErrorCode
 
     protected string $Status;
 
-    protected ?string $DetailCode;
+    protected ?string $DetailCode = null;
 
-    protected ?string $DetailDescription;
+    protected ?string $DetailDescription = null;
 
     public function getCode(): string
     {

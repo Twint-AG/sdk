@@ -11,7 +11,7 @@ class CouponRejectionReason
      */
     protected string $RejectionReason;
 
-    protected ?string $Details;
+    protected ?string $Details = null;
 
     /**
      * @return 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER'

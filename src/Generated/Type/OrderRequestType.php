@@ -17,21 +17,21 @@ class OrderRequestType
      * Reference number by which the merchant might want to identify
      *  this voucher in his own applications.
      */
-    protected ?string $MerchantTransactionReference;
+    protected ?string $MerchantTransactionReference = null;
 
-    protected ?CurrencyAmountType $CustomerBenefit;
+    protected ?CurrencyAmountType $CustomerBenefit = null;
 
-    protected ?string $EReceiptUrl;
+    protected ?string $EReceiptUrl = null;
 
-    protected ?OrderLinkType $Link;
+    protected ?OrderLinkType $Link = null;
 
-    protected ?string $OrderDetailsUrl;
+    protected ?string $OrderDetailsUrl = null;
 
     /**
      * Basic structure of the description of a time based service.
      *  MUST contain a message type identifier, start and an end time stamp.
      */
-    protected ?TimeBasedDataType $TimeBasedData;
+    protected ?TimeBasedDataType $TimeBasedData = null;
 
     /**
      * Enumeration based on xs:string, defines the payment authorization type for an order.
@@ -41,19 +41,19 @@ class OrderRequestType
      *
      * @var null | 'FINAL_AUTH' | 'PRE_AUTH'
      */
-    protected ?string $PaymentAuthorizationType;
+    protected ?string $PaymentAuthorizationType = null;
 
     /**
      * ConfirmationButtonType is used to allow merchants to customise the labels for the confirmation button.
      */
-    protected ?string $ConfirmationButtonId;
+    protected ?string $ConfirmationButtonId = null;
 
     /**
      * @var 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT'
      */
     protected string $type;
 
-    protected ?bool $confirmationNeeded;
+    protected ?bool $confirmationNeeded = null;
 
     /**
      * @return 'GOODS' | 'MONEY'

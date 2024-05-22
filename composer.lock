@@ -1539,16 +1539,16 @@
         },
         {
             "name": "phpro/soap-client",
-            "version": "3.2.0",
+            "version": "3.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpro/soap-client.git",
-                "reference": "05bded4ca8b46c463de1337f256bb9763532e0b5"
+                "reference": "66eb9620084ea08f5dca1170bcd099d5b156c2d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpro/soap-client/zipball/05bded4ca8b46c463de1337f256bb9763532e0b5",
-                "reference": "05bded4ca8b46c463de1337f256bb9763532e0b5",
+                "url": "https://api.github.com/repos/phpro/soap-client/zipball/66eb9620084ea08f5dca1170bcd099d5b156c2d4",
+                "reference": "66eb9620084ea08f5dca1170bcd099d5b156c2d4",
                 "shasum": ""
             },
             "require": {
@@ -1603,7 +1603,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpro/soap-client/issues",
-                "source": "https://github.com/phpro/soap-client/tree/3.2.0"
+                "source": "https://github.com/phpro/soap-client/tree/3.3.0"
             },
             "funding": [
                 {
@@ -1611,7 +1611,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-04-26T13:34:45+00:00"
+            "time": "2024-05-21T17:03:36+00:00"
         },
         {
             "name": "psr/clock",

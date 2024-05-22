@@ -12,12 +12,12 @@ class RegistrationRequestType
      * Reference number by which the merchant might want to identify
      *  this voucher in his own applications.
      */
-    protected ?string $MerchantRegistrationReference;
+    protected ?string $MerchantRegistrationReference = null;
 
     /**
      * @var null | mixed
      */
-    protected mixed $AliasLifetime;
+    protected mixed $AliasLifetime = null;
 
     protected bool $EnforceRegistration;
 
