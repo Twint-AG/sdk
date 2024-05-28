@@ -35,7 +35,8 @@
         "guzzlehttp/guzzle": "^7.4",
         "webimpress/safe-writer": "^2.0",
         "azjezz/psl": "^2.5.0",
-        "psr/clock": "^1.0"
+        "psr/clock": "^1.0",
+        "veewee/xml": "^3.0.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
@@ -50,7 +51,7 @@
         "symfony/event-dispatcher": "^6.4",
         "symfony/clock": "^6.4",
         "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0",
-        "php-soap/wsdl-reader": "^0.10.0",
+        "php-soap/wsdl-reader": "^0.13.0",
         "roave/better-reflection": "^6.25.0",
         "symfony/finder": "^6.4"
     },

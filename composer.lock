@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d0b5b69c1999e1ceccc5282e1d3f844",
+    "content-hash": "5dd3f23f2cc3aa193d7ff59f97bd52b8",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -1428,16 +1428,16 @@
         },
         {
             "name": "php-soap/wsdl-reader",
-            "version": "0.10.0",
+            "version": "0.13.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl-reader.git",
-                "reference": "535251d71d22a48b894e4a2a72fe5e06d6a7bc19"
+                "reference": "7143e0281436346c2bfa3c004159728121cf387c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/535251d71d22a48b894e4a2a72fe5e06d6a7bc19",
-                "reference": "535251d71d22a48b894e4a2a72fe5e06d6a7bc19",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/7143e0281436346c2bfa3c004159728121cf387c",
+                "reference": "7143e0281436346c2bfa3c004159728121cf387c",
                 "shasum": ""
             },
             "require": {
@@ -1445,8 +1445,9 @@
                 "ext-dom": "*",
                 "goetas-webservices/xsd-reader": "^0.4.1",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "php-soap/engine": "^2.6",
+                "php-soap/engine": "^2.8",
                 "php-soap/wsdl": "^1.4",
+                "php-soap/xml": "^1.6.0",
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
                 "veewee/xml": "^2.6 || ^3.0"
             },
@@ -1476,7 +1477,7 @@
             "description": "A WSDL reader in PHP",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl-reader/issues",
-                "source": "https://github.com/php-soap/wsdl-reader/tree/0.10.0"
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.13.0"
             },
             "funding": [
                 {
@@ -1484,7 +1485,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-04-02T13:51:57+00:00"
+            "time": "2024-05-24T14:11:15+00:00"
         },
         {
             "name": "php-soap/xml",
