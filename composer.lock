@@ -1192,16 +1192,16 @@
         },
         {
             "name": "php-soap/engine",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/engine.git",
-                "reference": "5455dc5ade9f0c507ad955121db15ee88489efc7"
+                "reference": "789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/engine/zipball/5455dc5ade9f0c507ad955121db15ee88489efc7",
-                "reference": "5455dc5ade9f0c507ad955121db15ee88489efc7",
+                "url": "https://api.github.com/repos/php-soap/engine/zipball/789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02",
+                "reference": "789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02",
                 "shasum": ""
             },
             "require": {
@@ -1232,7 +1232,7 @@
             "description": "SOAP engine design",
             "support": {
                 "issues": "https://github.com/php-soap/engine/issues",
-                "source": "https://github.com/php-soap/engine/tree/2.7.0"
+                "source": "https://github.com/php-soap/engine/tree/2.8.0"
             },
             "funding": [
                 {
@@ -1240,7 +1240,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-04-02T13:59:23+00:00"
+            "time": "2024-05-24T10:16:08+00:00"
         },
         {
             "name": "php-soap/ext-soap-engine",
