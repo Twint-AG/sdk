@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0b4278d2f0a565b99c3cddb2b52ce1a9",
+    "content-hash": "a457ae3393c3df90558f6da73347e885",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -1428,16 +1428,16 @@
         },
         {
             "name": "php-soap/wsdl-reader",
-            "version": "0.13.0",
+            "version": "0.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl-reader.git",
-                "reference": "7143e0281436346c2bfa3c004159728121cf387c"
+                "reference": "399615ad0ead34f8685902c5a51c80d8d16eb79b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/7143e0281436346c2bfa3c004159728121cf387c",
-                "reference": "7143e0281436346c2bfa3c004159728121cf387c",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/399615ad0ead34f8685902c5a51c80d8d16eb79b",
+                "reference": "399615ad0ead34f8685902c5a51c80d8d16eb79b",
                 "shasum": ""
             },
             "require": {
@@ -1449,11 +1449,13 @@
                 "php-soap/wsdl": "^1.4",
                 "php-soap/xml": "^1.6.0",
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
-                "veewee/xml": "^2.6 || ^3.0"
+                "veewee/xml": "^3.0",
+                "webmozart/assert": "^1.11"
             },
             "require-dev": {
                 "php-soap/engine-integration-tests": "^1.5.0",
                 "php-standard-library/psalm-plugin": "^2.2",
+                "phpunit/phpunit": "^10.1",
                 "psalm/plugin-symfony": "^5.0",
                 "symfony/var-dumper": "^6.1",
                 "vimeo/psalm": "^5.6"
@@ -1477,7 +1479,7 @@
             "description": "A WSDL reader in PHP",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl-reader/issues",
-                "source": "https://github.com/php-soap/wsdl-reader/tree/0.13.0"
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.13.1"
             },
             "funding": [
                 {
@@ -1485,7 +1487,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-24T14:11:15+00:00"
+            "time": "2024-05-28T11:59:52+00:00"
         },
         {
             "name": "php-soap/xml",
