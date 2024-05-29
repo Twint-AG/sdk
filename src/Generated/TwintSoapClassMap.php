@@ -12,6 +12,11 @@ class TwintSoapClassMap
     public static function getCollection(): ClassMapCollection
     {
         return new ClassMapCollection(
+            new ClassMap('RequestFastCheckoutCheckInRequestType', Type\RequestFastCheckoutCheckInRequestType::class),
+            new ClassMap(
+                'RequestFastCheckoutCheckInRequestElement',
+                Type\RequestFastCheckoutCheckInRequestElement::class
+            ),
             new ClassMap('OrderRequestType', Type\OrderRequestType::class),
             new ClassMap('RequestCheckInRequestType', Type\RequestCheckInRequestType::class),
             new ClassMap('RequestCheckInResponseType', Type\RequestCheckInResponseType::class),
@@ -67,6 +72,9 @@ class TwintSoapClassMap
                 'CancelOrderAndUofRegistrationResponseType',
                 Type\CancelOrderAndUofRegistrationResponseType::class
             ),
+            new ClassMap('RequestFastCheckoutCheckInResponseType', Type\RequestFastCheckoutCheckInResponseType::class),
+            new ClassMap('MonitorFastCheckoutCheckInRequestType', Type\MonitorFastCheckoutCheckInRequestType::class),
+            new ClassMap('MonitorFastCheckoutCheckInResponseType', Type\MonitorFastCheckoutCheckInResponseType::class),
             new ClassMap('KeyValueType', Type\KeyValueType::class),
             new ClassMap('CustomerInformationType', Type\CustomerInformationType::class),
             new ClassMap('LoyaltyType', Type\LoyaltyType::class),
@@ -91,6 +99,9 @@ class TwintSoapClassMap
             new ClassMap('GetOrderRequestType', Type\GetOrderRequestType::class),
             new ClassMap('GetOrderResponseType', Type\GetOrderResponseType::class),
             new ClassMap('RegistrationType', Type\RegistrationType::class),
+            new ClassMap('ShippingMethodReferenceType', Type\ShippingMethodReferenceType::class),
+            new ClassMap('CustomerDataType', Type\CustomerDataType::class),
+            new ClassMap('CustomerDataFieldType', Type\CustomerDataFieldType::class),
             new ClassMap('RequestCheckInRequestElement', Type\RequestCheckInRequestElement::class),
             new ClassMap('MonitorCheckInRequestElement', Type\MonitorCheckInRequestElement::class),
             new ClassMap('CancelCheckInRequestElement', Type\CancelCheckInRequestElement::class),
@@ -121,11 +132,16 @@ class TwintSoapClassMap
                 'CancelOrderAndUofRegistrationRequestElement',
                 Type\CancelOrderAndUofRegistrationRequestElement::class
             ),
+            new ClassMap(
+                'MonitorFastCheckoutCheckInRequestElement',
+                Type\MonitorFastCheckoutCheckInRequestElement::class
+            ),
             new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
             new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
             new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),
             new ClassMap('TWINTTokenType', Type\TWINTTokenType::class),
             new ClassMap('RegistrationRequestType', Type\RegistrationRequestType::class),
+            new ClassMap('InternationalizedString', Type\InternationalizedString::class),
             new ClassMap('RequestHeaderType', Type\RequestHeaderType::class),
             new ClassMap('ResponseHeaderType', Type\ResponseHeaderType::class),
             new ClassMap('RequestHeaderElement', Type\RequestHeaderElement::class),
@@ -167,6 +183,8 @@ class TwintSoapClassMap
             new ClassMap('InvalidOperationForCombinedOrder', Type\InvalidOperationForCombinedOrder::class),
             new ClassMap('InvalidCombinedOrder', Type\InvalidCombinedOrder::class),
             new ClassMap('InvalidPreAuthOrder', Type\InvalidPreAuthOrder::class),
+            new ClassMap('InvalidShippingMethod', Type\InvalidShippingMethod::class),
+            new ClassMap('InvalidCustomerDataScope', Type\InvalidCustomerDataScope::class),
         );
     }
 }

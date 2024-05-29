@@ -31,20 +31,12 @@ class OrderType extends OrderRequestType
     protected array $PaymentAmount;
 
     /**
-     * Optional data structure to provide the BNPL (\"buy now pay later\") related data to the Payment Service
-     *  Provider (PSP).
+     * Optional data structure to provide the BNPL (\"buy now pay later\") related data to the Payment Service Provider (PSP).
      *  The structure contains the required fields to create awareness of a BNPL payments.
      *  This data is only contained in the payload for BNPL payments.
-     *  Note: For BNPL Payments the Fee-Element contains a blended fee of merchant's payment fee plus the BNPL
-     *  markup.
+     *  Note: For BNPL Payments the Fee-Element contains a blended fee of merchant's payment fee plus the BNPL markup.
      */
     protected ?BNPLDataType $BNPLData = null;
-
-    /**
-     * Reference number by which the merchant might want to identify
-     *  this voucher in his own applications.
-     */
-    protected ?string $MerchantTransactionReference = null;
 
     public function getUuid(): string
     {
@@ -152,19 +144,6 @@ class OrderType extends OrderRequestType
     {
         $new = clone $this;
         $new->BNPLData = $BNPLData;
-
-        return $new;
-    }
-
-    public function getMerchantTransactionReference(): ?string
-    {
-        return $this->MerchantTransactionReference;
-    }
-
-    public function withMerchantTransactionReference(?string $MerchantTransactionReference): static
-    {
-        $new = clone $this;
-        $new->MerchantTransactionReference = $MerchantTransactionReference;
 
         return $new;
     }

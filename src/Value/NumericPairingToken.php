@@ -11,7 +11,7 @@ use function Psl\Type\uint;
 /**
  * @template-implements Value<self>
  */
-final class PairingToken implements Value
+final class NumericPairingToken implements Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -23,6 +23,11 @@ final class PairingToken implements Value
         private readonly int $token,
     ) {
         uint()->assert($token);
+    }
+
+    public static function fromString(string $token): self
+    {
+        return new self(uint()->coerce($token));
     }
 
     #[Override]

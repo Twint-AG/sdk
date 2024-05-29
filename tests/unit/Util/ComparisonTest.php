@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Util\Comparison;
-use Twint\Sdk\Value\Comparable;
 
 /**
  * @internal
@@ -17,7 +16,7 @@ use Twint\Sdk\Value\Comparable;
 final class ComparisonTest extends TestCase
 {
     /**
-     * @return iterable<array{list<array{Comparable<covariant object>|scalar|null, Comparable<covariant object>|scalar|null}>, int}>
+     * @return iterable<array{list<array{ComparableImpl|scalar|null, ComparableImpl|scalar|null}>, int}>
      */
     public static function getComparisons(): iterable
     {
@@ -41,9 +40,7 @@ final class ComparisonTest extends TestCase
     }
 
     /**
-     * @template ComparableObject of object
-     * @template ComparableValue of Comparable<ComparableObject>|null|scalar
-     * @param list<array{ComparableValue, ComparableValue}> $pairs
+     * @param list<array{ComparableImpl, ComparableImpl}> $pairs
      */
     #[DataProvider('getComparisons')]
     public function testComparePairs(array $pairs, int $result): void

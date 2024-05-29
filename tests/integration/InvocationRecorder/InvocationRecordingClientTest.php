@@ -45,7 +45,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
     protected function setUpRecodingClient(): void
     {
         $this->messageRecorder = new MessageRecorder();
-        $this->recordingClient = new InvocationRecordingClient($this->client, $this->messageRecorder);
+        $this->recordingClient = new InvocationRecordingClient(self::createClient(), $this->messageRecorder);
     }
 
     public function testSystemStatus(): void
@@ -92,7 +92,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
     {
         $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
         $prop->setAccessible(true);
-        $prop->setValue($this->client, []);
+        $prop->setValue(self::createClient(), []);
 
         try {
             $this->recordingClient->cancelOrder(new FiledMerchantTransactionReference('invalid-merchant-ref'));
@@ -160,7 +160,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
     {
         $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
         $prop->setAccessible(true);
-        $prop->setValue($this->client, []);
+        $prop->setValue(self::createClient(), []);
 
         $transactionRef = self::createTransactionReference();
         $amount = Money::CHF(0.20);

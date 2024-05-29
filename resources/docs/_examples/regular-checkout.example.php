@@ -4,17 +4,15 @@ namespace Acme;
 
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\ApiFailure;
-use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
-use Twint\Sdk\Value\Version;
 
 $client = new Client(
     $certificateContainer,
     MerchantId::fromString($merchantId),
-    Version::latest(),
-    Environment::TESTING()
+    $version,
+    $environment
 );
 
 $startedOrder = $client->startOrder(

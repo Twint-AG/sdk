@@ -8,11 +8,13 @@ use JsonSerializable;
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Psl\Type\Exception\AssertException;
 use ReflectionClass;
 use ReflectionProperty;
 use Twint\Sdk\Value\Comparable;
 use Twint\Sdk\Value\Enum;
 use Twint\Sdk\Value\Equality;
+use Twint\Sdk\Value\FixedValues;
 use function Psl\Type\int;
 use function Psl\Type\string;
 use function Psl\Type\union;
@@ -34,7 +36,7 @@ abstract class ValueTest extends TestCase
     {
         $class = new ReflectionClass(static::getValueType());
 
-        if (!$class->implementsInterface(Enum::class)) {
+        if (!$class->implementsInterface(FixedValues::class)) {
             yield 'EMPTY' => ['', ''];
             return;
         }
@@ -68,6 +70,26 @@ abstract class ValueTest extends TestCase
     public function testCompareSimpleValue(): void
     {
         self::assertSame(0, $this->value->compare($this->value));
+        self::assertSame(0, (clone $this->value)->compare($this->value));
+        self::assertSame(0, $this->value->compare(clone $this->value));
+    }
+
+    public function testThrowsExceptionIfComparisonValueIsOfDifferentType(): void
+    {
+        $this->expectException(AssertException::class);
+
+        $this->value->compare(
+            new /** @template-implements Comparable<self> */ class() implements Comparable {
+                /**
+                 * @return 0
+                 */
+                #[Override]
+                public function compare($other): int
+                {
+                    return 0;
+                }
+            }
+        );
     }
 
     public function testValueIsFinal(): void
@@ -87,7 +109,12 @@ abstract class ValueTest extends TestCase
 
         foreach ($properties as $property) {
             self::assertTrue($property->isPrivate());
-            self::assertTrue($property->isReadOnly());
+            if ($property->isReadOnly()) {
+                self::assertTrue($property->isReadOnly());
+            } else {
+                self::assertIsString($property->getDocComment());
+                self::assertStringContainsString('@readonly', $property->getDocComment());
+            }
         }
     }
 
@@ -140,10 +167,17 @@ abstract class ValueTest extends TestCase
     #[DataProvider('getValueConstants')]
     public function testConstantValuesContainedInAll(string $constantName, mixed $constantValue): void
     {
-        self::requireEnum();
+        self::requireFixedValues();
 
         // @phpstan-ignore-next-line
         self::assertContains($constantValue, (static::getValueType())::all());
+    }
+
+    private static function requireFixedValues(): void
+    {
+        if (!is_subclass_of(static::getValueType(), FixedValues::class)) {
+            self::markTestSkipped('This test is only for Enum values');
+        }
     }
 
     private static function requireEnum(): void

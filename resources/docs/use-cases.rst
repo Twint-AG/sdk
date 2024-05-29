@@ -26,12 +26,6 @@ yet passed to the TWINT system.
 So you start a new order with an unfiled reference and when the order is started you can call monitor only with a filed
 reference.
 
-Error handling
---------------
-
-.. todo::
-    Add error handling section
-
 Implementing a regular/multi-step checkout
 ==========================================
 
@@ -185,6 +179,89 @@ of |class-value-ios-app-scheme| object.
 .. literalinclude:: _examples/ios-app-schemes.example.php
     :language: PHP
 
+Implementing TWINT express checkout
+===================================
+
+TWINT offers the possibility to implement an express checkout (internally called "fast checkout"). The express
+checkout is a simplified checkout process where the customer is redirected to the TWINT app to confirm the payment
+and the customer data is provided by TWINT to the merchant.
+
+The necessary capabilities are provided by the |interface-capability-fast-checkout| interface.
+
+Starting an express checkout check-in
+-------------------------------------
+
+When starting an express checkout, the amount (excluding shipping costs) is passed to the
+|method-client-request-fast-checkout-check-in| method of the |class-client| class. Additionally a list of required
+customer data scopes (|class-value-customer-data-scopes|) should be passed. For physical products that require shipping,
+the list of available shipping methods must be passed as well. The customer will select their shipping method and the
+amount will be charged according to the selected shipping method.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :end-before: Request fast checkout check-in end
+
+A merchant can also request a more minimal set of data, e.g. for digital products.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Request fast checkout check-in minimal start
+    :end-before: Request fast checkout check-in minimal end
+
+.. note::
+    TWINT does not offer a separate billing address so the billing address is always the same as the shipping address.
+
+Monitoring the express checkout check-in
+----------------------------------------
+
+To find out if the customer has approved the express checkout check-in yet, the method
+|method-client-monitor-fast-checkout-check-in| is called and the |class-value-pairing-uuid| object
+returned by from |fq-method-value-interactive-fast-checkout-check-in-pairing-token| is used to identity the check-in
+going forward.
+|method-client-monitor-fast-checkout-check-in| returns an |class-value-fast-checkout-check-in| object that offers the
+method |method-value-fast-checkout-check-in-is-paired| to check if the check-in is paired.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Monitor fast checkout check-in start
+    :end-before: Monitor fast checkout check-in end
+
+Once the pairing is successful, the requested customer data should be available. The customer data can be
+be null if the customer has not set up their TWINT ID.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Access customer data start
+    :end-before: Access customer data end
+
+.. warning::
+    If the customer has not configured their TWINT ID in the TWINT app, the customer data will be null.
+
+If shipping methods have been provided when requesting the fast checkout check-in, the selected shipping method can be
+accessed and matched to the merchant's shipping methods.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Access shipping method start
+    :end-before: Access shipping method end
+
+Creating the actual order
+-------------------------
+
+Once the check-in is paired, the order can be created using the |method-client-start-fast-checkout-order| method. The
+method returns an |class-value-order| object that contains the order ID.
+Similar to |method-client-start-order|, a merchant reference ID is passed to identify the order in the merchant's
+system.
+The amount passed to the |method-client-start-fast-checkout-order| method should be the total amount including shipping
+costs as selected by the user.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Start fast checkout order start
+    :end-before: Start fast checkout order end
+
+Now continue with the regular checkout flow, starting at `Monitor order`_. The major difference being, that the order is
+already confirmed.
 
 Introspecting API interactions
 ==============================

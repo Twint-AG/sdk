@@ -139,7 +139,8 @@ final class DeviceHandlingTest extends IntegrationTest
     #[DataProvider('getUserAgents')]
     public function testDetectDevice(string $userAgent, int $expectedType): void
     {
-        $detectedDevice = $this->client->detectDevice($userAgent);
+        $detectedDevice = $this->createClient()
+            ->detectDevice($userAgent);
 
         self::assertSame($userAgent, $detectedDevice->userAgent());
         self::assertSame($expectedType, $detectedDevice->deviceType());
@@ -147,7 +148,8 @@ final class DeviceHandlingTest extends IntegrationTest
 
     public function testGetIosAppSchemes(): void
     {
-        $schemes = $this->client->getIosAppSchemes();
+        $schemes = $this->createClient()
+            ->getIosAppSchemes();
 
         self::assertGreaterThan(10, count($schemes));
 

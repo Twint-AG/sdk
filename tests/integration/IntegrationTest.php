@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Integration;
 
-use Override;
 use PHPUnit\Framework\TestCase;
 use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
@@ -33,11 +32,6 @@ abstract class IntegrationTest extends TestCase
 {
     final protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
-    /**
-     * @var T
-     */
-    protected readonly Capability $client;
-
     private ?WireMock $wireMock = null;
 
     /**
@@ -45,18 +39,10 @@ abstract class IntegrationTest extends TestCase
      */
     private array $wireMockMethods = [];
 
-    final protected static function getMerchantId(): MerchantId
-    {
-        return MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID'));
-    }
-
-    final protected function createTransactionReference(): UnfiledMerchantTransactionReference
-    {
-        return new UnfiledMerchantTransactionReference(substr(hash('sha3-256', random_bytes(32)), 0, 50));
-    }
-
-    #[Override]
-    final protected function setUp(): void
+    /**
+     * @return T
+     */
+    public function createClient(?Version $version = null): object
     {
         $client = new Client(
             Certificate\CertificateContainer::fromPkcs12(
@@ -68,7 +54,7 @@ abstract class IntegrationTest extends TestCase
                 )
             ),
             self::getMerchantId(),
-            Version::latest(),
+            $version ?? Version::latest(),
             Environment::TESTING(),
             new ContentSensitiveFileWriter(
                 new ExistingPath(__DIR__ . '/../../build/'),
@@ -96,8 +82,19 @@ abstract class IntegrationTest extends TestCase
                 wrapTransport: [$this, 'wrapTransport']
             ),
         );
+
         // @phpstan-ignore-next-line
-        $this->client = $client;
+        return $client;
+    }
+
+    final protected static function getMerchantId(): MerchantId
+    {
+        return MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID'));
+    }
+
+    final protected function createTransactionReference(): UnfiledMerchantTransactionReference
+    {
+        return new UnfiledMerchantTransactionReference(substr(hash('sha3-256', random_bytes(32)), 0, 50));
     }
 
     /**

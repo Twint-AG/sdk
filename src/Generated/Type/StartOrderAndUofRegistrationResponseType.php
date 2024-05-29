@@ -8,6 +8,16 @@ use Phpro\SoapClient\Type\ResultInterface;
 
 class StartOrderAndUofRegistrationResponseType implements ResultInterface
 {
+    /**
+     * TWINT Token Type transports tokens used throughout the TWINT System. It separates the same information
+     *  into three different elements to cater for different needs:
+     *  - DisplayToken transports a Token formatted fit for display to a Human and subsequent manual entry. It may omit
+     *  certain data only relevant in machine-machine communication or be formatted for better readability.
+     *  - APIToken transports a Token formatted fit for passing on to another Application in an API Call. It is optimized
+     *  for Transport of Data between applications.
+     *  - QRCodeImage transports a token encoded in an QR-Code image. The image is provided as PNG Image sent as
+     *  base64 encoded String within an DataURI, as defined in https://tools.ietf.org/html/rfc2397[RFC 2397]
+     */
     protected ?TWINTTokenType $Token = null;
 
     protected ?string $TwintURL = null;

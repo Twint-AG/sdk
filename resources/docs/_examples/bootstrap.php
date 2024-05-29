@@ -9,7 +9,9 @@ use Twint\Sdk\Certificate\Pkcs12Certificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Tools\SystemEnvironment;
+use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
+use Twint\Sdk\Value\Version;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
@@ -33,6 +35,10 @@ $certificateContainer = CertificateContainer::fromPkcs12(
         $certificatePassphrase
     )
 );
+
+$version = Version::next();
+$environment = Environment::TESTING();
+
 function handle(): void
 {
 }

@@ -12,13 +12,21 @@ use Twint\Sdk\Capability\CoreCapabilities;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
+use Twint\Sdk\Value\AlphanumericPairingToken;
+use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
+use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
+use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\QrCode;
+use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
@@ -47,6 +55,19 @@ final class InvocationRecordingClientTest extends TestCase
             ]];
         yield ['detectDevice', ['iOS']];
         yield ['getIosAppSchemes', []];
+        yield [
+            'requestFastCheckoutCheckIn',
+            [Money::CHF(1.99), new CustomerDataScopes(CustomerDataScopes::EMAIL), new ShippingMethods()],
+        ];
+        yield ['monitorFastCheckoutCheckIn', [PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c')]];
+        yield [
+            'startFastCheckoutOrder',
+            [
+                PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
+                new UnfiledMerchantTransactionReference('123'),
+                Money::CHF(1.99),
+            ],
+        ];
     }
 
     /**
@@ -75,6 +96,19 @@ final class InvocationRecordingClientTest extends TestCase
                     'reverseOrder' => $order,
                     'detectDevice' => DetectedDevice::IOS('iOS'),
                     'getIosAppSchemes' => [new IosAppScheme('twint-issuer0://', 'App Name')],
+                    'requestFastCheckOutCheckIn' => new InteractiveFastCheckoutCheckIn(
+                        PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
+                        PairingStatus::PAIRING_ACTIVE(),
+                        new AlphanumericPairingToken('123456'),
+                        new QrCode('data:image/png;base64,0')
+                    ),
+                    'monitorFastCheckoutCheckIn' => new FastCheckoutCheckIn(
+                        PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
+                        PairingStatus::PAIRING_ACTIVE(),
+                        null,
+                        null
+                    ),
+                    'startFastCheckoutOrder' => $order,
                 ]
             ),
             new MessageRecorder()

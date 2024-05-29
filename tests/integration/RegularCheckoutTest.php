@@ -18,7 +18,7 @@ use Twint\Sdk\Value\TransactionStatus;
  * @internal
  */
 #[CoversClass(Client::class)]
-final class OrderCheckoutTest extends IntegrationTest
+final class RegularCheckoutTest extends IntegrationTest
 {
     use Assertions;
 
@@ -38,7 +38,8 @@ final class OrderCheckoutTest extends IntegrationTest
 
     public function testStartOrder(): void
     {
-        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+        $client = $this->createClient();
+        $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $order->status());
         self::assertTrue($order->requiresPairing());
@@ -50,11 +51,12 @@ final class OrderCheckoutTest extends IntegrationTest
 
     public function testMonitorOrderByOrderId(): void
     {
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-        $monitorOrder = $this->client->monitorOrder($order->id());
+        $monitorOrder = $client->monitorOrder($order->id());
 
         self::assertObjectEquals($order->id(), $monitorOrder->id());
         self::assertObjectEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
@@ -63,11 +65,12 @@ final class OrderCheckoutTest extends IntegrationTest
 
     public function testMonitorOrderByMerchantTransactionReference(): void
     {
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-        $monitorOrder = $this->client->monitorOrder($order->merchantTransactionReference());
+        $monitorOrder = $client->monitorOrder($order->merchantTransactionReference());
 
         self::assertObjectEquals($order->id(), $monitorOrder->id());
         self::assertObjectEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
@@ -78,11 +81,12 @@ final class OrderCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-        $confirmedOrder = $this->client->confirmOrder($order->id(), Money::CHF(100));
+        $confirmedOrder = $client->confirmOrder($order->id(), Money::CHF(100));
 
         self::assertObjectEquals($order->id(), $confirmedOrder->id());
         self::assertObjectEquals(OrderStatus::SUCCESS(), $confirmedOrder->status());
@@ -92,11 +96,12 @@ final class OrderCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-        $confirmedOrder = $this->client->confirmOrder($order->merchantTransactionReference(), Money::CHF(100));
+        $confirmedOrder = $client->confirmOrder($order->merchantTransactionReference(), Money::CHF(100));
 
         self::assertObjectEquals(
             $order->merchantTransactionReference(),
@@ -109,12 +114,13 @@ final class OrderCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
         $reversalReference = $this->createTransactionReference();
-        $reversed = $this->client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
+        $reversed = $client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
 
         self::assertObjectNotEquals($order->merchantTransactionReference(), $reversed->merchantTransactionReference());
         self::assertFalse($reversed->requiresPairing());
@@ -124,12 +130,13 @@ final class OrderCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
+        $client = $this->createClient();
         $transactionReference = $this->createTransactionReference();
 
-        $order = $this->client->startOrder($transactionReference, Money::CHF(100));
+        $order = $client->startOrder($transactionReference, Money::CHF(100));
 
         $reversalReference = $this->createTransactionReference();
-        $reversed = $this->client->reverseOrder(
+        $reversed = $client->reverseOrder(
             $reversalReference,
             $order->merchantTransactionReference(),
             Money::CHF(100)
@@ -142,9 +149,11 @@ final class OrderCheckoutTest extends IntegrationTest
 
     public function testCancelOrderByOrderId(): void
     {
-        $started = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+        $client = $this->createClient();
 
-        $cancelled = $this->client->cancelOrder($started->id());
+        $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
+
+        $cancelled = $client->cancelOrder($started->id());
 
         self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
         self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
@@ -152,11 +161,13 @@ final class OrderCheckoutTest extends IntegrationTest
 
     public function testCancelOrderByMerchantTransactionReference(): void
     {
-        $started = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+        $client = $this->createClient();
+
+        $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
         self::markTestSkipped('CancelOrder response does not include UUID. Maybe an API bug?');
 
-        $cancelled = $this->client->cancelOrder($started->merchantTransactionReference()); // @phpstan-ignore-line
+        $cancelled = $client->cancelOrder($started->merchantTransactionReference()); // @phpstan-ignore-line
 
         self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
         self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
@@ -168,22 +179,24 @@ final class OrderCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(100));
+        $client = $this->createClient();
+
+        $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
         $this->wireMock()
             ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_SUCCESS, self::WIREMOCK_SCENARIO_STATE_SUCCESS_SETUP);
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
 
-        $awaitConfirmation = $this->client->monitorOrder($order->id());
+        $awaitConfirmation = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $awaitConfirmation->status());
         self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $awaitConfirmation->transactionStatus());
         self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $awaitConfirmation->pairingStatus());
 
-        $confirmation = $this->client->monitorOrder($order->id());
+        $confirmation = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::SUCCESS(), $confirmation->status());
         self::assertObjectEquals(TransactionStatus::ORDER_OK(), $confirmation->transactionStatus());
         self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $confirmation->pairingStatus());
@@ -195,17 +208,18 @@ final class OrderCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+        $client = $this->createClient();
+        $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
             ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
@@ -216,13 +230,10 @@ final class OrderCheckoutTest extends IntegrationTest
                 self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_TIMEOUT
             );
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
         self::assertObjectEquals(TransactionStatus::CLIENT_TIMEOUT(), $started->transactionStatus());
-        self::assertObjectEquals(
-            PairingStatus::PAIRING_ACTIVE(),
-            $started->pairingStatus()
-        ); // @todo is this correct?
+        self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
     }
 
     public function testOrderFailureScenarioClientAbort(): void
@@ -231,17 +242,18 @@ final class OrderCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+        $client = $this->createClient();
+        $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
             ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
@@ -252,7 +264,7 @@ final class OrderCheckoutTest extends IntegrationTest
                 self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_CLIENT_ABORT
             );
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
         self::assertObjectEquals(TransactionStatus::CLIENT_ABORT(), $started->transactionStatus());
         self::assertObjectEquals(
@@ -267,17 +279,18 @@ final class OrderCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $order = $this->client->startOrder($this->createTransactionReference(), Money::CHF(10));
+        $client = $this->createClient();
+        $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
             ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
         self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
         self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
@@ -288,7 +301,7 @@ final class OrderCheckoutTest extends IntegrationTest
                 self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR
             );
 
-        $started = $this->client->monitorOrder($order->id());
+        $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
         self::assertObjectEquals(TransactionStatus::GENERAL_ERROR(), $started->transactionStatus());
         self::assertObjectEquals(

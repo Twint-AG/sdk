@@ -32,6 +32,8 @@ use Twint\Sdk\Generated\Type\IsUofConnectionActiveRequestElement;
 use Twint\Sdk\Generated\Type\IsUofConnectionActiveResponseType;
 use Twint\Sdk\Generated\Type\MonitorCheckInRequestElement;
 use Twint\Sdk\Generated\Type\MonitorCheckInResponseType;
+use Twint\Sdk\Generated\Type\MonitorFastCheckoutCheckInRequestElement;
+use Twint\Sdk\Generated\Type\MonitorFastCheckoutCheckInResponseType;
 use Twint\Sdk\Generated\Type\MonitorOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\MonitorOrderAndUofRegistrationResponseType;
 use Twint\Sdk\Generated\Type\MonitorOrderRequestElement;
@@ -40,6 +42,8 @@ use Twint\Sdk\Generated\Type\RenewCertificateRequestElement;
 use Twint\Sdk\Generated\Type\RenewCertificateResponseType;
 use Twint\Sdk\Generated\Type\RequestCheckInRequestElement;
 use Twint\Sdk\Generated\Type\RequestCheckInResponseType;
+use Twint\Sdk\Generated\Type\RequestFastCheckoutCheckInRequestElement;
+use Twint\Sdk\Generated\Type\RequestFastCheckoutCheckInResponseType;
 use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationRequestElement;
 use Twint\Sdk\Generated\Type\StartOrderAndUofRegistrationResponseType;
 use Twint\Sdk\Generated\Type\StartOrderRequestElement;
@@ -329,6 +333,38 @@ class TwintSoapClient
         $response = ($this->caller)('CancelOrderAndUofRegistration', $request);
 
         instance_of(CancelOrderAndUofRegistrationResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
+    }
+
+    /**
+     * @param RequestInterface & Type\RequestFastCheckoutCheckInRequestElement $request
+     * @throws SoapException
+     * @return ResultInterface & Type\RequestFastCheckoutCheckInResponseType
+     */
+    public function requestFastCheckoutCheckIn(
+        RequestFastCheckoutCheckInRequestElement $request
+    ): RequestFastCheckoutCheckInResponseType {
+        $response = ($this->caller)('RequestFastCheckoutCheckIn', $request);
+
+        instance_of(RequestFastCheckoutCheckInResponseType::class)->assert($response);
+        instance_of(ResultInterface::class)->assert($response);
+
+        return $response;
+    }
+
+    /**
+     * @param RequestInterface & Type\MonitorFastCheckoutCheckInRequestElement $request
+     * @throws SoapException
+     * @return ResultInterface & Type\MonitorFastCheckoutCheckInResponseType
+     */
+    public function monitorFastCheckoutCheckIn(
+        MonitorFastCheckoutCheckInRequestElement $request
+    ): MonitorFastCheckoutCheckInResponseType {
+        $response = ($this->caller)('MonitorFastCheckoutCheckIn', $request);
+
+        instance_of(MonitorFastCheckoutCheckInResponseType::class)->assert($response);
         instance_of(ResultInterface::class)->assert($response);
 
         return $response;

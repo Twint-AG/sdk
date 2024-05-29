@@ -12,6 +12,12 @@ class RequestCheckInResponseType implements ResultInterface
 
     protected ?int $Token = null;
 
+    /**
+     * DataUriScheme allows transporting an image or other binary Data in a format that is fit to be placed inside
+     *  an 'img' element in a website as inline image definition. Such an Element always starts with the word 'data:' and
+     *  then contains the contents of the image in Base64 encoded form (see https://tools.ietf.org/html/rfc2397[RFC 2397])
+     *  Within TWINT this Datatype is usually used to transport QR-Code Images in PNG Format.
+     */
     protected ?string $QRCode = null;
 
     public function getCheckInNotification(): CheckInNotificationType

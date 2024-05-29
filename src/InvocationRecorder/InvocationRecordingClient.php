@@ -11,11 +11,16 @@ use Twint\Sdk\InvocationRecorder\Capability\InvocationRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Value\Invocation;
 use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
+use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
+use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
@@ -136,5 +141,37 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         } finally {
             $this->invocations = [];
         }
+    }
+
+    #[Override]
+    public function requestFastCheckoutCheckIn(
+        Money $amountWithoutShipping,
+        CustomerDataScopes $scopes,
+        ShippingMethods $shippingMethods
+    ): InteractiveFastCheckoutCheckIn {
+        return $this->record(
+            __FUNCTION__,
+            [$this->client, 'requestFastCheckoutCheckIn'],
+            [$amountWithoutShipping, $scopes, $shippingMethods]
+        );
+    }
+
+    #[Override]
+    public function monitorFastCheckoutCheckIn(PairingUuid $pairingUuid): FastCheckoutCheckIn
+    {
+        return $this->record(__FUNCTION__, [$this->client, 'monitorFastCheckoutCheckIn'], [$pairingUuid]);
+    }
+
+    #[Override]
+    public function startFastCheckoutOrder(
+        PairingUuid $pairingUuid,
+        UnfiledMerchantTransactionReference $orderReference,
+        Money $requestedAmount
+    ): Order {
+        return $this->record(
+            __FUNCTION__,
+            [$this->client, 'startFastCheckoutOrder'],
+            [$pairingUuid, $orderReference, $requestedAmount]
+        );
     }
 }

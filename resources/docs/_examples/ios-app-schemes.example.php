@@ -3,15 +3,13 @@
 namespace Acme;
 
 use Twint\Sdk\Client;
-use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\MerchantId;
-use Twint\Sdk\Value\Version;
 
 $client = new Client(
     $certificateContainer,
     MerchantId::fromString($merchantId),
-    Version::latest(),
-    Environment::TESTING()
+    $version,
+    $environment
 );
 
 $schemes = $client->getIosAppSchemes();

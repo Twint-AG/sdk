@@ -6,6 +6,7 @@ namespace Twint\Sdk\Value;
 
 use Override;
 use function Psl\invariant;
+use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 
 /**
@@ -49,6 +50,8 @@ final class QrCode implements Value
     #[Override]
     public function compare($other): int
     {
+        instance_of(self::class)->assert($other);
+
         return $this->qrCode <=> $other->qrCode;
     }
 

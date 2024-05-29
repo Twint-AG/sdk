@@ -17,10 +17,13 @@ use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterResponseType;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 
@@ -43,10 +46,25 @@ final class ClientTest extends TestCase
         yield ['confirmOrder', [new FiledMerchantTransactionReference('ref'), Money::CHF(100)]];
         yield [
             'reverseOrder',
-            [new UnfiledMerchantTransactionReference('rev'),
+            [
+                new UnfiledMerchantTransactionReference('rev'),
                 new FiledMerchantTransactionReference('ref'),
                 Money::CHF(100),
-            ]];
+            ],
+        ];
+        yield [
+            'requestFastCheckOutCheckIn',
+            [Money::CHF(10), new CustomerDataScopes(CustomerDataScopes::DATE_OF_BIRTH), new ShippingMethods()],
+        ];
+        yield ['monitorFastCheckOutCheckIn', [PairingUuid::fromString('f1b4b3b4-0b3b-4b3b-8b3b-0b3b4b3b4b3b')]];
+        yield [
+            'startFastCheckoutOrder',
+            [
+                PairingUuid::fromString('f1b4b3b4-0b3b-4b3b-8b3b-0b3b4b3b4b3b'),
+                new UnfiledMerchantTransactionReference('ref'),
+                Money::CHF(100),
+            ],
+        ];
     }
 
     /**

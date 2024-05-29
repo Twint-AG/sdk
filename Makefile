@@ -104,6 +104,9 @@ dev: start
 dev-docs: start
 	$(DOCKER_COMPOSE) exec -it sphinx bash
 
+doc-refs:
+	php $(BASE_DIR)/tools/doc-refs.php
+
 check-doc-refs:
 	php $(BASE_DIR)/tools/doc-refs.php
 	git diff --exit-code $(DOCS_DIR)

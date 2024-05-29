@@ -8,11 +8,8 @@ use Stringable;
 
 /**
  * @template T
+ * @template-extends FixedValues<T>
  */
-interface Enum extends Stringable
+interface Enum extends FixedValues, Stringable
 {
-    /**
-     * @return list<T>
-     */
-    public static function all(): array;
 }

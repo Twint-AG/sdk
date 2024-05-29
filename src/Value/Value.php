@@ -7,7 +7,7 @@ namespace Twint\Sdk\Value;
 use JsonSerializable;
 
 /**
- * @template T of Equality
+ * @template T of Comparable&Equality
  * @template-extends Comparable<T>
  * @template-extends Equality<T>
  */

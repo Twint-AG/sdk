@@ -9,11 +9,11 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\NumericPairingToken;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
-use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\Uuid;
@@ -115,7 +115,7 @@ final class OrderTest extends ValueTest
             TransactionStatus::GENERAL_ERROR(),
             Money::CHF(0.21),
             PairingStatus::PAIRING_IN_PROGRESS(),
-            new PairingToken(self::PAIRING_TOKEN),
+            new NumericPairingToken(self::PAIRING_TOKEN),
             new QrCode(self::IMAGE)
         );
 

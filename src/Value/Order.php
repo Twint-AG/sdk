@@ -10,7 +10,7 @@ use function Psl\Type\instance_of;
 
 /**
  * @template TPairingStatus of PairingStatus|null
- * @template TPairingToken of PairingToken|null
+ * @template TPairingToken of NumericPairingToken|null
  * @template TQrCode of QrCode|null
  * @template-implements Value<self<PairingStatus, TPairingToken, TQrCode>>
  */
@@ -31,7 +31,7 @@ final class Order implements Value
         private readonly TransactionStatus $transactionStatus,
         private readonly Money $amount,
         private readonly ?PairingStatus $pairingStatus = null,
-        private readonly ?PairingToken $pairingToken = null,
+        private readonly ?NumericPairingToken $pairingToken = null,
         private readonly ?QrCode $qrCode = null,
     ) {
     }
@@ -67,7 +67,7 @@ final class Order implements Value
     /**
      * @return TPairingToken
      */
-    public function pairingToken(): ?PairingToken
+    public function pairingToken(): ?NumericPairingToken
     {
         return $this->pairingToken;
     }
@@ -135,7 +135,16 @@ final class Order implements Value
     }
 
     /**
-     * @return array{id: OrderId, merchantTransactionReference: FiledMerchantTransactionReference, status: OrderStatus, transactionStatus: TransactionStatus, amount: Money, pairingStatus: PairingStatus|null, pairingToken: PairingToken|null, qrCode: QrCode|null}
+     * @return array{
+     *     id: OrderId,
+     *     merchantTransactionReference: FiledMerchantTransactionReference,
+     *     status: OrderStatus,
+     *     transactionStatus: TransactionStatus,
+     *     amount: Money,
+     *     pairingStatus: PairingStatus|null,
+     *     pairingToken: NumericPairingToken|null,
+     *     qrCode: QrCode|null
+     * }
      */
     #[Override]
     public function jsonSerialize(): array

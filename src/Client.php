@@ -26,25 +26,41 @@ use Twint\Sdk\Generated\Type\ConfirmOrderRequestElement;
 use Twint\Sdk\Generated\Type\CurrencyAmountType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestElement;
 use Twint\Sdk\Generated\Type\MerchantInformationType;
+use Twint\Sdk\Generated\Type\MonitorFastCheckoutCheckInRequestElement;
 use Twint\Sdk\Generated\Type\MonitorOrderRequestElement;
 use Twint\Sdk\Generated\Type\OrderLinkType;
 use Twint\Sdk\Generated\Type\OrderRequestType;
+use Twint\Sdk\Generated\Type\RequestFastCheckoutCheckInRequestElement;
+use Twint\Sdk\Generated\Type\ShippingMethodReferenceType;
 use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Value\Address;
+use Twint\Sdk\Value\AlphanumericPairingToken;
+use Twint\Sdk\Value\CustomerData;
+use Twint\Sdk\Value\CustomerDataScopes;
+use Twint\Sdk\Value\Date;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\Email;
 use Twint\Sdk\Value\Environment;
+use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
+use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\MerchantTransactionReference;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\NumericPairingToken;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
-use Twint\Sdk\Value\PairingToken;
+use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\PhoneNumber;
 use Twint\Sdk\Value\QrCode;
+use Twint\Sdk\Value\ShippingMethod;
+use Twint\Sdk\Value\ShippingMethodId;
+use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
@@ -120,10 +136,8 @@ final class Client implements CoreCapabilities
      * @throws SdkError
      */
     #[Override]
-    public function startOrder(
-        UnfiledMerchantTransactionReference $orderReference,
-        Money $requestedAmount,
-    ): Order {
+    public function startOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order
+    {
         $this->enrollCashRegister();
 
         try {
@@ -162,7 +176,7 @@ final class Client implements CoreCapabilities
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
                 $requestedAmount,
                 PairingStatus::fromString($response->getPairingStatus()),
-                new PairingToken(uint()->assert($response->getToken())),
+                new NumericPairingToken(uint()->assert($response->getToken())),
                 new QrCode(non_empty_string()->assert($response->getQRCode()))
             );
         } catch (SoapException $e) {
@@ -357,6 +371,162 @@ final class Client implements CoreCapabilities
                 OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
                 $reversalAmount
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function requestFastCheckoutCheckIn(
+        Money $amountWithoutShipping,
+        CustomerDataScopes $scopes,
+        ShippingMethods $shippingMethods
+    ): InteractiveFastCheckoutCheckIn {
+        $this->enrollCashRegister();
+
+        try {
+            $response = $this->soapClient()
+                ->requestFastCheckoutCheckIn(
+                    new RequestFastCheckoutCheckInRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
+                        NetAmount: (new CurrencyAmountType())
+                            ->withAmount($amountWithoutShipping->amount())
+                            ->withCurrency($amountWithoutShipping->currency()),
+                        // @phpstan-ignore-next-line
+                        RequestedScopes: $scopes->toList(),
+                        // @phpstan-ignore-next-line
+                        ShippingMethods: array_map(
+                            static fn (ShippingMethod $method) => (new ShippingMethodReferenceType())
+                                ->withShippingMethodId((string) $method->id())
+                                ->withShippingMethodLabel($method->label())
+                                ->withShippingMethodAmount(
+                                    (new CurrencyAmountType())
+                                        ->withAmount($method->price()->amount())
+                                        ->withCurrency($method->price()->currency())
+                                ),
+                            iterator_to_array($shippingMethods)
+                        ),
+                        QRCodeRendering: true,
+                    )
+                );
+
+            return new InteractiveFastCheckoutCheckIn(
+                PairingUuid::fromString(
+                    non_empty_string()
+                        ->assert($response->getCheckInNotification()->getPairingUuid())
+                ),
+                PairingStatus::fromString($response->getCheckInNotification()->getPairingStatus()),
+                AlphanumericPairingToken::fromString($response->getToken()->getDisplayToken()),
+                new QrCode(non_empty_string()->assert($response->getQRCode())),
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function monitorFastCheckoutCheckIn(PairingUuid $pairingUuid): FastCheckoutCheckIn
+    {
+        try {
+            $response = $this->soapClient()
+                ->monitorFastCheckoutCheckIn(
+                    new MonitorFastCheckoutCheckInRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
+                        PairingUuid: (string) $pairingUuid,
+                        WaitForResponse: false
+                    )
+                );
+
+            $customerData = null;
+            if ($response->getCustomerData() !== null) {
+                $data = [];
+                foreach ($response->getCustomerData()->getField() as $field) {
+                    $key = $field->getName();
+                    $data[$key] = match ($key) {
+                        CustomerDataScopes::DATE_OF_BIRTH => Date::parse($field->getValue()),
+                        CustomerDataScopes::EMAIL => new Email($field->getValue()),
+                        CustomerDataScopes::PHONE_NUMBER => new PhoneNumber($field->getValue()),
+                        CustomerDataScopes::SHIPPING_ADDRESS => Address::parse($field->getValue()),
+                        default => $field->getValue(),
+                    };
+                }
+
+                $customerData = CustomerData::fromDict($data);
+            }
+
+            return new FastCheckoutCheckIn(
+                $pairingUuid,
+                PairingStatus::fromString($response->getCheckInNotification()->getPairingStatus()),
+                $response->getShippingMethodId() !== null
+                    ? new ShippingMethodId($response->getShippingMethodId())
+                    : null,
+                $customerData
+            );
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function startFastCheckoutOrder(
+        PairingUuid $pairingUuid,
+        UnfiledMerchantTransactionReference $orderReference,
+        Money $requestedAmount
+    ): Order {
+        $this->enrollCashRegister();
+
+        try {
+            $response = $this->soapClient()
+                ->startOrder(
+                    new StartOrderRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withCashRegisterId((string) $this->merchantId),
+                        Order: (new OrderRequestType())
+                            ->withRequestedAmount(
+                                (new CurrencyAmountType())
+                                    ->withAmount($requestedAmount->amount())
+                                    ->withCurrency($requestedAmount->currency())
+                            )
+                            ->withMerchantTransactionReference((string) $orderReference)
+                            ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
+                            ->withPostingType(self::POSTING_TYPE_GOODS)
+                            ->withConfirmationNeeded(false),
+                        Coupons: null,
+                        OfflineAuthorization: null,
+                        CustomerRelationUuid: null,
+                        PairingUuid: (string) $pairingUuid,
+                        UnidentifiedCustomer: true,
+                        ExpressMerchantAuthorization: null,
+                        QRCodeRendering: true,
+                        PaymentLayerRendering: null,
+                        OrderUpdateNotificationURL: null
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrderUuid()),
+                new FiledMerchantTransactionReference((string) $orderReference),
+                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                $requestedAmount,
+                PairingStatus::fromString($response->getPairingStatus()),
+                null,
+                null
             );
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);

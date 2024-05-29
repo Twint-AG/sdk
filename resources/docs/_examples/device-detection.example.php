@@ -3,16 +3,14 @@
 namespace Acme;
 
 use Twint\Sdk\Client;
-use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\MerchantId;
-use Twint\Sdk\Value\Version;
 use function Psl\Type\string;
 
 $client = new Client(
     $certificateContainer,
     MerchantId::fromString($merchantId),
-    Version::latest(),
-    Environment::TESTING()
+    $version,
+    $environment
 );
 
 $device = $client->detectDevice(

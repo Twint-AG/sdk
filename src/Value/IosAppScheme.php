@@ -7,6 +7,7 @@ namespace Twint\Sdk\Value;
 use Override;
 use function Psl\invariant;
 use function Psl\Regex\matches;
+use function Psl\Type\instance_of;
 
 /**
  * @template-implements Value<self>
@@ -48,6 +49,8 @@ final class IosAppScheme implements Value
     #[Override]
     public function compare($other): int
     {
+        instance_of(self::class)->assert($other);
+
         return $this->scheme <=> $other->scheme;
     }
 

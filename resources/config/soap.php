@@ -31,7 +31,7 @@ const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
 $engine = CodeGeneratorEngineFactory::create(
-    (string) Environment::PRODUCTION()->soapWsdlPath(Version::latest()),
+    (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
     new FlatteningLoader(new StreamWrapperLoader()),
     MetadataOptions::empty()
         ->withTypesManipulator(
@@ -43,6 +43,18 @@ $engine = CodeGeneratorEngineFactory::create(
                     static fn (XsdType $type) => $type->withMeta(static fn (TypeMeta $m) => $m->withIsNullable(true))
                 ),
                 new RemoveTypes(static fn (Type $type) => str_ends_with($type->getName(), 'ResponseElement')),
+                new ManipulatePropertyType(
+                    'RequestFastCheckoutCheckInRequestElement',
+                    'RequestedScopes',
+                    static fn (XsdType $type) => XsdType::create('string')
+                        ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
+                ),
+                new ManipulatePropertyType(
+                    'RequestFastCheckoutCheckInRequestType',
+                    'RequestedScopes',
+                    static fn (XsdType $type) => XsdType::create('string')
+                        ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
+                ),
             )
         )
         ->withMethodsManipulator(new RenameReturnTypeByRegex('/ResponseElement$/', 'ResponseType')),

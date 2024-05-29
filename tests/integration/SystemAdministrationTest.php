@@ -23,7 +23,8 @@ final class SystemAdministrationTest extends IntegrationTest
 {
     public function testSystemStatus(): void
     {
-        $systemStatus = $this->client->checkSystemStatus();
+        $systemStatus = $this->createClient()
+            ->checkSystemStatus();
 
         self::assertTrue($systemStatus->isOk());
     }
