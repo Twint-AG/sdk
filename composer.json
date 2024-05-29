@@ -45,8 +45,8 @@
         "symfony/dotenv": "^6.4",
         "phpstan/phpstan": "^1.11.1",
         "symplify/easy-coding-standard": "^12.1.14",
-        "slevomat/coding-standard": "^8.14",
-        "phpstan/phpstan-strict-rules": "^1.5",
+        "slevomat/coding-standard": "^8.14.0",
+        "phpstan/phpstan-strict-rules": "^1.5.0",
         "php-standard-library/phpstan-extension": "^1.0",
         "symfony/event-dispatcher": "^6.4",
         "symfony/clock": "^6.4",
@@ -63,10 +63,6 @@
         }
     },
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/lstrojny/php-vcr.git"
-        },
         {
             "type": "vcs",
             "url": "https://github.com/lstrojny/wiremock-php.git"

@@ -47,12 +47,11 @@
         "pin",
         "digest"
       ],
-      "matchCurrentVersion": "!/^0/",
       "automerge": true
     },
     {
       "matchDepTypes": [
-        "devDependencies"
+        "require-dev"
       ],
       "rangeStrategy": "bump",
       "automerge": true
