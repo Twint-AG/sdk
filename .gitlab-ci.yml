@@ -122,7 +122,7 @@ check:
 
 renovate:
   variables:
-    RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME"
+    RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME --allow-post-upgrade-command-templating --allowed-post-upgrade-commands '^composer update --no-scripts'"
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build

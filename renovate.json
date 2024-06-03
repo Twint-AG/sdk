@@ -33,7 +33,7 @@
     }
   ],
   "branchConcurrentLimit": 0,
-  "prConcurrentLimit": 0,
+  "prConcurrentLimit": 1,
   "prHourlyLimit": 0,
   "lockFileMaintenance": {
     "enabled": true,
@@ -54,7 +54,15 @@
         "require-dev"
       ],
       "rangeStrategy": "bump",
-      "automerge": true
+      "automerge": true,
+      "postUpgradeTasks": {
+        "commands": [
+          "composer upgrade --no-scripts {{{depName}}}"
+        ],
+        "fileFilters": [
+          "composer.lock"
+        ]
+      }
     }
   ],
   "constraints": {
