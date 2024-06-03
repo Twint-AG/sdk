@@ -42,18 +42,18 @@
         "ext-xdebug": "*",
         "phpunit/phpunit": "^10.5",
         "laminas/laminas-code": "^4.8",
-        "symfony/dotenv": "^6.4",
+        "symfony/dotenv": "^6.4.8",
         "phpstan/phpstan": "^1.11.2",
         "symplify/easy-coding-standard": "^12.2.0",
         "slevomat/coding-standard": "^8.15.0",
         "phpstan/phpstan-strict-rules": "^1.6.0",
         "php-standard-library/phpstan-extension": "^1.0",
-        "symfony/event-dispatcher": "^6.4",
-        "symfony/clock": "^6.4",
+        "symfony/event-dispatcher": "^6.4.8",
+        "symfony/clock": "^6.4.8",
         "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0",
         "php-soap/wsdl-reader": "^0.13.1",
         "roave/better-reflection": "^6.25.0",
-        "symfony/finder": "^6.4"
+        "symfony/finder": "^6.4.8"
     },
     "config": {
         "allow-plugins": {
