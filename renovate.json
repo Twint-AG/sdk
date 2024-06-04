@@ -32,8 +32,8 @@
       "versioningTemplate": "semver"
     }
   ],
-  "branchConcurrentLimit": 0,
-  "prConcurrentLimit": 1,
+  "branchConcurrentLimit": 2,
+  "prConcurrentLimit": 2,
   "prHourlyLimit": 0,
   "lockFileMaintenance": {
     "enabled": true,
