@@ -93,7 +93,7 @@ check:
     XDEBUG_MODE: coverage
     COMPOSER_ALLOW_SUPERUSER: "true"
   services:
-    - name: "wiremock/wiremock:3x@sha256:cc972c5b7a69b61862b2162ada90c0110c9fa28e05ddde7c81129b0ef9f750f1"
+    - name: "wiremock/wiremock:3x@sha256:1cf76043f9052c32d13fb06b562e3328e284fc46cf04c756595201f5de7d3c75"
       alias: wiremock
   script:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
