@@ -4,8 +4,8 @@ stages:
   - check
 
 include:
-  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.239.1/templates/renovate.gitlab-ci.yml
-  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.239.1/templates/renovate-config-validator.gitlab-ci.yml
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.240.0/templates/renovate.gitlab-ci.yml
+  - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.240.0/templates/renovate-config-validator.gitlab-ci.yml
 
 .base:
   before_script:
