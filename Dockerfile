@@ -1,5 +1,7 @@
 FROM php_base_image AS php_base_image_extensions_prepare
-RUN apk add --no-cache jq
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends jq \
+    && rm -rf /var/lib/apt/lists/*
 COPY composer.lock /tmp/composer.lock
 ARG DEV=true
 RUN jq --arg dev "${DEV}" --raw-output '\
@@ -21,4 +23,8 @@ COPY --from=php_base_image_extensions_prepare /tmp/php-extensions.txt /tmp/php-e
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.2.14/install-php-extensions /usr/local/bin/
 RUN install-php-extensions @composer `cat /tmp/php-extensions.txt` && rm /tmp/php-extensions.txt
 
-RUN apk add --no-cache git unzip make
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git unzip make retry \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PATH="${PATH}:./vendor/bin"

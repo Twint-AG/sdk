@@ -13,11 +13,21 @@ ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
+PHPSTAN_SRC := $(PHPSTAN)
+ifdef GITLAB_CI
+	PHPSTAN_SRC := $(PHPSTAN) --error-format=gitlab > build/phpstan-src.json
+endif
 PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon analyse $(DOCS_DIR)/_examples/*.php
+ifdef GITLAB_CI
+	PHPSTAN_DOCS := $(PHPSTAN_DOCS) --error-format=gitlab > build/phpstan-docs.json
+endif
 
 DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BASE_DIR)/.env
 
 MAKEFLAGS += --jobs=32
+
+RETRY_INFINITE := retry --delay 0 --
+RETRY_STAGGERED := retry --times 5 --delay 1,1,2,3,5 --
 
 .PHONY: * $(DOC_EXAMPLES)
 
@@ -30,13 +40,13 @@ test-unit:
 test-integration:
 	$(PHPUNIT) --testsuite=integration
 
-static-analysis: static-analysis-src static-analysis-docs
+phpstan static-analysis: static-analysis-src static-analysis-docs
 
 static-analysis-src:
-	test $$GITLAB_CI && $(PHPSTAN) --error-format=gitlab > build/phpstan-src.json || $(PHPSTAN)
+	$(PHPSTAN_SRC)
 
 static-analysis-docs:
-	test $$GITLAB_CI && $(PHPSTAN_DOCS) --error-format=gitlab > build/phpstan-docs.json || $(PHPSTAN_DOCS)
+	$(PHPSTAN_DOCS)
 
 format: format-src format-docs
 
@@ -73,7 +83,8 @@ codegen-generate-classmap: codegen-clean
 	$(SOAP_CLI) generate:classmap --config $(SOAP_CONFIG) --quiet
 
 codegen: codegen-generate-types codegen-generate-client codegen-generate-classmap
-	$(ECS) --fix $(CODEGEN_DIR) >/dev/null || $(ECS) --fix $(CODEGEN_DIR) >/dev/null || $(ECS) --fix $(CODEGEN_DIR) >/dev/null
+	# Need multiple formatting passes
+	$(RETRY_INFINITE) sh -c "$(ECS) --fix $(CODEGEN_DIR) >/dev/null"
 
 check-codegen: codegen
 	@echo "Check if codegen changed the generated code"
@@ -99,7 +110,7 @@ restart:
 	$(MAKE) start
 
 dev: start
-	$(DOCKER_COMPOSE) exec -it php sh
+	$(DOCKER_COMPOSE) exec -it php bash
 
 dev-docs: start
 	$(DOCKER_COMPOSE) exec -it sphinx bash
@@ -122,9 +133,9 @@ docs:
 
 install:
 ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "lowest")
-	composer update --prefer-lowest
+	$(RETRY_STAGGERED) composer update --prefer-lowest
 else ifeq ("${COMPOSER_DEPENDENCY_VERSION}", "highest")
-	composer update
+	$(RETRY_STAGGERED) composer update
 else
-	composer install
+	$(RETRY_STAGGERED) composer install
 endif

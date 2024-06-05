@@ -2,7 +2,7 @@ services:
   php:
     build:
       additional_contexts:
-        php_base_image: docker-image://php:${TWINT_SDK_PHP_VERSION}-alpine
+        php_base_image: docker-image://php:${TWINT_SDK_PHP_VERSION}
     entrypoint: [sleep, infinity]
     working_dir: /src
     environment:

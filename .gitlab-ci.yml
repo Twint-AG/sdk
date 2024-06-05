@@ -50,7 +50,7 @@ container-build:
     - >-
       podman build
       --pull=newer
-      --build-context php_base_image=docker-image://php:$PHP_VERSION-alpine
+      --build-context php_base_image=docker-image://php:$PHP_VERSION
       --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
       --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
       --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
