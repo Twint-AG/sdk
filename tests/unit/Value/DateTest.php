@@ -8,6 +8,8 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Psl\Exception\InvariantViolationException;
 use Twint\Sdk\Value\Date;
 
 /**
@@ -17,6 +19,17 @@ use Twint\Sdk\Value\Date;
 #[CoversClass(Date::class)]
 final class DateTest extends ValueTest
 {
+    /**
+     * @return iterable<array{0: string}>
+     */
+    public static function getParseErrorCases(): iterable
+    {
+        yield [''];
+        yield ['2021'];
+        yield ['2021-10'];
+        yield ['2021-10-31'];
+    }
+
     #[Override]
     protected function createValue(): object
     {
@@ -34,6 +47,14 @@ final class DateTest extends ValueTest
         $date = Date::parse('31/10/2021');
 
         self::assertObjectEquals(new Date(2021, 10, 31), $date);
+    }
+
+    #[DataProvider('getParseErrorCases')]
+    public function testParseError(string $input): void
+    {
+        $this->expectException(InvariantViolationException::class);
+
+        Date::parse($input);
     }
 
     public function testAccessors(): void

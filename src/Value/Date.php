@@ -54,7 +54,11 @@ final class Date implements Value, Stringable
 
     public static function parse(string $date): self
     {
-        [$day, $month, $year] = vec(uint())->assert(array_map('intval', explode('/', $date)));
+        $triplet = vec(uint())
+            ->assert(array_map('intval', explode('/', $date)));
+        invariant(count($triplet) === 3, 'Invalid date: %s', $date);
+
+        [$day, $month, $year] = $triplet;
 
         invariant($year >= self::YEAR_MIN && $year <= self::YEAR_MAX, 'Invalid year: %d', $year);
         invariant($month >= self::MONTH_MIN && $month <= self::MONTH_MAX, 'Invalid month: %d', $month);
