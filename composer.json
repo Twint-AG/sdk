@@ -44,7 +44,7 @@
         "laminas/laminas-code": "^4.14.0",
         "symfony/dotenv": "^6.4.8",
         "phpstan/phpstan": "^1.11.5",
-        "symplify/easy-coding-standard": "^12.2.1",
+        "symplify/easy-coding-standard": "^12.3.0",
         "slevomat/coding-standard": "^8.15.0",
         "phpstan/phpstan-strict-rules": "^1.6.0",
         "php-standard-library/phpstan-extension": "^1.0",
