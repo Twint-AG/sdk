@@ -14,6 +14,8 @@ ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
 PHPSTAN_SRC := $(PHPSTAN)
+DEV := true
+
 ifdef GITLAB_CI
 	PHPSTAN_SRC := $(PHPSTAN) --error-format=gitlab > build/phpstan-src.json
 endif
@@ -90,8 +92,25 @@ check-codegen: codegen
 	@echo "Check if codegen changed the generated code"
 	git diff --exit-code $(CODEGEN_DIR)
 
-container-checksum:
-	echo TWINT_SDK_PHP_IMAGE_BASE=$$CI_REGISTRY_IMAGE/php:$$(sha3sum composer.lock Dockerfile .gitlab-ci.yml Makefile | sha3sum | cut -d " " -f 1) > .docker-env
+QUERY_PHP_EXTENSIONS = ["zip"] + \
+[ \
+  [ \
+	.platform + if $$dev == "true" then ."platform-dev" | if type == "array" then {} else . end else {} end | to_entries[] \
+  ] + \
+  [ \
+	.packages[] | to_entries[] | select (.key == "require" or ($$dev == "true" and .key == "require-dev")) | .value | to_entries \
+  ] \
+  | flatten[] | select(.key | startswith("ext-")) | .key[4:] \
+] | sort | unique | join(" ")
+
+php-extensions:
+	jq --arg dev $(DEV) --raw-output '$(QUERY_PHP_EXTENSIONS)' < $(BASE_DIR)/composer.lock > $(BASE_DIR)/php-extensions.txt
+
+check-php-extensions: php-extensions
+	git diff --exit-code $(BASE_DIR)/php-extensions.txt
+
+container-checksum: check-php-extensions
+	echo TWINT_SDK_PHP_IMAGE_BASE=$$CI_REGISTRY_IMAGE/php:$$(sha3sum php-extensions.txt Dockerfile .gitlab-ci.yml Makefile | sha3sum | cut -d " " -f 1) > .docker-env
 
 wiremock-setup:
 	php $(BASE_DIR)/tools/wiremock-setup.php
@@ -102,7 +121,7 @@ start: docker-compose-build
 stop:
 	$(DOCKER_COMPOSE) down
 
-docker-compose-build:
+docker-compose-build: check-php-extensions
 	$(DOCKER_COMPOSE) build
 
 restart:

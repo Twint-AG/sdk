@@ -30,7 +30,7 @@ container-build-hash:
   stage: pre-build
   image: "alpine:3@sha256:77726ef6b57ddf65bb551896826ec38bc3e53f75cdde31354fbffb4f25238ebd"
   script:
-    - apk add --no-cache make
+    - apk add --no-cache make jq git
     - make container-checksum
   extends: .base
   artifacts:
@@ -68,7 +68,7 @@ container-build:
       artifacts: true
   only:
     changes:
-      - composer.lock
+      - php-extensions.txt
       - Dockerfile
       - .gitlab-ci.yml
       - Makefile
