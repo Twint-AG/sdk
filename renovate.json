@@ -38,7 +38,9 @@
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true,
-    "schedule": ["at any time"]
+    "schedule": [
+      "at any time"
+    ]
   },
   "packageRules": [
     {
@@ -58,7 +60,7 @@
       "automerge": true,
       "postUpgradeTasks": {
         "commands": [
-          "composer upgrade --no-scripts {{{depName}}}"
+          "composer upgrade --no-scripts --ignore-platform-reqs {{{depName}}}"
         ],
         "fileFilters": [
           "composer.lock"
