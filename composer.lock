@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca9b9370b2af35a1d733c97a2606e868",
+    "content-hash": "ec042f130d9273fd973cda585e9a8f38",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -148,16 +148,16 @@
         },
         {
             "name": "goetas-webservices/xsd-reader",
-            "version": "0.4.5",
+            "version": "0.4.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goetas-webservices/xsd-reader.git",
-                "reference": "f4bdcbbbdfbc7ee2c7a851ef6c1350ebf72080cd"
+                "reference": "51558f69e61e75caa32a196eeeb23345ebcdea23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/f4bdcbbbdfbc7ee2c7a851ef6c1350ebf72080cd",
-                "reference": "f4bdcbbbdfbc7ee2c7a851ef6c1350ebf72080cd",
+                "url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/51558f69e61e75caa32a196eeeb23345ebcdea23",
+                "reference": "51558f69e61e75caa32a196eeeb23345ebcdea23",
                 "shasum": ""
             },
             "require": {
@@ -202,7 +202,7 @@
             ],
             "support": {
                 "issues": "https://github.com/goetas-webservices/xsd-reader/issues",
-                "source": "https://github.com/goetas-webservices/xsd-reader/tree/0.4.5"
+                "source": "https://github.com/goetas-webservices/xsd-reader/tree/0.4.6"
             },
             "funding": [
                 {
@@ -218,7 +218,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-06-04T06:50:15+00:00"
+            "time": "2024-06-07T06:19:16+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1192,21 +1192,22 @@
         },
         {
             "name": "php-soap/engine",
-            "version": "2.8.0",
+            "version": "2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/engine.git",
-                "reference": "789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02"
+                "reference": "682d7c86f60508bee1745b9e565914fc982b3d09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/engine/zipball/789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02",
-                "reference": "789fb1c79f6a6681c76e3de0e8e2ddf4a55a1b02",
+                "url": "https://api.github.com/repos/php-soap/engine/zipball/682d7c86f60508bee1745b9e565914fc982b3d09",
+                "reference": "682d7c86f60508bee1745b9e565914fc982b3d09",
                 "shasum": ""
             },
             "require": {
                 "azjezz/psl": "^2.5",
-                "php": "~8.1.0 || ~8.2.0 || ~8.3.0"
+                "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
+                "php-soap/xml": "^1.6.0"
             },
             "require-dev": {
                 "php-standard-library/psalm-plugin": "^2.2",
@@ -1232,7 +1233,7 @@
             "description": "SOAP engine design",
             "support": {
                 "issues": "https://github.com/php-soap/engine/issues",
-                "source": "https://github.com/php-soap/engine/tree/2.8.0"
+                "source": "https://github.com/php-soap/engine/tree/2.12.0"
             },
             "funding": [
                 {
@@ -1240,7 +1241,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-24T10:16:08+00:00"
+            "time": "2024-06-13T13:21:24+00:00"
         },
         {
             "name": "php-soap/ext-soap-engine",
@@ -1428,24 +1429,24 @@
         },
         {
             "name": "php-soap/wsdl-reader",
-            "version": "0.13.1",
+            "version": "0.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl-reader.git",
-                "reference": "399615ad0ead34f8685902c5a51c80d8d16eb79b"
+                "reference": "ea80ce18a8e9433f006f3beabddfac48bc10d8e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/399615ad0ead34f8685902c5a51c80d8d16eb79b",
-                "reference": "399615ad0ead34f8685902c5a51c80d8d16eb79b",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/ea80ce18a8e9433f006f3beabddfac48bc10d8e6",
+                "reference": "ea80ce18a8e9433f006f3beabddfac48bc10d8e6",
                 "shasum": ""
             },
             "require": {
                 "azjezz/psl": "^2.4",
                 "ext-dom": "*",
-                "goetas-webservices/xsd-reader": "^0.4.1",
+                "goetas-webservices/xsd-reader": "^0.4.6",
                 "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
-                "php-soap/engine": "^2.8",
+                "php-soap/engine": "^2.10.1",
                 "php-soap/wsdl": "^1.4",
                 "php-soap/xml": "^1.6.0",
                 "symfony/console": "^5.4 || ^6.0 || ^7.0",
@@ -1479,7 +1480,7 @@
             "description": "A WSDL reader in PHP",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl-reader/issues",
-                "source": "https://github.com/php-soap/wsdl-reader/tree/0.13.1"
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.16.0"
             },
             "funding": [
                 {
@@ -1487,7 +1488,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-28T11:59:52+00:00"
+            "time": "2024-06-11T10:22:50+00:00"
         },
         {
             "name": "php-soap/xml",
