@@ -13,6 +13,7 @@ use Twint\Sdk\Value\CustomerData;
 use Twint\Sdk\Value\Date;
 use Twint\Sdk\Value\Email;
 use Twint\Sdk\Value\PhoneNumber;
+use Twint\Sdk\Value\TwoLetterIsoCountryCode;
 use function Psl\Dict\filter_nulls;
 
 /**
@@ -29,7 +30,14 @@ final class CustomerDataTest extends ValueTest
     public static function getDictionaries(): iterable
     {
         yield [[
-            'shipping_address' => new Address('John', 'Doe', 'Street 1', '12343', 'City', 'Country'),
+            'shipping_address' => new Address(
+                'John',
+                'Doe',
+                'Street 1',
+                '12343',
+                'City',
+                new TwoLetterIsoCountryCode('CH')
+            ),
         ], 1];
         yield [[
             'email' => new Email('foo@host.com'),

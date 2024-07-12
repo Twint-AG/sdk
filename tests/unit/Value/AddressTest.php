@@ -8,6 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Value\Address;
+use Twint\Sdk\Value\TwoLetterIsoCountryCode;
 
 /**
  * @template-extends ValueTest<Address>
@@ -22,18 +23,8 @@ final class AddressTest extends ValueTest
     public static function getParseExamples(): iterable
     {
         yield [
-            "John Doe, Rue de l'Ecuyer 5, 8004 Zürich, Switzerland",
-            new Address('John', 'Doe', "Rue de l'Ecuyer 5", '8004', 'Zürich', 'Switzerland'),
-        ];
-
-        yield [
-            "John Doe, Rue de l'Ecuyer 5B, 8004 Zürich, Switzerland",
-            new Address('John', 'Doe', "Rue de l'Ecuyer 5B", '8004', 'Zürich', 'Switzerland'),
-        ];
-
-        yield [
-            'John Frederic Kennedy Chopin, Stauffacher Strasse 41, 8004 Zürich, Switzerland',
-            new Address('John Frederic Kennedy', 'Chopin', 'Stauffacher Strasse 41', '8004', 'Zürich', 'Switzerland'),
+            'Joanna|Doe|Street 123|1234|City|CH',
+            new Address('Joanna', 'Doe', 'Street 123', '1234', 'City', new TwoLetterIsoCountryCode('CH')),
         ];
     }
 
@@ -46,7 +37,7 @@ final class AddressTest extends ValueTest
     #[Override]
     protected function createValue(): object
     {
-        return new Address('John', 'Doe', 'Main Street 42', '12345', 'Springfield', 'USA');
+        return new Address('John', 'Doe', 'Main Street 42', '12345', 'Springfield', new TwoLetterIsoCountryCode('US'));
     }
 
     #[Override]

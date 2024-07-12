@@ -20,15 +20,14 @@ final class Address implements Value, Stringable
      */
     use ComparableToEquality;
 
-    /**
-     * @see https://regex101.com/r/zifIzq/7
-     */
     private const REGEX = '/
         ^
-            (?P<firstName>[^,]+)[ ]+(?P<lastName>[^,]+),[ ]+
-            (?P<street>[^,]+),[ ]+
-            (?P<zip>[^ ]+)[ ]+(?P<city>[^ ]+),[ ]+
-            (?P<country>[^ ]+)
+            (?P<firstName>.+?)\|
+            (?P<lastName>.+?)\|
+            (?P<street>.+?)\|
+            (?P<zip>.+?)\|
+            (?P<city>.+?)\|
+            (?P<country>.+?)
         $
     /xD';
 
@@ -38,7 +37,7 @@ final class Address implements Value, Stringable
         private readonly string $street,
         private readonly string $zip,
         private readonly string $city,
-        private readonly string $country
+        private readonly TwoLetterIsoCountryCode $country
     ) {
     }
 
@@ -52,7 +51,7 @@ final class Address implements Value, Stringable
             $parts['street'],
             $parts['zip'],
             $parts['city'],
-            $parts['country']
+            new TwoLetterIsoCountryCode($parts['country'])
         );
     }
 
@@ -87,8 +86,38 @@ final class Address implements Value, Stringable
         );
     }
 
+    public function firstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function lastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function street(): string
+    {
+        return $this->street;
+    }
+
+    public function zip(): string
+    {
+        return $this->zip;
+    }
+
+    public function city(): string
+    {
+        return $this->city;
+    }
+
+    public function country(): TwoLetterIsoCountryCode
+    {
+        return $this->country;
+    }
+
     /**
-     * @return array{firstName: string, lastName: string, street: string, zip: string, city: string, country: string}
+     * @return array{firstName: string, lastName: string, street: string, zip: string, city: string, country: TwoLetterIsoCountryCode}
      */
     #[Override]
     public function jsonSerialize(): array
