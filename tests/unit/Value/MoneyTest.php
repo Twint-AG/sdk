@@ -7,6 +7,7 @@ namespace Twint\Sdk\Tests\Unit\Value;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Psl\Exception\InvariantViolationException;
 use Twint\Sdk\Value\Money;
 
 /**
@@ -54,6 +55,30 @@ final class MoneyTest extends ValueTest
     public function testCompare(Money $left, Money $right, int $expected): void
     {
         self::assertSame($expected, $left->compare($right));
+    }
+
+    public function testAdd(): void
+    {
+        self::assertObjectEquals(new Money(Money::CHF, 2000.24), Money::CHF(1000.12)->add(Money::CHF(1000.12)));
+    }
+
+    public function testAddThrowsExceptionIfCurrenciesDoNotMatch(): void
+    {
+        $this->expectException(InvariantViolationException::class);
+
+        Money::CHF(1000.12)->add(Money::XXX(1000.12));
+    }
+
+    public function testSubtract(): void
+    {
+        self::assertObjectEquals(new Money(Money::CHF, 0), Money::CHF(1000.12)->subtract(Money::CHF(1000.12)));
+    }
+
+    public function testSubtractThrowsExceptionIfCurrenciesDoNotMatch(): void
+    {
+        $this->expectException(InvariantViolationException::class);
+
+        Money::CHF(1000.12)->subtract(Money::XXX(1000.12));
     }
 
     #[Override]

@@ -24,14 +24,7 @@ final class FastCheckoutTest extends IntegrationTest
 {
     public function testFastCheckoutCheckIn(): void
     {
-        $this->enableWireMockForSoapMethod('RequestFastCheckoutCheckIn', 'MonitorFastCheckoutCheckIn');
-        $this->wireMock()
-            ->resetAllScenarios();
-
         $client = $this->createClient(Version::next());
-
-        $this->wireMock()
-            ->setScenarioState('ShippingTwintIDSuccessScenario', 'SetupSuccess');
 
         $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
             Money::CHF(1000),
@@ -118,6 +111,13 @@ final class FastCheckoutTest extends IntegrationTest
         self::assertNotNull($fastCheckoutState->customerData()->shippingAddress());
         self::assertNotNull($fastCheckoutState->customerData()->phoneNumber());
         self::assertNotNull($fastCheckoutState->customerData()->dateOfBirth());
+
+        $order = $client->startFastCheckoutOrder(
+            $fastCheckoutState->pairingUuid(),
+            $this->createTransactionReference(),
+            Money::CHF(1.50)
+        );
+        self::assertNotNull($order);
     }
 
     public function testFastCheckoutClientAbort(): void

@@ -7,6 +7,7 @@ namespace Twint\Sdk\Value;
 use Override;
 use PHPUnit\Framework\Attributes\CodeCoverageIgnore;
 use Twint\Sdk\Util\Type;
+use function Psl\invariant;
 use function Psl\Type\instance_of;
 
 /**
@@ -68,6 +69,20 @@ final class Money implements Value, Enum
         return $this->currency;
     }
 
+    public function add(self $other): self
+    {
+        $this->checkCurrenciesMustMatch($other);
+
+        return new self($this->currency, $this->amount + $other->amount);
+    }
+
+    public function subtract(self $other): self
+    {
+        $this->checkCurrenciesMustMatch($other);
+
+        return new self($this->currency, $this->amount - $other->amount);
+    }
+
     #[Override]
     public function compare($other): int
     {
@@ -90,5 +105,15 @@ final class Money implements Value, Enum
             'currency' => $this->currency,
             'amount' => $this->amount,
         ];
+    }
+
+    private function checkCurrenciesMustMatch(self $other): void
+    {
+        invariant(
+            $this->currency === $other->currency,
+            'Currencies must match. Expected "%s", got "%s"',
+            $this->currency,
+            $other->currency
+        );
     }
 }

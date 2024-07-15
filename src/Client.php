@@ -458,7 +458,7 @@ final class Client implements CoreCapabilities
                         CustomerDataScopes::EMAIL => new Email($field->getValue()),
                         CustomerDataScopes::PHONE_NUMBER => new PhoneNumber($field->getValue()),
                         CustomerDataScopes::SHIPPING_ADDRESS => Address::parse($field->getValue()),
-                        default => $field->getValue(),
+                        default => null,
                     };
                 }
 

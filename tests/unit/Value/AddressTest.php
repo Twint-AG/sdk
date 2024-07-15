@@ -18,20 +18,35 @@ use Twint\Sdk\Value\TwoLetterIsoCountryCode;
 final class AddressTest extends ValueTest
 {
     /**
-     * @return iterable<array{string, Address}>
+     * @return iterable<array{string, string, string, string, string, string, string}>
      */
     public static function getParseExamples(): iterable
     {
-        yield [
-            'Joanna|Doe|Street 123|1234|City|CH',
-            new Address('Joanna', 'Doe', 'Street 123', '1234', 'City', new TwoLetterIsoCountryCode('CH')),
-        ];
+        yield ['Joanna|Doe|Street 123|1234|City|CH', 'Joanna', 'Doe', 'Street 123', '1234', 'City', 'CH'];
     }
 
     #[DataProvider('getParseExamples')]
-    public function testParse(string $str, Address $address): void
-    {
-        self::assertObjectEquals($address, Address::parse($str));
+    public function testParse(
+        string $str,
+        string $firstName,
+        string $lastName,
+        string $street,
+        string $zip,
+        string $city,
+        string $isoCode
+    ): void {
+        $parsed = Address::parse($str);
+
+        self::assertObjectEquals(
+            new Address($firstName, $lastName, $street, $zip, $city, new TwoLetterIsoCountryCode($isoCode)),
+            $parsed
+        );
+        self::assertSame($firstName, $parsed->firstName());
+        self::assertSame($lastName, $parsed->lastName());
+        self::assertSame($street, $parsed->street());
+        self::assertSame($zip, $parsed->zip());
+        self::assertSame($city, $parsed->city());
+        self::assertObjectEquals(new TwoLetterIsoCountryCode($isoCode), $parsed->country());
     }
 
     #[Override]

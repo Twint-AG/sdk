@@ -54,6 +54,9 @@ final class CustomerDataTest extends ValueTest
             'email' => null,
             'shipping_address' => null,
         ], 0];
+        yield [[
+            'foo' => null,
+        ], 0];
     }
 
     /**
@@ -73,7 +76,7 @@ final class CustomerDataTest extends ValueTest
                     'email' => $customerData->email(),
                     'phone_number' => $customerData->phoneNumber(),
                     'date_of_birth' => $customerData->dateOfBirth(),
-                    default => self::fail(sprintf('Unexpected field: "%s"', $field)),
+                    default => null,
                 },
                 $value === null ? self::isNull() : self::objectEquals($value)
             );
