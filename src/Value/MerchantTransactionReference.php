@@ -12,7 +12,7 @@ use function Psl\Type\non_empty_string;
 /**
  * @template-implements Value<self>
  */
-abstract class MerchantTransactionReference implements Value
+abstract class MerchantTransactionReference implements Value, OrderReference
 {
     /** @use ComparableToEquality<self> */
 
@@ -43,6 +43,18 @@ abstract class MerchantTransactionReference implements Value
     final public function __toString(): string
     {
         return $this->value;
+    }
+
+    #[Override]
+    final public function asMerchantTransactionReferenceString(): string
+    {
+        return (string) $this;
+    }
+
+    #[Override]
+    final public function asOrderUuidString(): ?string
+    {
+        return null;
     }
 
     #[Override]

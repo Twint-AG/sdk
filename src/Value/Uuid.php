@@ -17,6 +17,8 @@ final class Uuid implements Value
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
+    public const LENGTH = 36;
+
     private readonly string $uuid;
 
     public function __construct(

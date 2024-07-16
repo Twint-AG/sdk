@@ -10,10 +10,12 @@ use function Psl\Type\instance_of;
 /**
  * @template-implements Value<self>
  */
-final class MerchantId implements Value
+final class MerchantId implements Value, CashRegisterId
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
+
+    public const LENGTH = Uuid::LENGTH;
 
     public function __construct(
         private readonly Uuid $uuid
@@ -43,5 +45,17 @@ final class MerchantId implements Value
     public function jsonSerialize(): Uuid
     {
         return $this->uuid;
+    }
+
+    #[Override]
+    public function merchantId(): self
+    {
+        return $this;
+    }
+
+    #[Override]
+    public function cashRegisterId(): ?CashRegisterId
+    {
+        return null;
     }
 }

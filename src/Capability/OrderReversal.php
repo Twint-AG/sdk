@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Capability;
 
-use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
-use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\OrderReference;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 interface OrderReversal extends OrderMonitoring
@@ -17,7 +16,7 @@ interface OrderReversal extends OrderMonitoring
      */
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,
-        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
+        OrderReference $orderReference,
         Money $reversalAmount,
     ): Order;
 }

@@ -21,6 +21,7 @@ use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use WireMock\Client\WireMock;
@@ -53,7 +54,7 @@ abstract class IntegrationTest extends TestCase
                     SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
-            self::getMerchantId(),
+            new PrefixedCashRegisterId(self::getMerchantId(), 'SDK'),
             $version ?? Version::latest(),
             Environment::TESTING(),
             new ContentSensitiveFileWriter(

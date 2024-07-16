@@ -10,7 +10,7 @@ use function Psl\Type\instance_of;
 /**
  * @template-implements Value<self>
  */
-final class OrderId implements Value
+final class OrderId implements Value, OrderReference
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -29,6 +29,18 @@ final class OrderId implements Value
     public function __toString(): string
     {
         return (string) $this->uuid;
+    }
+
+    #[Override]
+    public function asOrderUuidString(): string
+    {
+        return (string) $this;
+    }
+
+    #[Override]
+    public function asMerchantTransactionReferenceString(): ?string
+    {
+        return null;
     }
 
     #[Override]

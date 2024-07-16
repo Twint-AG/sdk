@@ -14,11 +14,10 @@ use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
-use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
-use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\OrderReference;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
@@ -50,15 +49,15 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
-    public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    public function cancelOrder(OrderReference $orderReference): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'cancelOrder'], [$orderIdOrRef]);
+        return $this->record(__FUNCTION__, [$this->client, 'cancelOrder'], [$orderReference]);
     }
 
     #[Override]
-    public function confirmOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef, Money $requestedAmount): Order
+    public function confirmOrder(OrderReference $orderReference, Money $requestedAmount): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'confirmOrder'], [$orderIdOrRef, $requestedAmount]);
+        return $this->record(__FUNCTION__, [$this->client, 'confirmOrder'], [$orderReference, $requestedAmount]);
     }
 
     #[Override]
@@ -68,21 +67,21 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
-    public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    public function monitorOrder(OrderReference $orderReference): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'monitorOrder'], [$orderIdOrRef]);
+        return $this->record(__FUNCTION__, [$this->client, 'monitorOrder'], [$orderReference]);
     }
 
     #[Override]
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,
-        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
+        OrderReference $orderReference,
         Money $reversalAmount
     ): Order {
         return $this->record(
             __FUNCTION__,
             [$this->client, 'reverseOrder'],
-            [$reversalReference, $orderIdOrRef, $reversalAmount]
+            [$reversalReference, $orderReference, $reversalAmount]
         );
     }
 

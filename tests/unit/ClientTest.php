@@ -14,7 +14,12 @@ use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\ApiFailure;
+use Twint\Sdk\Generated\Type\CodeValueType;
+use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestElement;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterResponseType;
+use Twint\Sdk\Generated\Type\OrderStatusType;
+use Twint\Sdk\Generated\Type\StartOrderRequestElement;
+use Twint\Sdk\Generated\Type\StartOrderResponseType;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\CustomerDataScopes;
@@ -23,9 +28,12 @@ use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
+use function Psl\Type\instance_of;
+use function Psl\Type\union;
 
 /**
  * @internal
@@ -123,5 +131,156 @@ final class ClientTest extends TestCase
         $this->expectException(ApiFailure::class);
 
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+    }
+
+    public function testCashRegisterIdForImplicitEnrollmentIsCombinedPrefixWithMerchantId(): void
+    {
+        $engine = $this->createMock(Engine::class);
+        $engine
+            ->expects(self::exactly(2))
+            ->method('request')
+            ->willReturnCallback(
+                static function (string $soapMethod, array $args) {
+                    /**
+                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement $request
+                     */
+                    [$request] = $args;
+
+                    union(
+                        instance_of(EnrollCashRegisterRequestElement::class),
+                        instance_of(StartOrderRequestElement::class)
+                    )->assert($request);
+
+                    self::assertSame(
+                        'Magento-3094877c-352c-4bed-b542-bb69c7c4608c',
+                        $request->getMerchantInformation()
+                            ->getCashRegisterId()
+                    );
+
+                    return match ($soapMethod) {
+                        'EnrollCashRegister' => new EnrollCashRegisterResponseType(),
+                        'StartOrder' => self::createOrderSoapResponse(),
+                        default => null,
+                    };
+                }
+            );
+
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            new PrefixedCashRegisterId(MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'), 'Magento'),
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $engine
+        );
+
+        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
+        $prop->setAccessible(true);
+        $prop->setValue($client, []);
+
+        $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+    }
+
+    public function testCashRegisterIdForImplicitEnrollmentDefaultIsUnknown(): void
+    {
+        $engine = $this->createMock(Engine::class);
+        $engine
+            ->expects(self::exactly(2))
+            ->method('request')
+            ->willReturnCallback(
+                static function (string $soapMethod, array $args) {
+                    /**
+                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement $request
+                     */
+                    [$request] = $args;
+
+                    union(
+                        instance_of(EnrollCashRegisterRequestElement::class),
+                        instance_of(StartOrderRequestElement::class)
+                    )->assert($request);
+
+                    self::assertSame(
+                        'Unknown-3094877c-352c-4bed-b542-bb69c7c4608c',
+                        $request->getMerchantInformation()
+                            ->getCashRegisterId()
+                    );
+
+                    return match ($soapMethod) {
+                        'EnrollCashRegister' => new EnrollCashRegisterResponseType(),
+                        'StartOrder' => self::createOrderSoapResponse(),
+                        default => null,
+                    };
+                }
+            );
+
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $engine
+        );
+
+        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
+        $prop->setAccessible(true);
+        $prop->setValue($client, []);
+
+        $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+    }
+
+    public function testCashRegisterEnrollmentIsOnlyInvokedOnce(): void
+    {
+        $engine = $this->createMock(Engine::class);
+        $engine
+            ->expects(self::exactly(4))
+            ->method('request')
+            ->willReturnOnConsecutiveCalls(
+                new EnrollCashRegisterResponseType(),
+                self::createOrderSoapResponse(),
+                self::createOrderSoapResponse(),
+                self::createOrderSoapResponse(),
+            );
+
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $engine
+        );
+
+        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
+        $prop->setAccessible(true);
+        $prop->setValue($client, []);
+
+
+        $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+        $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+
+
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $engine
+        );
+        $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+    }
+
+    private static function createOrderSoapResponse(): StartOrderResponseType
+    {
+        return (new StartOrderResponseType())
+            ->withOrderUuid('00000000-0000-0000-0000-000000000000')
+            ->withOrderStatus(
+                (new OrderStatusType())
+                    ->withStatus((new CodeValueType())->with_('SUCCESS')->withCode(0))
+                    ->withReason((new CodeValueType())->with_('ORDER_OK')->withCode(0))
+            )->withPairingStatus('NO_PAIRING')
+            ->withToken(1234)
+            ->withQRCode('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABKklEQVR42mNk');
     }
 }

@@ -37,6 +37,7 @@ use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\Address;
 use Twint\Sdk\Value\AlphanumericPairingToken;
+use Twint\Sdk\Value\CashRegisterId;
 use Twint\Sdk\Value\CustomerData;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Date;
@@ -48,15 +49,17 @@ use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\MerchantId;
-use Twint\Sdk\Value\MerchantTransactionReference;
+use Twint\Sdk\Value\MerchantInformation;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\NumericPairingToken;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
+use Twint\Sdk\Value\OrderReference;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\PhoneNumber;
+use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
@@ -82,6 +85,10 @@ final class Client implements CoreCapabilities
 
     private const ORDER_KIND_REVERSAL = 'REVERSAL';
 
+    private readonly MerchantId $merchantId;
+
+    private readonly CashRegisterId $cashRegisterId;
+
     private readonly ?TwintSoapClient $soapClient;
 
     private readonly ?ClientInterface $httpClient;
@@ -100,7 +107,7 @@ final class Client implements CoreCapabilities
      */
     public function __construct(
         private readonly CertificateContainer $certificate,
-        private readonly MerchantId $merchantId,
+        MerchantInformation $merchantInformation,
         private readonly Version $version,
         private readonly Environment $environment,
         private readonly FileWriter $fileWriter = new TemporaryFileWriter(),
@@ -108,6 +115,9 @@ final class Client implements CoreCapabilities
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
     ) {
+        $this->merchantId = $merchantInformation->merchantId();
+        $this->cashRegisterId = $merchantInformation->cashRegisterId()
+            ?? PrefixedCashRegisterId::unknown($this->merchantId);
     }
 
     /**
@@ -146,7 +156,7 @@ final class Client implements CoreCapabilities
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
@@ -188,7 +198,7 @@ final class Client implements CoreCapabilities
      * @throws SdkError
      */
     #[Override]
-    public function monitorOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    public function monitorOrder(OrderReference $orderReference): Order
     {
         $this->enrollCashRegister();
 
@@ -198,9 +208,9 @@ final class Client implements CoreCapabilities
                     new MonitorOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
-                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
-                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
+                            ->withCashRegisterId((string) $this->cashRegisterId),
+                        OrderUuid: $orderReference->asOrderUuidString(),
+                        MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
                         WaitForResponse: false
                     )
                 );
@@ -232,7 +242,7 @@ final class Client implements CoreCapabilities
      * @throws SdkError
      */
     #[Override]
-    public function cancelOrder(OrderId|FiledMerchantTransactionReference $orderIdOrRef): Order
+    public function cancelOrder(OrderReference $orderReference): Order
     {
         $this->enrollCashRegister();
 
@@ -242,9 +252,9 @@ final class Client implements CoreCapabilities
                     new CancelOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
-                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
-                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null
+                            ->withCashRegisterId((string) $this->cashRegisterId),
+                        OrderUuid: $orderReference->asOrderUuidString(),
+                        MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
                     )
                 );
 
@@ -274,10 +284,8 @@ final class Client implements CoreCapabilities
      * @throws SdkError
      */
     #[Override]
-    public function confirmOrder(
-        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
-        Money $requestedAmount
-    ): Order {
+    public function confirmOrder(OrderReference $orderReference, Money $requestedAmount): Order
+    {
         $this->enrollCashRegister();
 
         try {
@@ -286,9 +294,9 @@ final class Client implements CoreCapabilities
                     new ConfirmOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
-                        OrderUuid: $orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null,
-                        MerchantTransactionReference: $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null,
+                            ->withCashRegisterId((string) $this->cashRegisterId),
+                        OrderUuid: $orderReference->asOrderUuidString(),
+                        MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
                         RequestedAmount: (new CurrencyAmountType())
                             ->withAmount($requestedAmount->amount())
                             ->withCurrency($requestedAmount->currency()),
@@ -324,7 +332,7 @@ final class Client implements CoreCapabilities
     #[Override]
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,
-        OrderId|FiledMerchantTransactionReference $orderIdOrRef,
+        OrderReference $orderReference,
         Money $reversalAmount
     ): Order {
         $this->enrollCashRegister();
@@ -335,7 +343,7 @@ final class Client implements CoreCapabilities
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
@@ -346,9 +354,9 @@ final class Client implements CoreCapabilities
                             ->withLink(
                                 (new OrderLinkType())
                                     ->withMerchantTransactionReference(
-                                        $orderIdOrRef instanceof MerchantTransactionReference ? (string) $orderIdOrRef : null
+                                        $orderReference->asMerchantTransactionReferenceString()
                                     )
-                                    ->withOrderUuid($orderIdOrRef instanceof OrderId ? (string) $orderIdOrRef : null)
+                                    ->withOrderUuid($orderReference->asOrderUuidString())
                             )
                             ->withType(self::ORDER_KIND_REVERSAL)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
@@ -394,7 +402,7 @@ final class Client implements CoreCapabilities
                     new RequestFastCheckoutCheckInRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId((string) $this->cashRegisterId),
                         NetAmount: (new CurrencyAmountType())
                             ->withAmount($amountWithoutShipping->amount())
                             ->withCurrency($amountWithoutShipping->currency()),
@@ -442,7 +450,7 @@ final class Client implements CoreCapabilities
                     new MonitorFastCheckoutCheckInRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId((string) $this->cashRegisterId),
                         PairingUuid: (string) $pairingUuid,
                         WaitForResponse: false
                     )
@@ -495,7 +503,7 @@ final class Client implements CoreCapabilities
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
@@ -607,7 +615,9 @@ final class Client implements CoreCapabilities
      */
     private function enrollCashRegister(): void
     {
-        if (in_array((string) $this->merchantId, self::$enrolledCashRegisters, true)) {
+        $cashRegisterId = (string) $this->cashRegisterId;
+
+        if (in_array($cashRegisterId, self::$enrolledCashRegisters, true)) {
             return;
         }
 
@@ -617,7 +627,7 @@ final class Client implements CoreCapabilities
                     new EnrollCashRegisterRequestElement(
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->merchantId)
-                            ->withCashRegisterId((string) $this->merchantId),
+                            ->withCashRegisterId($cashRegisterId),
                         CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
                         FormerCashRegisterId: null,
                         BeaconInventoryNumber: null,
@@ -625,7 +635,7 @@ final class Client implements CoreCapabilities
                     )
                 );
 
-            self::$enrolledCashRegisters[] = (string) $this->merchantId;
+            self::$enrolledCashRegisters[] = $cashRegisterId;
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
         }
