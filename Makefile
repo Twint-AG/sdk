@@ -13,11 +13,11 @@ ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
-PHPSTAN_SRC := $(PHPSTAN)
+PHPSTAN_SRC := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.dev.neon
 DEV := true
 
 ifdef GITLAB_CI
-	PHPSTAN_SRC := $(PHPSTAN) --error-format=gitlab > build/phpstan-src.json
+	PHPSTAN_SRC := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.neon --error-format=gitlab > build/phpstan-src.json
 endif
 PHPSTAN_DOCS := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.docs.neon analyse $(DOCS_DIR)/_examples/*.php
 ifdef GITLAB_CI
