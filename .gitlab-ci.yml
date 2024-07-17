@@ -75,7 +75,7 @@ container-build:
 
 docs:
   stage: build
-  image: sphinxdoc/sphinx:7.4.4@sha256:69b767af08d8bd97f987bf22ef4d1dce8b6977c69904d0144eec48c634fa4346
+  image: sphinxdoc/sphinx:7.4.5@sha256:33e3e13333006c382cc046d79928b6b7080b49fc046c5465247829f1a37fdcf0
   script:
     - mkdir -p build
     - make docs
