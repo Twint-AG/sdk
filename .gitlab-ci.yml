@@ -149,7 +149,5 @@ release:
     - job: check
   stage: release
   only: [ "tags" ]
-  variables:
-    GIT_STRATEGY: clone
   script:
     - make release

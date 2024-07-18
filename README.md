@@ -1,6 +1,6 @@
 # TWINT SDK
 
-PHP SDK for TWINT for e-commerce use cases.
+PHP SDK for TWINT.
 
 ## Development
 
