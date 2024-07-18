@@ -1,13 +1,26 @@
 {
-    "name": "twint-ch/twint-sdk",
-    "description": "The TWINT SDK for PHP",
+    "name": "twint-ag/sdk",
+    "description": "PHP SDK for TWINT",
     "license": "MIT",
+    "type": "library",
+    "homepage": "https://twint.ch",
     "authors": [
         {
-            "name": "NFQ",
-            "email": "global-twint@nfq.com",
+            "name": "TWINT",
+            "email": "plugin@twint.ch",
+            "homepage": "https://twint.ch",
             "role": "Maintainer"
         }
+    ],
+    "keywords": [
+        "twint",
+        "twint.ch",
+        "switzerland",
+        "checkout",
+        "express checkout",
+        "payment",
+        "sdk",
+        "api"
     ],
     "autoload": {
         "files": [
