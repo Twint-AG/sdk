@@ -2,6 +2,7 @@ stages:
   - pre-build
   - build
   - check
+  - release
 
 include:
   - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v17.281.0/templates/renovate.gitlab-ci.yml
@@ -138,3 +139,17 @@ renovate-config-validator:
   tags:
     - d13-runner
   needs: []
+
+release:
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3"
+  extends: .base
+  needs:
+    - job: container-build-hash
+      artifacts: true
+    - job: check
+  stage: release
+  only: [ "tags" ]
+  variables:
+    GIT_STRATEGY: clone
+  script:
+    - make release
