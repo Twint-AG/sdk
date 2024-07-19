@@ -171,6 +171,12 @@ release:
 	ssh-keyscan $(RELEASE_HOST) >> ~/.ssh/known_hosts
 	GIT_SSH_COMMAND="ssh -i $(TWINT_GITHUB_DEPLOY_KEY)" git push --force $(RELEASE_REPOSITORY) `(git rev-parse HEAD)`:develop $(CI_COMMIT_TAG):$(CI_COMMIT_TAG)
 
+
 tag:
+	git diff --exit-code
+	git diff --exit-code --cached
+	sed -e "s@9.9.9-dev@$(VERSION)@g" -i $(BASE_DIR)/src/SdkVersion.php
+	GIT_COMMITTER_NAME="TWINT Release Bot" GIT_COMMITTER_EMAIL=plugin@twint.ch GIT_AUTHOR_NAME="TWINT Release Bot" GIT_AUTHOR_EMAIL=plugin@twint.ch git commit -m "Release $(VERSION)" $(BASE_DIR)/src/SdkVersion.php
 	GIT_COMMITTER_NAME="TWINT Release Bot" GIT_COMMITTER_EMAIL=plugin@twint.ch git tag -a $(VERSION) -m "Release $(VERSION)"
+	git reset --hard HEAD^
 	git push origin $(VERSION)
