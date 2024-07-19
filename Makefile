@@ -173,12 +173,11 @@ release:
 	ssh-keyscan $(RELEASE_HOST) >> ~/.ssh/known_hosts
 	GIT_SSH_COMMAND="ssh -i $(TWINT_GITHUB_DEPLOY_KEY)" git push --force $(RELEASE_REPOSITORY) HEAD^:latest $(CI_COMMIT_TAG):$(CI_COMMIT_TAG)
 
-
 tag:
 	git diff --exit-code
 	git diff --exit-code --cached
 	sed -e "s@9.9.9-dev@$(VERSION)@g" -i $(BASE_DIR)/src/SdkVersion.php
-	GIT_COMMITTER_NAME="$(RELEASE_BOT_NAME)" GIT_COMMITTER_EMAIL="$(RELEASE_BOT_EMAIL)" GIT_AUTHOR_NAME="$(RELEASE_BOT_NAME)" GIT_AUTHOR_EMAIL="$(RELEASE_BOT_EMAIL)" git commit -m "chore(release-management): Bump to $(VERSION)" $(BASE_DIR)/src/SdkVersion.php
+	GIT_COMMITTER_NAME="$(RELEASE_BOT_NAME)" GIT_COMMITTER_EMAIL="$(RELEASE_BOT_EMAIL)" GIT_AUTHOR_NAME="$(RELEASE_BOT_NAME)" GIT_AUTHOR_EMAIL="$(RELEASE_BOT_EMAIL)" git commit -m "chore(release-management): bump to $(VERSION)" $(BASE_DIR)/src/SdkVersion.php
 	GIT_COMMITTER_NAME="$(RELEASE_BOT_NAME)" GIT_COMMITTER_EMAIL="$(RELEASE_BOT_EMAIL)" git tag --no-sign -a $(VERSION) -m "chore(release-management): tag $(VERSION)"
 	git reset --hard HEAD^
 	[ -z "$$DRY_RUN" ] && git push origin $(VERSION) || exit 0
