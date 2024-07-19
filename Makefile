@@ -28,6 +28,8 @@ DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BA
 
 RELEASE_HOST = github.com
 RELEASE_REPOSITORY = git@$(RELEASE_HOST):Twint-AG/sdk.git
+RELEASE_BOT_NAME = TWINT Release Bot
+RELEASE_BOT_EMAIL = plugin@twint.ch
 CI_COMMIT_TAG ?= $(error CI_COMMIT_TAG must be set)
 VERSION ?= $(error VERSION must be set)
 
@@ -176,7 +178,7 @@ tag:
 	git diff --exit-code
 	git diff --exit-code --cached
 	sed -e "s@9.9.9-dev@$(VERSION)@g" -i $(BASE_DIR)/src/SdkVersion.php
-	GIT_COMMITTER_NAME="TWINT Release Bot" GIT_COMMITTER_EMAIL=plugin@twint.ch GIT_AUTHOR_NAME="TWINT Release Bot" GIT_AUTHOR_EMAIL=plugin@twint.ch git commit -m "Release $(VERSION)" $(BASE_DIR)/src/SdkVersion.php
-	GIT_COMMITTER_NAME="TWINT Release Bot" GIT_COMMITTER_EMAIL=plugin@twint.ch git tag -a $(VERSION) -m "Release $(VERSION)"
+	GIT_COMMITTER_NAME="$(RELEASE_BOT_NAME)" GIT_COMMITTER_EMAIL="$(RELEASE_BOT_EMAIL)" GIT_AUTHOR_NAME="$(RELEASE_BOT_NAME)" GIT_AUTHOR_EMAIL="$(RELEASE_BOT_EMAIL)" git commit -m "chore(release-management): Bump to $(VERSION)" $(BASE_DIR)/src/SdkVersion.php
+	GIT_COMMITTER_NAME="$(RELEASE_BOT_NAME)" GIT_COMMITTER_EMAIL="$(RELEASE_BOT_EMAIL)" git tag --no-sign -a $(VERSION) -m "chore(release-management): tag $(VERSION)"
 	git reset --hard HEAD^
-	git push origin $(VERSION)
+	[ -z "$$DRY_RUN" ] && git push origin $(VERSION) || exit 0
