@@ -1,0 +1,17 @@
+/build export-ignore
+/resources export-ignore
+/tests export-ignore
+/tools export-ignore
+/docker-compose.yml export-ignore
+/Dockerfile export-ignore
+/Makefile export-ignore
+/ecs*.php export-ignore
+/phpunit.xml.dist export-ignore
+/phpstan*.neon export-ignore
+/renovate.json export-ignore
+/.env.dist export-ignore
+/.gitignore export-ignore
+/.gitlab-ci.yml export-ignore
+/composer.lock export-ignore
+/php-extensions.txt export-ignore
+/.gitattributes export-ignore
