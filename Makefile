@@ -29,6 +29,7 @@ DOCKER_COMPOSE = docker compose --env-file $(BASE_DIR)/.env.dist --env-file $(BA
 RELEASE_HOST = github.com
 RELEASE_REPOSITORY = git@$(RELEASE_HOST):Twint-AG/sdk.git
 CI_COMMIT_TAG ?= $(error CI_COMMIT_TAG must be set)
+VERSION ?= $(error VERSION must be set)
 
 MAKEFLAGS += --jobs=32
 
@@ -169,3 +170,7 @@ release:
 	chmod 400 $(TWINT_GITHUB_DEPLOY_KEY)
 	ssh-keyscan $(RELEASE_HOST) >> ~/.ssh/known_hosts
 	GIT_SSH_COMMAND="ssh -i $(TWINT_GITHUB_DEPLOY_KEY)" git push --force $(RELEASE_REPOSITORY) `(git rev-parse HEAD)`:develop $(CI_COMMIT_TAG):$(CI_COMMIT_TAG)
+
+tag:
+	GIT_COMMITTER_NAME="TWINT Release Bot" GIT_COMMITTER_EMAIL=plugin@twint.ch git tag -a $(VERSION) -m "Release $(VERSION)"
+	git push origin $(VERSION)
