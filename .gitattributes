@@ -1,5 +1,6 @@
 /build export-ignore
-/resources export-ignore
+/resources/docs export-ignore
+/resources/config export-ignore
 /tests export-ignore
 /tools export-ignore
 /docker-compose.yml export-ignore
