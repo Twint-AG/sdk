@@ -5644,16 +5644,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.10.1",
+            "version": "3.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPCSStandards/PHP_CodeSniffer.git",
-                "reference": "8f90f7a53ce271935282967f53d0894f8f1ff877"
+                "reference": "86e5f5dd9a840c46810ebe5ff1885581c42a3017"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/8f90f7a53ce271935282967f53d0894f8f1ff877",
-                "reference": "8f90f7a53ce271935282967f53d0894f8f1ff877",
+                "url": "https://api.github.com/repos/PHPCSStandards/PHP_CodeSniffer/zipball/86e5f5dd9a840c46810ebe5ff1885581c42a3017",
+                "reference": "86e5f5dd9a840c46810ebe5ff1885581c42a3017",
                 "shasum": ""
             },
             "require": {
@@ -5720,7 +5720,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-22T21:24:41+00:00"
+            "time": "2024-07-21T23:26:44+00:00"
         },
         {
             "name": "symfony/clock",
@@ -5936,16 +5936,16 @@
         },
         {
             "name": "symplify/easy-coding-standard",
-            "version": "12.3.1",
+            "version": "12.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/easy-coding-standard/easy-coding-standard.git",
-                "reference": "bd670feae8d0b6da891d29a3c549bd0f4aa48711"
+                "reference": "cc6f11357b457e9dbf2fd14f6ee47fd266d50e73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/bd670feae8d0b6da891d29a3c549bd0f4aa48711",
-                "reference": "bd670feae8d0b6da891d29a3c549bd0f4aa48711",
+                "url": "https://api.github.com/repos/easy-coding-standard/easy-coding-standard/zipball/cc6f11357b457e9dbf2fd14f6ee47fd266d50e73",
+                "reference": "cc6f11357b457e9dbf2fd14f6ee47fd266d50e73",
                 "shasum": ""
             },
             "require": {
@@ -5981,7 +5981,7 @@
             ],
             "support": {
                 "issues": "https://github.com/easy-coding-standard/easy-coding-standard/issues",
-                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.3.1"
+                "source": "https://github.com/easy-coding-standard/easy-coding-standard/tree/12.3.2"
             },
             "funding": [
                 {
@@ -5993,7 +5993,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-06T12:33:15+00:00"
+            "time": "2024-07-21T18:39:09+00:00"
         },
         {
             "name": "theseer/tokenizer",
