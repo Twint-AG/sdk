@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bfdabb343ae5bd5ce14e88828648d01",
+    "content-hash": "a8a7cd0369c3fda7a12e425c231e3728",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -1429,16 +1429,16 @@
         },
         {
             "name": "php-soap/wsdl-reader",
-            "version": "0.16.0",
+            "version": "0.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl-reader.git",
-                "reference": "ea80ce18a8e9433f006f3beabddfac48bc10d8e6"
+                "reference": "33c96b0a29e99a0580abfdd1def2b3fb898dcda0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/ea80ce18a8e9433f006f3beabddfac48bc10d8e6",
-                "reference": "ea80ce18a8e9433f006f3beabddfac48bc10d8e6",
+                "url": "https://api.github.com/repos/php-soap/wsdl-reader/zipball/33c96b0a29e99a0580abfdd1def2b3fb898dcda0",
+                "reference": "33c96b0a29e99a0580abfdd1def2b3fb898dcda0",
                 "shasum": ""
             },
             "require": {
@@ -1480,7 +1480,7 @@
             "description": "A WSDL reader in PHP",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl-reader/issues",
-                "source": "https://github.com/php-soap/wsdl-reader/tree/0.16.0"
+                "source": "https://github.com/php-soap/wsdl-reader/tree/0.17.0"
             },
             "funding": [
                 {
@@ -1488,7 +1488,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-06-11T10:22:50+00:00"
+            "time": "2024-07-26T12:46:08+00:00"
         },
         {
             "name": "php-soap/xml",
