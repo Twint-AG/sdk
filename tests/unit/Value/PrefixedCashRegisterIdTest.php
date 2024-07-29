@@ -8,8 +8,8 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psl\Exception\InvariantViolationException;
-use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\StoreUuid;
 
 /**
  * @template-extends ValueTest<PrefixedCashRegisterId>
@@ -50,7 +50,7 @@ final class PrefixedCashRegisterIdTest extends ValueTest
         $this->expectException(InvariantViolationException::class);
 
         /** @phpstan-ignore-next-line */
-        new PrefixedCashRegisterId(MerchantId::fromString(self::MERCHANT_ID), $id);
+        new PrefixedCashRegisterId(StoreUuid::fromString(self::MERCHANT_ID), $id);
     }
 
     #[DataProvider('getSuccessExamples')]
@@ -59,14 +59,14 @@ final class PrefixedCashRegisterIdTest extends ValueTest
         self::assertSame(
             $id . '-' . self::MERCHANT_ID,
             /** @phpstan-ignore-next-line */
-            (string) new PrefixedCashRegisterId(MerchantId::fromString(self::MERCHANT_ID), $id)
+            (string) new PrefixedCashRegisterId(StoreUuid::fromString(self::MERCHANT_ID), $id)
         );
     }
 
     #[Override]
     protected function createValue(): object
     {
-        return PrefixedCashRegisterId::unknown(MerchantId::fromString(self::MERCHANT_ID));
+        return PrefixedCashRegisterId::unknown(StoreUuid::fromString(self::MERCHANT_ID));
     }
 
     #[Override]

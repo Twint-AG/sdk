@@ -6,13 +6,13 @@ use Twint\Sdk\Client;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\Version;
 use function Psl\Type\string;
 
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     Version::latest(),
     Environment::TESTING()
 );
@@ -21,7 +21,7 @@ $client = new Client(
 // Production start
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     Version::latest(),
     Environment::PRODUCTION()
 );
@@ -31,7 +31,7 @@ $client = new Client(
 // Custom file writer start
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     Version::latest(),
     Environment::PRODUCTION(),
     new ContentSensitiveFileWriter(

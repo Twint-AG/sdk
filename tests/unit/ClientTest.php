@@ -25,11 +25,11 @@ use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
-use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\ShippingMethods;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use function Psl\Type\instance_of;
@@ -94,7 +94,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),
@@ -117,7 +117,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),
@@ -133,7 +133,7 @@ final class ClientTest extends TestCase
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
     }
 
-    public function testCashRegisterIdForImplicitEnrollmentIsCombinedPrefixWithMerchantId(): void
+    public function testCashRegisterIdForImplicitEnrollmentIsCombinedPrefixWithStoreUuid(): void
     {
         $engine = $this->createMock(Engine::class);
         $engine
@@ -167,7 +167,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            new PrefixedCashRegisterId(MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'), 'Magento'),
+            new PrefixedCashRegisterId(StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'), 'Magento'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),
@@ -215,7 +215,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),
@@ -244,7 +244,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),
@@ -262,7 +262,7 @@ final class ClientTest extends TestCase
 
         $client = new Client(
             CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
-            MerchantId::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
             new TemporaryFileWriter(),

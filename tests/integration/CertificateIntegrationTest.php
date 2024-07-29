@@ -10,7 +10,7 @@ use OpenSSLCertificate;
 use OpenSSLCertificateSigningRequest;
 use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Tools\SystemEnvironment;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\shape;
@@ -37,7 +37,7 @@ abstract class CertificateIntegrationTest extends TestCase
             'O' => $org,
             'OU' => 'MerchantCustomers',
             'CN' => 'TWINT-TechUser NFQ Integration Test',
-            'UID' => MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID')),
+            'UID' => StoreUuid::fromString(SystemEnvironment::get('TWINT_SDK_TEST_STORE_UUID')),
         ];
 
         $csr = instance_of(OpenSSLCertificateSigningRequest::class)

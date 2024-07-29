@@ -19,7 +19,7 @@ $env = new Dotenv();
 $env->load(__DIR__ . '/../../../.env');
 
 $orderReference = bin2hex(random_bytes(16));
-$merchantId = SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID');
+$storeUuid = SystemEnvironment::get('TWINT_SDK_TEST_STORE_UUID');
 $certificatePath = SystemEnvironment::get(
     'TWINT_SDK_TEST_CERT_P12_PATH'
 );

@@ -20,8 +20,8 @@ use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
-use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use WireMock\Client\WireMock;
@@ -54,7 +54,7 @@ abstract class IntegrationTest extends TestCase
                     SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
-            new PrefixedCashRegisterId(self::getMerchantId(), 'SDK'),
+            new PrefixedCashRegisterId(self::getStoreUuid(), 'SDK'),
             $version ?? Version::latest(),
             Environment::TESTING(),
             new ContentSensitiveFileWriter(
@@ -88,9 +88,9 @@ abstract class IntegrationTest extends TestCase
         return $client;
     }
 
-    final protected static function getMerchantId(): MerchantId
+    final protected static function getStoreUuid(): StoreUuid
     {
-        return MerchantId::fromString(SystemEnvironment::get('TWINT_SDK_TEST_MERCHANT_ID'));
+        return StoreUuid::fromString(SystemEnvironment::get('TWINT_SDK_TEST_STORE_UUID'));
     }
 
     final protected function createTransactionReference(): UnfiledMerchantTransactionReference

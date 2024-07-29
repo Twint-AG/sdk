@@ -9,7 +9,7 @@ use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Value\ExistingPath;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 
 // Establish trust
 try {
@@ -49,7 +49,7 @@ try {
 // Check API connectivity
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     $version,
     $environment
 );

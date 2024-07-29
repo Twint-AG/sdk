@@ -3,11 +3,11 @@
 namespace Acme;
 
 use Twint\Sdk\Client;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     $version,
     $environment
 );

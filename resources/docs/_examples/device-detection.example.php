@@ -3,12 +3,12 @@
 namespace Acme;
 
 use Twint\Sdk\Client;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 use function Psl\Type\string;
 
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     $version,
     $environment
 );

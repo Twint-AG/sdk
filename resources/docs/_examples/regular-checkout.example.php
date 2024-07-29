@@ -4,13 +4,13 @@ namespace Acme;
 
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\ApiFailure;
-use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
 $client = new Client(
     $certificateContainer,
-    MerchantId::fromString($merchantId),
+    StoreUuid::fromString($storeUuid),
     $version,
     $environment
 );

@@ -8,14 +8,14 @@ use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\RecordingTransport;
-use Twint\Sdk\Value\MerchantId;
+use Twint\Sdk\Value\StoreUuid;
 
 $messageRecorder = new MessageRecorder();
 
 $client = new InvocationRecordingClient(
     new Client(
         $certificateContainer,
-        MerchantId::fromString($merchantId),
+        StoreUuid::fromString($storeUuid),
         $version,
         $environment,
         soapEngineFactory: new DefaultSoapEngineFactory(

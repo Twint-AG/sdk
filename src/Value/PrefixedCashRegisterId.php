@@ -25,13 +25,13 @@ final class PrefixedCashRegisterId implements Value, CashRegisterId
 
     private const SEPARATOR_LENGTH = 1;
 
-    private const MAX_LENGTH = self::MAX_CASH_REGISTER_ID_LENGTH - MerchantId::LENGTH - self::SEPARATOR_LENGTH;
+    private const MAX_LENGTH = self::MAX_CASH_REGISTER_ID_LENGTH - StoreUuid::LENGTH - self::SEPARATOR_LENGTH;
 
     /**
      * @param non-empty-string $prefix
      */
     public function __construct(
-        private readonly MerchantId $merchantId,
+        private readonly StoreUuid $storeUuid,
         private readonly string $prefix
     ) {
         invariant($prefix !== '', 'Prefix must not be empty');
@@ -46,21 +46,21 @@ final class PrefixedCashRegisterId implements Value, CashRegisterId
         );
     }
 
-    public static function unknown(MerchantId $merchantId): self
+    public static function unknown(StoreUuid $storeUuid): self
     {
-        return new self($merchantId, self::UNKNOWN);
+        return new self($storeUuid, self::UNKNOWN);
     }
 
     #[Override]
     public function __toString(): string
     {
-        return $this->prefix . '-' . $this->merchantId;
+        return $this->prefix . '-' . $this->storeUuid;
     }
 
     #[Override]
-    public function merchantId(): MerchantId
+    public function storeUuid(): StoreUuid
     {
-        return $this->merchantId;
+        return $this->storeUuid;
     }
 
     #[Override]
@@ -74,21 +74,18 @@ final class PrefixedCashRegisterId implements Value, CashRegisterId
     {
         instance_of(self::class)->assert($other);
 
-        return Comparison::comparePairs([
-            [$this->prefix, $other->prefix],
-            [$this->merchantId, $other->merchantId],
-        ]);
+        return Comparison::comparePairs([[$this->prefix, $other->prefix], [$this->storeUuid, $other->storeUuid]]);
     }
 
     /**
-     * @return array{prefix: string, merchantId: MerchantId}
+     * @return array{prefix: string, storeUuid: StoreUuid}
      */
     #[Override]
     public function jsonSerialize(): array
     {
         return [
             'prefix' => $this->prefix,
-            'merchantId' => $this->merchantId,
+            'storeUuid' => $this->storeUuid,
         ];
     }
 }

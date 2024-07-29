@@ -48,7 +48,6 @@ use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\IosAppScheme;
-use Twint\Sdk\Value\MerchantId;
 use Twint\Sdk\Value\MerchantInformation;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\NumericPairingToken;
@@ -64,6 +63,7 @@ use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
+use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
@@ -85,7 +85,7 @@ final class Client implements CoreCapabilities
 
     private const ORDER_KIND_REVERSAL = 'REVERSAL';
 
-    private readonly MerchantId $merchantId;
+    private readonly StoreUuid $storeUuid;
 
     private readonly CashRegisterId $cashRegisterId;
 
@@ -115,9 +115,9 @@ final class Client implements CoreCapabilities
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
     ) {
-        $this->merchantId = $merchantInformation->merchantId();
+        $this->storeUuid = $merchantInformation->storeUuid();
         $this->cashRegisterId = $merchantInformation->cashRegisterId()
-            ?? PrefixedCashRegisterId::unknown($this->merchantId);
+            ?? PrefixedCashRegisterId::unknown($this->storeUuid);
     }
 
     /**
@@ -131,7 +131,7 @@ final class Client implements CoreCapabilities
                 ->checkSystemStatus(
                     new CheckSystemStatusRequestElement(
                         (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId('')
                     )
                 );
@@ -155,7 +155,7 @@ final class Client implements CoreCapabilities
                 ->startOrder(
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
@@ -207,7 +207,7 @@ final class Client implements CoreCapabilities
                 ->monitorOrder(
                     new MonitorOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         OrderUuid: $orderReference->asOrderUuidString(),
                         MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
@@ -251,7 +251,7 @@ final class Client implements CoreCapabilities
                 ->cancelOrder(
                     new CancelOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         OrderUuid: $orderReference->asOrderUuidString(),
                         MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
@@ -293,7 +293,7 @@ final class Client implements CoreCapabilities
                 ->confirmOrder(
                     new ConfirmOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         OrderUuid: $orderReference->asOrderUuidString(),
                         MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
@@ -342,7 +342,7 @@ final class Client implements CoreCapabilities
                 ->startOrder(
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
@@ -401,7 +401,7 @@ final class Client implements CoreCapabilities
                 ->requestFastCheckoutCheckIn(
                     new RequestFastCheckoutCheckInRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         NetAmount: (new CurrencyAmountType())
                             ->withAmount($amountWithoutShipping->amount())
@@ -449,7 +449,7 @@ final class Client implements CoreCapabilities
                 ->monitorFastCheckoutCheckIn(
                     new MonitorFastCheckoutCheckInRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         PairingUuid: (string) $pairingUuid,
                         WaitForResponse: false
@@ -502,7 +502,7 @@ final class Client implements CoreCapabilities
                 ->startOrder(
                     new StartOrderRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
@@ -626,7 +626,7 @@ final class Client implements CoreCapabilities
                 ->enrollCashRegister(
                     new EnrollCashRegisterRequestElement(
                         MerchantInformation: (new MerchantInformationType())
-                            ->withMerchantUuid((string) $this->merchantId)
+                            ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId($cashRegisterId),
                         CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
                         FormerCashRegisterId: null,

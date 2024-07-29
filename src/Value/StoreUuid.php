@@ -10,7 +10,7 @@ use function Psl\Type\instance_of;
 /**
  * @template-implements Value<self>
  */
-final class MerchantId implements Value, CashRegisterId
+final class StoreUuid implements Value, CashRegisterId
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -48,7 +48,7 @@ final class MerchantId implements Value, CashRegisterId
     }
 
     #[Override]
-    public function merchantId(): self
+    public function storeUuid(): self
     {
         return $this;
     }
