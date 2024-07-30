@@ -18,7 +18,7 @@ use Twint\Sdk\Value\StoreUuid;
 #[CoversClass(PrefixedCashRegisterId::class)]
 final class PrefixedCashRegisterIdTest extends ValueTest
 {
-    public const MERCHANT_ID = '00000000-0000-0000-0000-000000000000';
+    public const STORE_UUID = '00000000-0000-0000-0000-000000000000';
 
     /**
      * @return iterable<array{string}>
@@ -50,23 +50,23 @@ final class PrefixedCashRegisterIdTest extends ValueTest
         $this->expectException(InvariantViolationException::class);
 
         /** @phpstan-ignore-next-line */
-        new PrefixedCashRegisterId(StoreUuid::fromString(self::MERCHANT_ID), $id);
+        new PrefixedCashRegisterId(StoreUuid::fromString(self::STORE_UUID), $id);
     }
 
     #[DataProvider('getSuccessExamples')]
     public function testCanBeCreated(string $id): void
     {
         self::assertSame(
-            $id . '-' . self::MERCHANT_ID,
+            $id . '-' . self::STORE_UUID,
             /** @phpstan-ignore-next-line */
-            (string) new PrefixedCashRegisterId(StoreUuid::fromString(self::MERCHANT_ID), $id)
+            (string) new PrefixedCashRegisterId(StoreUuid::fromString(self::STORE_UUID), $id)
         );
     }
 
     #[Override]
     protected function createValue(): object
     {
-        return PrefixedCashRegisterId::unknown(StoreUuid::fromString(self::MERCHANT_ID));
+        return PrefixedCashRegisterId::unknown(StoreUuid::fromString(self::STORE_UUID));
     }
 
     #[Override]
