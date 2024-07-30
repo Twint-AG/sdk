@@ -10,11 +10,11 @@ not exposed in the SDK.
 Instantiating the client
 ========================
 
-To instantiate a client, a certificate container and the merchant ID are required. Additionally, an API version and the
+To instantiate a client, a certificate container and the store UUID are required. Additionally, an API version and the
 environment to work with must be selected.
 
-Check out :ref:`authentication` to understand how to obtain the certificate container. The merchant ID is a UUID
-provided by TWINT.
+Check out :ref:`authentication` to understand how to obtain the certificate container. The store UUID is a UUID
+provided by TWINT in the customer portal to identity the relevant store.
 
 .. literalinclude:: _examples/client-instantiation.example.php
     :language: PHP
