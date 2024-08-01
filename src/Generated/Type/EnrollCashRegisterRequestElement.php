@@ -27,8 +27,6 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     protected ?string $BeaconDaemonVersion = null;
 
     /**
-     * Constructor
-     *
      * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' $CashRegisterType
      */
     public function __construct(MerchantInformationType $MerchantInformation, string $CashRegisterType, ?string $FormerCashRegisterId, ?string $BeaconInventoryNumber, ?string $BeaconDaemonVersion)

@@ -15,9 +15,6 @@ class CheckSystemStatusRequestElement implements RequestInterface
      */
     protected MerchantInformationType $MerchantInformation;
 
-    /**
-     * Constructor
-     */
     public function __construct(MerchantInformationType $MerchantInformation)
     {
         $this->MerchantInformation = $MerchantInformation;

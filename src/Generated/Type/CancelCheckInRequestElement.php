@@ -37,8 +37,6 @@ class CancelCheckInRequestElement implements RequestInterface
     protected ?CouponListType $Coupons = null;
 
     /**
-     * Constructor
-     *
      * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
      */
     public function __construct(MerchantInformationType $MerchantInformation, string $Reason, ?string $CustomerRelationUuid, ?string $PairingUuid, ?CouponListType $Coupons)

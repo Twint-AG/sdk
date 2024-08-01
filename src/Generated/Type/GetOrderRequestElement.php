@@ -24,9 +24,6 @@ class GetOrderRequestElement implements RequestInterface
      */
     protected string $OrderUuid;
 
-    /**
-     * Constructor
-     */
     public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, string $OrderUuid)
     {
         $this->MerchantUuid = $MerchantUuid;

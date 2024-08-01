@@ -31,9 +31,6 @@ class MonitorCheckInRequestElement implements RequestInterface
 
     protected ?bool $WaitForResponse = null;
 
-    /**
-     * Constructor
-     */
     public function __construct(MerchantInformationType $MerchantInformation, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $WaitForResponse)
     {
         $this->MerchantInformation = $MerchantInformation;

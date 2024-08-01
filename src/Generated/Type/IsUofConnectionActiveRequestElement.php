@@ -24,9 +24,6 @@ class IsUofConnectionActiveRequestElement implements RequestInterface
      */
     protected string $CustomerRelationUuid;
 
-    /**
-     * Constructor
-     */
     public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, string $CustomerRelationUuid)
     {
         $this->MerchantUuid = $MerchantUuid;

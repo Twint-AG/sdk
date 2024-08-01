@@ -19,9 +19,6 @@ class RenewCertificateRequestElement implements RequestInterface
 
     protected mixed $CertificatePassword;
 
-    /**
-     * Constructor
-     */
     public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, mixed $CertificatePassword)
     {
         $this->MerchantUuid = $MerchantUuid;

@@ -38,8 +38,6 @@ class RequestCheckInRequestElement implements RequestInterface
     protected ?bool $QRCodeRendering = null;
 
     /**
-     * Constructor
-     *
      * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
      */
     public function __construct(MerchantInformationType $MerchantInformation, ?string $OfflineAuthorization, ?string $CouponCode, ?string $CustomerRelationUuid, ?bool $UnidentifiedCustomer, ?LoyaltyType $LoyaltyInformation, ?string $RequestCustomerRelationAlias, ?bool $QRCodeRendering)

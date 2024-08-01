@@ -17,9 +17,6 @@ class GetCertificateValidityRequestElement implements RequestInterface
 
     protected ?string $MerchantAliasId = null;
 
-    /**
-     * Constructor
-     */
     public function __construct(?string $MerchantUuid, ?string $MerchantAliasId)
     {
         $this->MerchantUuid = $MerchantUuid;

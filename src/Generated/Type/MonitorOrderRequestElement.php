@@ -30,9 +30,6 @@ class MonitorOrderRequestElement implements RequestInterface
 
     protected ?bool $WaitForResponse = null;
 
-    /**
-     * Constructor
-     */
     public function __construct(MerchantInformationType $MerchantInformation, ?string $OrderUuid, ?string $MerchantTransactionReference, ?bool $WaitForResponse)
     {
         $this->MerchantInformation = $MerchantInformation;

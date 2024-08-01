@@ -34,8 +34,6 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     protected ?bool $QRCodeRendering = null;
 
     /**
-     * Constructor
-     *
      * @param non-empty-array<int<0,19>, string> $RequestedScopes
      * @param array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType> $ShippingMethods
      */
