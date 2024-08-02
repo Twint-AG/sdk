@@ -165,9 +165,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
-        self::markTestSkipped('CancelOrder response does not include UUID. Maybe an API bug?');
-
-        $cancelled = $client->cancelOrder($started->merchantTransactionReference()); // @phpstan-ignore-line
+        $cancelled = $client->cancelOrder($started->merchantTransactionReference());
 
         self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
         self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
