@@ -1368,16 +1368,16 @@
         },
         {
             "name": "php-soap/wsdl",
-            "version": "1.9.0",
+            "version": "1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-soap/wsdl.git",
-                "reference": "31adf0621e47db7f91152be15423be2a839a66f3"
+                "reference": "7c330e3c12b12a49efca62867c7e60022ce3c3eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/31adf0621e47db7f91152be15423be2a839a66f3",
-                "reference": "31adf0621e47db7f91152be15423be2a839a66f3",
+                "url": "https://api.github.com/repos/php-soap/wsdl/zipball/7c330e3c12b12a49efca62867c7e60022ce3c3eb",
+                "reference": "7c330e3c12b12a49efca62867c7e60022ce3c3eb",
                 "shasum": ""
             },
             "require": {
@@ -1417,7 +1417,7 @@
             "description": "Deals with WSDLs",
             "support": {
                 "issues": "https://github.com/php-soap/wsdl/issues",
-                "source": "https://github.com/php-soap/wsdl/tree/1.9.0"
+                "source": "https://github.com/php-soap/wsdl/tree/1.10.0"
             },
             "funding": [
                 {
@@ -1425,7 +1425,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2024-05-17T13:43:29+00:00"
+            "time": "2024-08-21T12:06:05+00:00"
         },
         {
             "name": "php-soap/wsdl-reader",
@@ -1930,16 +1930,16 @@
         },
         {
             "name": "psr/log",
-            "version": "3.0.0",
+            "version": "3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
-                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/79dff0b268932c640297f5208d6298f71855c03e",
+                "reference": "79dff0b268932c640297f5208d6298f71855c03e",
                 "shasum": ""
             },
             "require": {
@@ -1974,9 +1974,9 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/3.0.0"
+                "source": "https://github.com/php-fig/log/tree/3.0.1"
             },
-            "time": "2021-07-14T16:46:02+00:00"
+            "time": "2024-08-21T13:31:24+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
