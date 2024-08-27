@@ -89,6 +89,10 @@ try {
         $orderId,
         Money::CHF(9.95)
     );
+    if (!$firstReversal->isSuccessful()) {
+        // Handle failure
+    }
+
     ++$reversalIndex;
 } catch (ApiFailure $failure) {
     // Handle failure
@@ -103,6 +107,9 @@ try {
         $orderId,
         Money::CHF(90.00)
     );
+    if (!$secondReversal->isSuccessful()) {
+        // Handle failure
+    }
 } catch (ApiFailure $failure) {
     // Handle failure
 }
