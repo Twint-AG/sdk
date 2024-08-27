@@ -89,11 +89,11 @@ final class Client implements CoreCapabilities
 
     private readonly CashRegisterId $cashRegisterId;
 
-    private readonly ?TwintSoapClient $soapClient;
+    private readonly TwintSoapClient $soapClient;
 
-    private readonly ?ClientInterface $httpClient;
+    private readonly ClientInterface $httpClient;
 
-    private readonly ?RequestFactoryInterface $httpRequestFactory;
+    private readonly RequestFactoryInterface $httpRequestFactory;
 
     /**
      * @var list<string>

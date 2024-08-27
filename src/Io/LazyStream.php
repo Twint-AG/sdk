@@ -13,9 +13,9 @@ use Override;
 final class LazyStream implements Stream
 {
     /**
-     * @var T|null
+     * @var T
      */
-    private readonly ?string $content;
+    private readonly string $content;
 
     /**
      * @param Stream<T> $stream

@@ -19,7 +19,7 @@ final class DocumentationScopeVisitor extends NodeVisitorAbstract
      */
     private static array $prependNodes = [];
 
-    private readonly ?NodeVisitor $delegate;
+    private readonly NodeVisitor $delegate;
 
     /**
      * @throws ParserErrorsException
@@ -39,7 +39,7 @@ final class DocumentationScopeVisitor extends NodeVisitorAbstract
     #[Override]
     public function leaveNode(Node $node): Node|int|array|null
     {
-        return $this->delegate?->leaveNode($node);
+        return $this->delegate->leaveNode($node);
     }
 
     /**
@@ -49,6 +49,6 @@ final class DocumentationScopeVisitor extends NodeVisitorAbstract
     #[Override]
     public function afterTraverse(array $nodes): array
     {
-        return $this->delegate?->afterTraverse($nodes) ?? $nodes;
+        return $this->delegate->afterTraverse($nodes) ?? $nodes;
     }
 }
