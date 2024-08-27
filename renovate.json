@@ -53,6 +53,16 @@
       "automerge": true
     },
     {
+      "matchPackageNames": [
+        "/renovate-runner/"
+      ],
+      "groupName": "renovate-runner",
+      "schedule": [
+        "on the first day of the week"
+      ],
+      "automerge": true
+    },
+    {
       "matchDepTypes": [
         "require-dev"
       ],
