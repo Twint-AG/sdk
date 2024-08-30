@@ -66,7 +66,7 @@
         "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0",
         "php-soap/wsdl-reader": "^0.17.0",
         "roave/better-reflection": "^6.25.0",
-        "symfony/finder": "^6.4.10"
+        "symfony/finder": "^6.4.11"
     },
     "config": {
         "allow-plugins": {
