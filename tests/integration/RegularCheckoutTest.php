@@ -12,6 +12,11 @@ use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\TransactionStatus;
+use Twint\Sdk\Value\Version;
+use VeeWee\Xml\Dom\Document;
+use function Psl\Type\int;
+use function Psl\Type\non_empty_string;
+use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 
 /**
  * @template-extends IntegrationTest<OrderCheckout>
@@ -75,6 +80,28 @@ final class RegularCheckoutTest extends IntegrationTest
         self::assertObjectEquals($order->id(), $monitorOrder->id());
         self::assertObjectEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
         self::assertObjectEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
+    }
+
+    public function testStartOrderRequiresConfirmation(): void
+    {
+        $this->enableWireMockForSoapMethod('StartOrder');
+
+        $client = $this->createClient();
+        $transactionReference = $this->createTransactionReference();
+
+        $client->startOrder($transactionReference, Money::CHF(100));
+
+        $requests = $this->wireMock()
+            ->getAllServeEvents(null, 1)
+            ->getRequests();
+        self::assertCount(1, $requests);
+
+        $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
+            ->xpath(namespaces([
+                'mer' => (string) Version::latest()->soapNamespaceForMerchantTypes(),
+            ]));
+
+        self::assertSame(1, $xpath->evaluate('count(//mer:Order[@confirmationNeeded="true"])', int()));
     }
 
     public function testConfirmOrderByOrderId(): void

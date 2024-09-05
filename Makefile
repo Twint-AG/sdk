@@ -12,7 +12,7 @@ SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
 ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
-PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G
+PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G --verbose
 PHPSTAN_SRC := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.dev.neon
 DEV := true
 

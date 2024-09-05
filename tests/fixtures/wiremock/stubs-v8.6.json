@@ -1,5 +1,50 @@
 {
   "mappings" : [ {
+    "id" : "1b754662-b2bf-49f0-9578-ebcbb1ffa4fe",
+    "name" : "StartOrder (Fast Checkout)",
+    "request" : {
+      "urlPath" : "/mer1/merchant/service/TWINTMerchantServiceV8_6",
+      "method" : "POST",
+      "headers" : {
+        "SOAPAction" : {
+          "equalTo" : "\"StartOrder\""
+        }
+      },
+      "pathParameters" : { },
+      "formParameters" : { },
+      "bodyPatterns" : [ {
+        "doesNotContain" : "REVERSAL"
+      } ]
+    },
+    "response" : {
+      "status" : 200,
+      "body" : "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:v8=\"http://service.twint.ch/header/types/v8_5\" xmlns:v81=\"http://service.twint.ch/merchant/types/v8_5\" xmlns:v82=\"http://service.twint.ch/base/types/v8_5\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}</v8:MessageId>\n          </v8:ResponseHeaderElement>\n      </soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}</v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS</v81:Status>\n                  <v81:Reason code=\"80\">ORDER_PENDING</v81:Reason>\n              </v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}</v81:Token>\n              <v81:CustomerInformation>\n              </v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_ACTIVE</v81:PairingStatus>\n              <v81:QRCode>data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4////DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy/cr+C4YOoQwXD/2/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k/WD4UsAUPZLXBaQiDkIFLs/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==</v81:QRCode>\n          </v81:StartOrderResponseElement>\n      </soapenv:Body>\n</soapenv:Envelope>",
+      "headers" : { },
+      "transformers" : [ "response-template" ]
+    },
+    "uuid" : "1b754662-b2bf-49f0-9578-ebcbb1ffa4fe",
+    "persistent" : true,
+    "priority" : 5,
+    "scenarioName" : "ShippingTwintIDSuccessScenario",
+    "requiredScenarioState" : "CreateOrder",
+    "metadata" : {
+      "mocklab" : {
+        "created" : {
+          "at" : "2024-04-01T14:31:32.409150933Z",
+          "via" : "ADMIN_API",
+          "by" : "w7z21"
+        },
+        "updated" : {
+          "at" : "2024-09-05T11:53:32.655309429Z",
+          "via" : "ADMIN_API",
+          "by" : "4y9e2"
+        },
+        "response-example-attachment" : "StartOrder (Fast Checkout)"
+      }
+    },
+    "postServeActions" : [ ],
+    "serveEventListeners" : [ ]
+  }, {
     "id" : "6cfb129a-949c-483e-9d8b-66495be0d4c4",
     "name" : "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (OK Step)",
     "request" : {
@@ -31,11 +76,6 @@
           "at" : "2024-04-01T14:31:32.409150933Z",
           "via" : "ADMIN_API",
           "by" : "w7z21"
-        },
-        "updated" : {
-          "at" : "2024-07-12T12:42:11.696509179Z",
-          "via" : "ADMIN_API",
-          "by" : "4y9e2"
         },
         "response-example-attachment" : "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (OK Step)"
       }
@@ -1334,14 +1374,15 @@
     "id" : "88a721dd-2d3f-43f4-8267-42ba2bdcc434",
     "name" : "StartOrder",
     "request" : {
-      "urlPath" : "/mer1/merchant/service/TWINTMerchantServiceV8_5",
+      "urlPath" : "/mer1/merchant/service/TWINTMerchantServiceV8_6",
       "method" : "POST",
       "headers" : {
         "SOAPAction" : {
-          "equalTo" : "\"StartOrder\"",
-          "caseInsensitive" : false
+          "equalTo" : "\"StartOrder\""
         }
       },
+      "pathParameters" : { },
+      "formParameters" : { },
       "bodyPatterns" : [ {
         "doesNotContain" : "REVERSAL"
       } ]
@@ -1362,10 +1403,16 @@
           "via" : "ADMIN_API",
           "by" : "w7z21"
         },
+        "updated" : {
+          "at" : "2024-09-05T11:50:18.302781752Z",
+          "via" : "ADMIN_API",
+          "by" : "4y9e2"
+        },
         "response-example-attachment" : "StartOrder"
       }
     },
-    "postServeActions" : [ ]
+    "postServeActions" : [ ],
+    "serveEventListeners" : [ ]
   }, {
     "id" : "b12b3dfe-94be-419a-9222-e4726f16350c",
     "name" : "CancelOrder",
@@ -1400,6 +1447,6 @@
     "postServeActions" : [ ]
   } ],
   "meta" : {
-    "total" : 39
+    "total" : 40
   }
 }

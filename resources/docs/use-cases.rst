@@ -81,9 +81,8 @@ Check if the order requires user interaction (either the user has to confirm or 
 
 Confirm order
 -------------
-The SDK will always start orders that are implicitly confirmed, meaning: as soon as the user confirms the order, the
-amount will be charged. Still in rare cases, e.g. when the initial order has been started with requiring explicit
-merchant confirmation, it might be necessary to manually confirm the order.
+The SDK creates orders that require explicit confirmation from the merchant: it’s not enough that the customer has
+confirmed the order in the app, the merchant also needs to explicitly confirm for the amount to be transferred.
 
 To check if an order needs confirmation, call |method-value-order-is-confirmation-pending| on the |class-value-order|
 object before calling the |method-client-confirm-order| method of the |class-client| object.
@@ -94,15 +93,15 @@ object before calling the |method-client-confirm-order| method of the |class-cli
     :end-before: // Check if order needs merchant confirmation end
 
 .. note::
-    Once the order has been confirmed, be it implicitly or explicitly, it can only be refunded using
+    Once the order has been confirmed it can only be refunded using
     |fq-method-client-reverse-order| and |method-client-cancel-order| will no longer work.
 
 
 Concluding the order
 --------------------
 
-Once the order is confirmed, be it implicitly or explicitly, the order is concluded and the amount is charged. The
-order status will be updated to |const-value-order-status-success|.
+Once the order is confirmed, the order is concluded and the amount is transferred. The order status will be updated
+to |const-value-order-status-success|.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
@@ -244,6 +243,17 @@ accessed and matched to the merchant's shipping methods.
     :language: PHP
     :start-after: Access shipping method start
     :end-before: Access shipping method end
+
+Cancelling the express checkout check-in
+----------------------------------------
+
+To abort the express checkout check-in, the |method-client-cancel-fast-checkout-check-in| method of the |class-client|
+class can be called. This cancels the check-in and an order can no longer be created with the check-in.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Cancel fast checkout check-in start
+    :end-before: Cancel fast checkout check-in end
 
 Creating the actual order
 -------------------------

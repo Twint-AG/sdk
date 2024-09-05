@@ -7,6 +7,7 @@ namespace Twint\Sdk\Tests\Unit\Value;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
 
 /**
@@ -48,6 +49,30 @@ final class VersionTest extends ValueTest
     }
 
     /**
+     * @return iterable<array{string, callable(): Url}>
+     */
+    public static function getNamespaceAccessorExamples(): iterable
+    {
+        $latest = Version::latest();
+        $next = Version::next();
+
+        yield ['http://service.twint.ch/base/types/v8_5', $latest->soapNamespaceForBaseTypes(...)];
+        yield ['http://service.twint.ch/base/types/v8_6', $next->soapNamespaceForBaseTypes(...)];
+
+        yield ['http://service.twint.ch/header/types/v8_5', $latest->soapNamespaceForHeaderTypes(...)];
+        yield ['http://service.twint.ch/header/types/v8_6', $next->soapNamespaceForHeaderTypes(...)];
+
+        yield ['http://service.twint.ch/common/types/v8_5', $latest->soapNamespaceForCommonTypes(...)];
+        yield ['http://service.twint.ch/common/types/v8_6', $next->soapNamespaceForCommonTypes(...)];
+
+        yield ['http://service.twint.ch/fault/types/v8_5', $latest->soapNamespaceForFaultTypes(...)];
+        yield ['http://service.twint.ch/fault/types/v8_6', $next->soapNamespaceForFaultTypes(...)];
+
+        yield ['http://service.twint.ch/merchant/types/v8_5', $latest->soapNamespaceForMerchantTypes(...)];
+        yield ['http://service.twint.ch/merchant/types/v8_6', $next->soapNamespaceForMerchantTypes(...)];
+    }
+
+    /**
      * @param VersionId $versionId
      */
     #[DataProvider('getVersionIds')]
@@ -84,6 +109,15 @@ final class VersionTest extends ValueTest
     public function testNamedConstructors(int $versionId, Version $version): void
     {
         self::assertSame($versionId, $version->id());
+    }
+
+    /**
+     * @param callable(): Url $accessor
+     */
+    #[DataProvider('getNamespaceAccessorExamples')]
+    public function testNamespaceAccessors(string $expectation, callable $accessor): void
+    {
+        self::assertSame($expectation, (string) $accessor());
     }
 
     #[Override]

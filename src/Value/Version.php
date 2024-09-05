@@ -119,4 +119,37 @@ final class Version implements Value, Enum
     {
         return $this->versionId;
     }
+
+    public function soapNamespaceForBaseTypes(): Url
+    {
+        return $this->soapNamespace('base');
+    }
+
+    public function soapNamespaceForCommonTypes(): Url
+    {
+        return $this->soapNamespace('common');
+    }
+
+    public function soapNamespaceForHeaderTypes(): Url
+    {
+        return $this->soapNamespace('header');
+    }
+
+    public function soapNamespaceForFaultTypes(): Url
+    {
+        return $this->soapNamespace('fault');
+    }
+
+    public function soapNamespaceForMerchantTypes(): Url
+    {
+        return $this->soapNamespace('merchant');
+    }
+
+    /**
+     * @param "base"|"common"|"header"|"fault"|"merchant" $type
+     */
+    private function soapNamespace(string $type): Url
+    {
+        return new Url('http://service.twint.ch/' . $type . '/types/v' . $this->underscoreVersion());
+    }
 }

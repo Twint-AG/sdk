@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
+use Deprecated;
 use Override;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
@@ -79,9 +80,18 @@ final class Environment implements Value, Enum
         );
     }
 
+    #[Deprecated(
+        'This method is deprecated and will be removed in the next major version. Use \Twint\Sdk\Value\Version::soapNamespaceForHeaderTypes instead.',
+        '1.1'
+    )]
     public function soapTargetNamespace(Version $version): Url
     {
-        return new Url('http://service.twint.ch/header/types/v' . $version->underscoreVersion());
+        @trigger_error(
+            'This method is deprecated and will be removed in the next major version. Use \Twint\Sdk\Value\Version::soapNamespaceForHeaderTypes instead.',
+            E_USER_DEPRECATED
+        );
+
+        return $version->soapNamespaceForHeaderTypes();
     }
 
     private function getServiceHost(): string

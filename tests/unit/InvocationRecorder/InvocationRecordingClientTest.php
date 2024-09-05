@@ -60,6 +60,7 @@ final class InvocationRecordingClientTest extends TestCase
             [Money::CHF(1.99), new CustomerDataScopes(CustomerDataScopes::EMAIL), new ShippingMethods()],
         ];
         yield ['monitorFastCheckoutCheckIn', [PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c')]];
+        yield ['cancelFastCheckoutCheckIn', [PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c')]];
         yield [
             'startFastCheckoutOrder',
             [

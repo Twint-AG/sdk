@@ -93,3 +93,9 @@ if ($checkIn->isPaired()) {
     );
 }
 // Start fast checkout order end
+
+// Cancel fast checkout check-in start
+$client->cancelFastCheckoutCheckIn(
+    $initialCheckIn->pairingUuid()
+);
+// Cancel fast checkout check-in end

@@ -10,10 +10,12 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use Soap\Engine\Engine;
+use SoapFault;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\ApiFailure;
+use Twint\Sdk\Exception\CancellationFailed;
 use Twint\Sdk\Generated\Type\CodeValueType;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterRequestElement;
 use Twint\Sdk\Generated\Type\EnrollCashRegisterResponseType;
@@ -22,6 +24,7 @@ use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Generated\Type\StartOrderResponseType;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Soap\ErrorClassifier;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
@@ -40,6 +43,7 @@ use function Psl\Type\union;
  */
 #[CoversClass(Client::class)]
 #[CoversClass(ApiFailure::class)]
+#[CoversClass(CancellationFailed::class)]
 final class ClientTest extends TestCase
 {
     /**
@@ -65,6 +69,7 @@ final class ClientTest extends TestCase
             [Money::CHF(10), new CustomerDataScopes(CustomerDataScopes::DATE_OF_BIRTH), new ShippingMethods()],
         ];
         yield ['monitorFastCheckOutCheckIn', [PairingUuid::fromString('f1b4b3b4-0b3b-4b3b-8b3b-0b3b4b3b4b3b')]];
+        yield ['cancelFastCheckOutCheckIn', [PairingUuid::fromString('f1b4b3b4-0b3b-4b3b-8b3b-0b3b4b3b4b3b')]];
         yield [
             'startFastCheckoutOrder',
             [
@@ -269,6 +274,38 @@ final class ClientTest extends TestCase
             static fn () => $engine
         );
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+    }
+
+    public function testSpecificExceptionOnCancellationFailure(): void
+    {
+        $fault = new SoapFault('code', 'message');
+        $exception = SoapException::fromThrowable($fault);
+
+        $engine = $this->createMock(Engine::class);
+        $engine
+            ->expects(self::exactly(2))
+            ->method('request')
+            ->willReturnOnConsecutiveCalls(new EnrollCashRegisterResponseType(), self::throwException($fault));
+
+        $errorClassifier = $this->createMock(ErrorClassifier::class);
+        $errorClassifier
+            ->expects(self::once())
+            ->method('isOfType')
+            ->with($exception, ErrorClassifier::STATUS_TRANSITION_ERROR)
+            ->willReturn(true);
+
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608a'),
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $engine,
+            errorClassifier: $errorClassifier
+        );
+
+        $this->expectException(CancellationFailed::class);
+        $client->cancelOrder(new FiledMerchantTransactionReference('ref'));
     }
 
     private static function createOrderSoapResponse(): StartOrderResponseType

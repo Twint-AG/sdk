@@ -15,3 +15,15 @@ if (PHP_VERSION_ID < 80300) {
     {
     }
 }
+
+if (PHP_VERSION_ID < 80400) {
+    #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_FUNCTION | Attribute::TARGET_CLASS_CONSTANT)]
+    final class Deprecated
+    {
+        public function __construct(
+            public ?string $message = null,
+            public ?string $since = null
+        ) {
+        }
+    }
+}

@@ -49,15 +49,12 @@ if ($monitoredOrder->userInteractionRequired()) {
 
 // Check if order needs merchant confirmation start
 if ($monitoredOrder->isConfirmationPending()) {
-    $client->confirmOrder($orderId, $monitoredOrder->amount());
+    $confirmedOrder = $client->confirmOrder(
+        $orderId,
+        $monitoredOrder->amount()
+    );
 }
 // Check if order needs merchant confirmation end
-
-// Conclude order start
-if ($monitoredOrder->isSuccessful()) {
-    // Record success
-}
-// Conclude order end
 
 // Cancel order start
 try {
@@ -67,16 +64,12 @@ try {
 }
 // Cancel order end
 
-// Confirm order start
-try {
-    $confirmedOrder = $client->confirmOrder(
-        $orderId,
-        Money::CHF(99.95)
-    );
-} catch (ApiFailure $failure) {
-    // Handle failure
+$confirmedOrder = $monitoredOrder;
+// Conclude order start
+if ($confirmedOrder->isSuccessful()) {
+    // Record success
 }
-// Confirm order end
+// Conclude order end
 
 // Partial reversal order start
 $reversalIndex = 1;

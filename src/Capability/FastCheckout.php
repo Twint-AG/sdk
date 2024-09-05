@@ -24,6 +24,8 @@ interface FastCheckout extends OrderAdministration
 
     public function monitorFastCheckoutCheckIn(PairingUuid $pairingUuid): FastCheckoutCheckIn;
 
+    public function cancelFastCheckoutCheckIn(PairingUuid $pairingUuid): void;
+
     /**
      * @return Order<PairingStatus, null, null>
      */

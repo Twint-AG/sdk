@@ -16,10 +16,12 @@ use Throwable;
 use Twint\Sdk\Capability\CoreCapabilities;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Exception\ApiFailure;
+use Twint\Sdk\Exception\CancellationFailed;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Generated\TwintSoapClient;
+use Twint\Sdk\Generated\Type\CancelCheckInRequestElement;
 use Twint\Sdk\Generated\Type\CancelOrderRequestElement;
 use Twint\Sdk\Generated\Type\CheckSystemStatusRequestElement;
 use Twint\Sdk\Generated\Type\ConfirmOrderRequestElement;
@@ -35,6 +37,8 @@ use Twint\Sdk\Generated\Type\ShippingMethodReferenceType;
 use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Soap\ErrorClassifier;
+use Twint\Sdk\Soap\ExtSoapErrorClassifier;
 use Twint\Sdk\Value\Address;
 use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\CashRegisterId;
@@ -85,6 +89,10 @@ final class Client implements CoreCapabilities
 
     private const ORDER_KIND_REVERSAL = 'REVERSAL';
 
+    private const CANCELLATION_REASON_PAYMENT_ABORT = 'PAYMENT_ABORT';
+
+    private const CANCELLATION_STATUS_OK = 'OK';
+
     private readonly StoreUuid $storeUuid;
 
     private readonly CashRegisterId $cashRegisterId;
@@ -114,6 +122,7 @@ final class Client implements CoreCapabilities
         private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory(),
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
+        private readonly ErrorClassifier $errorClassifier = new ExtSoapErrorClassifier(),
     ) {
         $this->storeUuid = $merchantInformation->storeUuid();
         $this->cashRegisterId = $merchantInformation->cashRegisterId()
@@ -166,7 +175,7 @@ final class Client implements CoreCapabilities
                             ->withMerchantTransactionReference((string) $orderReference)
                             ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
-                            ->withConfirmationNeeded(false),
+                            ->withConfirmationNeeded(true),
                         Coupons: null,
                         OfflineAuthorization: null,
                         CustomerRelationUuid: null,
@@ -276,6 +285,10 @@ final class Client implements CoreCapabilities
                 ),
             );
         } catch (SoapException $e) {
+            if ($this->errorClassifier->isOfType($e, ErrorClassifier::STATUS_TRANSITION_ERROR)) {
+                throw CancellationFailed::fromThrowable($e);
+            }
+
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -490,6 +503,38 @@ final class Client implements CoreCapabilities
      * @throws SdkError
      */
     #[Override]
+    public function cancelFastCheckoutCheckIn(PairingUuid $pairingUuid): void
+    {
+        try {
+            $status = $this->soapClient()
+                ->cancelCheckIn(
+                    new CancelCheckInRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->storeUuid)
+                            ->withCashRegisterId((string) $this->cashRegisterId),
+                        Reason: self::CANCELLATION_REASON_PAYMENT_ABORT,
+                        CustomerRelationUuid: null,
+                        PairingUuid: (string) $pairingUuid,
+                        Coupons: null
+                    )
+                );
+
+            if ($status->getStatus() !== self::CANCELLATION_STATUS_OK) {
+                throw new CancellationFailed(sprintf(
+                    'Failed to cancel check-in. Expected status "%s", got status "%s"',
+                    self::CANCELLATION_STATUS_OK,
+                    $status->getStatus()
+                ));
+            }
+        } catch (SoapException $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
     public function startFastCheckoutOrder(
         PairingUuid $pairingUuid,
         UnfiledMerchantTransactionReference $orderReference,
@@ -513,7 +558,7 @@ final class Client implements CoreCapabilities
                             ->withMerchantTransactionReference((string) $orderReference)
                             ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
-                            ->withConfirmationNeeded(false),
+                            ->withConfirmationNeeded(true),
                         Coupons: null,
                         OfflineAuthorization: null,
                         CustomerRelationUuid: null,

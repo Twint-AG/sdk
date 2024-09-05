@@ -162,6 +162,12 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
+    public function cancelFastCheckoutCheckIn(PairingUuid $pairingUuid): void
+    {
+        $this->record(__FUNCTION__, [$this->client, 'cancelFastCheckoutCheckIn'], [$pairingUuid]);
+    }
+
+    #[Override]
     public function startFastCheckoutOrder(
         PairingUuid $pairingUuid,
         UnfiledMerchantTransactionReference $orderReference,

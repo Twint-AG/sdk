@@ -95,7 +95,7 @@ final class DefaultSoapEngineFactory
                                 [
                                     new SoapHeaderMiddleware(
                                         new SoapHeader(
-                                            (string) $environment->soapTargetNamespace($version),
+                                            (string) $version->soapNamespaceForHeaderTypes(),
                                             'RequestHeaderElement',
                                             fn (DOMNode $node) => children(
                                                 element('MessageId', value((string) ($this->createUuid)())),
