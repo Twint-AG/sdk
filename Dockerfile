@@ -1,7 +1,7 @@
 FROM php_base_image AS php_base
 COPY php-extensions.txt /tmp/php-extensions.txt
 
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.4.2/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.5.0/install-php-extensions /usr/local/bin/
 RUN install-php-extensions @composer `cat /tmp/php-extensions.txt` && rm /tmp/php-extensions.txt
 
 RUN apt-get update \
