@@ -149,5 +149,7 @@ release:
     - job: check
   stage: release
   only: [ "tags" ]
+  variables:
+    GIT_DEPTH: 0
   script:
     - make release
