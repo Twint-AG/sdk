@@ -27,7 +27,8 @@
             "src/polyfill.php"
         ],
         "psr-4": {
-            "Twint\\Sdk\\": "src/"
+            "Twint\\Sdk\\": "src/",
+            "Phpro\\SoapClient\\": "vendor-bundled/phpro/soap-client-minimal/src/Phpro/SoapClient"
         }
     },
     "autoload-dev": {
@@ -42,8 +43,8 @@
         "ext-xsl": "*",
         "ext-dom": "*",
         "ext-openssl": "*",
-        "phpro/soap-client": "^3.3.0",
-        "php-soap/engine": "^2.4.0",
+        "php-soap/engine": "^2.7",
+        "php-soap/ext-soap-engine": "^1.4",
         "php-soap/psr18-transport": "^1.5.0",
         "guzzlehttp/guzzle": "^7.4",
         "webimpress/safe-writer": "^2.0",
@@ -54,6 +55,7 @@
     "require-dev": {
         "ext-xdebug": "*",
         "phpunit/phpunit": "^10.5.36",
+        "phpro/soap-client": "^3.3.0",
         "laminas/laminas-code": "^4.14.0",
         "symfony/dotenv": "^6.4.12",
         "phpstan/phpstan": "^1.12.6",
@@ -66,7 +68,11 @@
         "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0",
         "php-soap/wsdl-reader": "^0.17.0",
         "roave/better-reflection": "^6.25.0",
-        "symfony/finder": "^6.4.11"
+        "symfony/finder": "^6.4.11",
+        "nikic/php-parser": "^4.19"
+    },
+    "conflict": {
+        "phpro/soap-client": "<3.3.0, >=4.0.0"
     },
     "config": {
         "allow-plugins": {

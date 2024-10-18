@@ -1,1 +1,1 @@
-bcmath ctype curl dom filter intl json libxml mbstring openssl phar soap sodium xdebug xml xmlreader xmlwriter xsl zip zlib
+bcmath ctype curl dom filter intl json libxml mbstring openssl soap sodium xdebug xml xmlreader xmlwriter xsl zip zlib

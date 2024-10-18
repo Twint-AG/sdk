@@ -49,6 +49,10 @@ test-unit:
 test-integration:
 	$(PHPUNIT) --testsuite=integration
 
+test-minimal-runtime:
+	composer remove --dev phpro/soap-client
+	$(PHPUNIT)
+
 phpstan static-analysis: static-analysis-src static-analysis-docs
 
 static-analysis-src:
@@ -75,6 +79,10 @@ check-format-docs:
 
 check: static-analysis test check-format check-docs
 	$(MAKE) check-codegen
+	$(MAKE) check-minimal-soap
+ifdef GITLAB_CI
+	$(MAKE) test-minimal-runtime
+endif
 
 quickcheck: static-analysis test-unit check-format
 	$(MAKE) check-codegen
@@ -98,6 +106,12 @@ codegen: codegen-generate-types codegen-generate-client codegen-generate-classma
 check-codegen: codegen
 	@echo "Check if codegen changed the generated code"
 	git diff --exit-code $(CODEGEN_DIR)
+
+extract-minimal-soap:
+	php $(BASE_DIR)/tools/minimal-soap.php
+
+check-minimal-soap: extract-minimal-soap
+	git diff --exit-code $(BASE_DIR)/src
 
 QUERY_PHP_EXTENSIONS = ["zip"] + \
 [ \
