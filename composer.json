@@ -69,7 +69,7 @@
         "php-soap/wsdl-reader": "^0.17.0",
         "roave/better-reflection": "^6.25.0",
         "symfony/finder": "^6.4.11",
-        "nikic/php-parser": "^4.19"
+        "nikic/php-parser": "^4.19.4"
     },
     "conflict": {
         "phpro/soap-client": "<3.3.0, >=4.0.0"
