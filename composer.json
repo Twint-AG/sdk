@@ -58,7 +58,7 @@
         "phpro/soap-client": "^3.3.0",
         "laminas/laminas-code": "^4.14.0",
         "symfony/dotenv": "^6.4.12",
-        "phpstan/phpstan": "^1.12.6",
+        "phpstan/phpstan": "^1.12.7",
         "symplify/easy-coding-standard": "^12.3.6",
         "slevomat/coding-standard": "^8.15.0",
         "phpstan/phpstan-strict-rules": "^1.6.1",
