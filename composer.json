@@ -54,7 +54,7 @@
     },
     "require-dev": {
         "ext-xdebug": "*",
-        "phpunit/phpunit": "^10.5.36",
+        "phpunit/phpunit": "^10.5.37",
         "phpro/soap-client": "^3.3.0",
         "laminas/laminas-code": "^4.14.0",
         "symfony/dotenv": "^6.4.12",
