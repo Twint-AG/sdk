@@ -19,6 +19,8 @@ use Twint\Sdk\Value\Version;
 #[CoversClass(Version::class)]
 final class VersionTest extends ValueTest
 {
+    protected bool $constNamesEqualsValues = false;
+
     /**
      * @return iterable<array{VersionId}>
      */

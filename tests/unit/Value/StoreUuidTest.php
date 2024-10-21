@@ -25,6 +25,20 @@ final class StoreUuidTest extends ValueTest
         self::assertSame(self::STORE_UUID_VALUE, (string) $storeUuid);
     }
 
+    public function testReturnsNullForCashRegisterId(): void
+    {
+        $storeUuid = StoreUuid::fromString(self::STORE_UUID_VALUE);
+
+        self::assertNull($storeUuid->cashRegisterId());
+    }
+
+    public function testReturnsItselfForStoreUuid(): void
+    {
+        $storeUuid = StoreUuid::fromString(self::STORE_UUID_VALUE);
+
+        self::assertSame($storeUuid, $storeUuid->storeUuid());
+    }
+
     #[Override]
     protected function createValue(): object
     {

@@ -22,6 +22,8 @@ final class DetectedDeviceTest extends ValueTest
 
     private const ANDROID_USER_AGENT = 'Some Android UA';
 
+    protected bool $constNamesEqualsValues = false;
+
     /**
      * @return iterable<array{DetectedDevice, int, bool, bool, bool, bool}>
      */

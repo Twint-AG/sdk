@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "62c20e3b42496fdc8f9b54a134c7f228",
+    "content-hash": "e6554c417e3d8b33ab568bb509032463",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -145,6 +145,64 @@
                 }
             ],
             "time": "2023-12-20T15:40:13+00:00"
+        },
+        {
+            "name": "danielburger1337/sha3-shake",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielburger1337/sha3-shake-php.git",
+                "reference": "056494df3d8690da33c81849f6803773a82d12d1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielburger1337/sha3-shake-php/zipball/056494df3d8690da33c81849f6803773a82d12d1",
+                "reference": "056494df3d8690da33c81849f6803773a82d12d1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=8.1"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "danielburger1337\\SHA3Shake\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Burger",
+                    "homepage": "https://github.com/danielburger1337"
+                }
+            ],
+            "description": "SHA-3 SHAKE implementation in PHP",
+            "homepage": "https://github.com/danielburger1337/sha3-shake-php",
+            "keywords": [
+                "sha-3",
+                "sha3",
+                "shake",
+                "shake-128",
+                "shake-256"
+            ],
+            "support": {
+                "issues": "https://github.com/danielburger1337/sha3-shake-php/issues",
+                "source": "https://github.com/danielburger1337/sha3-shake-php/tree/v1.0.0"
+            },
+            "time": "2023-04-15T10:24:19+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",

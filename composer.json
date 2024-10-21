@@ -50,7 +50,8 @@
         "webimpress/safe-writer": "^2.0",
         "azjezz/psl": "^2.5.0",
         "psr/clock": "^1.0",
-        "veewee/xml": "^3.0.0"
+        "veewee/xml": "^3.0.0",
+        "danielburger1337/sha3-shake": "^1.0"
     },
     "require-dev": {
         "ext-xdebug": "*",

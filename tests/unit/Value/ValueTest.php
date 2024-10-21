@@ -29,6 +29,8 @@ abstract class ValueTest extends TestCase
      */
     protected readonly object $value;
 
+    protected bool $constNamesEqualsValues = true;
+
     /**
      * @return iterable<string, array{string, string|int}>
      */
@@ -132,8 +134,8 @@ abstract class ValueTest extends TestCase
     {
         self::requireEnum();
 
-        if (!is_string($constantValue)) {
-            self::markTestSkipped('Integer constants are not supported');
+        if (!$this->constNamesEqualsValues) {
+            self::markTestSkipped('Not applicable for this test');
         }
 
         self::assertSame($constantName, $constantValue);

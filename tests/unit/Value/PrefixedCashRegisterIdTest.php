@@ -63,6 +63,20 @@ final class PrefixedCashRegisterIdTest extends ValueTest
         );
     }
 
+    public function testReturnsSelfForCashRegisterId(): void
+    {
+        $cashRegisterId = PrefixedCashRegisterId::unknown(StoreUuid::fromString(self::STORE_UUID));
+
+        self::assertSame($cashRegisterId, $cashRegisterId->cashRegisterId());
+    }
+
+    public function testReturnsStoreUuidForStoreUuid(): void
+    {
+        $cashRegisterId = PrefixedCashRegisterId::unknown(StoreUuid::fromString(self::STORE_UUID));
+
+        self::assertObjectEquals(StoreUuid::fromString(self::STORE_UUID), $cashRegisterId->storeUuid());
+    }
+
     #[Override]
     protected function createValue(): object
     {

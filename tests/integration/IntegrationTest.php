@@ -20,7 +20,11 @@ use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
-use Twint\Sdk\Value\PrefixedCashRegisterId;
+use Twint\Sdk\Value\InstallSource;
+use Twint\Sdk\Value\PlatformVersion;
+use Twint\Sdk\Value\PluginVersion;
+use Twint\Sdk\Value\ShopPlatform;
+use Twint\Sdk\Value\ShopPluginInformation;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
@@ -54,7 +58,13 @@ abstract class IntegrationTest extends TestCase
                     SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
                 )
             ),
-            new PrefixedCashRegisterId(self::getStoreUuid(), 'SDK'),
+            new ShopPluginInformation(
+                self::getStoreUuid(),
+                ShopPlatform::OTHER(),
+                new PlatformVersion('dev-master'),
+                new PluginVersion('9.9.9-dev'),
+                InstallSource::DIRECT()
+            ),
             $version ?? Version::latest(),
             Environment::TESTING(),
             new ContentSensitiveFileWriter(
