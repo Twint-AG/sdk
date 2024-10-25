@@ -86,7 +86,9 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $client = $this->createClient();
+        $version = Version::V8_5_0();
+
+        $client = $this->createClient($version);
         $transactionReference = $this->createTransactionReference();
 
         $client->startOrder($transactionReference, Money::CHF(100));
@@ -98,7 +100,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
         $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
             ->xpath(namespaces([
-                'mer' => (string) Version::latest()->soapNamespaceForMerchantTypes(),
+                'mer' => (string) $version->soapNamespaceForMerchantTypes(),
             ]));
 
         self::assertSame(1, $xpath->evaluate('count(//mer:Order[@confirmationNeeded="true"])', int()));
@@ -108,7 +110,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -123,7 +125,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -141,7 +143,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -157,7 +159,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -204,7 +206,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
 
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
@@ -233,7 +235,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
@@ -267,7 +269,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
@@ -292,10 +294,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
         self::assertObjectEquals(TransactionStatus::CLIENT_ABORT(), $started->transactionStatus());
-        self::assertObjectEquals(
-            PairingStatus::PAIRING_ACTIVE(),
-            $started->pairingStatus()
-        ); // @todo is this correct?
+        self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
     }
 
     public function testOrderFailureScenarioGeneralError(): void
@@ -304,7 +303,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient();
+        $client = $this->createClient(Version::V8_5_0());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
@@ -329,9 +328,6 @@ final class RegularCheckoutTest extends IntegrationTest
         $started = $client->monitorOrder($order->id());
         self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
         self::assertObjectEquals(TransactionStatus::GENERAL_ERROR(), $started->transactionStatus());
-        self::assertObjectEquals(
-            PairingStatus::PAIRING_ACTIVE(),
-            $started->pairingStatus()
-        ); // @todo is this correct?
+        self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
     }
 }

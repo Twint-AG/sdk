@@ -47,7 +47,7 @@ final class VersionTest extends ValueTest
     public static function getAliasVersions(): iterable
     {
         yield [Version::V8_6_0, Version::next()];
-        yield [Version::V8_5_0, Version::latest()];
+        yield [Version::V8_6_0, Version::latest()];
     }
 
     /**
@@ -55,23 +55,23 @@ final class VersionTest extends ValueTest
      */
     public static function getNamespaceAccessorExamples(): iterable
     {
-        $latest = Version::latest();
-        $next = Version::next();
+        $eightSix = Version::V8_6_0();
+        $eightFive = Version::V8_5_0();
 
-        yield ['http://service.twint.ch/base/types/v8_5', $latest->soapNamespaceForBaseTypes(...)];
-        yield ['http://service.twint.ch/base/types/v8_6', $next->soapNamespaceForBaseTypes(...)];
+        yield ['http://service.twint.ch/base/types/v8_6', $eightSix->soapNamespaceForBaseTypes(...)];
+        yield ['http://service.twint.ch/base/types/v8_5', $eightFive->soapNamespaceForBaseTypes(...)];
 
-        yield ['http://service.twint.ch/header/types/v8_5', $latest->soapNamespaceForHeaderTypes(...)];
-        yield ['http://service.twint.ch/header/types/v8_6', $next->soapNamespaceForHeaderTypes(...)];
+        yield ['http://service.twint.ch/header/types/v8_6', $eightSix->soapNamespaceForHeaderTypes(...)];
+        yield ['http://service.twint.ch/header/types/v8_5', $eightFive->soapNamespaceForHeaderTypes(...)];
 
-        yield ['http://service.twint.ch/common/types/v8_5', $latest->soapNamespaceForCommonTypes(...)];
-        yield ['http://service.twint.ch/common/types/v8_6', $next->soapNamespaceForCommonTypes(...)];
+        yield ['http://service.twint.ch/common/types/v8_6', $eightSix->soapNamespaceForCommonTypes(...)];
+        yield ['http://service.twint.ch/common/types/v8_5', $eightFive->soapNamespaceForCommonTypes(...)];
 
-        yield ['http://service.twint.ch/fault/types/v8_5', $latest->soapNamespaceForFaultTypes(...)];
-        yield ['http://service.twint.ch/fault/types/v8_6', $next->soapNamespaceForFaultTypes(...)];
+        yield ['http://service.twint.ch/fault/types/v8_6', $eightSix->soapNamespaceForFaultTypes(...)];
+        yield ['http://service.twint.ch/fault/types/v8_5', $eightFive->soapNamespaceForFaultTypes(...)];
 
-        yield ['http://service.twint.ch/merchant/types/v8_5', $latest->soapNamespaceForMerchantTypes(...)];
-        yield ['http://service.twint.ch/merchant/types/v8_6', $next->soapNamespaceForMerchantTypes(...)];
+        yield ['http://service.twint.ch/merchant/types/v8_6', $eightSix->soapNamespaceForMerchantTypes(...)];
+        yield ['http://service.twint.ch/merchant/types/v8_5', $eightFive->soapNamespaceForMerchantTypes(...)];
     }
 
     /**

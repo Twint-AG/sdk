@@ -180,7 +180,7 @@ $wireMock->isAlive();
 import(
     $wireMock,
     [
-        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::latest()->dotVersion() . '.json',
-        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::next()->dotVersion() . '.json',
+        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_5_0()->dotVersion() . '.json',
+        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_6_0()->dotVersion() . '.json',
     ]
 );

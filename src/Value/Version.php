@@ -25,7 +25,7 @@ final class Version implements Value, Enum
 
     public const NEXT = self::V8_6_0;
 
-    public const LATEST = self::V8_5_0;
+    public const LATEST = self::V8_6_0;
 
     /**
      * @param VersionId $versionId
