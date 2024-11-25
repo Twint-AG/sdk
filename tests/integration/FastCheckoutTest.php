@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Capability\FastCheckout;
 use Twint\Sdk\Client;
 use Twint\Sdk\Value\CustomerDataScopes;
@@ -26,6 +27,17 @@ use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 #[CoversClass(Client::class)]
 final class FastCheckoutTest extends IntegrationTest
 {
+    /**
+     * @return iterable<array{0: non-empty-string}>
+     */
+    public static function getShippingMethodLabels(): iterable
+    {
+        yield 'max length with multibyte chars' => [str_repeat('ä', 255)];
+        yield 'simple string' => ['Standard Shipping'];
+        yield 'multi-byte chars' => ['Äé', 'Ae'];
+        yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
+    }
+
     public function testFastCheckoutCheckIn(): void
     {
         $client = $this->createClient(Version::next());
@@ -45,7 +57,11 @@ final class FastCheckoutTest extends IntegrationTest
         self::assertFalse($fastCheckoutPairing->isPaired());
     }
 
-    public function testFastCheckoutCheckInWithShippingMethod(): void
+    /**
+     * @param non-empty-string $shippingMethodLabel
+     */
+    #[DataProvider('getShippingMethodLabels')]
+    public function testFastCheckoutCheckInWithShippingMethod(string $shippingMethodLabel): void
     {
         $client = $this->createClient(Version::next());
 
@@ -59,7 +75,7 @@ final class FastCheckoutTest extends IntegrationTest
             ),
             new ShippingMethods(
                 new ShippingMethod(new ShippingMethodId('123'), 'Regular', Money::CHF(1.00)),
-                new ShippingMethod(new ShippingMethodId('234'), 'Express', Money::CHF(10.00)),
+                new ShippingMethod(new ShippingMethodId('234'), $shippingMethodLabel, Money::CHF(10.00)),
             )
         );
 

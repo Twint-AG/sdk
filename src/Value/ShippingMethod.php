@@ -6,7 +6,11 @@ namespace Twint\Sdk\Value;
 
 use Override;
 use Twint\Sdk\Util\Comparison;
+use Twint\Sdk\Util\ShippingLabelWorkaround;
+use function Psl\invariant;
+use function Psl\Str\length;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_string;
 
 /**
  * @template-implements Value<self>
@@ -18,11 +22,31 @@ final class ShippingMethod implements Value
      */
     use ComparableToEquality;
 
+    private const MAX_LABEL_LENGTH = 255;
+
+    /**
+     * @var non-empty-string
+     */
+    private readonly string $label;
+
+    /**
+     * @param non-empty-string $label
+     * @param callable(string): string $transliterator
+     */
     public function __construct(
         private readonly ShippingMethodId $id,
-        private readonly string $label,
-        private readonly Money $price
+        string $label,
+        private readonly Money $price,
+        callable $transliterator = new ShippingLabelWorkaround()
     ) {
+        non_empty_string()->assert($label);
+        invariant(
+            length($label) <= self::MAX_LABEL_LENGTH,
+            'Shipping method label cannot exceed %d characters',
+            self::MAX_LABEL_LENGTH
+        );
+        $this->label = non_empty_string()
+            ->assert($transliterator($label));
     }
 
     public function id(): ShippingMethodId

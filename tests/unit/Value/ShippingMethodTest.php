@@ -6,6 +6,8 @@ namespace Twint\Sdk\Tests\Unit\Value;
 
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Psl\Exception\InvariantViolationException;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
@@ -17,6 +19,29 @@ use Twint\Sdk\Value\ShippingMethodId;
 #[CoversClass(ShippingMethod::class)]
 final class ShippingMethodTest extends ValueTest
 {
+    /**
+     * @return iterable<array{0: non-empty-string}>
+     */
+    public static function getRejectsInvalidLabelCases(): iterable
+    {
+        yield 'exceeds max length' => [str_repeat('🌟', 1001)];
+    }
+
+    /**
+     * @return iterable<array{0: non-empty-string, 1: non-empty-string}>
+     */
+    public static function getTransliteratesLabelCases(): iterable
+    {
+        yield 'max length with multi-byte chars' => [
+            str_repeat('ä', 128) . str_repeat('é', 127),
+            str_repeat('a', 128) . str_repeat('e', 127),
+        ];
+        yield 'simple string' => ['Standard Shipping', 'Standard Shipping'];
+        yield 'multi-byte chars' => ['Äé', 'Ae'];
+        yield 'multi-byte chars with special chars' => ['äé!', 'ae!'];
+        yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
+    }
+
     #[Override]
     protected function createValue(): object
     {
@@ -27,5 +52,26 @@ final class ShippingMethodTest extends ValueTest
     protected static function getValueType(): string
     {
         return ShippingMethod::class;
+    }
+
+    #[DataProvider('getRejectsInvalidLabelCases')]
+    public function testRejectsInvalidLabel(string $label): void
+    {
+        $this->expectException(InvariantViolationException::class);
+
+        // @phpstan-ignore-next-line argument.type
+        new ShippingMethod(new ShippingMethodId('123'), $label, Money::CHF(10.00));
+    }
+
+    /**
+     * @param non-empty-string $label
+     * @param non-empty-string $expected
+     */
+    #[DataProvider('getTransliteratesLabelCases')]
+    public function testTransliteratesLabel(string $label, string $expected): void
+    {
+        $method = new ShippingMethod(new ShippingMethodId('123'), $label, Money::CHF(10.00));
+
+        self::assertSame($expected, $method->label());
     }
 }
