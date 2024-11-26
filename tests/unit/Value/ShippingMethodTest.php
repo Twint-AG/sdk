@@ -40,6 +40,10 @@ final class ShippingMethodTest extends ValueTest
         yield 'multi-byte chars' => ['Äé', 'Ae'];
         yield 'multi-byte chars with special chars' => ['äé!', 'ae!'];
         yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
+        yield 'real case 1' => [
+            'Kostenloser Versand (Voraussichtlicher Liefertermin: 3.⁠–6. Dez)',
+            'Kostenloser Versand (Voraussichtlicher Liefertermin: 3.-6. Dez)',
+        ];
     }
 
     #[Override]

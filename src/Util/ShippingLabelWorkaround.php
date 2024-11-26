@@ -21,6 +21,8 @@ final class ShippingLabelWorkaround
         "'\N{' > '{'",
         # Convert to normal form composed
         ':: NFC',
+        # Final cleanup
+        ":: [^\p{block=Basic_Latin}\p{P}\p{Sm}\p{Sc}] Remove",
     ];
 
     /**

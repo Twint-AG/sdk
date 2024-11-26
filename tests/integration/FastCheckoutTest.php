@@ -36,6 +36,7 @@ final class FastCheckoutTest extends IntegrationTest
         yield 'simple string' => ['Standard Shipping'];
         yield 'multi-byte chars' => ['Äé', 'Ae'];
         yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
+        yield 'real case 1' => ['Kostenloser Versand (Voraussichtlicher Liefertermin: 3.⁠–6. Dez)'];
     }
 
     public function testFastCheckoutCheckIn(): void
