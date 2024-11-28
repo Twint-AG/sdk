@@ -52,7 +52,8 @@
         "azjezz/psl": "^2.5.0",
         "psr/clock": "^1.0",
         "veewee/xml": "^3.0.0",
-        "danielburger1337/sha3-shake": "^1.0"
+        "danielburger1337/sha3-shake": "^1.0",
+        "composer/ca-bundle": "^1.5"
     },
     "require-dev": {
         "ext-xdebug": "*",
@@ -71,7 +72,8 @@
         "php-soap/wsdl-reader": "^0.17.0",
         "roave/better-reflection": "^6.25.0",
         "symfony/finder": "^6.4.13",
-        "nikic/php-parser": "^4.19.4"
+        "nikic/php-parser": "^4.19.4",
+        "symfony/filesystem": "^6.4"
     },
     "conflict": {
         "phpro/soap-client": "<3.3.0 || >=4.0.0"

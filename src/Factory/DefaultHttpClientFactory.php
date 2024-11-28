@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Factory;
 
+use Composer\CaBundle\CaBundle;
 use GuzzleHttp\Client;
 use Psr\Http\Client\ClientInterface;
 use Twint\Sdk\Certificate\CertificateContainer;
@@ -19,6 +20,7 @@ final class DefaultHttpClientFactory
             'headers' => [
                 'user-agent' => SdkVersion::NAME . '/' . SdkVersion::VERSION,
             ],
+            'verify' => CaBundle::getSystemCaRootBundlePath(),
         ]);
     }
 }

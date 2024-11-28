@@ -6,13 +6,14 @@ namespace Twint\Sdk\Certificate;
 
 use Override;
 use Psr\Clock\ClockInterface;
+use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Exception\InvalidCertificate;
+use Twint\Sdk\Exception\OpenSslError;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\LazyStream;
 use Twint\Sdk\Io\ProcessingStream;
 use Twint\Sdk\Io\Stream;
-use function Psl\invariant;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\non_empty_vec;
 
@@ -49,7 +50,8 @@ final class Pkcs12Certificate implements Certificate
         self::flushOpenSslErrors();
         if (!openssl_pkcs12_read($content->read(), $certs, $passphrase)) {
             throw InvalidCertificate::notTrusted(
-                self::mapOpenSslErrors(non_empty_vec(non_empty_string())->assert(self::flushOpenSslErrors()))
+                self::mapOpenSslErrors(non_empty_vec(non_empty_string())->assert(self::flushOpenSslErrors())),
+                OpenSslError::fromErrors(self::flushOpenSslErrors())
             );
         }
 
@@ -109,15 +111,40 @@ final class Pkcs12Certificate implements Certificate
                 new ProcessingStream(
                     $this->content,
                     function (string $content): string {
-                        invariant(
-                            openssl_pkcs12_read($content, $certs, $this->passphrase()),
-                            'Reading PKCS12 file failed'
-                        );
-                        invariant(openssl_x509_export($certs['cert'], $pemCert), 'X509 certificate export failed');
-                        invariant(
-                            openssl_pkey_export($certs['pkey'], $pemKey, $this->passphrase()),
-                            'Private key export failed'
-                        );
+                        if (!openssl_pkcs12_read($content, $certs, $this->passphrase())) {
+                            throw new CryptographyFailure(
+                                'Reading PKCS12 file failed',
+                                0,
+                                OpenSslError::fromErrors(self::flushOpenSslErrors())
+                            );
+                        }
+                        if (!openssl_x509_export($certs['cert'], $pemCert)) {
+                            throw new CryptographyFailure(
+                                'X509 certificate export failed',
+                                0,
+                                OpenSslError::fromErrors(self::flushOpenSslErrors())
+                            );
+                        }
+                        if (!openssl_pkey_export(
+                            $certs['pkey'],
+                            $pemKey,
+                            $this->passphrase(),
+                            [
+                                // Specify empty OpenSSL configuration file
+                                //
+                                // An empty OpenSSL configuration file makes sure that no system CA is used here
+                                // This is important because the system CA file might not be available or misconfigured
+                                // and would lead to an error. Because a CA file is not strictly needed for this
+                                // operation, we make sure it's not considered.
+                                'config' => __DIR__ . '/../../resources/config/openssl.cnf',
+                            ]
+                        )) {
+                            throw new CryptographyFailure(
+                                'Private key export failed',
+                                0,
+                                OpenSslError::fromErrors(self::flushOpenSslErrors())
+                            );
+                        }
 
                         return non_empty_string()->assert($pemCert . $pemKey);
                     }
