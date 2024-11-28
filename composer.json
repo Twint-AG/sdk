@@ -43,6 +43,7 @@
         "ext-xsl": "*",
         "ext-dom": "*",
         "ext-openssl": "*",
+        "ext-intl": "*",
         "php-soap/engine": "^2.7",
         "php-soap/ext-soap-engine": "^1.4",
         "php-soap/psr18-transport": "^1.5.0",
