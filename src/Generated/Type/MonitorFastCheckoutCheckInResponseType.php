@@ -10,6 +10,10 @@ class MonitorFastCheckoutCheckInResponseType implements ResultInterface
 {
     protected CheckInNotificationType $CheckInNotification;
 
+    /**
+     * A type for the identifier of a shipping method.
+     *  Base type: restriction of xs:string. Pattern: [A-Za-z0-9\-_+]{1,128}
+     */
     protected ?string $ShippingMethodId = null;
 
     protected ?CustomerDataType $CustomerData = null;

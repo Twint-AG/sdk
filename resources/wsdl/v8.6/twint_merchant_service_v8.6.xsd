@@ -424,7 +424,7 @@
 	<xs:complexType name="MonitorFastCheckoutCheckInResponseType">
 		<xs:sequence>
 			<xs:element name="CheckInNotification" type="tns:CheckInNotificationType"/>
-			<xs:element name="ShippingMethodId" type="base:Token250Type" minOccurs="0"/>
+			<xs:element name="ShippingMethodId" type="tns:ShippingMethodIdType" minOccurs="0"/>
 			<xs:element name="CustomerData" type="tns:CustomerDataType" minOccurs="0"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -760,11 +760,24 @@
 			<xs:documentation>References a shipping method with an associated price for the fast-checkout.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ShippingMethodId" type="base:Token250Type" />
-			<xs:element name="ShippingMethodLabel" type="base:LimitedStringType"/>
+			<xs:element name="ShippingMethodId" type="tns:ShippingMethodIdType" />
+			<xs:element name="ShippingMethodLabel" type="base:RestrictedLabel256Type"/>
+			<xs:element name="ShippingMethodDescription" type="base:RestrictedLabel256Type" minOccurs="0"/>
 			<xs:element name="ShippingMethodAmount" type="base:CurrencyAmountType"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:simpleType name="ShippingMethodIdType">
+		<xs:annotation>
+			<xs:documentation>
+				A type for the identifier of a shipping method.
+				Base type: restriction of xs:string. Pattern: [A-Za-z0-9\-_+]{1,128}
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9\-_+]{1,128}" />
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="CustomerDataType">
 		<xs:sequence>

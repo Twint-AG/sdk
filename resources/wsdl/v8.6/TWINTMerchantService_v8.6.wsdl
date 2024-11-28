@@ -614,6 +614,7 @@
             <wsdl:output message="RequestFastCheckoutCheckInResponse" />
             <wsdl:fault name="InvalidMerchantException" message="InvalidMerchantException" />
             <wsdl:fault name="InvalidCashRegisterException" message="InvalidCashRegisterException" />
+            <wsdl:fault name="InvalidAmountException" message="InvalidAmountException" />
             <wsdl:fault name="InvalidCustomerDataScopeException" message="InvalidCustomerDataScopeException" />
             <wsdl:fault name="SystemException" message="SystemException" />
         </wsdl:operation>
@@ -1181,6 +1182,9 @@
             </wsdl:fault>
             <wsdl:fault name="InvalidCashRegisterException">
                 <soap:fault use="literal" name="InvalidCashRegisterException" />
+            </wsdl:fault>
+            <wsdl:fault name="InvalidAmountException">
+                <soap:fault use="literal" name="InvalidAmountException"/>
             </wsdl:fault>
             <wsdl:fault name="InvalidCustomerDataScopeException">
                 <soap:fault use="literal" name="InvalidCustomerDataScopeException" />

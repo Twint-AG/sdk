@@ -265,6 +265,21 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<xs:simpleType name="RestrictedLabel256Type">
+		<xs:annotation>
+			<xs:documentation>
+				This type is based on xs:string and is used for restricted labels,
+				it allows basic latin, mathematical and currency symbols with
+				a minimum length of 1 and a maximum length of 256 characters.
+
+				The label must match the pattern: [\p{IsBasicLatin}\p{P}\p{Sm}\p{Sc}]{1,256}
+			</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[\p{IsBasicLatin}\p{P}\p{Sm}\p{Sc}]{1,256}" />
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:simpleType name="LanguageEnumType">
 		<xs:annotation>
 			<xs:documentation>
