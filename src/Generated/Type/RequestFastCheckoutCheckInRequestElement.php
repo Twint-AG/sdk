@@ -27,7 +27,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     /**
      * The list of shipping options that the merchant supports for the fast checkout being requested.
      *
-     * @var array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType>
+     * @var array<int<0,19>, ShippingMethodReferenceType>
      */
     protected array $ShippingMethods;
 
@@ -35,7 +35,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
 
     /**
      * @param non-empty-array<int<0,19>, string> $RequestedScopes
-     * @param array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType> $ShippingMethods
+     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function __construct(MerchantInformationType $MerchantInformation, CurrencyAmountType $NetAmount, array $RequestedScopes, array $ShippingMethods, ?bool $QRCodeRendering)
     {
@@ -92,7 +92,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @return array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType>
+     * @return array<int<0,19>, ShippingMethodReferenceType>
      */
     public function getShippingMethods(): array
     {
@@ -100,7 +100,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @param array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType> $ShippingMethods
+     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function withShippingMethods(array $ShippingMethods): static
     {

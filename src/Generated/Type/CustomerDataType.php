@@ -7,12 +7,12 @@ namespace Twint\Sdk\Generated\Type;
 class CustomerDataType
 {
     /**
-     * @var non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\CustomerDataFieldType>
+     * @var non-empty-array<int<0,max>, CustomerDataFieldType>
      */
     protected array $Field;
 
     /**
-     * @return non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\CustomerDataFieldType>
+     * @return non-empty-array<int<0,max>, CustomerDataFieldType>
      */
     public function getField(): array
     {
@@ -20,7 +20,7 @@ class CustomerDataType
     }
 
     /**
-     * @param non-empty-array<int<0,max>, \Twint\Sdk\Generated\Type\CustomerDataFieldType> $Field
+     * @param non-empty-array<int<0,max>, CustomerDataFieldType> $Field
      */
     public function withField(array $Field): static
     {

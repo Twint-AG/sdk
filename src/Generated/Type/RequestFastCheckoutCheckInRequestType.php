@@ -25,7 +25,7 @@ class RequestFastCheckoutCheckInRequestType
     /**
      * The list of shipping options that the merchant supports for the fast checkout being requested.
      *
-     * @var array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType>
+     * @var array<int<0,19>, ShippingMethodReferenceType>
      */
     protected array $ShippingMethods;
 
@@ -77,7 +77,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @return array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType>
+     * @return array<int<0,19>, ShippingMethodReferenceType>
      */
     public function getShippingMethods(): array
     {
@@ -85,7 +85,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @param array<int<0,19>, \Twint\Sdk\Generated\Type\ShippingMethodReferenceType> $ShippingMethods
+     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function withShippingMethods(array $ShippingMethods): static
     {
