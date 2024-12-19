@@ -11,6 +11,7 @@ SOAP_CONFIG := $(BASE_DIR)/resources/config/soap.php
 SOAP_CLI := $(VENDOR_BIN_DIR)/soap-client
 ECS := $(VENDOR_BIN_DIR)/ecs check --no-progress-bar
 ECS_DOCS := $(ECS) --config $(BASE_DIR)/ecs.docs.php
+ECS_VENDOR_BUNDLED = $(ECS) --config $(BASE_DIR)/ecs.vendor-bundled.php
 PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 ifdef GITLAB_CI
 	PHPUNIT := TWINT_SDK_TESTS_DESTRUCTIVE=1 $(PHPUNIT)
@@ -65,13 +66,16 @@ static-analysis-src:
 static-analysis-docs:
 	$(PHPSTAN_DOCS)
 
-format: format-src format-docs
+format: format-src format-docs format-vendor-bundled
 
 format-src:
 	$(ECS) --fix
 
 format-docs:
 	$(ECS_DOCS) --fix
+
+format-vendor-bundled:
+	$(ECS_VENDOR_BUNDLED) --fix
 
 check-format: check-format-docs check-format-src
 
@@ -113,9 +117,10 @@ check-codegen: codegen
 
 extract-minimal-soap:
 	php $(BASE_DIR)/tools/minimal-soap.php
+	$(MAKE) format-vendor-bundled
 
 check-minimal-soap: extract-minimal-soap
-	git diff --exit-code $(BASE_DIR)/src
+	git diff --exit-code $(BASE_DIR)/vendor-bundled
 
 QUERY_PHP_EXTENSIONS = ["zip"] + \
 [ \

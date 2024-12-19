@@ -18,13 +18,14 @@ include:
   image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION"
   parallel:
     matrix:
-      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3" ] }
+      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3", "8.4" ] }
   extends: .base
 
 .php-with-high-low-dependencies:
   parallel:
     matrix:
-      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "current", "lowest", "highest" ] }
+      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "lowest", "highest" ] }
+      - { PHP_VERSION: [ "8.1", "8.2", "8.3" ], COMPOSER_DEPENDENCY_VERSION: [ "current" ] }
   extends: .php
 
 container-build-hash:
