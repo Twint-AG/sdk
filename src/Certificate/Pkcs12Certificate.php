@@ -16,6 +16,8 @@ use Twint\Sdk\Io\ProcessingStream;
 use Twint\Sdk\Io\Stream;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\non_empty_vec;
+use function Psl\Type\shape;
+use function Psl\Type\string;
 
 final class Pkcs12Certificate implements Certificate
 {
@@ -54,6 +56,10 @@ final class Pkcs12Certificate implements Certificate
                 OpenSslError::fromErrors(self::flushOpenSslErrors())
             );
         }
+
+        shape([
+            'cert' => string(),
+        ], true)->assert($certs);
 
         $trustor->check($certs['cert']);
 
@@ -118,6 +124,10 @@ final class Pkcs12Certificate implements Certificate
                                 OpenSslError::fromErrors(self::flushOpenSslErrors())
                             );
                         }
+                        shape([
+                            'cert' => string(),
+                            'pkey' => string(),
+                        ], true)->assert($certs);
                         if (!openssl_x509_export($certs['cert'], $pemCert)) {
                             throw new CryptographyFailure(
                                 'X509 certificate export failed',
@@ -146,7 +156,7 @@ final class Pkcs12Certificate implements Certificate
                             );
                         }
 
-                        return non_empty_string()->assert($pemCert . $pemKey);
+                        return non_empty_string()->assert($pemCert) . non_empty_string()->assert($pemKey);
                     }
                 )
             ),

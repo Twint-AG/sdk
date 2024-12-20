@@ -111,6 +111,28 @@ final class ExtSoapErrorClassifierTest extends TestCase
             ),
         ];
         yield [
+            false,
+            ErrorClassifier::STATUS_TRANSITION_ERROR,
+            SoapException::fromThrowable(
+                self::createSoapFault((object) [
+                    ErrorClassifier::STATUS_TRANSITION_ERROR => (object) [
+                        'Prop' => 'str',
+                    ],
+                ])
+            ),
+        ];
+        yield [
+            false,
+            ErrorClassifier::STATUS_TRANSITION_ERROR,
+            SoapException::fromThrowable(
+                self::createSoapFault((object) [
+                    ErrorClassifier::STATUS_TRANSITION_ERROR => (object) [
+                        'ErrorCode' => 'str',
+                    ],
+                ])
+            ),
+        ];
+        yield [
             true,
             ErrorClassifier::STATUS_TRANSITION_ERROR,
             SoapException::fromThrowable(

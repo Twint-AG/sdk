@@ -29,14 +29,10 @@ final class ExtSoapErrorClassifier implements ErrorClassifier
         }
 
         $detail = $prev->detail;
-        if (!$detail instanceof stdClass) {
-            return false;
-        }
-
-        if (($detail->{$type}?->ErrorCode->Status ?? null) === $type && ($detail->{$type}?->ErrorCode->Code ?? null) === self::KNOWN_ERRORS[$type]) {
-            return true;
-        }
-
-        return false;
+        return $detail instanceof stdClass
+            && ($detail->{$type} ?? null) instanceof stdClass
+            && ($detail->{$type}->ErrorCode ?? null) instanceof stdClass
+            && ($detail->{$type}->ErrorCode->Status ?? null) === $type
+            && ($detail->{$type}->ErrorCode->Code ?? null) === self::KNOWN_ERRORS[$type];
     }
 }

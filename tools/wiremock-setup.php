@@ -6,6 +6,7 @@ namespace Twint\Sdk\Tools;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Exception;
 use JsonException;
 use Symfony\Component\Dotenv\Dotenv;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
@@ -14,6 +15,8 @@ use WireMock\Client\ListStubMappingsResult;
 use WireMock\Client\WireMock;
 use WireMock\Serde\SerializationException;
 use WireMock\Serde\SerializerFactory;
+use WireMock\Stubbing\StubImportBuilder;
+use WireMock\Stubbing\StubMapping;
 use function Psl\invariant_violation;
 use function Psl\Type\bool;
 use function Psl\Type\dict;
@@ -139,6 +142,7 @@ function clean(string $file): array
 /**
  * @param list<string> $files
  * @throws JsonException
+ * @throws Exception
  * @throws SerializationException
  */
 function import(WireMock $wireMock, array $files): void
@@ -165,7 +169,7 @@ function import(WireMock $wireMock, array $files): void
     $wireMock->importStubs(
         array_reduce(
             $mappings->getMappings(),
-            static fn ($import, $mapping) => $import->stub($mapping),
+            static fn (StubImportBuilder $import, StubMapping $mapping) => $import->stub($mapping),
             WireMock::stubImport()
                 ->deleteAllExistingStubsNotInImport()
                 ->overwriteExisting()

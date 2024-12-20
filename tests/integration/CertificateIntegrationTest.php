@@ -13,7 +13,9 @@ use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\StoreUuid;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
+use function Psl\Type\string;
 use function Psl\Type\uint;
 
 abstract class CertificateIntegrationTest extends TestCase
@@ -29,8 +31,6 @@ abstract class CertificateIntegrationTest extends TestCase
             'private_key_type' => OPENSSL_KEYTYPE_RSA,
             'encrypt_key' => true,
         ];
-        $privateKey = instance_of(OpenSSLAsymmetricKey::class)
-            ->assert(openssl_pkey_new($config));
 
         $dn = [
             'C' => $country,
@@ -42,6 +42,8 @@ abstract class CertificateIntegrationTest extends TestCase
 
         $csr = instance_of(OpenSSLCertificateSigningRequest::class)
             ->assert(openssl_csr_new($dn, $privateKey, $config));
+        $privateKey = instance_of(OpenSSLAsymmetricKey::class)
+            ->assert($privateKey);
         $cert = instance_of(OpenSSLCertificate::class)
             ->assert(openssl_csr_sign($csr, null, $privateKey, 365, $config));
 
@@ -54,7 +56,8 @@ abstract class CertificateIntegrationTest extends TestCase
             ->assert(openssl_x509_parse($cert));
 
         return [
-            $p12,
+            non_empty_string()
+                ->assert($p12),
             new DateTimeImmutable('@' . $metadata['validFrom_time_t']),
             new DateTimeImmutable('@' . $metadata['validTo_time_t']),
         ];

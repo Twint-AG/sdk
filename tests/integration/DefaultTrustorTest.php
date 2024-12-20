@@ -19,6 +19,8 @@ use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\ExistingPath;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
+use function Psl\Type\shape;
+use function Psl\Type\string;
 
 /**
  * @internal
@@ -81,6 +83,10 @@ final class DefaultTrustorTest extends CertificateIntegrationTest
     private static function readCert(string $cert, string $passphrase): string
     {
         invariant(openssl_pkcs12_read($cert, $certs, $passphrase), 'Cannot read certificate');
+
+        shape([
+            'cert' => string(),
+        ], true)->assert($certs);
 
         return $certs['cert'];
     }

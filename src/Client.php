@@ -588,8 +588,8 @@ final class Client implements CoreCapabilities
 
     /**
      * @throws SdkError
-     * @phpstan-ignore-next-line
      */
+    #[Override]
     public function detectDevice(string $userAgent): DetectedDevice
     {
         return new DetectedDevice($userAgent, match (true) {
