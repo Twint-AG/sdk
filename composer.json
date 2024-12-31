@@ -71,7 +71,7 @@
         "wiremock-php/wiremock-php": "dev-cloud-support as 2.39.0",
         "php-soap/wsdl-reader": "^0.17.0 || ^0.18.0 || ^0.19.0 || ^0.20.0 || ^0.21.0",
         "roave/better-reflection": "^6.25.0",
-        "symfony/finder": "^6.4.13",
+        "symfony/finder": "^6.4.17",
         "nikic/php-parser": "^4.19.4 || ^5.0.0",
         "symfony/filesystem": "^6.4.13"
     },
