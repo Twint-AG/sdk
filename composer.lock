@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a47c9240026c99fe978a956db7e0aa41",
+    "content-hash": "4ac73f0740e80a07230b63f2f4d8cb91",
     "packages": [
         {
             "name": "azjezz/psl",
@@ -2923,16 +2923,16 @@
         },
         {
             "name": "goetas-webservices/xsd-reader",
-            "version": "0.4.8",
+            "version": "0.4.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goetas-webservices/xsd-reader.git",
-                "reference": "0766af5df34779ead9d910e144cf38c2cb661ce3"
+                "reference": "7f748d3566fc37b2d0337bd6e87ae7d1c14927b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/0766af5df34779ead9d910e144cf38c2cb661ce3",
-                "reference": "0766af5df34779ead9d910e144cf38c2cb661ce3",
+                "url": "https://api.github.com/repos/goetas-webservices/xsd-reader/zipball/7f748d3566fc37b2d0337bd6e87ae7d1c14927b1",
+                "reference": "7f748d3566fc37b2d0337bd6e87ae7d1c14927b1",
                 "shasum": ""
             },
             "require": {
@@ -2977,7 +2977,7 @@
             ],
             "support": {
                 "issues": "https://github.com/goetas-webservices/xsd-reader/issues",
-                "source": "https://github.com/goetas-webservices/xsd-reader/tree/0.4.8"
+                "source": "https://github.com/goetas-webservices/xsd-reader/tree/0.4.9"
             },
             "funding": [
                 {
@@ -2993,7 +2993,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2024-11-23T07:49:42+00:00"
+            "time": "2025-01-06T21:59:36+00:00"
         },
         {
             "name": "jetbrains/phpstorm-stubs",
