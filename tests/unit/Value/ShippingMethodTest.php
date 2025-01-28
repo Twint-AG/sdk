@@ -8,6 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psl\Exception\InvariantViolationException;
+use Twint\Sdk\Util\ShippingLabelWorkaround;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
@@ -17,6 +18,7 @@ use Twint\Sdk\Value\ShippingMethodId;
  * @internal
  */
 #[CoversClass(ShippingMethod::class)]
+#[CoversClass(ShippingLabelWorkaround::class)]
 final class ShippingMethodTest extends ValueTest
 {
     /**

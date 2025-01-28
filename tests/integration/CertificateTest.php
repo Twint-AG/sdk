@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Clock\Clock;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
@@ -124,6 +125,19 @@ final class CertificateTest extends CertificateIntegrationTest
         );
 
         self::assertInstanceOf(Pkcs12Certificate::class, $cert);
+    }
+
+    public function testInvalidPasswordForPemConversion(): void
+    {
+        $cert = new Pkcs12Certificate(new InMemoryStream(self::fakeCert(
+            self::PASSPHRASE,
+            'DE',
+            'ACME'
+        )[0]), 'wrongPassphrase');
+
+        $this->expectException(CryptographyFailure::class);
+        $cert->pem()
+            ->content();
     }
 
     public function testInvalidPassword(): void

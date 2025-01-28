@@ -18,7 +18,8 @@
             <exclude>tests/unit/Util/ComparableImpl.php</exclude>
         </testsuite>
         <testsuite name="integration">
-            <directory>tests/integration</directory>
+            <directory suffix=".php">tests/integration</directory>
+            <directory suffix=".phpt">tests/integration</directory>
             <exclude>tests/integration/IntegrationTest.php</exclude>
             <exclude>tests/integration/CertificateIntegrationTest.php</exclude>
         </testsuite>

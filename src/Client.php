@@ -36,7 +36,7 @@ use Twint\Sdk\Generated\Type\RequestFastCheckoutCheckInRequestElement;
 use Twint\Sdk\Generated\Type\ShippingMethodReferenceType;
 use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Io\FileWriter;
-use Twint\Sdk\Io\TemporaryFileWriter;
+use Twint\Sdk\Io\TemporaryFileWriterGuesser;
 use Twint\Sdk\Soap\ErrorClassifier;
 use Twint\Sdk\Soap\ExtSoapErrorClassifier;
 use Twint\Sdk\Value\Address;
@@ -73,6 +73,7 @@ use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use function Psl\invariant;
+use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
 use function Psl\Type\string;
@@ -103,12 +104,15 @@ final class Client implements CoreCapabilities
 
     private readonly RequestFactoryInterface $httpRequestFactory;
 
+    private readonly FileWriter $fileWriter;
+
     /**
      * @var list<string>
      */
     private static array $enrolledCashRegisters = [];
 
     /**
+     * @param (callable(): FileWriter)|FileWriter $fileWriter
      * @param callable(FileWriter, CertificateContainer, Version, Environment): Engine $soapEngineFactory
      * @param callable(FileWriter, CertificateContainer): ClientInterface $httpClientFactory
      * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
@@ -118,7 +122,7 @@ final class Client implements CoreCapabilities
         MerchantInformation $merchantInformation,
         private readonly Version $version,
         private readonly Environment $environment,
-        private readonly FileWriter $fileWriter = new TemporaryFileWriter(),
+        FileWriter|callable $fileWriter = new TemporaryFileWriterGuesser(),
         private readonly mixed $soapEngineFactory = new DefaultSoapEngineFactory(),
         private readonly mixed $httpClientFactory = new DefaultHttpClientFactory(),
         private readonly mixed $httpRequestFactoryFactory = [Psr17FactoryDiscovery::class, 'findRequestFactory'],
@@ -127,6 +131,9 @@ final class Client implements CoreCapabilities
         $this->storeUuid = $merchantInformation->storeUuid();
         $this->cashRegisterId = $merchantInformation->cashRegisterId()
             ?? PrefixedCashRegisterId::unknown($this->storeUuid);
+        $this->fileWriter = is_callable($fileWriter)
+            ? instance_of(FileWriter::class)->assert($fileWriter())
+            : $fileWriter;
     }
 
     /**

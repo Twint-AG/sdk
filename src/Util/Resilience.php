@@ -37,7 +37,7 @@ final class Resilience
                 return $operation();
             } catch (Throwable $e) {
                 if (++$attempts === $times) {
-                    throw Timeout::fromThrowable($e);
+                    throw Timeout::fromRetries($times, $delayMs, $e);
                 }
 
                 if ($delayMs > 0) {

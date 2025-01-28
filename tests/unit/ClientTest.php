@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit;
 
+use Exception;
 use Phpro\SoapClient\Exception\SoapException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 use ReflectionClass;
 use Soap\Engine\Engine;
 use SoapFault;
@@ -22,6 +28,7 @@ use Twint\Sdk\Generated\Type\EnrollCashRegisterResponseType;
 use Twint\Sdk\Generated\Type\OrderStatusType;
 use Twint\Sdk\Generated\Type\StartOrderRequestElement;
 use Twint\Sdk\Generated\Type\StartOrderResponseType;
+use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Soap\ErrorClassifier;
@@ -319,5 +326,58 @@ final class ClientTest extends TestCase
             )->withPairingStatus('NO_PAIRING')
             ->withToken(1234)
             ->withQRCode('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABKklEQVR42mNk');
+    }
+
+    #[DoesNotPerformAssertions]
+    public function testCreateClientWithFileWriterFactory(): void
+    {
+        new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            fn (): FileWriter => $this->createMock(FileWriter::class)
+        );
+    }
+
+    public function testGetIosAppSchemesThrowsApiFailureOnRequestFailure(): void
+    {
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            httpClientFactory: static fn () => throw new class(
+                'Mocked error'
+            ) extends Exception implements ClientExceptionInterface {},
+        );
+
+        $this->expectException(ApiFailure::class);
+        $client->getIosAppSchemes();
+    }
+
+    public function testGetIosAppSchemesThrowsApiFailureWhenResponseCannotBeParsed(): void
+    {
+        $client = new Client(
+            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::latest(),
+            Environment::TESTING(),
+            httpClientFactory: fn () => $this->createConfiguredMock(ClientInterface::class, [
+                'sendRequest' => $this->createConfiguredMock(ResponseInterface::class, [
+                    'getStatusCode' => 200,
+                    'getHeader' => ['application/json'],
+                    'getBody' => $this->createConfiguredMock(
+                        StreamInterface::class,
+                        [
+                            'getContents' => 'invalid',
+                        ]
+                    ),
+                ]),
+            ]),
+        );
+
+        $this->expectException(ApiFailure::class);
+        $client->getIosAppSchemes();
     }
 }

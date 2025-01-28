@@ -24,6 +24,7 @@ use PhpCsFixer\Fixer\Import\OrderedImportsFixer;
 use PhpCsFixer\Fixer\NamespaceNotation\NoLeadingNamespaceWhitespaceFixer;
 use PhpCsFixer\Fixer\Operator\BinaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Operator\ConcatSpaceFixer;
+use PhpCsFixer\Fixer\Operator\OperatorLinebreakFixer;
 use PhpCsFixer\Fixer\Operator\TernaryOperatorSpacesFixer;
 use PhpCsFixer\Fixer\Phpdoc\GeneralPhpdocAnnotationRemoveFixer;
 use PhpCsFixer\Fixer\Phpdoc\PhpdocAlignFixer;
@@ -71,6 +72,7 @@ return static function (ECSConfig $ecsConfig): void {
         __DIR__ . '/build',
         FinalClassFixer::class => [__DIR__ . '/src/Generated/'],
     ]);
+    $ecsConfig->fileExtensions(['php', 'inc']);
 
     $ecsConfig->rules(
         [
@@ -124,6 +126,10 @@ return static function (ECSConfig $ecsConfig): void {
             '=>' => 'single_space',
             '=' => 'single_space',
         ],
+    ]);
+    $ecsConfig->ruleWithConfiguration(OperatorLinebreakFixer::class, [
+        'only_booleans' => true,
+        'position' => 'beginning',
     ]);
 
     $ecsConfig->sets([

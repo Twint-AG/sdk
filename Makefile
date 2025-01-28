@@ -16,6 +16,8 @@ PHPUNIT := $(VENDOR_BIN_DIR)/phpunit
 ifdef GITLAB_CI
 	PHPUNIT := TWINT_SDK_TESTS_DESTRUCTIVE=1 $(PHPUNIT)
 endif
+PHPUNIT_COVERAGE_THRESHOLD_PERCENTAGE = 98
+PHPUNIT_COVERAGE_CHECK := $(VENDOR_BIN_DIR)/coverage-check build/coverage/clover.xml $(PHPUNIT_COVERAGE_THRESHOLD_PERCENTAGE)
 
 PHPSTAN := $(VENDOR_BIN_DIR)/phpstan --memory-limit=1G --verbose
 PHPSTAN_SRC := $(PHPSTAN) --configuration=$(BASE_DIR)/phpstan.dev.neon
@@ -47,6 +49,7 @@ RETRY_STAGGERED := retry --times 5 --delay 1,1,2,3,5 --
 
 test:
 	$(PHPUNIT)
+	$(PHPUNIT_COVERAGE_CHECK)
 
 test-unit:
 	$(PHPUNIT) --testsuite=unit
