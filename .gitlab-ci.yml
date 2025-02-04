@@ -41,7 +41,7 @@ container-build-hash:
 
 container-build:
   stage: build
-  image: "quay.io/podman/stable:v5-immutable@sha256:9e6df475e5e7b72c39373afea7e051e34b699440683825af44492a07bdbdded9"
+  image: "quay.io/podman/stable:v5.3.1-immutable@sha256:90fa4084d3e9db973654c09b2aa6c7c84d5f177c4cbc848911395939ae585ead"
   variables:
     TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
     # Required to make rootless podman work
@@ -126,6 +126,7 @@ renovate:
   variables:
     RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME"
     RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: ^composer upgrade --no-scripts --ignore-platform-reqs {{{depName}}}$
+    RENOVATE_LOG_LEVEL: debug
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   stage: build
