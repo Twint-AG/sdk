@@ -125,7 +125,7 @@ check:
 renovate:
   variables:
     RENOVATE_EXTRA_FLAGS: "$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME"
-    RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: ^composer upgrade --no-scripts {{{ lookup \(split depName ':'\) 0 }}}$
+    RENOVATE_ALLOWED_POST_UPGRADE_COMMANDS: ^composer upgrade --no-scripts .*$
     RENOVATE_LOG_LEVEL: debug
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
