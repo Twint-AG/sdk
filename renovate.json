@@ -79,7 +79,7 @@
       "automerge": true,
       "postUpgradeTasks": {
         "commands": [
-          "composer upgrade --no-scripts {{ lookup (split depName ':') 0 }}"
+          "composer upgrade --no-scripts --ignore-platform-req=ext-* {{ lookup (split depName ':') 0 }}"
         ],
         "fileFilters": [
           "composer.lock"
