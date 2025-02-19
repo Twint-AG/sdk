@@ -18,7 +18,7 @@ services:
     entrypoint: [/docker-entrypoint.sh, --verbose]
 
   sphinx:
-    image: sphinxdoc/sphinx:8.1.3@sha256:d230ee8a4476f1a91bfee55b502c9c43f41759c97823d8a5b403620bf622c85e
+    image: sphinxdoc/sphinx:8.2.0@sha256:6cd23a79b275b073f476db1c49d72f15a0e368d7b54299dc3e5d894255d17eb3
     entrypoint: [sleep, infinity]
     working_dir: /src
     volumes:
