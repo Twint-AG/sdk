@@ -64,14 +64,13 @@ final class DefaultSoapEngineFactory
     ): Engine {
         return new LazyEngine(
             function () use ($environment, $certificate, $version, $writer) {
+                $pkcs8 = $certificate->pkcs8();
                 $options = ExtSoapOptions::defaults(
                     (string) $environment->soapWsdlPath($version),
                     [
-                        'local_cert' => (string) $certificate->pem()
-                            ->toFile($writer)
+                        'local_cert' => (string) $pkcs8->toFile($writer)
                             ->path(),
-                        'passphrase' => $certificate->pem()
-                            ->passphrase(),
+                        'passphrase' => $pkcs8->passphrase(),
                         'location' => (string) $environment->soapEndpoint($version),
                     ]
                 )->withClassMap(TwintSoapClassMap::getCollection());

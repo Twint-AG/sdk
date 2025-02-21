@@ -4,56 +4,64 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Certificate;
 
+use Deprecated;
 use Override;
 use Psr\Clock\ClockInterface;
-use Twint\Sdk\Exception\CryptographyFailure;
+use SensitiveParameter;
+use Twint\Sdk\Certificate\TlsBackend\CertificateConverter;
+use Twint\Sdk\Certificate\TlsBackend\CertificateReader;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Exception\OpenSslError;
+use Twint\Sdk\Factory\DefaultKeyReaderFactory;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\FileWriter;
-use Twint\Sdk\Io\LazyStream;
-use Twint\Sdk\Io\ProcessingStream;
 use Twint\Sdk\Io\Stream;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\non_empty_vec;
 use function Psl\Type\shape;
 use function Psl\Type\string;
 
-final class Pkcs12Certificate implements Certificate
+final class Pkcs12Certificate extends ConvertibleCertificate implements ToPkcs8, ToPkcs1
 {
+    private Pkcs1Certificate $pkcs1;
+
+    private Pkcs8Certificate $pkcs8;
+
     /**
      * @param Stream<non-empty-string> $content
      * @param non-empty-string $passphrase
+     * @param callable(): CertificateReader $keychainFactoryFactory
+     * @throws InvalidCertificate
      */
-    public function __construct(
-        private readonly Stream $content,
-        private readonly string $passphrase,
-        private ?PemCertificate $parent = null
-    ) {
+    public static function establishTrust(
+        Stream $content,
+        #[SensitiveParameter]
+        string $passphrase,
+        ClockInterface $clock,
+        mixed $keychainFactoryFactory = new DefaultKeyReaderFactory()
+    ): self {
+        return self::establishTrustVia($content, $passphrase, new DefaultTrustor($clock), $keychainFactoryFactory);
     }
 
     /**
      * @param Stream<non-empty-string> $content
      * @param non-empty-string $passphrase
+     * @param callable(): CertificateReader $keychainFactoryFactory
      * @throws InvalidCertificate
      */
-    public static function establishTrust(Stream $content, string $passphrase, ClockInterface $clock): self
-    {
-        return self::establishTrustVia($content, $passphrase, new DefaultTrustor($clock));
-    }
+    public static function establishTrustVia(
+        Stream $content,
+        #[SensitiveParameter]
+        string $passphrase,
+        Trustor $trustor,
+        mixed $keychainFactoryFactory = new DefaultKeyReaderFactory()
+    ): self {
+        OpenSslError::flushOpenSslErrors();
 
-    /**
-     * @param Stream<non-empty-string> $content
-     * @param non-empty-string $passphrase
-     * @throws InvalidCertificate
-     */
-    public static function establishTrustVia(Stream $content, string $passphrase, Trustor $trustor): self
-    {
-        self::flushOpenSslErrors();
         if (!openssl_pkcs12_read($content->read(), $certs, $passphrase)) {
             throw InvalidCertificate::notTrusted(
-                self::mapOpenSslErrors(non_empty_vec(non_empty_string())->assert(self::flushOpenSslErrors())),
-                OpenSslError::fromErrors(self::flushOpenSslErrors())
+                self::mapOpenSslErrors(non_empty_vec(non_empty_string())->assert(OpenSslError::flushOpenSslErrors())),
+                OpenSslError::fromOpenSslErrors()
             );
         }
 
@@ -63,21 +71,7 @@ final class Pkcs12Certificate implements Certificate
 
         $trustor->check($certs['cert']);
 
-        return new self($content, $passphrase);
-    }
-
-    /**
-     * @return list<string>
-     */
-    private static function flushOpenSslErrors(): array
-    {
-        $errors = [];
-
-        while (($error = openssl_error_string()) !== false) {
-            $errors[] = $error;
-        }
-
-        return $errors;
+        return new self($content, $passphrase, $keychainFactoryFactory);
     }
 
     /**
@@ -99,75 +93,39 @@ final class Pkcs12Certificate implements Certificate
     }
 
     #[Override]
-    public function content(): string
+    public function pkcs1(): Pkcs1Certificate
     {
-        return $this->content->read();
+        return $this->pkcs1 ??= $this->to(
+            CertificateConverter::PKCS12,
+            Pkcs1Certificate::class,
+            CertificateConverter::PKCS1
+        );
     }
 
     #[Override]
-    public function passphrase(): string
+    public function pkcs8(): Pkcs8Certificate
     {
-        return $this->passphrase;
+        return $this->pkcs8 ??= $this->to(
+            CertificateConverter::PKCS12,
+            Pkcs8Certificate::class,
+            CertificateConverter::PKCS8
+        );
     }
 
+    #[Deprecated]
     public function pem(): PemCertificate
     {
-        return $this->parent ??= new PemCertificate(
-            new LazyStream(
-                new ProcessingStream(
-                    $this->content,
-                    function (string $content): string {
-                        if (!openssl_pkcs12_read($content, $certs, $this->passphrase())) {
-                            throw new CryptographyFailure(
-                                'Reading PKCS12 file failed',
-                                0,
-                                OpenSslError::fromErrors(self::flushOpenSslErrors())
-                            );
-                        }
-                        shape([
-                            'cert' => string(),
-                            'pkey' => string(),
-                        ], true)->assert($certs);
-                        if (!openssl_x509_export($certs['cert'], $pemCert)) {
-                            throw new CryptographyFailure(
-                                'X509 certificate export failed',
-                                0,
-                                OpenSslError::fromErrors(self::flushOpenSslErrors())
-                            );
-                        }
-                        if (!openssl_pkey_export(
-                            $certs['pkey'],
-                            $pemKey,
-                            $this->passphrase(),
-                            [
-                                // Specify empty OpenSSL configuration file
-                                //
-                                // An empty OpenSSL configuration file makes sure that no system CA is used here
-                                // This is important because the system CA file might not be available or misconfigured
-                                // and would lead to an error. Because a CA file is not strictly needed for this
-                                // operation, we make sure it's not considered.
-                                'config' => __DIR__ . '/../../resources/config/openssl.cnf',
-                            ]
-                        )) {
-                            throw new CryptographyFailure(
-                                'Private key export failed',
-                                0,
-                                OpenSslError::fromErrors(self::flushOpenSslErrors())
-                            );
-                        }
-
-                        return non_empty_string()->assert($pemCert) . non_empty_string()->assert($pemKey);
-                    }
-                )
-            ),
-            $this->passphrase,
-            $this
+        @trigger_error(
+            'This method is deprecated and will be removed in the next major version. Use \Twint\Sdk\Certificate\Pkcs12Certificate::pkcs8e instead.',
+            E_USER_DEPRECATED
         );
+
+        return $this->pkcs8();
     }
 
     #[Override]
     public function toFile(FileWriter $writer): FileStream
     {
-        return new FileStream($writer->write($this->content->read(), '.p12'));
+        return new FileStream($writer->write($this->content(), '.p12'));
     }
 }

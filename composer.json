@@ -53,7 +53,8 @@
         "psr/clock": "^1.0",
         "veewee/xml": "^3.0.0",
         "danielburger1337/sha3-shake": "^1.0",
-        "composer/ca-bundle": "^1.5"
+        "composer/ca-bundle": "^1.5",
+        "phpseclib/phpseclib": "^3.0"
     },
     "require-dev": {
         "ext-xdebug": "*",

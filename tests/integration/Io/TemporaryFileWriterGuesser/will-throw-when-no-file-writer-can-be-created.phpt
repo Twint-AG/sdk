@@ -12,7 +12,7 @@ if (!filter_var(getenv('TWINT_SDK_TESTS_DESTRUCTIVE'), FILTER_VALIDATE_BOOLEAN))
 exec('mv /tmp /tmp.bak');
 exec('mv /var/tmp /var-tmp.bak');
 try {
-    (require_once 'guesser-test.inc')();
+    (require 'guesser-test.inc')();
 } catch (\Twint\Sdk\Exception\IoError $e) {
     do {
         echo $e->getMessage() . "\n";

@@ -10,17 +10,35 @@ use Psr\Http\Client\ClientInterface;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\SdkVersion;
+use function Psl\Type\string;
 
 final class DefaultHttpClientFactory
 {
-    public function __invoke(FileWriter $writer, CertificateContainer $certificate): ClientInterface
+    private static bool $curlCompiledAgainstNss;
+
+    public function __invoke(FileWriter $writer, ?CertificateContainer $certificate = null): ClientInterface
     {
+        $cert = null;
+        if ($certificate !== null) {
+            $certificate = self::curlCompiledAgainstNss() ? $certificate->pkcs1() : $certificate->pkcs8();
+            $cert = [$certificate->toFile($writer)->path(), $certificate->passphrase()];
+        }
+
         return new Client([
-            'cert' => [$certificate->pem()->toFile($writer)->path(), $certificate->pem()->passphrase()],
+            'cert' => $cert,
             'headers' => [
                 'user-agent' => SdkVersion::NAME . '/' . SdkVersion::VERSION,
             ],
             'verify' => CaBundle::getSystemCaRootBundlePath(),
         ]);
+    }
+
+    private static function curlCompiledAgainstNss(): bool
+    {
+        return self::$curlCompiledAgainstNss ??= str_starts_with(
+            string()
+                ->assert(curl_version()['ssl_version'] ?? ''),
+            'NSS'
+        );
     }
 }

@@ -21,13 +21,13 @@ $pkcs12 = Pkcs12Certificate::establishTrust(
     $clock
 );
 
-$pem = $pkcs12->pem();
+$pkcs8 = $pkcs12->pkcs8();
 
-// Access PEM encoded content
-$pem->content();
+// Access PKCS#8 content
+$pkcs8->content();
 
 // Write to static file
-$staticStream = $pem->toFile(
+$staticStream = $pkcs8->toFile(
     new StaticFileWriter('build/certificate')
 );
 
@@ -35,14 +35,14 @@ $staticStream = $pem->toFile(
 $staticStream->path();
 
 // Write to temporary file
-$temporaryStream = $pem->toFile(new TemporaryFileWriter());
+$temporaryStream = $pkcs8->toFile(new TemporaryFileWriter());
 
 // Return path to temporary file
 $temporaryStream->path();
 
 // Write to a static file with the certificate fingerprint as the
 // filename This also ensures that the file is only written once
-$contentSensitiveStream = $pem->toFile(
+$contentSensitiveStream = $pkcs8->toFile(
     new ContentSensitiveFileWriter(
         new ExistingPath('./build'),
         static fn (string $content) => string()

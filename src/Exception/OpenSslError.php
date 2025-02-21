@@ -33,6 +33,25 @@ final class OpenSslError extends RuntimeException implements SdkError
         return $exception;
     }
 
+    /**
+     * @return list<string>
+     */
+    public static function flushOpenSslErrors(): array
+    {
+        $errors = [];
+
+        while (($error = openssl_error_string()) !== false) {
+            $errors[] = $error;
+        }
+
+        return $errors;
+    }
+
+    public static function fromOpenSslErrors(): ?self
+    {
+        return self::fromErrors(self::flushOpenSslErrors());
+    }
+
     private static function parse(string $error, ?Throwable $previous): self
     {
         $parts = explode(':', $error, 5);

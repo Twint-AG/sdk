@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use Twint\Sdk\Certificate\PemCertificate;
+use Twint\Sdk\Certificate\Pkcs8Certificate;
+
 if (PHP_VERSION_ID < 80200) {
     #[Attribute(Attribute::TARGET_PARAMETER)]
     final class SensitiveParameter
@@ -27,3 +30,5 @@ if (PHP_VERSION_ID < 80400) {
         }
     }
 }
+
+class_alias(Pkcs8Certificate::class, PemCertificate::class);

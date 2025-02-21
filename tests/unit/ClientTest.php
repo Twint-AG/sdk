@@ -18,7 +18,7 @@ use ReflectionClass;
 use Soap\Engine\Engine;
 use SoapFault;
 use Twint\Sdk\Certificate\CertificateContainer;
-use Twint\Sdk\Certificate\PemCertificate;
+use Twint\Sdk\Certificate\Pkcs8Certificate;
 use Twint\Sdk\Client;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\CancellationFailed;
@@ -105,7 +105,7 @@ final class ClientTest extends TestCase
             });
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -128,7 +128,7 @@ final class ClientTest extends TestCase
             ->willThrowException(new SoapException());
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -178,7 +178,7 @@ final class ClientTest extends TestCase
             );
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             new PrefixedCashRegisterId(StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'), 'Magento'),
             Version::latest(),
             Environment::TESTING(),
@@ -226,7 +226,7 @@ final class ClientTest extends TestCase
             );
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -255,7 +255,7 @@ final class ClientTest extends TestCase
             );
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -273,7 +273,7 @@ final class ClientTest extends TestCase
 
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -302,7 +302,7 @@ final class ClientTest extends TestCase
             ->willReturn(true);
 
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608a'),
             Version::latest(),
             Environment::TESTING(),
@@ -332,7 +332,7 @@ final class ClientTest extends TestCase
     public function testCreateClientWithFileWriterFactory(): void
     {
         new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -343,7 +343,7 @@ final class ClientTest extends TestCase
     public function testGetIosAppSchemesThrowsApiFailureOnRequestFailure(): void
     {
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),
@@ -359,7 +359,7 @@ final class ClientTest extends TestCase
     public function testGetIosAppSchemesThrowsApiFailureWhenResponseCannotBeParsed(): void
     {
         $client = new Client(
-            CertificateContainer::fromPem(new PemCertificate(new InMemoryStream('cert'), 'pass')),
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
             Version::latest(),
             Environment::TESTING(),

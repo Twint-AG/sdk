@@ -3,6 +3,8 @@ services:
     build:
       additional_contexts:
         php_base_image: docker-image://php:${TWINT_SDK_PHP_VERSION}
+      args:
+        TWINT_SDK_PHP_CURL_SSL_ENGINE: ${TWINT_SDK_PHP_CURL_SSL_ENGINE}
     entrypoint: [sleep, infinity]
     working_dir: /src
     environment:

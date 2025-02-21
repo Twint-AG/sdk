@@ -11,7 +11,7 @@ if (!filter_var(getenv('TWINT_SDK_TESTS_DESTRUCTIVE'), FILTER_VALIDATE_BOOLEAN))
 <?php
 exec('mv /tmp /tmp.bak');
 try {
-    (require_once 'guesser-test.inc')();
+    (require 'guesser-test.inc')();
 } finally {
     exec('mv /tmp.bak /tmp');
 }

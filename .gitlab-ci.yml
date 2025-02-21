@@ -15,17 +15,17 @@ include:
     - d13-runner
 
 .php:
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION"
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$SSL_ENGINE"
   parallel:
     matrix:
-      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3", "8.4" ] }
+      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3", "8.4" ], SSL_ENGINE: &ssl_engine [ "openssl", "nss", "gnutls" ] }
   extends: .base
 
 .php-with-high-low-dependencies:
   parallel:
     matrix:
-      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "lowest", "highest" ] }
-      - { PHP_VERSION: [ "8.1", "8.2", "8.3" ], COMPOSER_DEPENDENCY_VERSION: [ "current" ] }
+      - { PHP_VERSION: *php_version, SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "lowest", "highest" ] }
+      - { PHP_VERSION: [ "8.1", "8.2", "8.3" ], SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "current" ] }
   extends: .php
 
 container-build-hash:
@@ -46,6 +46,7 @@ container-build:
     TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
     # Required to make rootless podman work
     STORAGE_DRIVER: vfs
+  resource_group: container-build-$PHP_VERSION
   script:
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - podman login -u "$DOCKER_USER" -p "$DOCKER_TOKEN" docker.io
@@ -53,6 +54,7 @@ container-build:
       podman build
       --pull=newer
       --build-context php_base_image=docker-image://php:$PHP_VERSION
+      --env TWINT_SDK_PHP_CURL_SSL_ENGINE=$SSL_ENGINE
       --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
       --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
       --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
@@ -60,10 +62,10 @@ container-build:
       --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
       --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
       --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION
+      --tag $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$SSL_ENGINE
       -f Dockerfile
       $PWD
-    - podman push $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION
+    - podman push $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$SSL_ENGINE
   extends: .php
   needs:
     - job: container-build-hash

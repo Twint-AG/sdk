@@ -73,4 +73,13 @@ final class OpenSslErrorTest extends TestCase
     {
         self::assertNull(OpenSslError::fromErrors([]));
     }
+
+    public function testFlushOpenSslErrors(): void
+    {
+        OpenSslError::flushOpenSslErrors();
+        openssl_get_privatekey('invalid');
+
+        self::assertNotEmpty(OpenSslError::flushOpenSslErrors());
+        self::assertEmpty(OpenSslError::flushOpenSslErrors());
+    }
 }

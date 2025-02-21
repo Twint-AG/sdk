@@ -114,7 +114,7 @@ final class Client implements CoreCapabilities
     /**
      * @param (callable(): FileWriter)|FileWriter $fileWriter
      * @param callable(FileWriter, CertificateContainer, Version, Environment): Engine $soapEngineFactory
-     * @param callable(FileWriter, CertificateContainer): ClientInterface $httpClientFactory
+     * @param callable(FileWriter): ClientInterface $httpClientFactory
      * @param callable(): RequestFactoryInterface $httpRequestFactoryFactory
      */
     public function __construct(
@@ -704,7 +704,7 @@ final class Client implements CoreCapabilities
 
     private function httpClient(): ClientInterface
     {
-        return $this->httpClient ??= ($this->httpClientFactory)($this->fileWriter, $this->certificate);
+        return $this->httpClient ??= ($this->httpClientFactory)($this->fileWriter);
     }
 
     private function httpRequestFactory(): RequestFactoryInterface

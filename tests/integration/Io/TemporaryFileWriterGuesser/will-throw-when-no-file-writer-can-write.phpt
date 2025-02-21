@@ -15,7 +15,7 @@ exec('mv /tmp /tmp.bak');
 exec('mv /var/tmp /var-tmp.bak');
 mkdir('/twint-temp');
 
-$test = require_once 'guesser-test.inc';
+$test = require 'guesser-test.inc';
 
 try {
     $test();

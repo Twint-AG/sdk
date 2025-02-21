@@ -11,8 +11,8 @@ use Symfony\Component\Clock\Clock;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Twint\Sdk\Capability\SystemAdministration;
-use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Sdk\Certificate\Pkcs8Certificate;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
@@ -89,7 +89,7 @@ final class FallbackToBundledCaTest extends IntegrationTest
         self::assertTrue($systemStatus->isOk());
     }
 
-    public function testPemCertificateConversionWorksWhenSystemCaIsNotAvailable(): void
+    public function testPkcs8CertificateConversionWorksWhenSystemCaIsNotAvailable(): void
     {
         self::skipIfDestructiveTestsDisabled();
 
@@ -101,7 +101,7 @@ final class FallbackToBundledCaTest extends IntegrationTest
             new Clock()
         );
 
-        self::assertNotEmpty($pkcs12->pem()->content());
+        self::assertNotEmpty($pkcs12->pkcs8()->content());
     }
 
     public function testPkcs12CertificateConversionWorksWhenSystemCaIsNotAvailable(): void
@@ -116,8 +116,8 @@ final class FallbackToBundledCaTest extends IntegrationTest
             new Clock()
         );
 
-        $pem = new PemCertificate(
-            new InMemoryStream($pkcs12->pem()->content()),
+        $pem = new Pkcs8Certificate(
+            new InMemoryStream($pkcs12->pkcs8()->content()),
             SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
         );
 

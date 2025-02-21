@@ -7,7 +7,7 @@ TMPDIR=/tmp/twint-TMPDIR
 --FILE--
 <?php
 @mkdir('/tmp/twint-TMPDIR');
-(require_once 'guesser-test.inc')();
+(require 'guesser-test.inc')();
 --CLEAN--
 @rmdir('/tmp/twint-TMPDIR');
 --EXPECT--

@@ -9,13 +9,19 @@ use OpenSSLAsymmetricKey;
 use OpenSSLCertificate;
 use OpenSSLCertificateSigningRequest;
 use PHPUnit\Framework\TestCase;
+use Twint\Sdk\Certificate\Pkcs12Certificate;
+use Twint\Sdk\Certificate\Pkcs1Certificate;
+use Twint\Sdk\Certificate\Pkcs8Certificate;
+use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\InMemoryStream;
+use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Tools\SystemEnvironment;
+use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\StoreUuid;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
-use function Psl\Type\string;
 use function Psl\Type\uint;
 
 abstract class CertificateIntegrationTest extends TestCase
@@ -61,5 +67,50 @@ abstract class CertificateIntegrationTest extends TestCase
             new DateTimeImmutable('@' . $metadata['validFrom_time_t']),
             new DateTimeImmutable('@' . $metadata['validTo_time_t']),
         ];
+    }
+
+    final protected static function getPkcs12(): Pkcs12Certificate
+    {
+        $pkcs12 = new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
+
+        return new Pkcs12Certificate(
+            new InMemoryStream($pkcs12->content()),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
+    }
+
+    final protected static function getPkcs8(): Pkcs8Certificate
+    {
+        $pkcs12 = new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
+
+        return new Pkcs8Certificate(
+            new InMemoryStream($pkcs12->pkcs8()->content()),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
+    }
+
+    final protected static function getPkcs1(): Pkcs1Certificate
+    {
+        $pkcs12 = new Pkcs12Certificate(
+            new NonEmptyStream(
+                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+            ),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
+
+        return new Pkcs1Certificate(
+            new InMemoryStream($pkcs12->pkcs1()->content()),
+            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+        );
     }
 }
