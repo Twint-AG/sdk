@@ -145,7 +145,7 @@ renovate-config-validator:
   needs: []
 
 release:
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3"
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3-openssl"
   extends: .base
   needs:
     - job: container-build-hash
