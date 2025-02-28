@@ -12,7 +12,7 @@ use Twint\Sdk\Certificate\TlsBackend\CertificateConverter;
 use Twint\Sdk\Certificate\TlsBackend\CertificateReader;
 use Twint\Sdk\Exception\InvalidCertificate;
 use Twint\Sdk\Exception\OpenSslError;
-use Twint\Sdk\Factory\DefaultKeyReaderFactory;
+use Twint\Sdk\Factory\DefaultCertificateReaderFactory;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\Stream;
@@ -30,7 +30,7 @@ final class Pkcs12Certificate extends ConvertibleCertificate implements ToPkcs8,
     /**
      * @param Stream<non-empty-string> $content
      * @param non-empty-string $passphrase
-     * @param callable(): CertificateReader $keychainFactoryFactory
+     * @param callable(): CertificateReader $certificateReaderFactory
      * @throws InvalidCertificate
      */
     public static function establishTrust(
@@ -38,15 +38,15 @@ final class Pkcs12Certificate extends ConvertibleCertificate implements ToPkcs8,
         #[SensitiveParameter]
         string $passphrase,
         ClockInterface $clock,
-        mixed $keychainFactoryFactory = new DefaultKeyReaderFactory()
+        mixed $certificateReaderFactory = new DefaultCertificateReaderFactory()
     ): self {
-        return self::establishTrustVia($content, $passphrase, new DefaultTrustor($clock), $keychainFactoryFactory);
+        return self::establishTrustVia($content, $passphrase, new DefaultTrustor($clock), $certificateReaderFactory);
     }
 
     /**
      * @param Stream<non-empty-string> $content
      * @param non-empty-string $passphrase
-     * @param callable(): CertificateReader $keychainFactoryFactory
+     * @param callable(): CertificateReader $certificateReaderFactory
      * @throws InvalidCertificate
      */
     public static function establishTrustVia(
@@ -54,7 +54,7 @@ final class Pkcs12Certificate extends ConvertibleCertificate implements ToPkcs8,
         #[SensitiveParameter]
         string $passphrase,
         Trustor $trustor,
-        mixed $keychainFactoryFactory = new DefaultKeyReaderFactory()
+        mixed $certificateReaderFactory = new DefaultCertificateReaderFactory()
     ): self {
         OpenSslError::flushOpenSslErrors();
 
@@ -71,7 +71,7 @@ final class Pkcs12Certificate extends ConvertibleCertificate implements ToPkcs8,
 
         $trustor->check($certs['cert']);
 
-        return new self($content, $passphrase, $keychainFactoryFactory);
+        return new self($content, $passphrase, $certificateReaderFactory);
     }
 
     /**

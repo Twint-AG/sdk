@@ -20,7 +20,7 @@ use Twint\Sdk\Certificate\ToPkcs12;
 use Twint\Sdk\Certificate\ToPkcs8;
 use Twint\Sdk\Exception\CryptographyFailure;
 use Twint\Sdk\Exception\InvalidCertificate;
-use Twint\Sdk\Factory\DefaultKeyReaderFactory;
+use Twint\Sdk\Factory\DefaultCertificateReaderFactory;
 use Twint\Sdk\Io\InMemoryStream;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\shape;
@@ -35,7 +35,7 @@ use function Psl\Type\shape;
 #[CoversClass(ConvertibleCertificate::class)]
 #[CoversClass(MemoizingCertificateConverter::class)]
 #[CoversClass(OpenSslCertificateConverter::class)]
-#[CoversClass(DefaultKeyReaderFactory::class)]
+#[CoversClass(DefaultCertificateReaderFactory::class)]
 #[CoversClass(MemoizingCertificateReader::class)]
 #[CoversClass(OpenSslCertificateReader::class)]
 final class CertificateConversionTest extends CertificateIntegrationTest

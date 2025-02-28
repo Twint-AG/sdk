@@ -8,7 +8,7 @@ use Twint\Sdk\Certificate\TlsBackend\CertificateReader;
 use Twint\Sdk\Certificate\TlsBackend\MemoizingCertificateReader;
 use Twint\Sdk\Certificate\TlsBackend\OpenSslCertificateReader;
 
-final class DefaultKeyReaderFactory
+final class DefaultCertificateReaderFactory
 {
     public function __invoke(): CertificateReader
     {
