@@ -29,7 +29,7 @@ final class ExistingPath implements Value
     public function __construct(
         string $path
     ) {
-        invariant(is_readable($path), 'File "%s" is not readable', $path);
+        invariant(@is_readable($path), 'File "%s" is not readable', $path);
         $canonicalPath = canonicalize($path);
         invariant(is_string($canonicalPath), 'Cannot canonicalize path "%s"', $path);
         $this->path = $canonicalPath;
