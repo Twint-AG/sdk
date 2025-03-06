@@ -2,7 +2,7 @@
 open_basedir restrictions are gracefully handled
 --INI--
 sys_temp_dir=/non-existent
-open_basedir=/non-existent
+open_basedir=./
 --ENV--
 TEMP=/tmp/twint-TEMP
 --FILE--
