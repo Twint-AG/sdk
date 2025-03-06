@@ -12,23 +12,29 @@ use function Psl\Type\non_empty_string;
 
 final class TemporaryFileWriterGuesser
 {
+    /**
+     * @return list<callable(): FileWriter>
+     */
+    public static function createDefaultStack(): array
+    {
+        return [
+            self::from('sys_get_temp_dir', 'function sys_get_temp_dir()'),
+            self::fromEnvVar('TMPDIR'),
+            self::fromEnvVar('XDG_RUNTIME_DIR'),
+            self::fromEnvVar('TEMPDIR'),
+            self::fromEnvVar('TMP'),
+            self::fromEnvVar('TEMP'),
+            self::fromIniSetting('upload_tmp_dir'),
+            self::fromPath('/tmp'),
+            self::fromPath('/var/tmp'),
+            self::fromPath('C:\Temp'),
+            self::fromPath('C:\Windows\Temp'),
+        ];
+    }
+
     public function __invoke(): FileWriter
     {
-        return new FileWriterStack(
-            [
-                self::from('sys_get_temp_dir', 'function sys_get_temp_dir()'),
-                self::fromEnvVar('TMPDIR'),
-                self::fromEnvVar('XDG_RUNTIME_DIR'),
-                self::fromEnvVar('TEMPDIR'),
-                self::fromEnvVar('TMP'),
-                self::fromEnvVar('TEMP'),
-                self::fromIniSetting('upload_tmp_dir'),
-                self::fromPath('/tmp'),
-                self::fromPath('/var/tmp'),
-                self::fromPath('C:\Temp'),
-                self::fromPath('C:\Windows\Temp'),
-            ]
-        );
+        return new FileWriterStack(self::createDefaultStack());
     }
 
     /**
