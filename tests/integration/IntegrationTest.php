@@ -16,6 +16,8 @@ use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
+use Twint\Sdk\Tools\PHPUnit\ResilientTest;
+use Twint\Sdk\Tools\PHPUnit\Retry;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
@@ -33,8 +35,11 @@ use WireMock\Client\WireMock;
 /**
  * @template T of Capability
  */
+#[Retry(times: 3)]
 abstract class IntegrationTest extends TestCase
 {
+    use ResilientTest;
+
     final protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
     private ?WireMock $wireMock = null;
