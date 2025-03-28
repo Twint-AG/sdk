@@ -40,8 +40,16 @@ class RequestCheckInRequestElement implements RequestInterface
     /**
      * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
      */
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $OfflineAuthorization, ?string $CouponCode, ?string $CustomerRelationUuid, ?bool $UnidentifiedCustomer, ?LoyaltyType $LoyaltyInformation, ?string $RequestCustomerRelationAlias, ?bool $QRCodeRendering)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        ?string $OfflineAuthorization,
+        ?string $CouponCode,
+        ?string $CustomerRelationUuid,
+        ?bool $UnidentifiedCustomer,
+        ?LoyaltyType $LoyaltyInformation,
+        ?string $RequestCustomerRelationAlias,
+        ?bool $QRCodeRendering
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->OfflineAuthorization = $OfflineAuthorization;
         $this->CouponCode = $CouponCode;

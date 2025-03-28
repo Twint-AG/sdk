@@ -37,8 +37,13 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
      * @param non-empty-array<int<0,19>, string> $RequestedScopes
      * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
      */
-    public function __construct(MerchantInformationType $MerchantInformation, CurrencyAmountType $NetAmount, array $RequestedScopes, array $ShippingMethods, ?bool $QRCodeRendering)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        CurrencyAmountType $NetAmount,
+        array $RequestedScopes,
+        array $ShippingMethods,
+        ?bool $QRCodeRendering
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->NetAmount = $NetAmount;
         $this->RequestedScopes = $RequestedScopes;

@@ -21,9 +21,8 @@ final class Email implements Value, Stringable
 
     private readonly string $email;
 
-    public function __construct(
-        string $email
-    ) {
+    public function __construct(string $email)
+    {
         invariant(filter_var($email, FILTER_VALIDATE_EMAIL) !== false, 'Invalid email address: %s', $email);
         $this->email = strtolower($email);
     }

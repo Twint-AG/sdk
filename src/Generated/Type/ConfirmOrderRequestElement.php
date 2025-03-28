@@ -32,8 +32,13 @@ class ConfirmOrderRequestElement implements RequestInterface
 
     protected ?bool $PartialConfirmation = null;
 
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $OrderUuid, ?string $MerchantTransactionReference, CurrencyAmountType $RequestedAmount, ?bool $PartialConfirmation)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        ?string $OrderUuid,
+        ?string $MerchantTransactionReference,
+        CurrencyAmountType $RequestedAmount,
+        ?bool $PartialConfirmation
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->OrderUuid = $OrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;

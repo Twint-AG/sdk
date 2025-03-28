@@ -21,9 +21,8 @@ final class Uuid implements Value
 
     private readonly string $uuid;
 
-    public function __construct(
-        string $uuid
-    ) {
+    public function __construct(string $uuid)
+    {
         invariant(
             matches($uuid, '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i'),
             'Invalid UUID "%s". Must be in the format "8-4-4-4-12"',

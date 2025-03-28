@@ -62,7 +62,7 @@ trait ResilientTest
             if (count($methodAttributes) > 0) {
                 return $methodAttributes[0]->newInstance()->times ?? 1;
             }
-        } while ($currentClass = $currentClass->getParentClass());
+        } while (($currentClass = $currentClass->getParentClass()) !== false);
 
         return 1;
     }

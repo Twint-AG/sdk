@@ -34,8 +34,8 @@ final class Throwables
             return null;
         }
 
-        while ($current = array_shift($throwables)) {
-            while ($tail->getPrevious()) {
+        while (($current = array_shift($throwables)) !== null) {
+            while ($tail->getPrevious() !== null) {
                 $tail = $tail->getPrevious();
             }
 

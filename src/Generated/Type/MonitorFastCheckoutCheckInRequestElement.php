@@ -24,8 +24,11 @@ class MonitorFastCheckoutCheckInRequestElement implements RequestInterface
 
     protected ?bool $WaitForResponse = null;
 
-    public function __construct(MerchantInformationType $MerchantInformation, string $PairingUuid, ?bool $WaitForResponse)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        string $PairingUuid,
+        ?bool $WaitForResponse
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->PairingUuid = $PairingUuid;
         $this->WaitForResponse = $WaitForResponse;

@@ -28,8 +28,11 @@ class CancelOrderAndUofRegistrationRequestElement implements RequestInterface
      */
     protected ?string $MerchantTransactionReference = null;
 
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        ?string $PaymentOrderUuid,
+        ?string $MerchantTransactionReference
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;

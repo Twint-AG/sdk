@@ -82,7 +82,7 @@ $fs->remove(TARGET_DIRECTORY);
 $visited = [];
 $classes = $reflector->reflectAllClasses();
 
-while ($classes) {
+while ($classes !== []) {
     $class = array_shift($classes);
 
     if (in_array($class->getName(), $visited, true)) {

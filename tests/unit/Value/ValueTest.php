@@ -197,7 +197,7 @@ abstract class ValueTest extends TestCase
         $properties = $class->getProperties();
 
         $parent = $class;
-        while ($parent = $parent->getParentClass()) {
+        while (($parent = $parent->getParentClass()) !== false) {
             $properties = [...$properties, ...$parent->getProperties()];
         }
 

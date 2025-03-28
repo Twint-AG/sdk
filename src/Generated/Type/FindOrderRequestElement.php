@@ -37,8 +37,15 @@ class FindOrderRequestElement implements RequestInterface
      */
     protected ?string $MerchantTransactionReference = null;
 
-    public function __construct(?string $MerchantUuid, ?string $MerchantAliasId, ?string $CashRegisterId, DateTimeInterface $SearchStartDate, DateTimeInterface $SearchEndDate, ?string $OrderUuid, ?string $MerchantTransactionReference)
-    {
+    public function __construct(
+        ?string $MerchantUuid,
+        ?string $MerchantAliasId,
+        ?string $CashRegisterId,
+        DateTimeInterface $SearchStartDate,
+        DateTimeInterface $SearchEndDate,
+        ?string $OrderUuid,
+        ?string $MerchantTransactionReference
+    ) {
         $this->MerchantUuid = $MerchantUuid;
         $this->MerchantAliasId = $MerchantAliasId;
         $this->CashRegisterId = $CashRegisterId;

@@ -36,8 +36,15 @@ class ConfirmOrderAndUofRegistrationRequestElement implements RequestInterface
 
     protected bool $ConfirmRegistration;
 
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference, ?bool $ConfirmPaymentOrder, ?CurrencyAmountType $RequestedAmount, ?bool $PartialConfirmation, bool $ConfirmRegistration)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        ?string $PaymentOrderUuid,
+        ?string $MerchantTransactionReference,
+        ?bool $ConfirmPaymentOrder,
+        ?CurrencyAmountType $RequestedAmount,
+        ?bool $PartialConfirmation,
+        bool $ConfirmRegistration
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;

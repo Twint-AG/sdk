@@ -30,8 +30,12 @@ class MonitorOrderAndUofRegistrationRequestElement implements RequestInterface
 
     protected ?bool $WaitForResponse = null;
 
-    public function __construct(MerchantInformationType $MerchantInformation, ?string $PaymentOrderUuid, ?string $MerchantTransactionReference, ?bool $WaitForResponse)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        ?string $PaymentOrderUuid,
+        ?string $MerchantTransactionReference,
+        ?bool $WaitForResponse
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->PaymentOrderUuid = $PaymentOrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;

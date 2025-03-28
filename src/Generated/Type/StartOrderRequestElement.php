@@ -51,8 +51,19 @@ class StartOrderRequestElement implements RequestInterface
     /**
      * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
      */
-    public function __construct(MerchantInformationType $MerchantInformation, OrderRequestType $Order, ?CouponListType $Coupons, ?string $OfflineAuthorization, ?string $CustomerRelationUuid, ?string $PairingUuid, ?bool $UnidentifiedCustomer, ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization, ?bool $QRCodeRendering, ?string $PaymentLayerRendering, ?string $OrderUpdateNotificationURL)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        OrderRequestType $Order,
+        ?CouponListType $Coupons,
+        ?string $OfflineAuthorization,
+        ?string $CustomerRelationUuid,
+        ?string $PairingUuid,
+        ?bool $UnidentifiedCustomer,
+        ?ExpressMerchantAuthorizationType $ExpressMerchantAuthorization,
+        ?bool $QRCodeRendering,
+        ?string $PaymentLayerRendering,
+        ?string $OrderUpdateNotificationURL
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->Order = $Order;
         $this->Coupons = $Coupons;

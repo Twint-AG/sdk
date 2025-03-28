@@ -34,8 +34,14 @@ class StartOrderAndUofRegistrationRequestElement implements RequestInterface
     /**
      * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
      */
-    public function __construct(MerchantInformationType $MerchantInformation, RegistrationRequestType $RegistrationRequest, OrderRequestType $Order, ?CouponListType $Coupons, ?string $PaymentLayerRendering, ?string $OrderUpdateNotificationURL)
-    {
+    public function __construct(
+        MerchantInformationType $MerchantInformation,
+        RegistrationRequestType $RegistrationRequest,
+        OrderRequestType $Order,
+        ?CouponListType $Coupons,
+        ?string $PaymentLayerRendering,
+        ?string $OrderUpdateNotificationURL
+    ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->RegistrationRequest = $RegistrationRequest;
         $this->Order = $Order;

@@ -62,7 +62,7 @@ final class ThrowablesTest extends TestCase
         if ($chain !== null) {
             do {
                 $actualMessages[] = $chain->getMessage();
-            } while ($chain = $chain->getPrevious());
+            } while (($chain = $chain->getPrevious()) !== null);
         }
 
         self::assertSame($expectedMessages, $actualMessages);
