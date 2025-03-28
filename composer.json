@@ -54,7 +54,8 @@
         "veewee/xml": "^3.0.0",
         "danielburger1337/sha3-shake": "^1.0",
         "composer/ca-bundle": "^1.5",
-        "phpseclib/phpseclib": "^3.0"
+        "phpseclib/phpseclib": "^3.0",
+        "phpseclib/bcmath_compat": "^2.0"
     },
     "require-dev": {
         "ext-xdebug": "*",
