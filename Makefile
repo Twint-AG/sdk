@@ -134,13 +134,13 @@ QUERY_PHP_EXTENSIONS = ["zip"] + \
 	.packages[] | to_entries[] | select (.key == "require" or ($$dev == "true" and .key == "require-dev")) | .value | to_entries \
   ] \
   | flatten[] | select(.key | startswith("ext-")) | .key[4:] \
-] | sort | unique | join(" ")
+] | sort | unique | .-$$ignore | join(" ")
 
 php-extensions:
-	jq --arg dev $(DEV) --raw-output '$(QUERY_PHP_EXTENSIONS)' < $(BASE_DIR)/composer.lock > $(BASE_DIR)/php-extensions.txt
+	jq --arg dev $(DEV) --argjson ignore "$$([ "$${TWINT_SDK_PHP_CURL_SSL_ENGINE%-nobignum}" != "$${TWINT_SDK_PHP_CURL_SSL_ENGINE}" ] && echo '["gmp", "bcmath"]' || echo '[]')" --raw-output '$(QUERY_PHP_EXTENSIONS)' < $(BASE_DIR)/composer.lock > $(BASE_DIR)/php-extensions.txt
 
 check-php-extensions: php-extensions
-	git diff --exit-code $(BASE_DIR)/php-extensions.txt
+	if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE%-nobignum}" == "${TWINT_SDK_PHP_CURL_SSL_ENGINE}" ]; then git diff --exit-code $(BASE_DIR)/php-extensions.txt; fi
 
 container-checksum: check-php-extensions
 	echo TWINT_SDK_PHP_IMAGE_BASE=$$CI_REGISTRY_IMAGE/php:$$(sha3sum php-extensions.txt Dockerfile .gitlab-ci.yml Makefile | sha3sum | cut -d " " -f 1) > .docker-env
