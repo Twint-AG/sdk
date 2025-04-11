@@ -26,7 +26,7 @@ RUN if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE}" != openssl ]; then \
     && rm -rf /var/lib/apt/lists/*; fi
 
 COPY php-extensions.txt /tmp/php-extensions.txt
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.7.30/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.7.31/install-php-extensions /usr/local/bin/
 RUN for ext in @composer `cat /tmp/php-extensions.txt`; do retry install-php-extensions $ext ; done && rm /tmp/php-extensions.txt
 
 # Check for the correct SSL engine
