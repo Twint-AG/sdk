@@ -21,6 +21,7 @@ use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Twint\Sdk\Tools\Parser\SymbolCollectingVisitor;
+use function Psl\File\read;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\vec;
@@ -91,7 +92,7 @@ while ($classes !== []) {
 
     $visited[] = $class->getName();
 
-    $ast = $parser->parse($class->getLocatedSource()->getSource());
+    $ast = $parser->parse(read(non_empty_string()->assert($class->getFileName())));
 
     $traverser->traverse(vec(instance_of(Node::class))->assert($ast));
 
@@ -108,7 +109,7 @@ foreach ($symbolCollector->getSymbols() as $symbol) {
     $class = $reflector->reflectClass($symbol);
 
     $sourceFileName = non_empty_string()
-        ->assert($class->getLocatedSource()->getFileName());
+        ->assert($class->getFileName());
 
     $directory = $fs->makePathRelative(dirname($sourceFileName), SOURCE_DIRECTORY);
 

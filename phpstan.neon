@@ -18,6 +18,20 @@ parameters:
             message: "#^Method .* throws checked exception#"
             path: tests/*
         -
+            message: "#^Call to internal method PHPUnit\\\\.*#"
+            paths:
+                - tests/*
+                - tools/PHPUnit/*
+            identifier: method.internal
+            reportUnmatched: false
+        -
+            message: "#^Catching internal interface PHPUnit\\\\.*#"
+            paths:
+                - tests/*
+                - tools/PHPUnit/*
+            identifier: catch.internalInterface
+            reportUnmatched: false
+        -
             message: "#^Class .* has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
         -
             message: "#^Readonly property .* is assigned outside of the constructor\\.$#"

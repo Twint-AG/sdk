@@ -37,7 +37,7 @@ final class DocumentationScopeVisitor extends NodeVisitorAbstract
      * @return array<Node>
      */
     #[Override]
-    public function leaveNode(Node $node): Node|int|array|null
+    public function leaveNode(Node $node): int|array|null
     {
         return $this->delegate->leaveNode($node);
     }
@@ -49,6 +49,6 @@ final class DocumentationScopeVisitor extends NodeVisitorAbstract
     #[Override]
     public function afterTraverse(array $nodes): array
     {
-        return $this->delegate->afterTraverse($nodes) ?? $nodes;
+        return $this->delegate->afterTraverse($nodes);
     }
 }
