@@ -8,13 +8,11 @@ use Transliterator;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 
-final class ShippingLabelWorkaround
+final class ShippingLabelTransliterator
 {
     private const RULES = [
         # Transliterate to Latin characters
         ':: Any-Latin',
-        # Transliterate to ASCII characters
-        ':: Latin-ASCII',
         # Replace symbols (e.g. emojis) with \N(SymbolName}
         ':: [:Symbol:] name',
         # Replace \N{ with just {
@@ -22,7 +20,7 @@ final class ShippingLabelWorkaround
         # Convert to normal form composed
         ':: NFC',
         # Final cleanup
-        ":: [^\p{block=Basic_Latin}\p{P}\p{Sm}\p{Sc}] Remove",
+        ":: [^\p{block=Basic_Latin}\p{block=Latin_1_Supplement}\p{P}\p{Sm}\p{Sc}] Remove",
     ];
 
     /**

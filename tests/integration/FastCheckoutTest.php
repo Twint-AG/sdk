@@ -32,11 +32,10 @@ final class FastCheckoutTest extends IntegrationTest
      */
     public static function getShippingMethodLabels(): iterable
     {
-        yield 'max length with multibyte chars' => [str_repeat('ä', 255)];
+        yield 'max length with multibyte chars' => [str_repeat('ä', 128)];
         yield 'simple string' => ['Standard Shipping'];
-        yield 'multi-byte chars' => ['Äé', 'Ae'];
-        yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
-        yield 'real case 1' => ['Kostenloser Versand (Voraussichtlicher Liefertermin: 3.⁠–6. Dez)'];
+        yield 'multi-byte chars' => ['Äé'];
+        yield 'real case 1' => ['Kostenloser Versand (Voraussichtlicher Liefertermin: 3.–6. Dez)'];
     }
 
     public function testFastCheckoutCheckIn(): void

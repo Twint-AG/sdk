@@ -23,9 +23,11 @@ final class Version implements Value, Enum
 
     public const V8_6_0 = 8_06_00;
 
-    public const NEXT = self::V8_6_0;
+    public const V8_7_0 = 8_07_00;
 
-    public const LATEST = self::V8_6_0;
+    public const NEXT = self::V8_7_0;
+
+    public const LATEST = self::V8_7_0;
 
     /**
      * @param VersionId $versionId
@@ -55,10 +57,15 @@ final class Version implements Value, Enum
         return new self(self::V8_6_0);
     }
 
+    public static function V8_7_0(): self
+    {
+        return new self(self::V8_7_0);
+    }
+
     #[Override]
     public static function all(): array
     {
-        return [self::V8_5_0, self::V8_6_0];
+        return [self::V8_5_0, self::V8_6_0, self::V8_7_0];
     }
 
     #[Override]

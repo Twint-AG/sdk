@@ -6,7 +6,7 @@ namespace Twint\Sdk\Value;
 
 use Override;
 use Twint\Sdk\Util\Comparison;
-use Twint\Sdk\Util\ShippingLabelWorkaround;
+use Twint\Sdk\Util\ShippingLabelTransliterator;
 use function Psl\invariant;
 use function Psl\Str\length;
 use function Psl\Type\instance_of;
@@ -37,7 +37,7 @@ final class ShippingMethod implements Value
         private readonly ShippingMethodId $id,
         string $label,
         private readonly Money $price,
-        callable $transliterator = new ShippingLabelWorkaround()
+        callable $transliterator = new ShippingLabelTransliterator()
     ) {
         non_empty_string()->assert($label);
         invariant(

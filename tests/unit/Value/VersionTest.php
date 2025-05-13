@@ -28,6 +28,7 @@ final class VersionTest extends ValueTest
     {
         yield [Version::V8_5_0];
         yield [Version::V8_6_0];
+        yield [Version::V8_7_0];
         yield [10_16_01];
     }
 
@@ -38,6 +39,7 @@ final class VersionTest extends ValueTest
     {
         yield [Version::V8_5_0, 8, 5, 0, '8.5', '8_5'];
         yield [Version::V8_6_0, 8, 6, 0, '8.6', '8_6'];
+        yield [Version::V8_7_0, 8, 7, 0, '8.7', '8_7'];
         yield [10_16_01, 10, 16, 1, '10.16.1', '10_16_1'];
     }
 
@@ -46,8 +48,8 @@ final class VersionTest extends ValueTest
      */
     public static function getAliasVersions(): iterable
     {
-        yield [Version::V8_6_0, Version::next()];
-        yield [Version::V8_6_0, Version::latest()];
+        yield [Version::V8_7_0, Version::next()];
+        yield [Version::V8_7_0, Version::latest()];
     }
 
     /**

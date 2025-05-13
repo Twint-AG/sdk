@@ -14,19 +14,19 @@ class ShippingMethodReferenceType
 
     /**
      * This type is based on xs:string and is used for restricted labels,
-     *  it allows basic latin, mathematical and currency symbols with
+     *  it allows basic latin, latin-1 supplement, mathematical and currency symbols with
      *  a minimum length of 1 and a maximum length of 256 characters.
      *
-     *  The label must match the pattern: [\p{IsBasicLatin}\p{P}\p{Sm}\p{Sc}]{1,256}
+     *  The label must match the pattern: [\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{P}\p{Sm}\p{Sc}]{1,256}
      */
     protected string $ShippingMethodLabel;
 
     /**
      * This type is based on xs:string and is used for restricted labels,
-     *  it allows basic latin, mathematical and currency symbols with
+     *  it allows basic latin, latin-1 supplement, mathematical and currency symbols with
      *  a minimum length of 1 and a maximum length of 256 characters.
      *
-     *  The label must match the pattern: [\p{IsBasicLatin}\p{P}\p{Sm}\p{Sc}]{1,256}
+     *  The label must match the pattern: [\p{IsBasicLatin}\p{IsLatin-1Supplement}\p{P}\p{Sm}\p{Sc}]{1,256}
      */
     protected ?string $ShippingMethodDescription = null;
 

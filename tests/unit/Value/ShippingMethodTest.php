@@ -8,7 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psl\Exception\InvariantViolationException;
-use Twint\Sdk\Util\ShippingLabelWorkaround;
+use Twint\Sdk\Util\ShippingLabelTransliterator;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
@@ -18,7 +18,7 @@ use Twint\Sdk\Value\ShippingMethodId;
  * @internal
  */
 #[CoversClass(ShippingMethod::class)]
-#[CoversClass(ShippingLabelWorkaround::class)]
+#[CoversClass(ShippingLabelTransliterator::class)]
 final class ShippingMethodTest extends ValueTest
 {
     /**
@@ -36,15 +36,15 @@ final class ShippingMethodTest extends ValueTest
     {
         yield 'max length with multi-byte chars' => [
             str_repeat('ä', 128) . str_repeat('é', 127),
-            str_repeat('a', 128) . str_repeat('e', 127),
+            str_repeat('ä', 128) . str_repeat('é', 127),
         ];
         yield 'simple string' => ['Standard Shipping', 'Standard Shipping'];
-        yield 'multi-byte chars' => ['Äé', 'Ae'];
-        yield 'multi-byte chars with special chars' => ['äé!', 'ae!'];
+        yield 'multi-byte chars' => ['Äé', 'Äé'];
+        yield 'multi-byte chars with special chars' => ['äé!', 'äé!'];
         yield 'emoji' => ['String with 🌟', 'String with {GLOWING STAR}'];
         yield 'real case 1' => [
             'Kostenloser Versand (Voraussichtlicher Liefertermin: 3.⁠–6. Dez)',
-            'Kostenloser Versand (Voraussichtlicher Liefertermin: 3.-6. Dez)',
+            'Kostenloser Versand (Voraussichtlicher Liefertermin: 3.–6. Dez)',
         ];
     }
 

@@ -181,10 +181,4 @@ function import(WireMock $wireMock, array $files): void
 $wireMock = (new DefaultWireMockFactory())();
 $wireMock->isAlive();
 
-import(
-    $wireMock,
-    [
-        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_5_0()->dotVersion() . '.json',
-        __DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_6_0()->dotVersion() . '.json',
-    ]
-);
+import($wireMock, [__DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_7_0()->dotVersion() . '.json']);

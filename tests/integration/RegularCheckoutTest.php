@@ -86,7 +86,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $version = Version::V8_5_0();
+        $version = Version::latest();
 
         $client = $this->createClient($version);
         $transactionReference = $this->createTransactionReference();
@@ -110,7 +110,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -125,7 +125,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -143,7 +143,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -159,7 +159,7 @@ final class RegularCheckoutTest extends IntegrationTest
     {
         $this->enableWireMockForSoapMethod('StartOrder');
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $transactionReference = $this->createTransactionReference();
 
         $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -206,7 +206,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
 
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
@@ -235,7 +235,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
@@ -269,7 +269,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
@@ -303,7 +303,7 @@ final class RegularCheckoutTest extends IntegrationTest
         $this->wireMock()
             ->resetAllScenarios();
 
-        $client = $this->createClient(Version::V8_5_0());
+        $client = $this->createClient(Version::latest());
         $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
 
         $this->wireMock()
