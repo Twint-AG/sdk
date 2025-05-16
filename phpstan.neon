@@ -9,6 +9,7 @@ parameters:
         - resources
     excludePaths:
         - resources/docs/_examples
+        - tests/integration/Io/TemporaryFileWriterGuesser/
     ignoreErrors:
         -
             message: "#Method .* overrides method .* but is missing the \\#\\[\\\\Override\\] attribute\\.$#"
