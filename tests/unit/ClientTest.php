@@ -154,7 +154,7 @@ final class ClientTest extends TestCase
             ->willReturnCallback(
                 static function (string $soapMethod, array $args) {
                     /**
-                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement $request
+                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement
                      */
                     [$request] = $args;
 
@@ -202,7 +202,7 @@ final class ClientTest extends TestCase
             ->willReturnCallback(
                 static function (string $soapMethod, array $args) {
                     /**
-                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement $request
+                     * @var EnrollCashRegisterRequestElement|StartOrderRequestElement
                      */
                     [$request] = $args;
 
