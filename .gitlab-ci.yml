@@ -47,6 +47,7 @@ container-build:
     # Required to make rootless podman work
     STORAGE_DRIVER: vfs
   resource_group: container-build-$PHP_VERSION
+  timeout: 2h
   script:
     - yum install -y make jq
     - make php-extensions
