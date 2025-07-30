@@ -90,7 +90,7 @@ check-format-docs:
 
 check: static-analysis test check-format check-docs
 	$(MAKE) check-codegen
-	$(MAKE) check-minimal-soap
+	$(MAKE) check-bundled-dependencies
 ifdef GITLAB_CI
 	$(MAKE) test-minimal-runtime
 endif
@@ -118,11 +118,11 @@ check-codegen: codegen
 	@echo "Check if codegen changed the generated code"
 	git diff --exit-code $(CODEGEN_DIR)
 
-extract-minimal-soap:
-	php $(BASE_DIR)/tools/minimal-soap.php
+bundle-dependencies:
+	php $(BASE_DIR)/tools/bundle-dependencies.php
 	$(MAKE) format-vendor-bundled
 
-check-minimal-soap: extract-minimal-soap
+check-bundled-dependencies: bundle-dependencies
 	git diff --exit-code $(BASE_DIR)/vendor-bundled
 
 QUERY_PHP_EXTENSIONS = ["zip"] + \
