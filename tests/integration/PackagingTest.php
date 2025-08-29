@@ -47,7 +47,7 @@ final class PackagingTest extends TestCase
     /**
      * @return list<array{0: non-empty-string}>
      */
-    public static function getPresentFiles(): array
+    public static function getPresentFiles(): iterable
     {
         return [
             ['composer.json'],
@@ -64,7 +64,7 @@ final class PackagingTest extends TestCase
     /**
      * @return list<array{0: non-empty-string}>
      */
-    public static function getAbsentFiles(): array
+    public static function getAbsentFiles(): iterable
     {
         return [
             ['tests/'],

@@ -175,6 +175,8 @@ return static function (ECSConfig $ecsConfig): void {
         PhpUnitStrictFixer::class,
     ]);
 
+    $ecsConfig->skip([PhpUnitDataProviderNameFixer::class]);
+
     $ecsConfig->ruleWithConfiguration(PhpUnitTestCaseStaticMethodCallsFixer::class, [
         'call_type' => 'self',
     ]);
