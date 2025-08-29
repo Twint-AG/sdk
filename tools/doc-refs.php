@@ -71,6 +71,9 @@ $lines = [
 ];
 
 foreach ($classes as $class) {
+    if ($class->isAnonymous()) {
+        continue;
+    }
     $lines[] = sprintf(
         '.. |%s| replace:: ``%s``',
         toName($class->isInterface() ? 'interface' : 'class', $class),
