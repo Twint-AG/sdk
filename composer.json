@@ -87,7 +87,7 @@
         "nikic/php-parser": "^4.19.4 || ^5.0.0",
         "symfony/filesystem": "^6.4.24",
         "rregeer/phpunit-coverage-check": "^0.3.1",
-        "composer/semver": "^3.3"
+        "composer/semver": "^3.4.4"
     },
     "conflict": {
         "phpro/soap-client": "<3.3.0 || >=4.0.0"
