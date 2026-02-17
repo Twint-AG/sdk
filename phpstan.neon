@@ -36,3 +36,13 @@ parameters:
             message: "#^Class .* has an uninitialized readonly property \\$.*\\. Assign it in the constructor\\.$#"
         -
             message: "#^Readonly property .* is assigned outside of the constructor\\.$#"
+        -
+            message: "#^Call to static method PHPUnit\\\\Framework\\\\Assert::assertInstanceOf\\(\\).*#"
+            paths:
+                - tests/*
+            identifier: staticMethod.alreadyNarrowedType
+        -
+            message: "#^PHPDoc tag @var with type list<Twint\\\\Sdk\\\\InvocationRecorder\\\\Value\\\\Invocation> is not subtype of native type \\*NEVER\\*\\.#"
+            paths:
+                - tests/integration/InvocationRecorder/InvocationRecordingClientTest.php
+            identifier: varTag.nativeType

@@ -158,4 +158,54 @@ final class DeviceHandlingTest extends IntegrationTest
             self::assertNotEmpty($scheme->displayName());
         }
     }
+
+    public function testGetIosAppLink(): void
+    {
+        $client = $this->createClient();
+
+        $schemes = $client->getIosAppSchemes();
+
+        foreach ($schemes as $scheme) {
+            $link = $this->createClient()
+                ->getIosAppUrl($scheme, '1234');
+
+            $urlParts = parse_url((string) $link);
+
+            self::assertNotFalse($urlParts);
+            self::assertArrayHasKey('scheme', $urlParts);
+            self::assertArrayHasKey('host', $urlParts);
+            self::assertArrayHasKey('query', $urlParts);
+            self::assertSame(substr($scheme->scheme(), 0, -3), $urlParts['scheme']);
+            self::assertSame('applinks', $urlParts['host']);
+            self::assertStringContainsString('al_applink_data', $urlParts['query']);
+            parse_str($urlParts['query'], $query);
+            self::assertArrayHasKey('al_applink_data', $query);
+            self::assertIsString($query['al_applink_data']);
+            self::assertJson($query['al_applink_data']);
+            self::assertJsonStringEqualsJsonString(
+                '{
+  "app_action_type": "TWINT_PAYMENT",
+  "extras": {
+    "code": "1234"
+  },
+  "referer_app_link": {
+    "target_url": "",
+    "url": "",
+    "app_name": "EXTERNAL_WEB_BROWSER"
+  },
+  "version": "6.0"
+}',
+                $query['al_applink_data']
+            );
+        }
+    }
+
+    public function testGetAndroidAppUrl(): void
+    {
+        self::assertSame(
+            'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=1234;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
+            (string) $this->createClient()
+                ->getAndroidAppUrl('1234')
+        );
+    }
 }

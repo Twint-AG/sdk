@@ -57,6 +57,8 @@ final class InvocationRecordingClientTest extends IntegrationTest
         $invocations = $this->recordingClient->flushInvocations();
         self::assertCount(1, $invocations);
 
+        /** @var list<Invocation> $invocations */
+
         self::assertSame('checkSystemStatus', $invocations[0]->methodName());
         self::assertCount(0, $invocations[0]->arguments());
 

@@ -30,6 +30,7 @@ use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use Twint\Sdk\Value\Url;
 
 /**
  * @internal
@@ -55,6 +56,8 @@ final class InvocationRecordingClientTest extends TestCase
             ]];
         yield ['detectDevice', ['iOS']];
         yield ['getIosAppSchemes', []];
+        yield ['getIosAppUrl', [new IosAppScheme('twint-issuer0://', 'App Name'), '123']];
+        yield ['getAndroidAppUrl', ['123']];
         yield [
             'requestFastCheckoutCheckIn',
             [Money::CHF(1.99), new CustomerDataScopes(CustomerDataScopes::EMAIL), new ShippingMethods()],
@@ -97,6 +100,8 @@ final class InvocationRecordingClientTest extends TestCase
                     'reverseOrder' => $order,
                     'detectDevice' => DetectedDevice::IOS('iOS'),
                     'getIosAppSchemes' => [new IosAppScheme('twint-issuer0://', 'App Name')],
+                    'getIosAppUrl' => new Url('twint-issuer0://payment?token=123'),
+                    'getAndroidAppUrl' => new Url('twint://payment?token=123'),
                     'requestFastCheckOutCheckIn' => new InteractiveFastCheckoutCheckIn(
                         PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
                         PairingStatus::PAIRING_ACTIVE(),

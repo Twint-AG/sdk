@@ -21,5 +21,7 @@ parameters:
         - resources-dev/stubs/Symfony/Component/Filesystem/Path.php
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
     - vendor/php-standard-library/phpstan-extension/extension.neon
     - phar://phpstan.phar/conf/bleedingEdge.neon

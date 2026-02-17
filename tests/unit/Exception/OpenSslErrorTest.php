@@ -79,7 +79,10 @@ final class OpenSslErrorTest extends TestCase
         OpenSslError::flushOpenSslErrors();
         openssl_get_privatekey('invalid');
 
-        self::assertNotEmpty(OpenSslError::flushOpenSslErrors());
-        self::assertEmpty(OpenSslError::flushOpenSslErrors());
+        $errorsBeforeFlushing = OpenSslError::flushOpenSslErrors();
+        self::assertNotEmpty($errorsBeforeFlushing);
+
+        $errorsAfterFlushing = OpenSslError::flushOpenSslErrors();
+        self::assertEmpty($errorsAfterFlushing);
     }
 }

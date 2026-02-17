@@ -15,6 +15,7 @@ use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\FastCheckoutCheckIn;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
+use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderReference;
@@ -22,6 +23,7 @@ use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use Twint\Sdk\Value\Url;
 
 final class InvocationRecordingClient implements CoreCapabilities, InvocationRecorder
 {
@@ -46,6 +48,18 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     public function getIosAppSchemes(): array
     {
         return $this->record(__FUNCTION__, [$this->client, 'getIosAppSchemes'], []);
+    }
+
+    #[Override]
+    public function getIosAppUrl(IosAppScheme $scheme, string $token): Url
+    {
+        return $this->record(__FUNCTION__, [$this->client, 'getIosAppUrl'], [$scheme, $token]);
+    }
+
+    #[Override]
+    public function getAndroidAppUrl(string $token): Url
+    {
+        return $this->record(__FUNCTION__, [$this->client, 'getAndroidAppUrl'], [$token]);
     }
 
     #[Override]

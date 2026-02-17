@@ -71,6 +71,7 @@ use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\SystemStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
@@ -660,6 +661,48 @@ final class Client implements CoreCapabilities
                 ),
             ], true)->assert($parsed)['appSwitchConfigList']
         );
+    }
+
+    #[Override]
+    public function getIosAppUrl(IosAppScheme $iosAppScheme, string $token): Url
+    {
+        $payload = [
+            'app_action_type' => 'TWINT_PAYMENT',
+            'extras' => [
+                'code' => $token,
+            ],
+            'referer_app_link' => [
+                'target_url' => '',
+                'url' => '',
+                'app_name' => 'EXTERNAL_WEB_BROWSER',
+            ],
+            'version' => '6.0',
+        ];
+
+        return new Url(
+            sprintf(
+                '%s%s/?%s',
+                $iosAppScheme->scheme(),
+                'applinks',
+                http_build_query([
+                    'al_applink_data' => json_encode($payload),
+                ])
+            )
+        );
+    }
+
+    #[Override]
+    public function getAndroidAppUrl(string $token): Url
+    {
+        $payload = [
+            'action' => 'ch.twint.action.TWINT_PAYMENT',
+            'scheme' => 'twint',
+            'S.code' => $token,
+            'S.startingOrigin' => 'EXTERNAL_WEB_BROWSER',
+            'S.browser_fallback_url' => '',
+        ];
+
+        return new Url(sprintf('intent://payment#Intent;%s;end', http_build_query($payload, arg_separator: ';')));
     }
 
     /**
