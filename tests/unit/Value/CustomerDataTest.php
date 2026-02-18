@@ -63,7 +63,7 @@ final class CustomerDataTest extends ValueTest
      * @param array<string, null|Stringable> $dict
      */
     #[DataProvider('getDictionaries')]
-    public static function testCreateFromDict(array $dict, int $count): void
+    public function testCreateFromDict(array $dict, int $count): void
     {
         $customerData = CustomerData::fromDict($dict);
 

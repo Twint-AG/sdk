@@ -36,7 +36,10 @@ final class CollectorTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->tempDir = sys_get_temp_dir() . '/twint-sdk-tests/' . bin2hex(random_bytes(8));
+        $this->tempDir = sys_get_temp_dir() . '/twint-sdk-tests/' . bin2hex(
+            non_empty_string()
+                ->assert(random_bytes(8))
+        );
         (new Filesystem())->mkdir($this->tempDir);
         $this->archivePath = $this->tempDir . '/diagnostics.zip';
         $this->archiveDir = $this->tempDir . '/extracted';

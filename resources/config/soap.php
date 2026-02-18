@@ -31,7 +31,7 @@ const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
 $engine = CodeGeneratorEngineFactory::create(
-    (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
+    'file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
     new FlatteningLoader(new StreamWrapperLoader()),
     MetadataOptions::empty()
         ->withTypesManipulator(

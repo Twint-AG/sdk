@@ -11,12 +11,13 @@ use Twint\Sdk\Util\Comparison;
 
 /**
  * @internal
+ * @phpstan-type ComparableList = list<array{ComparableImpl|scalar|null, ComparableImpl|scalar|null}>
  */
 #[CoversClass(Comparison::class)]
 final class ComparisonTest extends TestCase
 {
     /**
-     * @return iterable<array{list<array{ComparableImpl|scalar|null, ComparableImpl|scalar|null}>, int}>
+     * @return iterable<array{ComparableList, int}>
      */
     public static function getComparisons(): iterable
     {
@@ -40,7 +41,7 @@ final class ComparisonTest extends TestCase
     }
 
     /**
-     * @param list<array{ComparableImpl, ComparableImpl}> $pairs
+     * @param ComparableList $pairs
      */
     #[DataProvider('getComparisons')]
     public function testComparePairs(array $pairs, int $result): void

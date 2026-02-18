@@ -46,3 +46,8 @@ parameters:
             paths:
                 - tests/integration/InvocationRecorder/InvocationRecordingClientTest.php
             identifier: varTag.nativeType
+        -
+            message: "#^Method Twint\\\\Sdk\\\\Value\\\\Environment::(appSchemeHost|getServiceHost)\\(\\) throws checked exception UnhandledMatchError.*#"
+            paths:
+                - src/Value/Environment.php
+            identifier: missingType.checkedException

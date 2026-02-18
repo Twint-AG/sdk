@@ -16,8 +16,6 @@ use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
-use Twint\Sdk\Tools\PHPUnit\ResilientTest;
-use Twint\Sdk\Tools\PHPUnit\Retry;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Value\Environment;
@@ -31,15 +29,14 @@ use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use WireMock\Client\WireMock;
+use function Psl\Type\non_empty_string;
+use function Psl\Type\uint;
 
 /**
  * @template T of Capability
  */
-#[Retry(times: 3)]
 abstract class IntegrationTest extends TestCase
 {
-    use ResilientTest;
-
     final protected const SOAP_REQUEST_MATCHERS = ['method', 'url', 'host', 'body', 'soap_operation'];
 
     private ?WireMock $wireMock = null;
@@ -110,7 +107,9 @@ abstract class IntegrationTest extends TestCase
 
     final protected function createTransactionReference(): UnfiledMerchantTransactionReference
     {
-        return new UnfiledMerchantTransactionReference(substr(hash('sha3-256', random_bytes(32)), 0, 50));
+        return new UnfiledMerchantTransactionReference(
+            substr(hash('sha3-256', non_empty_string()->assert(random_bytes(32))), 0, 50)
+        );
     }
 
     /**
@@ -134,5 +133,13 @@ abstract class IntegrationTest extends TestCase
     public function wrapTransport(Transport $transport): Transport
     {
         return $transport;
+    }
+
+    /** @return int<0, max> */
+    protected static function getCiNodeIndex(): int
+    {
+        $ciNodeIndex = getenv('CI_NODE_INDEX');
+
+        return $ciNodeIndex === false ? 0 : uint()->coerce($ciNodeIndex);
     }
 }

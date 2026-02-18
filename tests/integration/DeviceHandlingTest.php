@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Capability\DeviceHandling;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
+use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\DetectedDevice;
 
 /**
@@ -139,51 +140,56 @@ final class DeviceHandlingTest extends IntegrationTest
     #[DataProvider('getUserAgents')]
     public function testDetectDevice(string $userAgent, int $expectedType): void
     {
-        $detectedDevice = $this->createClient()
-            ->detectDevice($userAgent);
+        Resilience::retry(3, function () use ($userAgent, $expectedType) {
+            $detectedDevice = $this->createClient()
+                ->detectDevice($userAgent);
 
-        self::assertSame($userAgent, $detectedDevice->userAgent());
-        self::assertSame($expectedType, $detectedDevice->deviceType());
+            self::assertSame($userAgent, $detectedDevice->userAgent());
+            self::assertSame($expectedType, $detectedDevice->deviceType());
+        });
     }
 
     public function testGetIosAppSchemes(): void
     {
-        $schemes = $this->createClient()
-            ->getIosAppSchemes();
+        Resilience::retry(3, function () {
+            $schemes = $this->createClient()
+                ->getIosAppSchemes();
 
-        self::assertGreaterThan(10, count($schemes));
+            self::assertGreaterThan(10, count($schemes));
 
-        foreach ($schemes as $scheme) {
-            self::assertStringStartsWith('twint-issuer', $scheme->scheme());
-            self::assertNotEmpty($scheme->displayName());
-        }
+            foreach ($schemes as $scheme) {
+                self::assertStringStartsWith('twint-issuer', $scheme->scheme());
+                self::assertNotEmpty($scheme->displayName());
+            }
+        });
     }
 
     public function testGetIosAppLink(): void
     {
-        $client = $this->createClient();
+        Resilience::retry(3, function () {
+            $client = $this->createClient();
 
-        $schemes = $client->getIosAppSchemes();
+            $schemes = $client->getIosAppSchemes();
 
-        foreach ($schemes as $scheme) {
-            $link = $this->createClient()
-                ->getIosAppUrl($scheme, '1234');
+            foreach ($schemes as $scheme) {
+                $link = $this->createClient()
+                    ->getIosAppUrl($scheme, '1234');
 
-            $urlParts = parse_url((string) $link);
+                $urlParts = parse_url((string) $link);
 
-            self::assertNotFalse($urlParts);
-            self::assertArrayHasKey('scheme', $urlParts);
-            self::assertArrayHasKey('host', $urlParts);
-            self::assertArrayHasKey('query', $urlParts);
-            self::assertSame(substr($scheme->scheme(), 0, -3), $urlParts['scheme']);
-            self::assertSame('applinks', $urlParts['host']);
-            self::assertStringContainsString('al_applink_data', $urlParts['query']);
-            parse_str($urlParts['query'], $query);
-            self::assertArrayHasKey('al_applink_data', $query);
-            self::assertIsString($query['al_applink_data']);
-            self::assertJson($query['al_applink_data']);
-            self::assertJsonStringEqualsJsonString(
-                '{
+                self::assertNotFalse($urlParts);
+                self::assertArrayHasKey('scheme', $urlParts);
+                self::assertArrayHasKey('host', $urlParts);
+                self::assertArrayHasKey('query', $urlParts);
+                self::assertSame(substr($scheme->scheme(), 0, -3), $urlParts['scheme']);
+                self::assertSame('applinks', $urlParts['host']);
+                self::assertStringContainsString('al_applink_data', $urlParts['query']);
+                parse_str($urlParts['query'], $query);
+                self::assertArrayHasKey('al_applink_data', $query);
+                self::assertIsString($query['al_applink_data']);
+                self::assertJson($query['al_applink_data']);
+                self::assertJsonStringEqualsJsonString(
+                    '{
   "app_action_type": "TWINT_PAYMENT",
   "extras": {
     "code": "1234"
@@ -195,17 +201,20 @@ final class DeviceHandlingTest extends IntegrationTest
   },
   "version": "6.0"
 }',
-                $query['al_applink_data']
-            );
-        }
+                    $query['al_applink_data']
+                );
+            }
+        });
     }
 
     public function testGetAndroidAppUrl(): void
     {
-        self::assertSame(
-            'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=1234;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
-            (string) $this->createClient()
-                ->getAndroidAppUrl('1234')
-        );
+        Resilience::retry(3, function () {
+            self::assertSame(
+                'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=1234;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
+                (string) $this->createClient()
+                    ->getAndroidAppUrl('1234')
+            );
+        });
     }
 }

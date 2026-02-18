@@ -18,6 +18,7 @@ use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Tools\SystemEnvironment;
+use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\ExistingPath;
 
 /**
@@ -83,45 +84,51 @@ final class FallbackToBundledCaTest extends IntegrationTest
     {
         self::skipIfDestructiveTestsDisabled();
 
-        $systemStatus = $this->createClient()
-            ->checkSystemStatus();
+        Resilience::retry(3, function () {
+            $systemStatus = $this->createClient()
+                ->checkSystemStatus();
 
-        self::assertTrue($systemStatus->isOk());
+            self::assertTrue($systemStatus->isOk());
+        });
     }
 
     public function testPkcs8CertificateConversionWorksWhenSystemCaIsNotAvailable(): void
     {
         self::skipIfDestructiveTestsDisabled();
 
-        $pkcs12 = Pkcs12Certificate::establishTrust(
-            new NonEmptyStream(
-                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
-            ),
-            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
-            new Clock()
-        );
+        Resilience::retry(3, static function () {
+            $pkcs12 = Pkcs12Certificate::establishTrust(
+                new NonEmptyStream(
+                    new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+                ),
+                SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+                new Clock()
+            );
 
-        self::assertNotEmpty($pkcs12->pkcs8()->content());
+            self::assertNotEmpty($pkcs12->pkcs8()->content());
+        });
     }
 
     public function testPkcs12CertificateConversionWorksWhenSystemCaIsNotAvailable(): void
     {
         self::skipIfDestructiveTestsDisabled();
 
-        $pkcs12 = Pkcs12Certificate::establishTrust(
-            new NonEmptyStream(
-                new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
-            ),
-            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
-            new Clock()
-        );
+        Resilience::retry(3, static function () {
+            $pkcs12 = Pkcs12Certificate::establishTrust(
+                new NonEmptyStream(
+                    new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
+                ),
+                SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE'),
+                new Clock()
+            );
 
-        $pem = new Pkcs8Certificate(
-            new InMemoryStream($pkcs12->pkcs8()->content()),
-            SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
-        );
+            $pem = new Pkcs8Certificate(
+                new InMemoryStream($pkcs12->pkcs8()->content()),
+                SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PASSPHRASE')
+            );
 
-        self::assertNotEmpty($pem->pkcs12()->content());
+            self::assertNotEmpty($pem->pkcs12()->content());
+        });
     }
 
     /**

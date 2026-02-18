@@ -12,13 +12,17 @@ use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\Version;
+use function Psl\Type\non_empty_string;
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
 $env = new Dotenv();
 $env->load(__DIR__ . '/../../../.env');
 
-$orderReference = bin2hex(random_bytes(16));
+$orderReference = bin2hex(
+    non_empty_string()
+        ->assert(random_bytes(16))
+);
 $storeUuid = SystemEnvironment::get('TWINT_SDK_TEST_STORE_UUID');
 $certificatePath = SystemEnvironment::get(
     'TWINT_SDK_TEST_CERT_P12_PATH'
