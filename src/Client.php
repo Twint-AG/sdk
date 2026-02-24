@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk;
 
 use Http\Discovery\Psr17FactoryDiscovery;
+use JsonException;
 use Override;
 use Phpro\SoapClient\Caller\EngineCaller;
 use Phpro\SoapClient\Exception\SoapException;
@@ -17,6 +18,7 @@ use Twint\Sdk\Capability\CoreCapabilities;
 use Twint\Sdk\Certificate\CertificateContainer;
 use Twint\Sdk\Exception\ApiFailure;
 use Twint\Sdk\Exception\CancellationFailed;
+use Twint\Sdk\Exception\InvalidValue;
 use Twint\Sdk\Exception\SdkError;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
@@ -60,6 +62,7 @@ use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderReference;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\PhoneNumber;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
@@ -487,7 +490,7 @@ final class Client implements CoreCapabilities
                         CustomerDataScopes::EMAIL => new Email($field->getValue()),
                         CustomerDataScopes::PHONE_NUMBER => new PhoneNumber($field->getValue()),
                         CustomerDataScopes::SHIPPING_ADDRESS => Address::parse($field->getValue()),
-                        default => null,
+                        default => null, // @codeCoverageIgnore
                     };
                 }
 
@@ -663,13 +666,16 @@ final class Client implements CoreCapabilities
         );
     }
 
+    /**
+     * @throws SdkError
+     */
     #[Override]
-    public function getIosAppUrl(IosAppScheme $iosAppScheme, string $token): Url
+    public function getIosAppUrl(IosAppScheme $iosAppScheme, PairingToken $token): Url
     {
         $payload = [
             'app_action_type' => 'TWINT_PAYMENT',
             'extras' => [
-                'code' => $token,
+                'code' => (string) $token->token(),
             ],
             'referer_app_link' => [
                 'target_url' => '',
@@ -679,25 +685,31 @@ final class Client implements CoreCapabilities
             'version' => '6.0',
         ];
 
-        return new Url(
-            sprintf(
-                '%s%s/?%s',
-                $iosAppScheme->scheme(),
-                'applinks',
-                http_build_query([
-                    'al_applink_data' => json_encode($payload),
-                ])
-            )
-        );
+        try {
+            return new Url(
+                sprintf(
+                    '%s%s/?%s',
+                    $iosAppScheme->scheme(),
+                    'applinks',
+                    urldecode(http_build_query([
+                        'al_applink_data' => json_encode($payload, JSON_THROW_ON_ERROR),
+                    ]))
+                )
+            );
+            // @codeCoverageIgnoreStart
+        } catch (JsonException $e) {
+            throw InvalidValue::fromThrowable($e);
+        }
+        // @codeCoverageIgnoreEnd
     }
 
     #[Override]
-    public function getAndroidAppUrl(string $token): Url
+    public function getAndroidAppUrl(PairingToken $token): Url
     {
         $payload = [
             'action' => 'ch.twint.action.TWINT_PAYMENT',
             'scheme' => 'twint',
-            'S.code' => $token,
+            'S.code' => $token->token(),
             'S.startingOrigin' => 'EXTERNAL_WEB_BROWSER',
             'S.browser_fallback_url' => '',
         ];

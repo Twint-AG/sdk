@@ -19,6 +19,7 @@ use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderReference;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
@@ -51,13 +52,13 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
-    public function getIosAppUrl(IosAppScheme $scheme, string $token): Url
+    public function getIosAppUrl(IosAppScheme $scheme, PairingToken $token): Url
     {
         return $this->record(__FUNCTION__, [$this->client, 'getIosAppUrl'], [$scheme, $token]);
     }
 
     #[Override]
-    public function getAndroidAppUrl(string $token): Url
+    public function getAndroidAppUrl(PairingToken $token): Url
     {
         return $this->record(__FUNCTION__, [$this->client, 'getAndroidAppUrl'], [$token]);
     }

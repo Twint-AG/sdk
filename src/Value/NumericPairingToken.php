@@ -9,15 +9,17 @@ use function Psl\Type\instance_of;
 use function Psl\Type\uint;
 
 /**
+ * @phpstan-type UnsignedInt int<0, max>
  * @template-implements Value<self>
+ * @template-implements PairingToken<UnsignedInt>
  */
-final class NumericPairingToken implements Value
+final class NumericPairingToken implements Value, PairingToken
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
     /**
-     * @param int<0, max> $token
+     * @param UnsignedInt $token
      */
     public function __construct(
         private readonly int $token,
@@ -36,7 +38,8 @@ final class NumericPairingToken implements Value
         return (string) $this->token;
     }
 
-    public function token(): int
+    #[Override]
+    public function token()
     {
         return $this->token;
     }

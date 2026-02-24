@@ -135,11 +135,14 @@ abstract class IntegrationTest extends TestCase
         return $transport;
     }
 
-    /** @return int<0, max> */
+    /**
+     * @return int<0, max>
+     */
     protected static function getCiNodeIndex(): int
     {
         $ciNodeIndex = getenv('CI_NODE_INDEX');
 
-        return $ciNodeIndex === false ? 0 : uint()->coerce($ciNodeIndex);
+        return $ciNodeIndex === false ? 0 : uint()
+            ->coerce($ciNodeIndex);
     }
 }

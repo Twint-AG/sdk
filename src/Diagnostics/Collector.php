@@ -245,9 +245,11 @@ final class Collector
                 fileName: 'environment.json',
                 data: json_encode($this->insights, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT),
             );
+            // @codeCoverageIgnoreStart
         } catch (JsonException $e) {
             $logger('Failed to encode environment insights: "%s"', $e->getMessage());
         }
+        // @codeCoverageIgnoreEnd
 
         foreach ($this->paths as [$path, $predicate]) {
             self::collectPath($zip, $path, $predicate, $logger);
@@ -290,8 +292,10 @@ final class Collector
             $children = scandir($path);
 
             if ($children === false) {
+                // @codeCoverageIgnoreStart
                 $log('Failed to read directory "%s"', $path);
                 return;
+                // @codeCoverageIgnoreEnd
             }
 
             foreach ($children as $child) {
@@ -301,7 +305,9 @@ final class Collector
 
                 $fullPath = Path::join($path, $child);
                 if ($fullPath === '') {
+                    // @codeCoverageIgnoreStart
                     continue;
+                    // @codeCoverageIgnoreEnd
                 }
 
                 self::collectPath($zip, $fullPath, $predicate, $log);

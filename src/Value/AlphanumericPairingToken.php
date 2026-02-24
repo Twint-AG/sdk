@@ -10,8 +10,9 @@ use function Psl\Type\non_empty_string;
 
 /**
  * @template-implements Value<self>
+ * @template-implements PairingToken<non-empty-string>
  */
-final class AlphanumericPairingToken implements Value
+final class AlphanumericPairingToken implements Value, PairingToken
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
@@ -36,9 +37,7 @@ final class AlphanumericPairingToken implements Value
         return $this->token;
     }
 
-    /**
-     * @return non-empty-string
-     */
+    #[Override]
     public function token(): string
     {
         return $this->token;

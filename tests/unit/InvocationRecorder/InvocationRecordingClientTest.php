@@ -20,6 +20,7 @@ use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\InteractiveFastCheckoutCheckIn;
 use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\NumericPairingToken;
 use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
@@ -56,8 +57,8 @@ final class InvocationRecordingClientTest extends TestCase
             ]];
         yield ['detectDevice', ['iOS']];
         yield ['getIosAppSchemes', []];
-        yield ['getIosAppUrl', [new IosAppScheme('twint-issuer0://', 'App Name'), '123']];
-        yield ['getAndroidAppUrl', ['123']];
+        yield ['getIosAppUrl', [new IosAppScheme('twint-issuer0://', 'App Name'), new NumericPairingToken(123)]];
+        yield ['getAndroidAppUrl', [new AlphanumericPairingToken('abc123')]];
         yield [
             'requestFastCheckoutCheckIn',
             [Money::CHF(1.99), new CustomerDataScopes(CustomerDataScopes::EMAIL), new ShippingMethods()],

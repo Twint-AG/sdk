@@ -10,7 +10,10 @@ use Twint\Sdk\Capability\DeviceHandling;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Util\Resilience;
+use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\DetectedDevice;
+use Twint\Sdk\Value\NumericPairingToken;
+use Twint\Sdk\Value\PairingToken;
 
 /**
  * @template-extends IntegrationTest<DeviceHandling>
@@ -137,6 +140,12 @@ final class DeviceHandlingTest extends IntegrationTest
         ];
     }
 
+    public static function getTokens(): iterable
+    {
+        yield [new AlphanumericPairingToken('abc123')];
+        yield [new NumericPairingToken(1234)];
+    }
+
     #[DataProvider('getUserAgents')]
     public function testDetectDevice(string $userAgent, int $expectedType): void
     {
@@ -164,16 +173,20 @@ final class DeviceHandlingTest extends IntegrationTest
         });
     }
 
-    public function testGetIosAppLink(): void
+    /**
+     * @param PairingToken<scalar> $token
+     */
+    #[DataProvider('getTokens')]
+    public function testGetIosAppLink(PairingToken $token): void
     {
-        Resilience::retry(3, function () {
+        Resilience::retry(3, function () use ($token) {
             $client = $this->createClient();
 
             $schemes = $client->getIosAppSchemes();
 
             foreach ($schemes as $scheme) {
                 $link = $this->createClient()
-                    ->getIosAppUrl($scheme, '1234');
+                    ->getIosAppUrl($scheme, $token);
 
                 $urlParts = parse_url((string) $link);
 
@@ -192,7 +205,7 @@ final class DeviceHandlingTest extends IntegrationTest
                     '{
   "app_action_type": "TWINT_PAYMENT",
   "extras": {
-    "code": "1234"
+    "code": "' . $token->token() . '"
   },
   "referer_app_link": {
     "target_url": "",
@@ -207,13 +220,17 @@ final class DeviceHandlingTest extends IntegrationTest
         });
     }
 
-    public function testGetAndroidAppUrl(): void
+    /**
+     * @param PairingToken<scalar> $token
+     */
+    #[DataProvider('getTokens')]
+    public function testGetAndroidAppUrl(PairingToken $token): void
     {
-        Resilience::retry(3, function () {
+        Resilience::retry(3, function () use ($token) {
             self::assertSame(
-                'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=1234;S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
+                'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=' . $token->token() . ';S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
                 (string) $this->createClient()
-                    ->getAndroidAppUrl('1234')
+                    ->getAndroidAppUrl($token)
             );
         });
     }

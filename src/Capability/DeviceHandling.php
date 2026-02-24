@@ -6,6 +6,7 @@ namespace Twint\Sdk\Capability;
 
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\IosAppScheme;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\Url;
 
 interface DeviceHandling extends Capability
@@ -17,7 +18,13 @@ interface DeviceHandling extends Capability
      */
     public function getIosAppSchemes(): array;
 
-    public function getIosAppUrl(IosAppScheme $scheme, string $token): Url;
+    /**
+     * @param PairingToken<scalar> $token
+     */
+    public function getIosAppUrl(IosAppScheme $scheme, PairingToken $token): Url;
 
-    public function getAndroidAppUrl(string $token): Url;
+    /**
+     * @param PairingToken<scalar> $token
+     */
+    public function getAndroidAppUrl(PairingToken $token): Url;
 }
