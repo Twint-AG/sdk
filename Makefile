@@ -43,7 +43,7 @@ VERSION ?= $(error VERSION must be set)
 MAKEFLAGS += --jobs=32
 
 RETRY_INFINITE := retry --delay 0 --
-RETRY_STAGGERED := retry --times 5 --delay 1,1,2,3,5 --
+RETRY_STAGGERED := retry --times 10 --delay 0,1,1,2,3,5,5,5,5,5 --
 
 .PHONY: * $(DOC_EXAMPLES)
 
@@ -178,7 +178,7 @@ check-docs: check-format-docs check-doc-refs static-analysis-docs $(DOC_EXAMPLES
 
 $(DOC_EXAMPLES):
 	php -l $@
-	php -d auto_prepend_file=$(DOCS_DIR)/_examples/bootstrap.php $@ > /dev/null
+	$(RETRY_STAGGERED) php -d auto_prepend_file=$(DOCS_DIR)/_examples/bootstrap.php $@ > /dev/null
 
 docs:
 	sphinx-build -M html $(DOCS_DIR) build/docs -W
