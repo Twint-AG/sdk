@@ -25,6 +25,7 @@ use Twint\Sdk\Value\PlatformVersion;
 use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
 use Twint\Sdk\Value\ShopPluginInformation;
+use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
@@ -136,13 +137,15 @@ abstract class IntegrationTest extends TestCase
     }
 
     /**
-     * @return int<0, max>
+     * @template TReturn
+     * @param callable(): TReturn $operation
+     * @return TReturn
      */
-    protected static function getCiNodeIndex(): int
+    protected static function retry(callable $operation): mixed
     {
         $ciNodeIndex = getenv('CI_NODE_INDEX');
+        $ciNodeDelay = $ciNodeIndex === false ? 0 : uint()->coerce($ciNodeIndex) * 50;
 
-        return $ciNodeIndex === false ? 0 : uint()
-            ->coerce($ciNodeIndex);
+        return Resilience::retry(10, $operation, 100 + $ciNodeDelay);
     }
 }

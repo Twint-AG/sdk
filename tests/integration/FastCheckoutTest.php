@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Capability\FastCheckout;
 use Twint\Sdk\Client;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\PairingStatus;
@@ -41,7 +40,7 @@ final class FastCheckoutTest extends IntegrationTest
 
     public function testFastCheckoutCheckIn(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $client = $this->createClient(Version::next());
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
@@ -66,7 +65,7 @@ final class FastCheckoutTest extends IntegrationTest
     #[DataProvider('getShippingMethodLabels')]
     public function testFastCheckoutCheckInWithShippingMethod(string $shippingMethodLabel): void
     {
-        Resilience::retry(3, function () use ($shippingMethodLabel) {
+        self::retry(function () use ($shippingMethodLabel) {
             $client = $this->createClient(Version::next());
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
@@ -90,7 +89,7 @@ final class FastCheckoutTest extends IntegrationTest
 
     public function testFastCheckoutWithShippingMethod(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod(
                 'RequestFastCheckoutCheckIn',
                 'MonitorFastCheckoutCheckIn',
@@ -168,7 +167,7 @@ final class FastCheckoutTest extends IntegrationTest
 
     public function testFastCheckoutClientAbort(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('RequestFastCheckoutCheckIn', 'MonitorFastCheckoutCheckIn');
             $this->wireMock()
                 ->resetAllScenarios();
@@ -216,7 +215,7 @@ final class FastCheckoutTest extends IntegrationTest
 
     public function testFastCheckoutMerchantAbort(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $client = $this->createClient(Version::next());
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(

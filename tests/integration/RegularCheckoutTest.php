@@ -8,7 +8,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Twint\Sdk\Capability\OrderCheckout;
 use Twint\Sdk\Client;
 use Twint\Sdk\Tools\PHPUnit\Assertions;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
@@ -44,7 +43,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testStartOrder(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $client = $this->createClient();
             $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
 
@@ -59,7 +58,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testMonitorOrderByOrderId(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $client = $this->createClient();
             $transactionReference = $this->createTransactionReference();
 
@@ -75,7 +74,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testMonitorOrderByMerchantTransactionReference(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $client = $this->createClient();
             $transactionReference = $this->createTransactionReference();
 
@@ -91,7 +90,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testStartOrderRequiresConfirmation(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
             $version = Version::latest();
@@ -117,7 +116,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testConfirmOrderByOrderId(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
             $client = $this->createClient(Version::latest());
@@ -134,7 +133,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testConfirmOrderByMerchantTransactionReference(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
             $client = $this->createClient(Version::latest());
@@ -154,7 +153,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testReverseOrderByOrderId(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
             $client = $this->createClient(Version::latest());
@@ -175,7 +174,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testReverseOrderByMerchantTransactionReference(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
             $client = $this->createClient(Version::latest());
@@ -201,7 +200,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testCancelOrderByOrderId(): void
     {
-        Resilience::retry(5, function () {
+        self::retry(function () {
             $client = $this->createClient();
 
             $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
@@ -210,12 +209,12 @@ final class RegularCheckoutTest extends IntegrationTest
 
             self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
             self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
-        }, self::getCiNodeIndex() * 50);
+        });
     }
 
     public function testCancelOrderByMerchantTransactionReference(): void
     {
-        Resilience::retry(5, function () {
+        self::retry(function () {
             $client = $this->createClient();
 
             $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
@@ -224,12 +223,12 @@ final class RegularCheckoutTest extends IntegrationTest
 
             self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
             self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
-        }, self::getCiNodeIndex() * 50);
+        });
     }
 
     public function testOrderSuccessScenario(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
             $this->wireMock()
                 ->resetAllScenarios();
@@ -260,7 +259,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testOrderFailureScenarioClientTimeout(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
             $this->wireMock()
                 ->resetAllScenarios();
@@ -296,7 +295,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testOrderFailureScenarioClientAbort(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
             $this->wireMock()
                 ->resetAllScenarios();
@@ -332,7 +331,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
     public function testOrderFailureScenarioGeneralError(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'MonitorOrder');
             $this->wireMock()
                 ->resetAllScenarios();

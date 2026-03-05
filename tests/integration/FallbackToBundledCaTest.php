@@ -18,7 +18,6 @@ use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Tools\SystemEnvironment;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\ExistingPath;
 
 /**
@@ -84,7 +83,7 @@ final class FallbackToBundledCaTest extends IntegrationTest
     {
         self::skipIfDestructiveTestsDisabled();
 
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $systemStatus = $this->createClient()
                 ->checkSystemStatus();
 
@@ -96,7 +95,7 @@ final class FallbackToBundledCaTest extends IntegrationTest
     {
         self::skipIfDestructiveTestsDisabled();
 
-        Resilience::retry(3, static function () {
+        self::retry(static function () {
             $pkcs12 = Pkcs12Certificate::establishTrust(
                 new NonEmptyStream(
                     new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))
@@ -113,7 +112,7 @@ final class FallbackToBundledCaTest extends IntegrationTest
     {
         self::skipIfDestructiveTestsDisabled();
 
-        Resilience::retry(3, static function () {
+        self::retry(static function () {
             $pkcs12 = Pkcs12Certificate::establishTrust(
                 new NonEmptyStream(
                     new FileStream(new ExistingPath(SystemEnvironment::get('TWINT_SDK_TEST_CERT_P12_PATH')))

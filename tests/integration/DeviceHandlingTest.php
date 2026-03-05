@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use Twint\Sdk\Capability\DeviceHandling;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\NumericPairingToken;
@@ -149,7 +148,7 @@ final class DeviceHandlingTest extends IntegrationTest
     #[DataProvider('getUserAgents')]
     public function testDetectDevice(string $userAgent, int $expectedType): void
     {
-        Resilience::retry(3, function () use ($userAgent, $expectedType) {
+        self::retry(function () use ($userAgent, $expectedType) {
             $detectedDevice = $this->createClient()
                 ->detectDevice($userAgent);
 
@@ -160,7 +159,7 @@ final class DeviceHandlingTest extends IntegrationTest
 
     public function testGetIosAppSchemes(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $schemes = $this->createClient()
                 ->getIosAppSchemes();
 
@@ -179,7 +178,7 @@ final class DeviceHandlingTest extends IntegrationTest
     #[DataProvider('getTokens')]
     public function testGetIosAppLink(PairingToken $token): void
     {
-        Resilience::retry(3, function () use ($token) {
+        self::retry(function () use ($token) {
             $client = $this->createClient();
 
             $schemes = $client->getIosAppSchemes();
@@ -226,7 +225,7 @@ final class DeviceHandlingTest extends IntegrationTest
     #[DataProvider('getTokens')]
     public function testGetAndroidAppUrl(PairingToken $token): void
     {
-        Resilience::retry(3, function () use ($token) {
+        self::retry(function () use ($token) {
             self::assertSame(
                 'intent://payment#Intent;action=ch.twint.action.TWINT_PAYMENT;scheme=twint;S.code=' . $token->token() . ';S.startingOrigin=EXTERNAL_WEB_BROWSER;S.browser_fallback_url=;end',
                 (string) $this->createClient()

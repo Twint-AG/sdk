@@ -9,7 +9,6 @@ use Twint\Sdk\Capability\SystemAdministration;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
-use Twint\Sdk\Util\Resilience;
 
 /**
  * @template-extends IntegrationTest<SystemAdministration>
@@ -22,7 +21,7 @@ final class SystemAdministrationTest extends IntegrationTest
 {
     public function testSystemStatus(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $systemStatus = $this->createClient()
                 ->checkSystemStatus();
 

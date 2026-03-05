@@ -21,7 +21,6 @@ use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
 use Twint\Sdk\InvocationRecorder\Value\SoapRequest;
 use Twint\Sdk\InvocationRecorder\Value\SoapResponse;
 use Twint\Sdk\Tests\Integration\IntegrationTest;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 
@@ -51,7 +50,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
 
     public function testSystemStatus(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             self::assertCount(0, $this->recordingClient->flushInvocations());
 
             $systemStatus = $this->recordingClient->checkSystemStatus();
@@ -95,7 +94,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
 
     public function testCancelOrderFailure(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
             $prop->setAccessible(true);
             $prop->setValue(self::createClient(), []);
@@ -165,7 +164,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
 
     public function testStartOrder(): void
     {
-        Resilience::retry(3, function () {
+        self::retry(function () {
             $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
             $prop->setAccessible(true);
             $prop->setValue(self::createClient(), []);
