@@ -24,9 +24,17 @@ include:
 .php-with-high-low-dependencies:
   parallel:
     matrix:
-      - { PHP_VERSION: *php_version, TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "lowest", "highest" ] }
-      - { PHP_VERSION: [ "8.1", "8.2"], TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "locked" ] }
+      - { PHP_VERSION: *php_version, TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: &dependency_version [ "lowest", "highest" ] }
+      - { PHP_VERSION: &php_version_locked [ "8.1", "8.2" ], TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: &dependency_version_locked [ "locked" ] }
   extends: .php
+
+.php-no-ssl-with-high-low-dependencies:
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
+  parallel:
+    matrix:
+      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: *dependency_version }
+      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
+  extends: .base
 
 container-build-hash:
   stage: pre-build
@@ -94,7 +102,37 @@ docs:
     paths:
       - docs/**/*
 
-check:
+.container-build-hash-need: &container_build_hash_need
+  job: container-build-hash
+  artifacts: true
+
+static-analysis:
+  stage: check
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
+  variables:
+    COMPOSER_ALLOW_SUPERUSER: "true"
+  parallel:
+    matrix:
+      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "highest" ] }
+      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
+  script:
+    - mkdir -p build
+    - make install
+    - make static-analysis-src
+  extends: .base
+  needs:
+    - *container_build_hash_need
+    - job: container-build
+      optional: true
+      artifacts: false
+  artifacts:
+    reports:
+      codequality:
+        - build/phpstan-src.json
+        # See https://gitlab.com/gitlab-org/gitlab/-/issues/351546
+        #- build/phpstan-docs.json
+
+test:
   stage: check
   variables:
     XDEBUG_MODE: coverage
@@ -108,21 +146,63 @@ check:
     - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
     - make install
     - make wiremock-setup
-    - make check
+    - make test
+    - if [ "$COMPOSER_DEPENDENCY_VERSION" = "locked" ]; then make test-minimal-runtime; fi
   extends: .php-with-high-low-dependencies
+  needs:
+    - *container_build_hash_need
+    - job: container-build
+      optional: true
+      artifacts: false
   coverage: '/Lines:\s+\d+(?:\.\d+)?%/'
   artifacts:
     reports:
       # Needs GitLab 14.10
       #coverage: build/coverage/clover.xml
       junit: build/junit.xml
-      codequality:
-        - build/phpstan-src.json
-        # See https://gitlab.com/gitlab-org/gitlab/-/issues/351546
-        #- build/phpstan-docs.json
+
+codegen:
+  stage: check
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
+  variables:
+    COMPOSER_ALLOW_SUPERUSER: "true"
+  parallel:
+    matrix:
+      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version }
+      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
+  script:
+    - make install
+    - make check-codegen
+    - make check-bundled-dependencies
+  extends: .base
   needs:
-    - job: container-build-hash
-      artifacts: true
+    - *container_build_hash_need
+    - job: container-build
+      optional: true
+      artifacts: false
+
+format-and-docs-check:
+  stage: check
+  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.1-openssl"
+  variables:
+    COMPOSER_ALLOW_SUPERUSER: "true"
+    PHP_VERSION: "8.1"
+    TWINT_SDK_PHP_CURL_SSL_ENGINE: "openssl"
+    COMPOSER_DEPENDENCY_VERSION: "locked"
+  services:
+    - name: "wiremock/wiremock:3x@sha256:56298733dda5f6ec3c05136a1e4f08efb5048e8e970334aa4b8580b12cd28498"
+      alias: wiremock
+  script:
+    - cp ${TWINT_SDK_CI_DOT_ENV} .env
+    - mkdir -p build
+    - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
+    - make install
+    - make wiremock-setup
+    - make check-format
+    - make check-docs
+  extends: .base
+  needs:
+    - *container_build_hash_need
     - job: container-build
       optional: true
       artifacts: false
@@ -153,7 +233,10 @@ release:
   needs:
     - job: container-build-hash
       artifacts: true
-    - job: check
+    - job: static-analysis
+    - job: test
+    - job: codegen
+    - job: format-and-docs-check
   stage: release
   only: [ "tags" ]
   variables:
