@@ -15,7 +15,6 @@ use function Psl\Type\non_empty_string;
 abstract class MerchantTransactionReference implements Value, OrderReference
 {
     /** @use ComparableToEquality<self> */
-
     use ComparableToEquality;
 
     private const MAX_LENGTH = 50;
