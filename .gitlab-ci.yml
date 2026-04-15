@@ -138,7 +138,7 @@ test:
     XDEBUG_MODE: coverage
     COMPOSER_ALLOW_SUPERUSER: "true"
   services:
-    - name: "wiremock/wiremock:3x@sha256:56298733dda5f6ec3c05136a1e4f08efb5048e8e970334aa4b8580b12cd28498"
+    - name: "wiremock/wiremock:3x@sha256:fd27e46090916e85326229e5102ee169ae729059f3374549615bd20a35fee1f2"
       alias: wiremock
   script:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
@@ -190,7 +190,7 @@ format-and-docs-check:
     TWINT_SDK_PHP_CURL_SSL_ENGINE: "openssl"
     COMPOSER_DEPENDENCY_VERSION: "locked"
   services:
-    - name: "wiremock/wiremock:3x@sha256:56298733dda5f6ec3c05136a1e4f08efb5048e8e970334aa4b8580b12cd28498"
+    - name: "wiremock/wiremock:3x@sha256:fd27e46090916e85326229e5102ee169ae729059f3374549615bd20a35fee1f2"
       alias: wiremock
   script:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
