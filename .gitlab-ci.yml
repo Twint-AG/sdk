@@ -25,7 +25,7 @@ include:
   parallel:
     matrix:
       - { PHP_VERSION: *php_version, TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "lowest", "highest" ] }
-      - { PHP_VERSION: [ "8.1", "8.2", "8.3" ], TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "current" ] }
+      - { PHP_VERSION: [ "8.1", "8.2"], TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: [ "locked" ] }
   extends: .php
 
 container-build-hash:

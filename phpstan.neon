@@ -51,3 +51,25 @@ parameters:
             paths:
                 - src/Value/Environment.php
             identifier: missingType.checkedException
+        -
+            message: "#^Call to function Psl\\\\invariant\\(\\) with bool .* will always evaluate to false.$#"
+            path: resources/config/soap.php
+            reportUnmatched: false
+        -
+            message: "#^Call to function method_exists\\(\\) with Phpro\\\\SoapClient\\\\CodeGenerator\\\\Config\\\\Config and 'setMetadataOptions' will always evaluate to (false|true).#"
+            path: resources/config/soap.php
+        -
+            rawMessage: 'Cannot call method withWsdlLoader() on mixed.'
+            identifier: method.nonObject
+            path: resources/config/soap.php
+            reportUnmatched: false
+        -
+            rawMessage: 'Parameter #1 $options of static method Phpro\SoapClient\Soap\DefaultEngineFactory::create() expects Soap\ExtSoapEngine\ExtSoapOptions, mixed given.'
+            identifier: argument.type
+            path: resources/config/soap.php
+            reportUnmatched: false
+        -
+            rawMessage: Class Phpro\SoapClient\Soap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy not found.
+            identifier: class.notFound
+            path: tools/bundle-dependencies.php
+            reportUnmatched: false

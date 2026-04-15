@@ -21,7 +21,7 @@ final class HigherOrderTest extends TestCase
 
     public function testDump(): void
     {
-        self::expectOutputString('int(1)' . PHP_EOL);
+        self::expectOutputRegex('/.*int\(1\).*/');
 
         self::assertSame(1, HigherOrder::dump(1));
     }

@@ -89,8 +89,10 @@ check-format-docs:
 	$(ECS_DOCS)
 
 check: static-analysis test check-format check-docs
+ifeq ($(filter-out locked,$(COMPOSER_DEPENDENCY_VERSION)),)
 	$(MAKE) check-codegen
 	$(MAKE) check-bundled-dependencies
+endif
 ifdef GITLAB_CI
 	$(MAKE) test-minimal-runtime
 endif
@@ -122,7 +124,8 @@ bundle-dependencies:
 	php $(BASE_DIR)/tools/bundle-dependencies.php
 	$(MAKE) format-vendor-bundled
 
-check-bundled-dependencies: bundle-dependencies
+check-bundled-dependencies:
+	$(MAKE) bundle-dependencies
 	git diff --exit-code $(BASE_DIR)/vendor-bundled
 
 QUERY_PHP_EXTENSIONS = ["zip"] + \
@@ -171,8 +174,10 @@ doc-refs:
 	php $(BASE_DIR)/tools/doc-refs.php
 
 check-doc-refs:
+ifeq ($(filter-out locked,$(COMPOSER_DEPENDENCY_VERSION)),)
 	php $(BASE_DIR)/tools/doc-refs.php
 	git diff --exit-code $(DOCS_DIR)
+endif
 
 check-docs: check-format-docs check-doc-refs static-analysis-docs $(DOC_EXAMPLES)
 

@@ -14,8 +14,10 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
 use PhpParser\ParserFactory;
+use Phpro\SoapClient\Soap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflector\DefaultReflector;
+use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\Reflector\Reflector;
 use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
@@ -172,6 +174,11 @@ function copyPackage(
     return [$psr4, $constraints];
 }
 
+function ignoreSymbolNotFound(IdentifierNotFound $e): bool
+{
+    return $e->getIdentifier()
+        ->getName() === IntersectDuplicateTypesStrategy::class;
+}
 
 /**
  * @param non-empty-string $namespace
@@ -215,12 +222,26 @@ function copySymbols(
                 continue;
             }
 
-            $classes[] = $reflector->reflectClass($symbol);
+            try {
+                $classes[] = $reflector->reflectClass($symbol);
+            } catch (IdentifierNotFound $e) {
+                if (!ignoreSymbolNotFound($e)) {
+                    throw $e;
+                }
+            }
         }
     }
 
     foreach ($symbolCollector->getSymbols() as $symbol) {
-        $class = $reflector->reflectClass($symbol);
+        try {
+            $class = $reflector->reflectClass($symbol);
+        } catch (IdentifierNotFound $e) {
+            if (!ignoreSymbolNotFound($e)) {
+                throw $e;
+            }
+
+            continue;
+        }
 
         $sourceFileName = non_empty_string()
             ->assert($class->getFileName());
@@ -319,6 +340,17 @@ foreach (PACKAGES_TO_BUNDLE as $packageToBundle) {
 $exitCode = 0;
 
 foreach ($transientDependencies as $expectedRequire => $packageDependencyConstraint) {
+    // azjezz/psl and php-standard-library/php-standard-library are handled through a meta package
+    if (in_array($expectedRequire, ['azjezz/psl', 'php-standard-library/php-standard-library'], true)) {
+        if (!isset($rootDependencies['twint-ag/psl-compat'])) {
+            printf("twint-ag/psl-compat is required for %s.\n", $expectedRequire);
+            $exitCode = 1;
+            continue;
+        }
+
+        continue;
+    }
+
     if (!isset($rootDependencies[$expectedRequire])) {
         printf(
             "Missing require in root composer.json: \"%s\": \"%s\"\n",

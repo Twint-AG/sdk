@@ -7,6 +7,8 @@ namespace Twint\Sdk\Factory;
 use DOMNode;
 use Http\Client\Common\PluginClient;
 use Phpro\SoapClient\Soap\ExtSoap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy;
+use Phpro\SoapClient\Soap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy as GenericIntersectDuplicateTypesStrategy;
+use Phpro\SoapClient\Soap\Metadata\Manipulators\TypesManipulatorInterface;
 use Phpro\SoapClient\Soap\Metadata\MetadataFactory;
 use Phpro\SoapClient\Soap\Metadata\MetadataOptions;
 use Psr\Http\Client\ClientInterface;
@@ -34,6 +36,7 @@ use Twint\Sdk\Util\HigherOrder;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\Uuid;
 use Twint\Sdk\Value\Version;
+use function Psl\Type\instance_of;
 use function VeeWee\Xml\Dom\Builder\children;
 use function VeeWee\Xml\Dom\Builder\element;
 use function VeeWee\Xml\Dom\Builder\value;
@@ -56,6 +59,18 @@ final class DefaultSoapEngineFactory
     ) {
     }
 
+    /**
+     * @internal
+     */
+    public static function createTypeManipulators(): TypesManipulatorInterface
+    {
+        $manipulator = class_exists(GenericIntersectDuplicateTypesStrategy::class)
+            ? new GenericIntersectDuplicateTypesStrategy()
+            : new IntersectDuplicateTypesStrategy();
+
+        return instance_of(TypesManipulatorInterface::class)->assert($manipulator);
+    }
+
     public function __invoke(
         FileWriter $writer,
         CertificateContainer $certificate,
@@ -76,8 +91,7 @@ final class DefaultSoapEngineFactory
                 )->withClassMap(TwintSoapClassMap::getCollection());
 
                 $client = AbusedClient::createFromOptions($options);
-                $metadataOptions = MetadataOptions::empty()
-                    ->withTypesManipulator(new IntersectDuplicateTypesStrategy());
+                $metadataOptions = MetadataOptions::empty()->withTypesManipulator(self::createTypeManipulators());
                 $metadata = MetadataFactory::manipulated(new ExtSoapMetadata($client), $metadataOptions);
                 $encoder = ($this->wrapEncoder)(new ExtSoapEncoder($client));
                 $decoder = ($this->wrapDecoder)(

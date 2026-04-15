@@ -9,7 +9,7 @@ TEMP=/tmp/twint-TEMP
 <?php
 @mkdir('/tmp/twint-TEMP');
 try {
-(require 'guesser-test.inc')();
+(require __DIR__ . '/guesser-test.inc')();
 } catch (\Twint\Sdk\Exception\IoError $e) {
     do {
         echo $e->getMessage() . "\n";

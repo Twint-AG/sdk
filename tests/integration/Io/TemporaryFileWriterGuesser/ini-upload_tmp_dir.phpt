@@ -6,7 +6,7 @@ upload_tmp_dir=/tmp/twint-upload_tmp_dir
 --FILE--
 <?php
 @mkdir('/tmp/twint-upload_tmp_dir');
-(require 'guesser-test.inc')();
+(require __DIR__ . '/guesser-test.inc')();
 --CLEAN--
 @rmdir('/tmp/twint-upload_tmp_dir');
 --EXPECT--

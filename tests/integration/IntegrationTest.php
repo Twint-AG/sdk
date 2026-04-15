@@ -18,6 +18,7 @@ use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
+use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\InstallSource;
@@ -25,7 +26,6 @@ use Twint\Sdk\Value\PlatformVersion;
 use Twint\Sdk\Value\PluginVersion;
 use Twint\Sdk\Value\ShopPlatform;
 use Twint\Sdk\Value\ShopPluginInformation;
-use Twint\Sdk\Util\Resilience;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
@@ -144,7 +144,8 @@ abstract class IntegrationTest extends TestCase
     protected static function retry(callable $operation): mixed
     {
         $ciNodeIndex = getenv('CI_NODE_INDEX');
-        $ciNodeDelay = $ciNodeIndex === false ? 0 : uint()->coerce($ciNodeIndex) * 50;
+        $ciNodeDelay = $ciNodeIndex === false ? 0 : uint()
+            ->coerce($ciNodeIndex) * 50;
 
         return Resilience::retry(10, $operation, 100 + $ciNodeDelay);
     }

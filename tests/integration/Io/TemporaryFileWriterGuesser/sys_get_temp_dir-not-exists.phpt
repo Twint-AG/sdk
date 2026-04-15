@@ -4,6 +4,6 @@ Fallback to hard-coded /tmp even if setting is wrong
 sys_temp_dir=/non-existent
 --FILE--
 <?php
-(require 'guesser-test.inc')();
+(require __DIR__ . '/guesser-test.inc')();
 --EXPECT--
 /tmp

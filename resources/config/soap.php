@@ -8,19 +8,25 @@ use Phpro\SoapClient\CodeGenerator\Assembler;
 use Phpro\SoapClient\CodeGenerator\Config\Config;
 use Phpro\SoapClient\CodeGenerator\Rules;
 use Phpro\SoapClient\Soap\CodeGeneratorEngineFactory;
-use Phpro\SoapClient\Soap\ExtSoap\Metadata\Manipulators\DuplicateTypes\IntersectDuplicateTypesStrategy;
+use Phpro\SoapClient\Soap\DefaultEngineFactory;
+use Phpro\SoapClient\Soap\EngineOptions;
 use Phpro\SoapClient\Soap\Metadata\Manipulators\TypesManipulatorChain;
 use Phpro\SoapClient\Soap\Metadata\MetadataOptions;
+use Soap\Engine\Engine;
 use Soap\Engine\Metadata\Model\Type;
 use Soap\Engine\Metadata\Model\TypeMeta;
 use Soap\Engine\Metadata\Model\XsdType;
 use Soap\Wsdl\Loader\FlatteningLoader;
 use Soap\Wsdl\Loader\StreamWrapperLoader;
+use Soap\Wsdl\Loader\WsdlLoader;
+use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Tools\Soap\ManipulatePropertyType;
 use Twint\Sdk\Tools\Soap\RemoveTypes;
 use Twint\Sdk\Tools\Soap\RenameReturnTypeByRegex;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\Version;
+use function Psl\invariant;
+use function Psl\Type\instance_of;
 
 const BASE_DIR = __DIR__ . '/../..';
 const GENERATED_NAMESPACE = 'Twint\Sdk\Generated';
@@ -30,37 +36,61 @@ const GENERATED_TYPES_PATH = BASE_DIR . '/src/Generated/Type';
 const GENERATED_CLIENT_NAME = 'TwintSoapClient';
 const GENERATED_CLASS_MAP_NAME = 'TwintSoapClassMap';
 
-$engine = CodeGeneratorEngineFactory::create(
-    'file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
-    new FlatteningLoader(new StreamWrapperLoader()),
-    MetadataOptions::empty()
-        ->withTypesManipulator(
-            new TypesManipulatorChain(
-                new IntersectDuplicateTypesStrategy(),
-                new ManipulatePropertyType(
-                    'OrderRequestType',
-                    'MerchantTransactionReference',
-                    static fn (XsdType $type) => $type->withMeta(static fn (TypeMeta $m) => $m->withIsNullable(true))
-                ),
-                new RemoveTypes(static fn (Type $type) => str_ends_with($type->getName(), 'ResponseElement')),
-                new ManipulatePropertyType(
-                    'RequestFastCheckoutCheckInRequestElement',
-                    'RequestedScopes',
-                    static fn (XsdType $type) => XsdType::create('string')
-                        ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
-                ),
-                new ManipulatePropertyType(
-                    'RequestFastCheckoutCheckInRequestType',
-                    'RequestedScopes',
-                    static fn (XsdType $type) => XsdType::create('string')
-                        ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
-                ),
-            )
+$metadataOptions = MetadataOptions::empty()
+    ->withTypesManipulator(
+        new TypesManipulatorChain(
+            DefaultSoapEngineFactory::createTypeManipulators(),
+            new ManipulatePropertyType(
+                'OrderRequestType',
+                'MerchantTransactionReference',
+                static fn (XsdType $type) => $type->withMeta(static fn (TypeMeta $m) => $m->withIsNullable(true))
+            ),
+            new RemoveTypes(static fn (Type $type) => str_ends_with($type->getName(), 'ResponseElement')),
+            new ManipulatePropertyType(
+                'RequestFastCheckoutCheckInRequestElement',
+                'RequestedScopes',
+                static fn (XsdType $type) => XsdType::create('string')
+                    ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
+            ),
+            new ManipulatePropertyType(
+                'RequestFastCheckoutCheckInRequestType',
+                'RequestedScopes',
+                static fn (XsdType $type) => XsdType::create('string')
+                    ->withMeta(static fn (TypeMeta $m) => $type->getMeta())
+            ),
         )
-        ->withMethodsManipulator(new RenameReturnTypeByRegex('/ResponseElement$/', 'ResponseType')),
-);
+    )
+    ->withMethodsManipulator(new RenameReturnTypeByRegex('/ResponseElement$/', 'ResponseType'));
 
-return Config::create()
+function createEngine(Config $config, WsdlLoader $loader, MetadataOptions $metadataOptions): Engine
+{
+    if (class_exists(CodeGeneratorEngineFactory::class)) {
+        $engine = CodeGeneratorEngineFactory::create(
+            'file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
+            new FlatteningLoader(new StreamWrapperLoader()),
+            $metadataOptions
+        );
+
+        return instance_of(Engine::class)->assert($engine);
+    }
+
+    invariant(class_exists(EngineOptions::class), 'EngineOptions class exists');
+    invariant(method_exists($config, 'setMetadataOptions'), 'Config::setMetadataOptions exists');
+
+    $engine = DefaultEngineFactory::create(
+        EngineOptions::defaults('file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()))
+            ->withWsdlLoader($loader),
+    );
+    $config->setMetadataOptions($metadataOptions);
+
+    return instance_of(Engine::class)->assert($engine);
+}
+
+$config = Config::create();
+
+$engine = createEngine($config, new FlatteningLoader(new StreamWrapperLoader()), $metadataOptions);
+
+$config
     ->setEngine($engine)
 
     ->setTypeNamespace(GENERATED_TYPES_NAMESPACE)
@@ -112,3 +142,5 @@ return Config::create()
         ]
     ))
 ;
+
+return $config;
