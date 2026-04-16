@@ -64,7 +64,7 @@ container-build:
     - >-
       podman build
       --pull=newer
-      --build-context php_base_image=docker-image://php:$PHP_VERSION-cli-bookworm
+      --build-context php_base_image=docker-image://mirror.gcr.io/php:$PHP_VERSION-cli-bookworm
       --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
       --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
       --env TWINT_SDK_PHP_CURL_SSL_ENGINE=$TWINT_SDK_PHP_CURL_SSL_ENGINE
