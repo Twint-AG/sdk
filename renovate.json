@@ -30,6 +30,33 @@
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "mlocati/docker-php-extension-installer",
       "versioningTemplate": "semver"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned PHP base images (openssl, tracks newest Debian)",
+      "fileMatch": [
+        "resources-dev/php/\\d+\\.\\d+-openssl$"
+      ],
+      "matchStrings": [
+        "(?<depName>mirror\\.gcr\\.io/php):(?<currentValue>[^@]+)@(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "packageNameTemplate": "php",
+      "versioningTemplate": "regex:^(?<compatibility>\\d+\\.\\d+)\\.(?<patch>\\d+)-cli-(?<build>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Update pinned PHP base images (nss/gnutls, pinned to bookworm)",
+      "fileMatch": [
+        "resources-dev/php/\\d+\\.\\d+-(?:nss|nss-nobignum|gnutls)$"
+      ],
+      "matchStrings": [
+        "(?<depName>mirror\\.gcr\\.io/php):(?<currentValue>[^@]+)@(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "mirror.gcr.io/php-legacy-tls",
+      "packageNameTemplate": "php",
+      "versioningTemplate": "regex:^(?<compatibility>\\d+\\.\\d+)\\.(?<patch>\\d+)-cli-bookworm$"
     }
   ],
   "branchConcurrentLimit": 2,
@@ -66,10 +93,23 @@
         "/renovate-runner/"
       ],
       "groupName": "renovate-runner",
+      "allowedVersions": "<20.0.0",
       "schedule": [
         "on the first day of the week"
       ],
       "automerge": true
+    },
+    {
+      "description": "Group and automerge PHP base image patch updates (Debian dist upgrades are manual)",
+      "matchDepNames": ["mirror.gcr.io/php", "mirror.gcr.io/php-legacy-tls"],
+      "groupName": "php-base-images",
+      "automerge": true
+    },
+    {
+      "description": "Prevent PHP minor/major version jumps within same Debian variant",
+      "matchDepNames": ["mirror.gcr.io/php", "mirror.gcr.io/php-legacy-tls"],
+      "matchUpdateTypes": ["minor", "major"],
+      "enabled": false
     },
     {
       "matchDepTypes": [
@@ -89,5 +129,6 @@
   ],
   "constraints": {
     "php": "8.1.*"
-  }
+  },
+  "constraintsFiltering": "strict"
 }

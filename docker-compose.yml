@@ -2,7 +2,7 @@ services:
   php:
     build:
       additional_contexts:
-        php_base_image: docker-image://mirror.gcr.io/php:${TWINT_SDK_PHP_VERSION}-cli-bookworm
+        php_base_image: docker-image://${TWINT_SDK_PHP_BASE_IMAGE}
       args:
         TWINT_SDK_PHP_CURL_SSL_ENGINE: ${TWINT_SDK_PHP_CURL_SSL_ENGINE}
     entrypoint: [sleep, infinity]

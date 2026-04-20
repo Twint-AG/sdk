@@ -40,8 +40,9 @@ container-build-hash:
   stage: pre-build
   image: "alpine:3@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11"
   script:
-    - apk add --no-cache make jq git
-    - make container-checksum
+    - apk add --no-cache git curl bash
+    - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+    - just container-checksum
   extends: .base
   artifacts:
     reports:
@@ -57,14 +58,18 @@ container-build:
   resource_group: container-build-$PHP_VERSION
   timeout: 2h
   script:
-    - yum install -y make jq
-    - make php-extensions
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - |
+      if podman manifest inspect $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE >/dev/null 2>&1; then
+        echo "Image $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE already exists, skipping build"
+        exit 0
+      fi
     - podman login -u "$DOCKER_USER" -p "$DOCKER_TOKEN" docker.io
+    - PHP_BASE_IMAGE=$(cat resources-dev/php/${PHP_VERSION}-${TWINT_SDK_PHP_CURL_SSL_ENGINE})
     - >-
       podman build
       --pull=newer
-      --build-context php_base_image=docker-image://mirror.gcr.io/php:$PHP_VERSION-cli-bookworm
+      --build-context php_base_image=docker-image://$PHP_BASE_IMAGE
       --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
       --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
       --env TWINT_SDK_PHP_CURL_SSL_ENGINE=$TWINT_SDK_PHP_CURL_SSL_ENGINE
@@ -83,17 +88,17 @@ container-build:
       artifacts: true
   only:
     changes:
+      - resources-dev/php/*
       - php-extensions.txt
       - Dockerfile
       - .gitlab-ci.yml
-      - Makefile
 
 docs:
   stage: build
   image: sphinxdoc/sphinx:8.2.3@sha256:8d8bdb4649e6577f20ca9a84ef1e1d46911dc65678fe7908b2e2d3a39508e1c8
   script:
     - mkdir -p build
-    - make docs
+    - sphinx-build -M html resources/docs build/docs -W
     - cp -r build/docs/html docs
   extends: .base
   needs: []
@@ -117,8 +122,8 @@ static-analysis:
       - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
   script:
     - mkdir -p build
-    - make install
-    - make static-analysis-src
+    - just install
+    - just static-analysis-src
   extends: .base
   needs:
     - *container_build_hash_need
@@ -144,10 +149,10 @@ test:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
     - mkdir -p build
     - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - make install
-    - make wiremock-setup
-    - make test
-    - if [ "$COMPOSER_DEPENDENCY_VERSION" = "locked" ]; then make test-minimal-runtime; fi
+    - just install
+    - just wiremock-setup
+    - just test
+    - if [ "$COMPOSER_DEPENDENCY_VERSION" = "locked" ]; then just test-minimal-runtime; fi
   extends: .php-with-high-low-dependencies
   needs:
     - *container_build_hash_need
@@ -171,9 +176,9 @@ codegen:
       - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version }
       - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
   script:
-    - make install
-    - make check-codegen
-    - make check-bundled-dependencies
+    - just install
+    - just check-codegen
+    - just check-bundled-dependencies
   extends: .base
   needs:
     - *container_build_hash_need
@@ -196,10 +201,10 @@ format-and-docs-check:
     - cp ${TWINT_SDK_CI_DOT_ENV} .env
     - mkdir -p build
     - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - make install
-    - make wiremock-setup
-    - make check-format
-    - make check-docs
+    - just install
+    - just wiremock-setup
+    - just check-format
+    - just check-docs
   extends: .base
   needs:
     - *container_build_hash_need
@@ -242,4 +247,4 @@ release:
   variables:
     GIT_DEPTH: 0
   script:
-    - make release
+    - just release

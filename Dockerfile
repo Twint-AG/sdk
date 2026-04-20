@@ -4,6 +4,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends git unzip make retry jq openssh-client \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+
 ARG TWINT_SDK_PHP_CURL_SSL_ENGINE=openssl
 RUN if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE}" != openssl ]; then \
     apt-get update \
@@ -27,7 +29,11 @@ RUN if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE}" != openssl ]; then \
 
 COPY php-extensions.txt /tmp/php-extensions.txt
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.10.15/install-php-extensions /usr/local/bin/
-RUN for ext in @composer `cat /tmp/php-extensions.txt`; do retry install-php-extensions $ext ; done && rm /tmp/php-extensions.txt
+RUN EXTENSIONS="$(cat /tmp/php-extensions.txt)"; \
+    if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE%-nobignum}" != "$TWINT_SDK_PHP_CURL_SSL_ENGINE" ]; then \
+        EXTENSIONS="$(echo "$EXTENSIONS" | tr ' ' '\n' | grep -vxE 'gmp|bcmath' | tr '\n' ' ')"; \
+    fi; \
+    for ext in @composer $EXTENSIONS; do retry install-php-extensions $ext; done && rm /tmp/php-extensions.txt
 
 # Check for the correct SSL engine
 RUN php -r 'assert(str_starts_with(strtolower(curl_version()["ssl_version"]), str_replace("-nobignum", "", getenv("TWINT_SDK_PHP_CURL_SSL_ENGINE"))), curl_version()["ssl_version"]);'
