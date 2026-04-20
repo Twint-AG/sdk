@@ -73,7 +73,7 @@
         "php-soap/psr18-transport": "^1.6.0",
         "laminas/laminas-code": "^4.16.0",
         "symfony/dotenv": "^6.4.36",
-        "phpstan/phpstan": "^2.1.48",
+        "phpstan/phpstan": "^2.1.50",
         "symplify/easy-coding-standard": "^13.0.4",
         "slevomat/coding-standard": "^8.28.1",
         "phpstan/phpstan-strict-rules": "^2.0.10",
