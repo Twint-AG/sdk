@@ -7072,12 +7072,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lstrojny/wiremock-php.git",
-                "reference": "b7ec8f14f8156054fb39ebebc889ec9b9a8b3f2d"
+                "reference": "d3060aba77d141992e7e980ab1850582a5a97eec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/wiremock-php/zipball/b7ec8f14f8156054fb39ebebc889ec9b9a8b3f2d",
-                "reference": "b7ec8f14f8156054fb39ebebc889ec9b9a8b3f2d",
+                "url": "https://api.github.com/repos/lstrojny/wiremock-php/zipball/d3060aba77d141992e7e980ab1850582a5a97eec",
+                "reference": "d3060aba77d141992e7e980ab1850582a5a97eec",
                 "shasum": ""
             },
             "require": {
@@ -7087,7 +7087,7 @@
             },
             "require-dev": {
                 "hamcrest/hamcrest-php": "^2.0",
-                "phake/phake": "^4.2",
+                "phake/phake": "^4.5",
                 "phpdocumentor/reflection-docblock": "^5.3",
                 "phpdocumentor/type-resolver": "^1.6",
                 "phpunit/phpunit": "^8.5"
@@ -7129,7 +7129,7 @@
             "support": {
                 "source": "https://github.com/lstrojny/wiremock-php/tree/cloud-support"
             },
-            "time": "2024-12-19T10:44:01+00:00"
+            "time": "2026-04-20T19:16:28+00:00"
         }
     ],
     "aliases": [
