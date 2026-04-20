@@ -33,7 +33,7 @@ RUN EXTENSIONS="$(cat /tmp/php-extensions.txt)"; \
     if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE%-nobignum}" != "$TWINT_SDK_PHP_CURL_SSL_ENGINE" ]; then \
         EXTENSIONS="$(echo "$EXTENSIONS" | tr ' ' '\n' | grep -vxE 'gmp|bcmath' | tr '\n' ' ')"; \
     fi; \
-    for ext in @composer $EXTENSIONS; do retry install-php-extensions $ext; done && rm /tmp/php-extensions.txt
+    retry install-php-extensions @composer $EXTENSIONS && rm /tmp/php-extensions.txt
 
 # Check for the correct SSL engine
 RUN php -r 'assert(str_starts_with(strtolower(curl_version()["ssl_version"]), str_replace("-nobignum", "", getenv("TWINT_SDK_PHP_CURL_SSL_ENGINE"))), curl_version()["ssl_version"]);'

@@ -9,6 +9,7 @@ include:
   - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v19.111.4/templates/renovate-config-validator.gitlab-ci.yml
 
 .base:
+  interruptible: true
   before_script:
     - set -euo pipefail
   tags:
@@ -58,9 +59,10 @@ container-build:
   resource_group: container-build-$PHP_VERSION
   timeout: 2h
   script:
+    - yum install -y skopeo
     - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - |
-      if podman manifest inspect $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE >/dev/null 2>&1; then
+      if skopeo inspect "docker://$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE" >/dev/null 2>&1; then
         echo "Image $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE already exists, skipping build"
         exit 0
       fi
@@ -86,12 +88,6 @@ container-build:
   needs:
     - job: container-build-hash
       artifacts: true
-  only:
-    changes:
-      - resources-dev/php/*
-      - php-extensions.txt
-      - Dockerfile
-      - .gitlab-ci.yml
 
 docs:
   stage: build
@@ -233,11 +229,14 @@ renovate-config-validator:
   needs: []
 
 release:
+  interruptible: false
   image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3-openssl"
   extends: .base
   needs:
-    - job: container-build-hash
-      artifacts: true
+    - *container_build_hash_need
+    - job: container-build
+      optional: true
+      artifacts: false
     - job: static-analysis
     - job: test
     - job: codegen
