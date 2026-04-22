@@ -2,6 +2,7 @@ stages:
   - pre-build
   - build
   - check
+  - pre-release
   - release
 
 include:
@@ -228,6 +229,18 @@ renovate-config-validator:
     - d13-runner
   needs: []
 
+# Bridge job to work around GitLab's limit of 50 entries in `needs`. The test
+# matrix expands to 40 jobs which, combined with the other dependencies, would
+# push the release job over that limit.
+test-finished:
+  stage: pre-release
+  extends: .base
+  image: "alpine:3@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11"
+  needs:
+    - job: test
+  script:
+    - "true"
+
 release:
   interruptible: false
   image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3-openssl"
@@ -238,7 +251,7 @@ release:
       optional: true
       artifacts: false
     - job: static-analysis
-    - job: test
+    - job: test-finished
     - job: codegen
     - job: format-and-docs-check
   stage: release
