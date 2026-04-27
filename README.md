@@ -33,7 +33,7 @@ Run `just tag <version>`, e.g. `just tag 1.0.0`, to create a new release tag. Th
 the remote repository and trigger synchronization with GitHub/Packagist.
 
 ### Multi-version PHP development
-The default PHP version for development is 8.1 but the SDK also supports 8.2, 8.3, and 8.4. To switch the PHP version,
+The default PHP version for development is 8.1 but the SDK also supports 8.2, 8.3, 8.4, and 8.5. To switch the PHP version,
 edit `TWINT_SDK_PHP_VERSION` in the `.env` file and run `just restart` to boot the development environment with the
 selected PHP version.
 

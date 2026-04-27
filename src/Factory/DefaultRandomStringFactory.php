@@ -23,6 +23,7 @@ final class DefaultRandomStringFactory
     /**
      * @param Length $length
      * @throws CryptographyFailure
+     * @phpstan-impure
      */
     public function __invoke(int $length): string
     {

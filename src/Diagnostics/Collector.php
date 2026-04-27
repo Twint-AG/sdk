@@ -75,6 +75,7 @@ final class Collector
     /**
      * @param callable(string): void $streamHandler
      * @param null|callable(non-empty-string): void $sendHttpHeader
+     * @phpstan-impure
      */
     public function collect(string $fileNamePrefix, callable $streamHandler, ?callable $sendHttpHeader = null): void
     {

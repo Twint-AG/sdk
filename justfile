@@ -44,6 +44,7 @@ phpunit *args:
 
 test: phpunit
     {{ vendor_bin }}/coverage-check build/coverage/clover.xml 98
+    if [ -n "{{ ci }}" ]; then sed -i "s|${CI_PROJECT_DIR}/||g" build/coverage/cobertura.xml build/junit.xml; fi
 
 test-unit: (phpunit "--testsuite=unit")
 
@@ -51,7 +52,7 @@ test-integration: (phpunit "--testsuite=integration")
 
 test-minimal-runtime:
     composer remove --dev phpro/soap-client
-    {{ vendor_bin }}/phpunit
+    {{ vendor_bin }}/phpunit --no-coverage
 
 # Static analysis
 

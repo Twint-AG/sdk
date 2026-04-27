@@ -56,6 +56,7 @@ final class Throwables
 
     /**
      * @throws ReflectionException
+     * @phpstan-impure
      */
     private static function getPreviousProperty(Throwable $t): ReflectionProperty
     {

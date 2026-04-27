@@ -13,6 +13,9 @@ final class MessageRecorder
      */
     private array $messages = [];
 
+    /**
+     * @phpstan-impure
+     */
     public function record(SoapMessage $message): void
     {
         $this->messages[] = $message;
@@ -20,6 +23,7 @@ final class MessageRecorder
 
     /**
      * @return list<SoapMessage>
+     * @phpstan-impure
      */
     public function flush(): array
     {

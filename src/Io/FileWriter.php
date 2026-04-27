@@ -8,5 +8,8 @@ use Twint\Sdk\Value\ExistingPath;
 
 interface FileWriter
 {
+    /**
+     * @phpstan-impure
+     */
     public function write(string $input, string $extension = ''): ExistingPath;
 }

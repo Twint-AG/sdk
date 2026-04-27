@@ -21,7 +21,7 @@ services:
 
   sphinx:
     image: sphinxdoc/sphinx:8.2.3@sha256:8d8bdb4649e6577f20ca9a84ef1e1d46911dc65678fe7908b2e2d3a39508e1c8
-    entrypoint: [sleep, infinity]
+    entrypoint: [bash, -c, "apt-get update -qq && apt-get install -y -qq curl >/dev/null && curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin && sleep infinity"]
     working_dir: /src
     volumes:
       - ./:/src

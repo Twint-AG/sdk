@@ -36,6 +36,9 @@ final class ShippingLabelTransliterator
         return $out;
     }
 
+    /**
+     * @phpstan-impure
+     */
     private static function transliterator(): Transliterator
     {
         return self::$transliterator ??= instance_of(Transliterator::class)

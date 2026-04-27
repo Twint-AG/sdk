@@ -16,6 +16,7 @@ final class DefaultInsights
 {
     /**
      * @return list<Insight>
+     * @phpstan-impure
      */
     public static function get(DateTimeInterface $now): array
     {

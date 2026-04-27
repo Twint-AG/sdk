@@ -40,6 +40,7 @@ final class TemporaryFileWriter implements FileWriter
 
     /**
      * @throws Timeout
+     * @phpstan-impure
      */
     #[Override]
     public function write(string $input, string $extension = ''): ExistingPath

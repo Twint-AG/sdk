@@ -24,6 +24,7 @@ final class StaticFileWriter implements FileWriter
 
     /**
      * @throws IoError
+     * @phpstan-impure
      */
     #[Override]
     public function write(string $input, string $extension = ''): ExistingPath

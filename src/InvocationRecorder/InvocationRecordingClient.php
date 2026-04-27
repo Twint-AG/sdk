@@ -123,6 +123,7 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
      * @param array{}|array{TArg0}|array{TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9} $args
      * @throws Throwable
      * @return TReturn
+     * @phpstan-impure
      */
     private function record(string $methodName, callable $fn, array $args): mixed
     {
@@ -147,6 +148,9 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         }
     }
 
+    /**
+     * @phpstan-impure
+     */
     #[Override]
     public function flushInvocations(): array
     {

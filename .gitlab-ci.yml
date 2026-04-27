@@ -159,9 +159,8 @@ test:
   coverage: '/Lines:\s+\d+(?:\.\d+)?%/'
   artifacts:
     reports:
-      # Needs GitLab 14.10
-      #coverage: build/coverage/clover.xml
       junit: build/junit.xml
+      cobertura: build/coverage/cobertura.xml
 
 codegen:
   stage: check

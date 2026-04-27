@@ -42,11 +42,6 @@ parameters:
                 - tests/*
             identifier: staticMethod.alreadyNarrowedType
         -
-            message: "#^PHPDoc tag @var with type list<Twint\\\\Sdk\\\\InvocationRecorder\\\\Value\\\\Invocation> is not subtype of native type \\*NEVER\\*\\.#"
-            paths:
-                - tests/integration/InvocationRecorder/InvocationRecordingClientTest.php
-            identifier: varTag.nativeType
-        -
             message: "#^Method Twint\\\\Sdk\\\\Value\\\\Environment::(appSchemeHost|getServiceHost)\\(\\) throws checked exception UnhandledMatchError.*#"
             paths:
                 - src/Value/Environment.php
