@@ -59,6 +59,10 @@
       "versioningTemplate": "regex:^(?<compatibility>\\d+\\.\\d+)\\.(?<patch>\\d+)-cli-bookworm$"
     }
   ],
+  "minimumReleaseAge": "3 days",
+  "vulnerabilityAlerts": {
+    "minimumReleaseAge": "0 days"
+  },
   "branchConcurrentLimit": 2,
   "prConcurrentLimit": 2,
   "prHourlyLimit": 0,
