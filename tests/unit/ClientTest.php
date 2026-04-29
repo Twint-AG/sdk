@@ -317,6 +317,72 @@ final class ClientTest extends TestCase
         $client->cancelOrder(new FiledMerchantTransactionReference('ref'));
     }
 
+    public function testEnrollmentIsRepeatedForDifferentEnvironments(): void
+    {
+        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
+        $prop->setAccessible(true);
+
+        $storeUuid = StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c');
+
+        // TESTING client: expects EnrollCashRegister + StartOrder
+        $testingEngine = $this->createMock(Engine::class);
+        $testingEngine
+            ->method('request')
+            ->willReturnCallback(static function (string $method) {
+                return match ($method) {
+                    'EnrollCashRegister' => new EnrollCashRegisterResponseType(),
+                    'StartOrder' => self::createOrderSoapResponse(),
+                    default => null,
+                };
+            });
+
+        $testingClient = new Client(
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
+            $storeUuid,
+            Version::latest(),
+            Environment::TESTING(),
+            new TemporaryFileWriter(),
+            static fn () => $testingEngine,
+        );
+
+        $prop->setValue($testingClient, []);
+
+        $testingClient->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+
+        // PRODUCTION client with same store UUID: should also enroll, because
+        // enrollment in TESTING does not imply enrollment in PRODUCTION.
+        // BUG: the static cache is keyed only on cash register ID, so enrollment
+        // is skipped for PRODUCTION since TESTING already cached this ID.
+        $productionEnrollCalled = false;
+        $productionEngine = $this->createMock(Engine::class);
+        $productionEngine
+            ->method('request')
+            ->willReturnCallback(static function (string $method) use (&$productionEnrollCalled) {
+                if ($method === 'EnrollCashRegister') {
+                    $productionEnrollCalled = true;
+                }
+
+                return match ($method) {
+                    'EnrollCashRegister' => new EnrollCashRegisterResponseType(),
+                    'StartOrder' => self::createOrderSoapResponse(),
+                    default => null,
+                };
+            });
+
+        $productionClient = new Client(
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
+            $storeUuid,
+            Version::latest(),
+            Environment::PRODUCTION(),
+            new TemporaryFileWriter(),
+            static fn () => $productionEngine,
+        );
+
+        $productionClient->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
+
+        self::assertTrue($productionEnrollCalled, 'Expected EnrollCashRegister to be called for PRODUCTION client');
+    }
+
     private static function createOrderSoapResponse(): StartOrderResponseType
     {
         return (new StartOrderResponseType())

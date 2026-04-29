@@ -112,7 +112,7 @@ final class Client implements CoreCapabilities
     private readonly FileWriter $fileWriter;
 
     /**
-     * @var list<string>
+     * @var array<string, string[]>
      */
     private static array $enrolledCashRegisters = [];
 
@@ -726,7 +726,7 @@ final class Client implements CoreCapabilities
     {
         $cashRegisterId = (string) $this->cashRegisterId;
 
-        if (in_array($cashRegisterId, self::$enrolledCashRegisters, true)) {
+        if (in_array($cashRegisterId, self::$enrolledCashRegisters[(string) $this->environment] ?? [], true)) {
             return;
         }
 
@@ -744,7 +744,7 @@ final class Client implements CoreCapabilities
                     )
                 );
 
-            self::$enrolledCashRegisters[] = $cashRegisterId;
+            self::$enrolledCashRegisters[(string) $this->environment][] = $cashRegisterId;
         } catch (SoapException $e) {
             throw ApiFailure::fromThrowable($e);
         }
