@@ -13,6 +13,7 @@ use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitorAbstract;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_vec;
 use function Psl\Type\vec;
 
 final class DocumentationScopePrepender extends NodeVisitorAbstract
@@ -45,11 +46,16 @@ final class DocumentationScopePrepender extends NodeVisitorAbstract
             $this->prependNodes,
             static fn (Node $maybeUse) =>
                 $maybeUse instanceof Use_
-                && $maybeUse->uses[0]->name->toString() === $use->uses[0]->name->toString()
+                && self::getNamespaceName($maybeUse) === self::getNamespaceName($use)
                 && $maybeUse->type === $use->type
         );
 
         return $duplicateUse !== null ? NodeTraverser::REMOVE_NODE : null;
+    }
+
+    private static function getNamespaceName(Use_ $use): string
+    {
+        return non_empty_vec(instance_of(Node\Stmt\UseUse::class))->assert($use->uses)[0]->name->toString();
     }
 
     /**
@@ -80,7 +86,7 @@ final class DocumentationScopePrepender extends NodeVisitorAbstract
     {
         $combined = $this->prependNodes;
 
-        vec(instance_of(Node\Stmt::class))->assert($combined);
+        non_empty_vec(instance_of(Node\Stmt::class))->assert($combined);
         instance_of(Namespace_::class)->assert($combined[0]);
         vec(instance_of(Node\Stmt::class))->assert($nodes);
 

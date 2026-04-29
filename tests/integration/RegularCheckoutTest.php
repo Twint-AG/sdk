@@ -14,6 +14,7 @@ use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\Version;
 use VeeWee\Xml\Dom\Document;
+use WireMock\Client\ServeEvent;
 use function Psl\Type\int;
 use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
@@ -104,6 +105,7 @@ final class RegularCheckoutTest extends IntegrationTest
                 ->getAllServeEvents(null, 1)
                 ->getRequests();
             self::assertCount(1, $requests);
+            /** @var non-empty-list<ServeEvent> $requests */
 
             $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
                 ->xpath(namespaces([

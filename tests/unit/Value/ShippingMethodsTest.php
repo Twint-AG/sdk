@@ -13,6 +13,8 @@ use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\ShippingMethod;
 use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
+use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_vec;
 
 /**
  * @template-extends ValueTest<ShippingMethods>
@@ -231,7 +233,10 @@ final class ShippingMethodsTest extends ValueTest
         self::assertNotSame($prevMethods, $nextMethods);
         self::assertCount(0, $prevMethods);
         self::assertCount(1, $nextMethods);
-        self::assertSame($method, iterator_to_array($nextMethods)[0]);
+        self::assertSame(
+            $method,
+            non_empty_vec(instance_of(ShippingMethod::class))->assert(iterator_to_array($nextMethods))[0]
+        );
     }
 
     #[DataProvider('getComparisons')]

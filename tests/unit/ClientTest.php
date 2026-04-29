@@ -43,6 +43,8 @@ use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Version;
 use function Psl\Type\instance_of;
+use function Psl\Type\mixed;
+use function Psl\Type\non_empty_vec;
 use function Psl\Type\union;
 
 /**
@@ -156,7 +158,7 @@ final class ClientTest extends TestCase
                     /**
                      * @var EnrollCashRegisterRequestElement|StartOrderRequestElement
                      */
-                    [$request] = $args;
+                    [$request] = non_empty_vec(mixed())->assert($args);
 
                     union(
                         instance_of(EnrollCashRegisterRequestElement::class),
@@ -204,7 +206,7 @@ final class ClientTest extends TestCase
                     /**
                      * @var EnrollCashRegisterRequestElement|StartOrderRequestElement
                      */
-                    [$request] = $args;
+                    [$request] = non_empty_vec(mixed())->assert($args);
 
                     union(
                         instance_of(EnrollCashRegisterRequestElement::class),

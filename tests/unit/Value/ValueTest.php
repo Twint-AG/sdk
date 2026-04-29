@@ -205,6 +205,7 @@ abstract class ValueTest extends TestCase
         self::assertJsonStringNotEqualsJsonString('{}', $serialized);
 
         self::assertGreaterThan(0, count($properties));
+        /** @var non-empty-list<ReflectionProperty> $properties */
 
         if (count($properties) > 1) {
             $shape = [];

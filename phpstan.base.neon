@@ -8,6 +8,11 @@ parameters:
     checkMissingCallableSignature: true
     reportAlwaysTrueInLastCondition: true
     checkImplicitMixed: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
     exceptions:
         check:
             missingCheckedExceptionInThrows: true

@@ -19,8 +19,8 @@ use WireMock\Stubbing\StubImportBuilder;
 use WireMock\Stubbing\StubMapping;
 use function Psl\invariant_violation;
 use function Psl\Type\bool;
-use function Psl\Type\dict;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_dict;
 use function Psl\Type\non_empty_string;
 use function Psl\Type\optional;
 use function Psl\Type\shape;
@@ -42,7 +42,7 @@ function fixBodyPatterns(array $bodyPattern): array
         return $bodyPattern;
     }
 
-    $negated = dict(string(), union(string(), bool()))
+    $negated = non_empty_dict(string(), union(string(), bool()))
         ->assert($bodyPattern['not']);
 
     return [

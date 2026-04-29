@@ -79,6 +79,7 @@ use Twint\Sdk\Value\Version;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
+use function Psl\Type\non_empty_vec;
 use function Psl\Type\shape;
 use function Psl\Type\string;
 use function Psl\Type\uint;
@@ -632,10 +633,11 @@ final class Client implements CoreCapabilities
             'Failed to fetch iOS app schemes. Expected status code 200, got %d',
             $response->getStatusCode()
         );
-        $contentType = $response->getHeader('content-type');
+        $contentType = non_empty_vec(string())
+            ->assert($response->getHeader('content-type'));
         invariant(count($contentType) === 1, 'Expected single content type header');
         invariant(
-            vec(string())
+            non_empty_vec(string())
                 ->assert($contentType)[0] === 'application/json',
             'Invalid content type. Expected "%s", got "%s"',
             'application/json',

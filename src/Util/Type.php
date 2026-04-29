@@ -18,7 +18,7 @@ final class Type
     public static function maybeUnion(TypeInterface ...$types): TypeInterface
     {
         if (count($types) === 1) {
-            return $types[0];
+            return $types[array_key_first($types)];
         }
 
         return union(...$types);

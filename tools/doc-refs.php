@@ -18,11 +18,16 @@ use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Finder\Finder;
 use function Psl\invariant;
+use function Psl\Type\non_empty_vec;
 use function Psl\Type\string;
 
 function toClassName(ReflectionClass $class): string
 {
     $elements = explode('\\', $class->getName());
+
+    non_empty_vec(string())
+        ->assert($elements);
+    invariant(count($elements) >= 2, 'At least two elements are expected');
 
     invariant($elements[0] === 'Twint', 'Must be in Twint namespace');
     invariant($elements[1] === 'Sdk', 'Must be in Sdk namespace');
