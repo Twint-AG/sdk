@@ -81,7 +81,10 @@ abstract class ValueTest extends TestCase
         $this->expectException(AssertException::class);
 
         $this->value->compare(
-            new /** @template-implements Comparable<self> */ class() implements Comparable {
+            new /**
+             * @template-implements Comparable<self>
+             */
+            class() implements Comparable {
                 /**
                  * @return 0
                  */

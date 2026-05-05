@@ -51,6 +51,9 @@ use PhpCsFixer\Fixer\PhpUnit\PhpUnitStrictFixer;
 use PhpCsFixer\Fixer\PhpUnit\PhpUnitTestCaseStaticMethodCallsFixer;
 use PhpCsFixer\Fixer\Semicolon\NoSinglelineWhitespaceBeforeSemicolonsFixer;
 use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
+use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
+use PhpCsFixer\Fixer\Strict\StrictParamFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
@@ -133,7 +136,6 @@ return static function (ECSConfig $ecsConfig): void {
     ]);
 
     $ecsConfig->sets([
-        SetList::PHPUNIT,
         SetList::CLEAN_CODE,
         SetList::ARRAY,
         SetList::DOCBLOCK,
@@ -141,7 +143,6 @@ return static function (ECSConfig $ecsConfig): void {
         SetList::COMMENTS,
         SetList::CONTROL_STRUCTURES,
         SetList::SYMPLIFY,
-        SetList::STRICT,
         SetList::PSR_12,
     ]);
 
@@ -214,6 +215,9 @@ return static function (ECSConfig $ecsConfig): void {
     $ecsConfig->ruleWithConfiguration(AttributesOrderSniff::class, [
         'orderAlphabetically' => true,
     ]);
+
+    // Attributes
+    $ecsConfig->rules([StrictParamFixer::class, StrictComparisonFixer::class, DeclareStrictTypesFixer::class]);
 
     $ecsConfig->parallel(120, 2, 10);
 };
