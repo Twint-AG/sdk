@@ -25,7 +25,8 @@ use function Psl\Dict\filter_nulls;
 final class CustomerDataTest extends ValueTest
 {
     /**
-     * @return iterable<array{array<string,Stringable|null>, int}>
+     * @return iterable<array{array<string, Stringable|null>, int}>
+     * @return iterable<array{array<string, Stringable|null>, int}>
      */
     public static function getDictionaries(): iterable
     {

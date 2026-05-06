@@ -90,7 +90,7 @@ final class ClientTest extends TestCase
     }
 
     /**
-     * @param array<mixed> $args
+     * @param list<mixed> $args
      */
     #[DataProvider('getExceptionCases')]
     public function testSoapExceptionsAsApiFailure(string $method, array $args): void

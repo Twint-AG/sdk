@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\Filesystem\canonicalize;
 use function Psl\Filesystem\is_readable;
 use function Psl\invariant;
@@ -13,7 +14,7 @@ use function Psl\Type\instance_of;
 /**
  * @template-implements Value<self>
  */
-final class ExistingPath implements Value
+final class ExistingPath implements Stringable, Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

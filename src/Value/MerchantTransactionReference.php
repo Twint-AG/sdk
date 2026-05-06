@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
@@ -12,7 +13,7 @@ use function Psl\Type\non_empty_string;
 /**
  * @template-implements Value<self>
  */
-abstract class MerchantTransactionReference implements Value, OrderReference
+abstract class MerchantTransactionReference implements Stringable, Value, OrderReference
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

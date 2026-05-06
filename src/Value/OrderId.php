@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\Type\instance_of;
 
 /**
  * @template-implements Value<self>
  */
-final class OrderId implements Value, OrderReference
+final class OrderId implements Stringable, Value, OrderReference
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

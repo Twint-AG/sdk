@@ -7,17 +7,17 @@ namespace Twint\Sdk\Generated\Type;
 class CouponListType
 {
     /**
-     * @var array<int<0,max>, CouponType>
+     * @var array<int<0, max>, CouponType>
      */
     protected array $ProcessedCoupon;
 
     /**
-     * @var array<int<0,max>, RejectedCouponType>
+     * @var array<int<0, max>, RejectedCouponType>
      */
     protected array $RejectedCoupon;
 
     /**
-     * @return array<int<0,max>, CouponType>
+     * @return array<int<0, max>, CouponType>
      */
     public function getProcessedCoupon(): array
     {
@@ -25,7 +25,7 @@ class CouponListType
     }
 
     /**
-     * @param array<int<0,max>, CouponType> $ProcessedCoupon
+     * @param array<int<0, max>, CouponType> $ProcessedCoupon
      */
     public function withProcessedCoupon(array $ProcessedCoupon): static
     {
@@ -36,7 +36,7 @@ class CouponListType
     }
 
     /**
-     * @return array<int<0,max>, RejectedCouponType>
+     * @return array<int<0, max>, RejectedCouponType>
      */
     public function getRejectedCoupon(): array
     {
@@ -44,7 +44,7 @@ class CouponListType
     }
 
     /**
-     * @param array<int<0,max>, RejectedCouponType> $RejectedCoupon
+     * @param array<int<0, max>, RejectedCouponType> $RejectedCoupon
      */
     public function withRejectedCoupon(array $RejectedCoupon): static
     {

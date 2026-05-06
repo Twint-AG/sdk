@@ -58,6 +58,9 @@ use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocTypesCommaSpacesFixer;
+use PhpCsFixerCustomFixers\Fixer\PhpdocTypesTrimFixer;
+use PhpCsFixerCustomFixers\Fixer\StringableInterfaceFixer;
 use SlevomatCodingStandard\Sniffs\Attributes\AttributeAndTargetSpacingSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\AttributesOrderSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\DisallowAttributesJoiningSniff;
@@ -126,6 +129,8 @@ return ECSConfig::configure()
         PhpdocOrderByValueFixer::class,
         DocCommentAlignmentSniff::class,
         PhpdocNoUselessInheritdocFixer::class,
+        PhpdocTypesCommaSpacesFixer::class,
+        PhpdocTypesTrimFixer::class,
         AttributeEmptyParenthesesFixer::class,
         RequireAttributeAfterDocCommentSniff::class,
         DisallowMultipleAttributesPerLineSniff::class,
@@ -134,6 +139,7 @@ return ECSConfig::configure()
         StrictParamFixer::class,
         StrictComparisonFixer::class,
         DeclareStrictTypesFixer::class,
+        StringableInterfaceFixer::class,
     ])
     ->withConfiguredRule(OrderedImportsFixer::class, [
         'imports_order' => ['class', 'const', 'function'],

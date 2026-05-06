@@ -6,13 +6,14 @@ namespace Twint\Sdk\Value;
 
 use danielburger1337\SHA3Shake\SHA3Shake;
 use Override;
+use Stringable;
 use Twint\Sdk\Util\Comparison;
 use function Psl\Type\instance_of;
 
 /**
  * @template-implements Value<self>
  */
-final class ShopPluginInformation implements CashRegisterId, Value
+final class ShopPluginInformation implements Stringable, CashRegisterId, Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

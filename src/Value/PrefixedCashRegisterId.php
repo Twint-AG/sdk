@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use Twint\Sdk\Util\Comparison;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
@@ -12,7 +13,7 @@ use function Psl\Type\instance_of;
 /**
  * @template-implements Value<self>
  */
-final class PrefixedCashRegisterId implements Value, CashRegisterId
+final class PrefixedCashRegisterId implements Stringable, Value, CashRegisterId
 {
     /**
      * @use ComparableToEquality<self>

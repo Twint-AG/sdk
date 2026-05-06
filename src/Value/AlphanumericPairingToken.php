@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
 
@@ -12,7 +13,7 @@ use function Psl\Type\non_empty_string;
  * @template-implements Value<self>
  * @template-implements PairingToken<non-empty-string>
  */
-final class AlphanumericPairingToken implements Value, PairingToken
+final class AlphanumericPairingToken implements Stringable, Value, PairingToken
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

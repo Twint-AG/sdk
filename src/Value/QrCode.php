@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
@@ -12,7 +13,7 @@ use function Psl\Type\non_empty_string;
 /**
  * @template-implements Value<self>
  */
-final class QrCode implements Value
+final class QrCode implements Stringable, Value
 {
     /**
      * @use ComparableToEquality<self>

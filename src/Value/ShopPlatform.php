@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -12,7 +13,7 @@ use function Psl\Type\instance_of;
  * @template-implements Enum<self::*>
  * @template-implements Value<self>
  */
-final class ShopPlatform implements Value, Enum
+final class ShopPlatform implements Stringable, Value, Enum
 {
     /**
      * @use ComparableToEquality<self>

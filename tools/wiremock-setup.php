@@ -33,8 +33,8 @@ $env = new Dotenv();
 $env->load(__DIR__ . '/../.env');
 
 /**
- * @param array<string,mixed> $bodyPattern
- * @return array<string,mixed>
+ * @param array<string, mixed> $bodyPattern
+ * @return array<string, mixed>
  */
 function fixBodyPatterns(array $bodyPattern): array
 {

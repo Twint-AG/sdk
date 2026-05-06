@@ -10,6 +10,7 @@ use DateTimeInterface;
 use JsonException;
 use Override;
 use Psr\Http\Message\StreamInterface;
+use Stringable;
 use Symfony\Component\Filesystem\Path;
 use ZipStream\Exception\FileNotFoundException;
 use ZipStream\Exception\FileNotReadableException;
@@ -81,7 +82,8 @@ final class Collector
     {
         $sendHttpHeader = $sendHttpHeader !== null ? $sendHttpHeader(...) : header(...);
         $zip = new ZipStream(
-            outputStream: new class($streamHandler) implements StreamInterface {
+            outputStream: new class($streamHandler) implements Stringable,
+                StreamInterface {
                 private readonly mixed $handler;
 
                 /**

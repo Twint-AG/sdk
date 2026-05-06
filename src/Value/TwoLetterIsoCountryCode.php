@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 
 /**
  * @template-implements Value<TwoLetterIsoCountryCode>
  */
-final class TwoLetterIsoCountryCode implements Value
+final class TwoLetterIsoCountryCode implements Stringable, Value
 {
     /**
      * @use ComparableToEquality<self>

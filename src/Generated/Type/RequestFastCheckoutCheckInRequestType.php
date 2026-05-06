@@ -18,14 +18,14 @@ class RequestFastCheckoutCheckInRequestType
     /**
      * The list of scopes of customer twint id that the merchant wants to access.
      *
-     * @var non-empty-array<int<0,19>, string>
+     * @var non-empty-array<int<0, 19>, string>
      */
     protected array $RequestedScopes;
 
     /**
      * The list of shipping options that the merchant supports for the fast checkout being requested.
      *
-     * @var array<int<0,19>, ShippingMethodReferenceType>
+     * @var array<int<0, 19>, ShippingMethodReferenceType>
      */
     protected array $ShippingMethods;
 
@@ -58,7 +58,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @return non-empty-array<int<0,19>, string>
+     * @return non-empty-array<int<0, 19>, string>
      */
     public function getRequestedScopes(): array
     {
@@ -66,7 +66,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @param non-empty-array<int<0,19>, string> $RequestedScopes
+     * @param non-empty-array<int<0, 19>, string> $RequestedScopes
      */
     public function withRequestedScopes(array $RequestedScopes): static
     {
@@ -77,7 +77,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @return array<int<0,19>, ShippingMethodReferenceType>
+     * @return array<int<0, 19>, ShippingMethodReferenceType>
      */
     public function getShippingMethods(): array
     {
@@ -85,7 +85,7 @@ class RequestFastCheckoutCheckInRequestType
     }
 
     /**
-     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
+     * @param array<int<0, 19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function withShippingMethods(array $ShippingMethods): static
     {

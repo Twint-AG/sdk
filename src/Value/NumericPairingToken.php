@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\Type\instance_of;
 use function Psl\Type\uint;
 
@@ -13,7 +14,7 @@ use function Psl\Type\uint;
  * @template-implements Value<self>
  * @template-implements PairingToken<UnsignedInt>
  */
-final class NumericPairingToken implements Value, PairingToken
+final class NumericPairingToken implements Stringable, Value, PairingToken
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

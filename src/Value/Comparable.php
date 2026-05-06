@@ -6,7 +6,7 @@ namespace Twint\Sdk\Value;
 
 /**
  * @template T of self
- * @phpstan-type ComparisonResult = -1|0|1
+ * @phpstan-type ComparisonResult -1|0|1
  */
 interface Comparable
 {

@@ -7,12 +7,12 @@ namespace Twint\Sdk\Generated\Type;
 class CustomerInformationType
 {
     /**
-     * @var array<int<0,max>, LoyaltyType>
+     * @var array<int<0, max>, LoyaltyType>
      */
     protected array $Loyalty;
 
     /**
-     * @var array<int<0,max>, CouponType>
+     * @var array<int<0, max>, CouponType>
      */
     protected array $Coupon;
 
@@ -24,12 +24,12 @@ class CustomerInformationType
     protected ?string $CustomerRelationUuid = null;
 
     /**
-     * @var array<int<0,max>, KeyValueType>
+     * @var array<int<0, max>, KeyValueType>
      */
     protected array $Addendum;
 
     /**
-     * @return array<int<0,max>, LoyaltyType>
+     * @return array<int<0, max>, LoyaltyType>
      */
     public function getLoyalty(): array
     {
@@ -37,7 +37,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param array<int<0,max>, LoyaltyType> $Loyalty
+     * @param array<int<0, max>, LoyaltyType> $Loyalty
      */
     public function withLoyalty(array $Loyalty): static
     {
@@ -48,7 +48,7 @@ class CustomerInformationType
     }
 
     /**
-     * @return array<int<0,max>, CouponType>
+     * @return array<int<0, max>, CouponType>
      */
     public function getCoupon(): array
     {
@@ -56,7 +56,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param array<int<0,max>, CouponType> $Coupon
+     * @param array<int<0, max>, CouponType> $Coupon
      */
     public function withCoupon(array $Coupon): static
     {
@@ -80,7 +80,7 @@ class CustomerInformationType
     }
 
     /**
-     * @return array<int<0,max>, KeyValueType>
+     * @return array<int<0, max>, KeyValueType>
      */
     public function getAddendum(): array
     {
@@ -88,7 +88,7 @@ class CustomerInformationType
     }
 
     /**
-     * @param array<int<0,max>, KeyValueType> $Addendum
+     * @param array<int<0, max>, KeyValueType> $Addendum
      */
     public function withAddendum(array $Addendum): static
     {

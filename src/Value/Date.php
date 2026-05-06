@@ -16,9 +16,9 @@ use function Psl\Type\vec;
 
 /**
  * @template-implements Value<self>
- * @phpstan-type Year = int<self::YEAR_MIN, self::YEAR_MAX>
- * @phpstan-type Month = int<self::MONTH_MIN, self::MONTH_MAX>
- * @phpstan-type Day = int<self::DAY_MIN, self::DAY_MAX>
+ * @phpstan-type Year int<self::YEAR_MIN, self::YEAR_MAX>
+ * @phpstan-type Month int<self::MONTH_MIN, self::MONTH_MAX>
+ * @phpstan-type Day int<self::DAY_MIN, self::DAY_MAX>
  */
 final class Date implements Value, Stringable
 {

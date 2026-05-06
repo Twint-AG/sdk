@@ -13,7 +13,7 @@ use Twint\Sdk\Exception\CryptographyFailure;
 final class DefaultRandomStringFactory
 {
     /**
-     * @param callable(int<1,max>): string $randomBytes
+     * @param callable(int<1, max>): string $randomBytes
      */
     public function __construct(
         private readonly mixed $randomBytes = 'random_bytes'

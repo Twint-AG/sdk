@@ -20,22 +20,22 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     /**
      * The list of scopes of customer twint id that the merchant wants to access.
      *
-     * @var non-empty-array<int<0,19>, string>
+     * @var non-empty-array<int<0, 19>, string>
      */
     protected array $RequestedScopes;
 
     /**
      * The list of shipping options that the merchant supports for the fast checkout being requested.
      *
-     * @var array<int<0,19>, ShippingMethodReferenceType>
+     * @var array<int<0, 19>, ShippingMethodReferenceType>
      */
     protected array $ShippingMethods;
 
     protected ?bool $QRCodeRendering = null;
 
     /**
-     * @param non-empty-array<int<0,19>, string> $RequestedScopes
-     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
+     * @param non-empty-array<int<0, 19>, string> $RequestedScopes
+     * @param array<int<0, 19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
@@ -78,7 +78,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @return non-empty-array<int<0,19>, string>
+     * @return non-empty-array<int<0, 19>, string>
      */
     public function getRequestedScopes(): array
     {
@@ -86,7 +86,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @param non-empty-array<int<0,19>, string> $RequestedScopes
+     * @param non-empty-array<int<0, 19>, string> $RequestedScopes
      */
     public function withRequestedScopes(array $RequestedScopes): static
     {
@@ -97,7 +97,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @return array<int<0,19>, ShippingMethodReferenceType>
+     * @return array<int<0, 19>, ShippingMethodReferenceType>
      */
     public function getShippingMethods(): array
     {
@@ -105,7 +105,7 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @param array<int<0,19>, ShippingMethodReferenceType> $ShippingMethods
+     * @param array<int<0, 19>, ShippingMethodReferenceType> $ShippingMethods
      */
     public function withShippingMethods(array $ShippingMethods): static
     {

@@ -10,8 +10,8 @@ use function Psl\Type\positive_int;
 use function Psl\Type\uint;
 
 /**
- * @phpstan-type DelayMs = int<0, max>
- * @phpstan-type Attempts = int<1, max>
+ * @phpstan-type DelayMs int<0, max>
+ * @phpstan-type Attempts int<1, max>
  */
 final class Resilience
 {

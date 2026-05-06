@@ -26,7 +26,7 @@ class OrderType extends OrderRequestType
     protected ?DateTimeInterface $ProcessingTimestamp = null;
 
     /**
-     * @var non-empty-array<int<0,max>, PaymentAmountType>
+     * @var non-empty-array<int<0, max>, PaymentAmountType>
      */
     protected array $PaymentAmount;
 
@@ -117,7 +117,7 @@ class OrderType extends OrderRequestType
     }
 
     /**
-     * @return non-empty-array<int<0,max>, PaymentAmountType>
+     * @return non-empty-array<int<0, max>, PaymentAmountType>
      */
     public function getPaymentAmount(): array
     {
@@ -125,7 +125,7 @@ class OrderType extends OrderRequestType
     }
 
     /**
-     * @param non-empty-array<int<0,max>, PaymentAmountType> $PaymentAmount
+     * @param non-empty-array<int<0, max>, PaymentAmountType> $PaymentAmount
      */
     public function withPaymentAmount(array $PaymentAmount): static
     {

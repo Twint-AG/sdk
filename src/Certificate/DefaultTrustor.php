@@ -21,7 +21,7 @@ final class DefaultTrustor implements Trustor
     private const ISSUER_COUNTRY = 'CH';
 
     /**
-     * @param callable(OpenSSLCertificate|string): (array<string,mixed>|false) $opensslX509Parse
+     * @param callable(OpenSSLCertificate|string): (array<string, mixed>|false) $opensslX509Parse
      */
     public function __construct(
         private readonly ClockInterface $clock,

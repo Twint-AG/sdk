@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use Twint\Sdk\Util\Type;
 use function Psl\Type\instance_of;
 
@@ -12,7 +13,7 @@ use function Psl\Type\instance_of;
  * @template-implements Value<self>
  * @template-implements Enum<self::*>
  */
-final class SystemStatus implements Value, Enum
+final class SystemStatus implements Stringable, Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

@@ -5,16 +5,17 @@ declare(strict_types=1);
 namespace Twint\Sdk\Value;
 
 use Override;
+use Stringable;
 use function Psl\Type\instance_of;
 
 /**
- * @phpstan-type ExistingVersionId = Version::V*
- * @phpstan-type FutureVersionId = int<self::NEXT,max>
- * @phpstan-type VersionId = ExistingVersionId|FutureVersionId
+ * @phpstan-type ExistingVersionId Version::V*
+ * @phpstan-type FutureVersionId int<self::NEXT,max>
+ * @phpstan-type VersionId ExistingVersionId|FutureVersionId
  * @template-implements Enum<ExistingVersionId>
  * @template-implements Value<self>
  */
-final class Version implements Value, Enum
+final class Version implements Stringable, Value, Enum
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;

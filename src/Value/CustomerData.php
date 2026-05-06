@@ -17,7 +17,7 @@ use function Psl\Type\shape;
 /**
  * @template-implements IteratorAggregate<string, string>
  * @template-implements Value<self>
- * @phpstan-type CustomerDataDict = array{
+ * @phpstan-type CustomerDataDict array{
  *     shipping_address?: Address,
  *     email?: Email,
  *     phone_number?: PhoneNumber,
@@ -40,7 +40,7 @@ final class CustomerData implements IteratorAggregate, Value, Countable
     }
 
     /**
-     * @param array<string,mixed> $data
+     * @param array<string, mixed> $data
      */
     public static function fromDict(array $data): self
     {
