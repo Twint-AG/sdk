@@ -42,7 +42,7 @@
       ],
       "datasourceTemplate": "docker",
       "packageNameTemplate": "php",
-      "versioningTemplate": "regex:^(?<compatibility>\\d+\\.\\d+)\\.(?<patch>\\d+)-cli-(?<build>.+)$"
+      "versioningTemplate": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-cli-(?<compatibility>.+)$"
     },
     {
       "customType": "regex",
@@ -104,11 +104,10 @@
       "automerge": true
     },
     {
-      "description": "Group and automerge PHP base image patch updates (Debian dist upgrades are manual). Block alpine: regex versioning's compatibility capture is only the X.Y prefix, so alpine tags otherwise look like valid patches.",
+      "description": "Group and automerge PHP base image patch updates (Debian dist upgrades are manual — dist name is the compatibility group in the regex versioning, so cross-dist updates won't be proposed).",
       "matchDepNames": ["mirror.gcr.io/php", "mirror.gcr.io/php-legacy-tls"],
       "groupName": "php-base-images",
-      "automerge": true,
-      "allowedVersions": "!/alpine/"
+      "automerge": true
     },
     {
       "description": "Prevent PHP minor/major version jumps within same Debian variant",
