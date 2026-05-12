@@ -1,1 +1,1 @@
-mirror.gcr.io/php:8.4.21-cli-bookworm@sha256:80954f14ed63e4a2865d91b21c9c9248544eee744f298dadd90737585b19a7f8
+mirror.gcr.io/php:8.4.20-cli-trixie@sha256:c8c4d2165bf3139039094c99c9370ead168df29ffa6c12373268dca212f0c938
