@@ -104,10 +104,11 @@
       "automerge": true
     },
     {
-      "description": "Group and automerge PHP base image patch updates (Debian dist upgrades are manual)",
+      "description": "Group and automerge PHP base image patch updates (Debian dist upgrades are manual). Block alpine: regex versioning's compatibility capture is only the X.Y prefix, so alpine tags otherwise look like valid patches.",
       "matchDepNames": ["mirror.gcr.io/php", "mirror.gcr.io/php-legacy-tls"],
       "groupName": "php-base-images",
-      "automerge": true
+      "automerge": true,
+      "allowedVersions": "!/alpine/"
     },
     {
       "description": "Prevent PHP minor/major version jumps within same Debian variant",
