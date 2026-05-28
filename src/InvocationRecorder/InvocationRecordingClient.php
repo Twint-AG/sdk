@@ -42,49 +42,49 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     #[Override]
     public function detectDevice(string $userAgent): DetectedDevice
     {
-        return $this->record(__FUNCTION__, [$this->client, 'detectDevice'], [$userAgent]);
+        return $this->record1(__FUNCTION__, [$this->client, 'detectDevice'], $userAgent);
     }
 
     #[Override]
     public function getIosAppSchemes(): array
     {
-        return $this->record(__FUNCTION__, [$this->client, 'getIosAppSchemes'], []);
+        return $this->record0(__FUNCTION__, [$this->client, 'getIosAppSchemes']);
     }
 
     #[Override]
     public function getIosAppUrl(IosAppScheme $scheme, PairingToken $token): Url
     {
-        return $this->record(__FUNCTION__, [$this->client, 'getIosAppUrl'], [$scheme, $token]);
+        return $this->record2(__FUNCTION__, [$this->client, 'getIosAppUrl'], $scheme, $token);
     }
 
     #[Override]
     public function getAndroidAppUrl(PairingToken $token): Url
     {
-        return $this->record(__FUNCTION__, [$this->client, 'getAndroidAppUrl'], [$token]);
+        return $this->record1(__FUNCTION__, [$this->client, 'getAndroidAppUrl'], $token);
     }
 
     #[Override]
     public function cancelOrder(OrderReference $orderReference): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'cancelOrder'], [$orderReference]);
+        return $this->record1(__FUNCTION__, [$this->client, 'cancelOrder'], $orderReference);
     }
 
     #[Override]
     public function confirmOrder(OrderReference $orderReference, Money $requestedAmount): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'confirmOrder'], [$orderReference, $requestedAmount]);
+        return $this->record2(__FUNCTION__, [$this->client, 'confirmOrder'], $orderReference, $requestedAmount);
     }
 
     #[Override]
     public function startOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'startOrder'], [$orderReference, $requestedAmount]);
+        return $this->record2(__FUNCTION__, [$this->client, 'startOrder'], $orderReference, $requestedAmount);
     }
 
     #[Override]
     public function monitorOrder(OrderReference $orderReference): Order
     {
-        return $this->record(__FUNCTION__, [$this->client, 'monitorOrder'], [$orderReference]);
+        return $this->record1(__FUNCTION__, [$this->client, 'monitorOrder'], $orderReference);
     }
 
     #[Override]
@@ -93,49 +93,92 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         OrderReference $orderReference,
         Money $reversalAmount
     ): Order {
-        return $this->record(
+        return $this->record3(
             __FUNCTION__,
             [$this->client, 'reverseOrder'],
-            [$reversalReference, $orderReference, $reversalAmount]
+            $reversalReference,
+            $orderReference,
+            $reversalAmount
         );
     }
 
     #[Override]
     public function checkSystemStatus(): SystemStatus
     {
-        return $this->record(__FUNCTION__, [$this->client, 'checkSystemStatus'], []);
+        return $this->record0(__FUNCTION__, [$this->client, 'checkSystemStatus']);
     }
 
     /**
-     * @template TArg0
-     * @template TArg1
-     * @template TArg2
-     * @template TArg3
-     * @template TArg4
-     * @template TArg5
-     * @template TArg6
-     * @template TArg7
-     * @template TArg8
-     * @template TArg9
-     * @template TReturn
+     * @template T
      * @param non-empty-string $methodName
-     * @param callable(): TReturn|callable(TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9): TReturn $fn
-     * @param array{}|array{TArg0}|array{TArg0, TArg1, TArg2, TArg3, TArg4, TArg5, TArg6, TArg7, TArg8, TArg9} $args
-     * @throws Throwable
-     * @return TReturn
-     * @phpstan-impure
+     * @param callable(): T $fn
+     * @return T
      */
-    private function record(string $methodName, callable $fn, array $args): mixed
+    private function record0(string $methodName, callable $fn): mixed
+    {
+        return $this->doRecord($methodName, $fn, []);
+    }
+
+    /**
+     * @template T
+     * @template A
+     * @param non-empty-string $methodName
+     * @param callable(A): T $fn
+     * @param A $arg1
+     * @return T
+     */
+    private function record1(string $methodName, callable $fn, mixed $arg1): mixed
+    {
+        return $this->doRecord($methodName, static fn () => $fn($arg1), [$arg1]);
+    }
+
+    /**
+     * @template T
+     * @template A
+     * @template B
+     * @param non-empty-string $methodName
+     * @param callable(A, B): T $fn
+     * @param A $arg1
+     * @param B $arg2
+     * @return T
+     */
+    private function record2(string $methodName, callable $fn, mixed $arg1, mixed $arg2): mixed
+    {
+        return $this->doRecord($methodName, static fn () => $fn($arg1, $arg2), [$arg1, $arg2]);
+    }
+
+    /**
+     * @template T
+     * @template A
+     * @template B
+     * @template C
+     * @param non-empty-string $methodName
+     * @param callable(A, B, C): T $fn
+     * @param A $arg1
+     * @param B $arg2
+     * @param C $arg3
+     * @return T
+     */
+    private function record3(string $methodName, callable $fn, mixed $arg1, mixed $arg2, mixed $arg3): mixed
+    {
+        return $this->doRecord($methodName, static fn () => $fn($arg1, $arg2, $arg3), [$arg1, $arg2, $arg3]);
+    }
+
+    /**
+     * @template T
+     * @param non-empty-string $methodName
+     * @param callable(): T $fn
+     * @param list<mixed> $args
+     * @return T
+     */
+    private function doRecord(string $methodName, callable $fn, array $args): mixed
     {
         try {
-            $returnValue = $fn(...$args);
-
+            $returnValue = $fn();
             $invocation = Invocation::fromReturnValue($methodName, $args, $returnValue);
-
             return $returnValue;
         } catch (Throwable $throwable) {
             $invocation = Invocation::fromException($methodName, $args, $throwable);
-
             throw $throwable;
         } finally {
             if (isset($invocation)) {
@@ -167,23 +210,25 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         CustomerDataScopes $scopes,
         ShippingMethods $shippingMethods
     ): InteractiveFastCheckoutCheckIn {
-        return $this->record(
+        return $this->record3(
             __FUNCTION__,
             [$this->client, 'requestFastCheckoutCheckIn'],
-            [$amountWithoutShipping, $scopes, $shippingMethods]
+            $amountWithoutShipping,
+            $scopes,
+            $shippingMethods
         );
     }
 
     #[Override]
     public function monitorFastCheckoutCheckIn(PairingUuid $pairingUuid): FastCheckoutCheckIn
     {
-        return $this->record(__FUNCTION__, [$this->client, 'monitorFastCheckoutCheckIn'], [$pairingUuid]);
+        return $this->record1(__FUNCTION__, [$this->client, 'monitorFastCheckoutCheckIn'], $pairingUuid);
     }
 
     #[Override]
     public function cancelFastCheckoutCheckIn(PairingUuid $pairingUuid): void
     {
-        $this->record(__FUNCTION__, [$this->client, 'cancelFastCheckoutCheckIn'], [$pairingUuid]);
+        $this->record1(__FUNCTION__, [$this->client, 'cancelFastCheckoutCheckIn'], $pairingUuid);
     }
 
     #[Override]
@@ -192,10 +237,12 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         UnfiledMerchantTransactionReference $orderReference,
         Money $requestedAmount
     ): Order {
-        return $this->record(
+        return $this->record3(
             __FUNCTION__,
             [$this->client, 'startFastCheckoutOrder'],
-            [$pairingUuid, $orderReference, $requestedAmount]
+            $pairingUuid,
+            $orderReference,
+            $requestedAmount
         );
     }
 }
