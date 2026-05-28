@@ -21,7 +21,7 @@ final class DefaultHttpClientFactory
         $cert = null;
         if ($certificate !== null) {
             $certificate = self::curlCompiledAgainstNss() ? $certificate->pkcs1() : $certificate->pkcs8();
-            $cert = [$certificate->toFile($writer)->path(), $certificate->passphrase()];
+            $cert = [(string) $certificate->toFile($writer)->path(), $certificate->passphrase()];
         }
 
         return new Client([
