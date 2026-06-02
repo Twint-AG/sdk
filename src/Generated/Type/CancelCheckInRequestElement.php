@@ -16,7 +16,7 @@ class CancelCheckInRequestElement implements RequestInterface
     protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
+     * @var 'INVALID_PAIRING'|'OTHER_PAYMENT_METHOD'|'PAYMENT_ABORT'|'NO_PAYMENT_NEEDED'
      */
     protected string $Reason;
 
@@ -37,7 +37,7 @@ class CancelCheckInRequestElement implements RequestInterface
     protected ?CouponListType $Coupons = null;
 
     /**
-     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
+     * @param 'INVALID_PAIRING'|'OTHER_PAYMENT_METHOD'|'PAYMENT_ABORT'|'NO_PAYMENT_NEEDED' $Reason
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
@@ -67,7 +67,7 @@ class CancelCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @return 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED'
+     * @return 'INVALID_PAIRING'|'OTHER_PAYMENT_METHOD'|'PAYMENT_ABORT'|'NO_PAYMENT_NEEDED'
      */
     public function getReason(): string
     {
@@ -75,7 +75,7 @@ class CancelCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @param 'INVALID_PAIRING' | 'OTHER_PAYMENT_METHOD' | 'PAYMENT_ABORT' | 'NO_PAYMENT_NEEDED' $Reason
+     * @param 'INVALID_PAIRING'|'OTHER_PAYMENT_METHOD'|'PAYMENT_ABORT'|'NO_PAYMENT_NEEDED' $Reason
      */
     public function withReason(string $Reason): static
     {

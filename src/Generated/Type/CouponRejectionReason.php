@@ -7,14 +7,14 @@ namespace Twint\Sdk\Generated\Type;
 class CouponRejectionReason
 {
     /**
-     * @var 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER'
+     * @var 'ALREADY_REDEEMED'|'ARTICLE_DELISTED'|'CAMPAIGN_EXPIRED'|'CAMPAIGN_CANCELED'|'OTHER'
      */
     protected string $RejectionReason;
 
     protected ?string $Details = null;
 
     /**
-     * @return 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER'
+     * @return 'ALREADY_REDEEMED'|'ARTICLE_DELISTED'|'CAMPAIGN_EXPIRED'|'CAMPAIGN_CANCELED'|'OTHER'
      */
     public function getRejectionReason(): string
     {
@@ -22,7 +22,7 @@ class CouponRejectionReason
     }
 
     /**
-     * @param 'ALREADY_REDEEMED' | 'ARTICLE_DELISTED' | 'CAMPAIGN_EXPIRED' | 'CAMPAIGN_CANCELED' | 'OTHER' $RejectionReason
+     * @param 'ALREADY_REDEEMED'|'ARTICLE_DELISTED'|'CAMPAIGN_EXPIRED'|'CAMPAIGN_CANCELED'|'OTHER' $RejectionReason
      */
     public function withRejectionReason(string $RejectionReason): static
     {

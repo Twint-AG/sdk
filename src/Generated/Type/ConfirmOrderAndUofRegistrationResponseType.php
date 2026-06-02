@@ -16,7 +16,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @var 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     protected string $PairingStatus;
 
@@ -52,7 +52,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @return 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     public function getPairingStatus(): string
     {
@@ -60,7 +60,7 @@ class ConfirmOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     * @param 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE' $PairingStatus
      */
     public function withPairingStatus(string $PairingStatus): static
     {

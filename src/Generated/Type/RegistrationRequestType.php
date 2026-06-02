@@ -15,7 +15,7 @@ class RegistrationRequestType
     protected ?string $MerchantRegistrationReference = null;
 
     /**
-     * @var null | mixed
+     * @var ?mixed
      */
     protected mixed $AliasLifetime = null;
 
@@ -48,7 +48,7 @@ class RegistrationRequestType
     }
 
     /**
-     * @return null | mixed
+     * @return ?mixed
      */
     public function getAliasLifetime(): mixed
     {
@@ -56,7 +56,7 @@ class RegistrationRequestType
     }
 
     /**
-     * @param null | mixed $AliasLifetime
+     * @param ?mixed $AliasLifetime
      */
     public function withAliasLifetime(mixed $AliasLifetime): static
     {

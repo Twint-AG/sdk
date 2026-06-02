@@ -7,7 +7,7 @@ namespace Twint\Sdk\Generated\Type;
 class OrderRequestType
 {
     /**
-     * @var 'GOODS' | 'MONEY'
+     * @var 'GOODS'|'MONEY'
      */
     protected string $PostingType;
 
@@ -39,7 +39,7 @@ class OrderRequestType
      *  - PRE_AUTH: PreAuthorization of a defined maximum amount, which will be reserved on the customer account.
      *  The final amount will be requested later with the confirmation
      *
-     * @var null | 'FINAL_AUTH' | 'PRE_AUTH'
+     * @var 'FINAL_AUTH'|'PRE_AUTH'|null
      */
     protected ?string $PaymentAuthorizationType = null;
 
@@ -49,14 +49,14 @@ class OrderRequestType
     protected ?string $ConfirmationButtonId = null;
 
     /**
-     * @var 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT'
+     * @var 'PAYMENT_IMMEDIATE'|'PAYMENT_DEFERRED'|'PAYMENT_RECURRING'|'REVERSAL'|'CREDIT'
      */
     protected string $type;
 
     protected ?bool $confirmationNeeded = null;
 
     /**
-     * @return 'GOODS' | 'MONEY'
+     * @return 'GOODS'|'MONEY'
      */
     public function getPostingType(): string
     {
@@ -64,7 +64,7 @@ class OrderRequestType
     }
 
     /**
-     * @param 'GOODS' | 'MONEY' $PostingType
+     * @param 'GOODS'|'MONEY' $PostingType
      */
     public function withPostingType(string $PostingType): static
     {
@@ -166,7 +166,7 @@ class OrderRequestType
     }
 
     /**
-     * @return null | 'FINAL_AUTH' | 'PRE_AUTH'
+     * @return 'FINAL_AUTH'|'PRE_AUTH'|null
      */
     public function getPaymentAuthorizationType(): ?string
     {
@@ -174,7 +174,7 @@ class OrderRequestType
     }
 
     /**
-     * @param null | 'FINAL_AUTH' | 'PRE_AUTH' $PaymentAuthorizationType
+     * @param 'FINAL_AUTH'|'PRE_AUTH'|null $PaymentAuthorizationType
      */
     public function withPaymentAuthorizationType(?string $PaymentAuthorizationType): static
     {
@@ -198,7 +198,7 @@ class OrderRequestType
     }
 
     /**
-     * @return 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT'
+     * @return 'PAYMENT_IMMEDIATE'|'PAYMENT_DEFERRED'|'PAYMENT_RECURRING'|'REVERSAL'|'CREDIT'
      */
     public function getType(): string
     {
@@ -206,7 +206,7 @@ class OrderRequestType
     }
 
     /**
-     * @param 'PAYMENT_IMMEDIATE' | 'PAYMENT_DEFERRED' | 'PAYMENT_RECURRING' | 'REVERSAL' | 'CREDIT' $type
+     * @param 'PAYMENT_IMMEDIATE'|'PAYMENT_DEFERRED'|'PAYMENT_RECURRING'|'REVERSAL'|'CREDIT' $type
      */
     public function withType(string $type): static
     {

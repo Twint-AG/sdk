@@ -42,14 +42,14 @@ class StartOrderRequestElement implements RequestInterface
     protected ?bool $QRCodeRendering = null;
 
     /**
-     * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
+     * @var 'QR_CODE'|'PAYMENT_PAGE'|null
      */
     protected ?string $PaymentLayerRendering = null;
 
     protected ?string $OrderUpdateNotificationURL = null;
 
     /**
-     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
@@ -196,7 +196,7 @@ class StartOrderRequestElement implements RequestInterface
     }
 
     /**
-     * @return null | 'QR_CODE' | 'PAYMENT_PAGE'
+     * @return 'QR_CODE'|'PAYMENT_PAGE'|null
      */
     public function getPaymentLayerRendering(): ?string
     {
@@ -204,7 +204,7 @@ class StartOrderRequestElement implements RequestInterface
     }
 
     /**
-     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
      */
     public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
     {

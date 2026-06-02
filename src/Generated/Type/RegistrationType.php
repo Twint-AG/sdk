@@ -7,7 +7,7 @@ namespace Twint\Sdk\Generated\Type;
 class RegistrationType
 {
     /**
-     * @var 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
+     * @var 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED'
      */
     protected string $RegistrationStatus;
 
@@ -19,12 +19,12 @@ class RegistrationType
     protected ?string $UofCustomerRelationUuid = null;
 
     /**
-     * @var null | mixed
+     * @var ?mixed
      */
     protected mixed $ConfirmedMerchantCredential = null;
 
     /**
-     * @return 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
+     * @return 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED'
      */
     public function getRegistrationStatus(): string
     {
@@ -32,7 +32,7 @@ class RegistrationType
     }
 
     /**
-     * @param 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED' $RegistrationStatus
+     * @param 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED' $RegistrationStatus
      */
     public function withRegistrationStatus(string $RegistrationStatus): static
     {
@@ -56,7 +56,7 @@ class RegistrationType
     }
 
     /**
-     * @return null | mixed
+     * @return ?mixed
      */
     public function getConfirmedMerchantCredential(): mixed
     {
@@ -64,7 +64,7 @@ class RegistrationType
     }
 
     /**
-     * @param null | mixed $ConfirmedMerchantCredential
+     * @param ?mixed $ConfirmedMerchantCredential
      */
     public function withConfirmedMerchantCredential(mixed $ConfirmedMerchantCredential): static
     {

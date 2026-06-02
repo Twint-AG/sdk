@@ -14,7 +14,7 @@ class EnrollCashRegisterRequestType
     protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS'
+     * @var 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS'
      */
     protected string $CashRegisterType;
 
@@ -38,7 +38,7 @@ class EnrollCashRegisterRequestType
     }
 
     /**
-     * @return 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS'
+     * @return 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS'
      */
     public function getCashRegisterType(): string
     {
@@ -46,7 +46,7 @@ class EnrollCashRegisterRequestType
     }
 
     /**
-     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' $CashRegisterType
+     * @param 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS' $CashRegisterType
      */
     public function withCashRegisterType(string $CashRegisterType): static
     {

@@ -9,7 +9,7 @@ class InternationalizedString
     protected string $_;
 
     /**
-     * @var 'de' | 'fr' | 'it' | 'en'
+     * @var 'de'|'fr'|'it'|'en'
      */
     protected string $language;
 
@@ -27,7 +27,7 @@ class InternationalizedString
     }
 
     /**
-     * @return 'de' | 'fr' | 'it' | 'en'
+     * @return 'de'|'fr'|'it'|'en'
      */
     public function getLanguage(): string
     {
@@ -35,7 +35,7 @@ class InternationalizedString
     }
 
     /**
-     * @param 'de' | 'fr' | 'it' | 'en' $language
+     * @param 'de'|'fr'|'it'|'en' $language
      */
     public function withLanguage(string $language): static
     {

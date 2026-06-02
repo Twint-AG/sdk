@@ -40,7 +40,7 @@ final class DocumentationScopePrepender extends NodeVisitorAbstract
         };
     }
 
-    private function handleUse(Use_ $use): int|null
+    private function handleUse(Use_ $use): ?int
     {
         $duplicateUse = $this->nodeFinder->findFirst(
             $this->prependNodes,

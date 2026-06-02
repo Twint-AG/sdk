@@ -31,14 +31,14 @@ class RequestCheckInRequestElement implements RequestInterface
     protected ?LoyaltyType $LoyaltyInformation = null;
 
     /**
-     * @var null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
+     * @var 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null
      */
     protected ?string $RequestCustomerRelationAlias = null;
 
     protected ?bool $QRCodeRendering = null;
 
     /**
-     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
+     * @param 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null $RequestCustomerRelationAlias
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
@@ -139,7 +139,7 @@ class RequestCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @return null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
+     * @return 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null
      */
     public function getRequestCustomerRelationAlias(): ?string
     {
@@ -147,7 +147,7 @@ class RequestCheckInRequestElement implements RequestInterface
     }
 
     /**
-     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
+     * @param 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null $RequestCustomerRelationAlias
      */
     public function withRequestCustomerRelationAlias(?string $RequestCustomerRelationAlias): static
     {

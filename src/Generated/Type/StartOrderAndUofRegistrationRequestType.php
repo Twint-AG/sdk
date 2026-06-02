@@ -23,7 +23,7 @@ class StartOrderAndUofRegistrationRequestType
     protected ?CouponListType $Coupons = null;
 
     /**
-     * @var null | 'QR_CODE' | 'PAYMENT_PAGE'
+     * @var 'QR_CODE'|'PAYMENT_PAGE'|null
      */
     protected ?string $PaymentLayerRendering = null;
 
@@ -82,7 +82,7 @@ class StartOrderAndUofRegistrationRequestType
     }
 
     /**
-     * @return null | 'QR_CODE' | 'PAYMENT_PAGE'
+     * @return 'QR_CODE'|'PAYMENT_PAGE'|null
      */
     public function getPaymentLayerRendering(): ?string
     {
@@ -90,7 +90,7 @@ class StartOrderAndUofRegistrationRequestType
     }
 
     /**
-     * @param null | 'QR_CODE' | 'PAYMENT_PAGE' $PaymentLayerRendering
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
      */
     public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
     {

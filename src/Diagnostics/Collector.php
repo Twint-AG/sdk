@@ -18,7 +18,7 @@ use ZipStream\ZipStream;
 /**
  * @phpstan-type InsightValue = bool|float|int|string|list<bool>|list<float>|list<int>|list<string>
  * @phpstan-type Insight = array{non-empty-string, InsightValue}
- * @phpstan-type PathPredicate = null|pure-callable(non-empty-string): bool
+ * @phpstan-type PathPredicate = pure-callable(non-empty-string): bool|null
  * @phpstan-type PathEntry = array{non-empty-string, PathPredicate}
  */
 final class Collector
@@ -74,7 +74,7 @@ final class Collector
 
     /**
      * @param callable(string): void $streamHandler
-     * @param null|callable(non-empty-string): void $sendHttpHeader
+     * @param ?callable(non-empty-string): void $sendHttpHeader
      * @phpstan-impure
      */
     public function collect(string $fileNamePrefix, callable $streamHandler, ?callable $sendHttpHeader = null): void

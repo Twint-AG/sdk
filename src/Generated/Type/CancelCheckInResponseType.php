@@ -9,12 +9,12 @@ use Phpro\SoapClient\Type\ResultInterface;
 class CancelCheckInResponseType implements ResultInterface
 {
     /**
-     * @var 'OK' | 'ERROR'
+     * @var 'OK'|'ERROR'
      */
     protected string $Status;
 
     /**
-     * @return 'OK' | 'ERROR'
+     * @return 'OK'|'ERROR'
      */
     public function getStatus(): string
     {
@@ -22,7 +22,7 @@ class CancelCheckInResponseType implements ResultInterface
     }
 
     /**
-     * @param 'OK' | 'ERROR' $Status
+     * @param 'OK'|'ERROR' $Status
      */
     public function withStatus(string $Status): static
     {

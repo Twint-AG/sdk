@@ -18,7 +18,7 @@ class MonitorOrderResponseType implements ResultInterface
     protected OrderType $Order;
 
     /**
-     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @var 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     protected string $PairingStatus;
 
@@ -56,7 +56,7 @@ class MonitorOrderResponseType implements ResultInterface
     }
 
     /**
-     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @return 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     public function getPairingStatus(): string
     {
@@ -64,7 +64,7 @@ class MonitorOrderResponseType implements ResultInterface
     }
 
     /**
-     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     * @param 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE' $PairingStatus
      */
     public function withPairingStatus(string $PairingStatus): static
     {

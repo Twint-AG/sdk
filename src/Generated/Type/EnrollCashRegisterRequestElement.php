@@ -16,7 +16,7 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     protected MerchantInformationType $MerchantInformation;
 
     /**
-     * @var 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS'
+     * @var 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS'
      */
     protected string $CashRegisterType;
 
@@ -27,7 +27,7 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     protected ?string $BeaconDaemonVersion = null;
 
     /**
-     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' $CashRegisterType
+     * @param 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS' $CashRegisterType
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
@@ -57,7 +57,7 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     }
 
     /**
-     * @return 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS'
+     * @return 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS'
      */
     public function getCashRegisterType(): string
     {
@@ -65,7 +65,7 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     }
 
     /**
-     * @param 'POS-Serviced' | 'POS-Selfservice' | 'POS-VendingMachine' | 'EPOS' | 'MPOS' $CashRegisterType
+     * @param 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS' $CashRegisterType
      */
     public function withCashRegisterType(string $CashRegisterType): static
     {

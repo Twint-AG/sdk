@@ -13,7 +13,7 @@ use Twint\Sdk\Value\ExistingPath;
 final class FileWriterStack implements FileWriter
 {
     /**
-     * @var list<FileWriter>|null
+     * @var ?list<FileWriter>
      */
     private ?array $fileWriters = null;
 

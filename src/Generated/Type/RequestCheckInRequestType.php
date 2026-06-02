@@ -29,7 +29,7 @@ class RequestCheckInRequestType
     protected ?LoyaltyType $LoyaltyInformation = null;
 
     /**
-     * @var null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
+     * @var 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null
      */
     protected ?string $RequestCustomerRelationAlias = null;
 
@@ -114,7 +114,7 @@ class RequestCheckInRequestType
     }
 
     /**
-     * @return null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT'
+     * @return 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null
      */
     public function getRequestCustomerRelationAlias(): ?string
     {
@@ -122,7 +122,7 @@ class RequestCheckInRequestType
     }
 
     /**
-     * @param null | 'NONE' | 'LIST_COUPONS' | 'RECURRING_PAYMENT' $RequestCustomerRelationAlias
+     * @param 'NONE'|'LIST_COUPONS'|'RECURRING_PAYMENT'|null $RequestCustomerRelationAlias
      */
     public function withRequestCustomerRelationAlias(?string $RequestCustomerRelationAlias): static
     {

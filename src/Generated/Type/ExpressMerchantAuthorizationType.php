@@ -33,7 +33,7 @@ class ExpressMerchantAuthorizationType
     protected mixed $RequestKey;
 
     /**
-     * @var null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT'
+     * @var 'CUSTOMER_INITIATED'|'RECURRING'|'UNSCHEDULED'|'INSTALLMENT'|null
      */
     protected ?string $UofPaymentType = null;
 
@@ -142,7 +142,7 @@ class ExpressMerchantAuthorizationType
     }
 
     /**
-     * @return null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT'
+     * @return 'CUSTOMER_INITIATED'|'RECURRING'|'UNSCHEDULED'|'INSTALLMENT'|null
      */
     public function getUofPaymentType(): ?string
     {
@@ -150,7 +150,7 @@ class ExpressMerchantAuthorizationType
     }
 
     /**
-     * @param null | 'CUSTOMER_INITIATED' | 'RECURRING' | 'UNSCHEDULED' | 'INSTALLMENT' $UofPaymentType
+     * @param 'CUSTOMER_INITIATED'|'RECURRING'|'UNSCHEDULED'|'INSTALLMENT'|null $UofPaymentType
      */
     public function withUofPaymentType(?string $UofPaymentType): static
     {

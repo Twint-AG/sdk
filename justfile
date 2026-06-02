@@ -16,13 +16,12 @@ export TWINT_SDK_PHP_CURL_SSL_ENGINE := env_var_or_default("TWINT_SDK_PHP_CURL_S
 export TWINT_SDK_PHP_BASE_IMAGE := `cat "resources-dev/php/${TWINT_SDK_PHP_VERSION:-8.1}-${TWINT_SDK_PHP_CURL_SSL_ENGINE:-openssl}"`
 
 # Tools
-ecs := vendor_bin / "ecs"
+ecs := "php -d memory_limit=1G " + vendor_bin / "ecs"
 ecs_check := ecs + " check --no-progress-bar"
 phpstan := vendor_bin / "phpstan --memory-limit=1G --verbose"
 soap_cli := vendor_bin / "soap-client"
 soap_config := base_dir / "resources/config/soap.php"
 
-retry_infinite := "retry --delay 0 --"
 retry_staggered := "retry --times 10 --delay 0,1,1,2,3,5,5,5,5,5 --"
 
 # Environment
@@ -116,7 +115,7 @@ codegen-generate-classmap: codegen-clean
 
 [parallel]
 codegen: codegen-generate-types codegen-generate-client codegen-generate-classmap
-    {{ retry_infinite }} sh -c "{{ ecs_check }} --fix {{ codegen_dir }} >/dev/null"
+    until {{ ecs_check }} {{ codegen_dir }} >/dev/null; do {{ ecs_check }} --fix {{ codegen_dir }} >/dev/null; done
 
 check-codegen: codegen
     @echo "Check if codegen changed the generated code"

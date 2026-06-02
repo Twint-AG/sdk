@@ -63,9 +63,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & RequestCheckInRequestElement $request
+     * @param RequestInterface&RequestCheckInRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & RequestCheckInResponseType
+     * @return ResultInterface&RequestCheckInResponseType
      */
     public function requestCheckIn(RequestCheckInRequestElement $request): RequestCheckInResponseType
     {
@@ -78,9 +78,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & MonitorCheckInRequestElement $request
+     * @param RequestInterface&MonitorCheckInRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & MonitorCheckInResponseType
+     * @return ResultInterface&MonitorCheckInResponseType
      */
     public function monitorCheckIn(MonitorCheckInRequestElement $request): MonitorCheckInResponseType
     {
@@ -93,9 +93,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & IsUofConnectionActiveRequestElement $request
+     * @param RequestInterface&IsUofConnectionActiveRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & IsUofConnectionActiveResponseType
+     * @return ResultInterface&IsUofConnectionActiveResponseType
      */
     public function isUofConnectionActive(
         IsUofConnectionActiveRequestElement $request
@@ -109,9 +109,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & CancelCheckInRequestElement $request
+     * @param RequestInterface&CancelCheckInRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & CancelCheckInResponseType
+     * @return ResultInterface&CancelCheckInResponseType
      */
     public function cancelCheckIn(CancelCheckInRequestElement $request): CancelCheckInResponseType
     {
@@ -124,9 +124,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & StartOrderRequestElement $request
+     * @param RequestInterface&StartOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & StartOrderResponseType
+     * @return ResultInterface&StartOrderResponseType
      */
     public function startOrder(StartOrderRequestElement $request): StartOrderResponseType
     {
@@ -139,9 +139,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & MonitorOrderRequestElement $request
+     * @param RequestInterface&MonitorOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & MonitorOrderResponseType
+     * @return ResultInterface&MonitorOrderResponseType
      */
     public function monitorOrder(MonitorOrderRequestElement $request): MonitorOrderResponseType
     {
@@ -154,9 +154,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & ConfirmOrderRequestElement $request
+     * @param RequestInterface&ConfirmOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & ConfirmOrderResponseType
+     * @return ResultInterface&ConfirmOrderResponseType
      */
     public function confirmOrder(ConfirmOrderRequestElement $request): ConfirmOrderResponseType
     {
@@ -169,9 +169,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & CancelOrderRequestElement $request
+     * @param RequestInterface&CancelOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & CancelOrderResponseType
+     * @return ResultInterface&CancelOrderResponseType
      */
     public function cancelOrder(CancelOrderRequestElement $request): CancelOrderResponseType
     {
@@ -184,9 +184,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & FindOrderRequestElement $request
+     * @param RequestInterface&FindOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & FindOrderResponseType
+     * @return ResultInterface&FindOrderResponseType
      */
     public function findOrder(FindOrderRequestElement $request): FindOrderResponseType
     {
@@ -199,9 +199,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & EnrollCashRegisterRequestElement $request
+     * @param RequestInterface&EnrollCashRegisterRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & EnrollCashRegisterResponseType
+     * @return ResultInterface&EnrollCashRegisterResponseType
      */
     public function enrollCashRegister(EnrollCashRegisterRequestElement $request): EnrollCashRegisterResponseType
     {
@@ -214,9 +214,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & CheckSystemStatusRequestElement $request
+     * @param RequestInterface&CheckSystemStatusRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & CheckSystemStatusResponseType
+     * @return ResultInterface&CheckSystemStatusResponseType
      */
     public function checkSystemStatus(CheckSystemStatusRequestElement $request): CheckSystemStatusResponseType
     {
@@ -229,9 +229,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & GetCertificateValidityRequestElement $request
+     * @param RequestInterface&GetCertificateValidityRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & GetCertificateValidityResponseType
+     * @return ResultInterface&GetCertificateValidityResponseType
      */
     public function getCertificateValidity(
         GetCertificateValidityRequestElement $request
@@ -245,9 +245,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & RenewCertificateRequestElement $request
+     * @param RequestInterface&RenewCertificateRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & RenewCertificateResponseType
+     * @return ResultInterface&RenewCertificateResponseType
      */
     public function renewCertificate(RenewCertificateRequestElement $request): RenewCertificateResponseType
     {
@@ -260,9 +260,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & GetOrderRequestElement $request
+     * @param RequestInterface&GetOrderRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & GetOrderResponseType
+     * @return ResultInterface&GetOrderResponseType
      */
     public function getOrder(GetOrderRequestElement $request): GetOrderResponseType
     {
@@ -275,9 +275,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & StartOrderAndUofRegistrationRequestElement $request
+     * @param RequestInterface&StartOrderAndUofRegistrationRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & StartOrderAndUofRegistrationResponseType
+     * @return ResultInterface&StartOrderAndUofRegistrationResponseType
      */
     public function startOrderAndUofRegistration(
         StartOrderAndUofRegistrationRequestElement $request
@@ -291,9 +291,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & MonitorOrderAndUofRegistrationRequestElement $request
+     * @param RequestInterface&MonitorOrderAndUofRegistrationRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & MonitorOrderAndUofRegistrationResponseType
+     * @return ResultInterface&MonitorOrderAndUofRegistrationResponseType
      */
     public function monitorOrderAndUofRegistration(
         MonitorOrderAndUofRegistrationRequestElement $request
@@ -307,9 +307,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & ConfirmOrderAndUofRegistrationRequestElement $request
+     * @param RequestInterface&ConfirmOrderAndUofRegistrationRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & ConfirmOrderAndUofRegistrationResponseType
+     * @return ResultInterface&ConfirmOrderAndUofRegistrationResponseType
      */
     public function confirmOrderAndUofRegistration(
         ConfirmOrderAndUofRegistrationRequestElement $request
@@ -323,9 +323,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & CancelOrderAndUofRegistrationRequestElement $request
+     * @param RequestInterface&CancelOrderAndUofRegistrationRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & CancelOrderAndUofRegistrationResponseType
+     * @return ResultInterface&CancelOrderAndUofRegistrationResponseType
      */
     public function cancelOrderAndUofRegistration(
         CancelOrderAndUofRegistrationRequestElement $request
@@ -339,9 +339,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & RequestFastCheckoutCheckInRequestElement $request
+     * @param RequestInterface&RequestFastCheckoutCheckInRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & RequestFastCheckoutCheckInResponseType
+     * @return ResultInterface&RequestFastCheckoutCheckInResponseType
      */
     public function requestFastCheckoutCheckIn(
         RequestFastCheckoutCheckInRequestElement $request
@@ -355,9 +355,9 @@ class TwintSoapClient
     }
 
     /**
-     * @param RequestInterface & MonitorFastCheckoutCheckInRequestElement $request
+     * @param RequestInterface&MonitorFastCheckoutCheckInRequestElement $request
      * @throws SoapException
-     * @return ResultInterface & MonitorFastCheckoutCheckInResponseType
+     * @return ResultInterface&MonitorFastCheckoutCheckInResponseType
      */
     public function monitorFastCheckoutCheckIn(
         MonitorFastCheckoutCheckInRequestElement $request

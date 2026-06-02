@@ -54,6 +54,7 @@ use PhpCsFixer\Fixer\Semicolon\SpaceAfterSemicolonFixer;
 use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
 use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
 use PhpCsFixer\Fixer\Strict\StrictParamFixer;
+use PhpCsFixer\Fixer\Whitespace\IndentationTypeFixer;
 use PhpCsFixer\Fixer\Whitespace\MethodChainingIndentationFixer;
 use PhpCsFixer\Fixer\Whitespace\NoSpacesAroundOffsetFixer;
 use PhpCsFixer\Fixer\Whitespace\NoWhitespaceInBlankLineFixer;
@@ -63,6 +64,7 @@ use SlevomatCodingStandard\Sniffs\Attributes\DisallowAttributesJoiningSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\DisallowMultipleAttributesPerLineSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\RequireAttributeAfterDocCommentSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
+use SlevomatCodingStandard\Sniffs\TypeHints\DNFTypeHintFormatSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
@@ -90,11 +92,20 @@ return static function (ECSConfig $ecsConfig): void {
             NullableTypeForNullDefaultValueSniff::class,
         ]
     );
+    $ecsConfig->ruleWithConfiguration(DNFTypeHintFormatSniff::class, [
+        'enable' => true,
+        'enableForDocComments' => true,
+        'nullPosition' => 'last',
+        'withSpacesAroundOperators' => 'no',
+        'withSpacesInsideParentheses' => 'no',
+        'shortNullable' => 'yes',
+    ]);
 
     $ecsConfig->rules(
         [
             StandaloneLinePromotedPropertyFixer::class,
             BlankLineAfterOpeningTagFixer::class,
+            IndentationTypeFixer::class,
             MethodChainingIndentationFixer::class,
             CastSpacesFixer::class,
             SingleTraitInsertPerStatementFixer::class,

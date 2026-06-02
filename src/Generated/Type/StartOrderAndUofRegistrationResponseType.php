@@ -23,7 +23,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     protected ?string $TwintURL = null;
 
     /**
-     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @var 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     protected string $PairingStatus;
 
@@ -44,7 +44,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     protected string $RegistrationUuid;
 
     /**
-     * @var 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
+     * @var 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED'
      */
     protected string $RegistrationStatus;
 
@@ -75,7 +75,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @return 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     public function getPairingStatus(): string
     {
@@ -83,7 +83,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     * @param 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE' $PairingStatus
      */
     public function withPairingStatus(string $PairingStatus): static
     {
@@ -133,7 +133,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @return 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED'
+     * @return 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED'
      */
     public function getRegistrationStatus(): string
     {
@@ -141,7 +141,7 @@ class StartOrderAndUofRegistrationResponseType implements ResultInterface
     }
 
     /**
-     * @param 'PENDING' | 'NEEDS_CONFIRMATION' | 'SUCCESS' | 'ERROR' | 'CANCELED' $RegistrationStatus
+     * @param 'PENDING'|'NEEDS_CONFIRMATION'|'SUCCESS'|'ERROR'|'CANCELED' $RegistrationStatus
      */
     public function withRegistrationStatus(string $RegistrationStatus): static
     {

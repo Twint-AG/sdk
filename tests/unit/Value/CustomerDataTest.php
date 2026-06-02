@@ -25,7 +25,7 @@ use function Psl\Dict\filter_nulls;
 final class CustomerDataTest extends ValueTest
 {
     /**
-     * @return iterable<array{array<string,null|Stringable>, int}>
+     * @return iterable<array{array<string,Stringable|null>, int}>
      */
     public static function getDictionaries(): iterable
     {
@@ -60,7 +60,7 @@ final class CustomerDataTest extends ValueTest
     }
 
     /**
-     * @param array<string, null|Stringable> $dict
+     * @param array<string, Stringable|null> $dict
      */
     #[DataProvider('getDictionaries')]
     public function testCreateFromDict(array $dict, int $count): void

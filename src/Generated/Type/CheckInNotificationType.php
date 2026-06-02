@@ -23,7 +23,7 @@ class CheckInNotificationType
     protected ?string $PairingUuid = null;
 
     /**
-     * @var 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @var 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     protected string $PairingStatus;
 
@@ -67,7 +67,7 @@ class CheckInNotificationType
     }
 
     /**
-     * @return 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE'
+     * @return 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE'
      */
     public function getPairingStatus(): string
     {
@@ -75,7 +75,7 @@ class CheckInNotificationType
     }
 
     /**
-     * @param 'NO_PAIRING' | 'PAIRING_IN_PROGRESS' | 'PAIRING_ACTIVE' $PairingStatus
+     * @param 'NO_PAIRING'|'PAIRING_IN_PROGRESS'|'PAIRING_ACTIVE' $PairingStatus
      */
     public function withPairingStatus(string $PairingStatus): static
     {
