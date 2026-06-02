@@ -57,6 +57,17 @@
       "depNameTemplate": "mirror.gcr.io/php-legacy-tls",
       "packageNameTemplate": "php",
       "versioningTemplate": "regex:^(?<compatibility>\\d+\\.\\d+)\\.(?<patch>\\d+)-cli-bookworm$"
+    },
+    {
+      "customType": "regex",
+      "description": "Update digest-pinned container images referenced in CI jsonnet (wiremock, podman, …)",
+      "fileMatch": [
+        "\\.(?:libsonnet|jsonnet)$"
+      ],
+      "matchStrings": [
+        "(?<depName>[a-z0-9][a-z0-9._/-]+):(?<currentValue>[^@'\" ]+)@(?<currentDigest>sha256:[a-f0-9]+)"
+      ],
+      "datasourceTemplate": "docker"
     }
   ],
   "minimumReleaseAge": "3 days",

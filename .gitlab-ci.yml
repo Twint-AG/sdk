@@ -2,8 +2,6 @@ stages:
   - pre-build
   - build
   - check
-  - pre-release
-  - release
 
 include:
   - remote: https://gitlab.com/renovate-bot/renovate-runner/-/raw/v19.111.4/templates/renovate.gitlab-ci.yml
@@ -16,197 +14,53 @@ include:
   tags:
     - d13-runner
 
-.php:
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE"
-  parallel:
-    matrix:
-      - { PHP_VERSION: &php_version [ "8.1", "8.2", "8.3", "8.4" ], TWINT_SDK_PHP_CURL_SSL_ENGINE: &ssl_engine [ "openssl", "nss", "nss-nobignum", "gnutls" ] }
-  extends: .base
-
-.php-with-high-low-dependencies:
-  parallel:
-    matrix:
-      - { PHP_VERSION: *php_version, TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: &dependency_version [ "lowest", "highest" ] }
-      - { PHP_VERSION: &php_version_locked [ "8.1", "8.2" ], TWINT_SDK_PHP_CURL_SSL_ENGINE: *ssl_engine, COMPOSER_DEPENDENCY_VERSION: &dependency_version_locked [ "locked" ] }
-  extends: .php
-
-.php-no-ssl-with-high-low-dependencies:
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
-  parallel:
-    matrix:
-      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: *dependency_version }
-      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
-  extends: .base
-
-container-build-hash:
+plan:
   stage: pre-build
   image: "alpine:3@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11"
+  extends: .base
   script:
-    - apk add --no-cache git curl bash
+    - apk add --no-cache git curl bash skopeo jsonnet coreutils
     - curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
     - just container-checksum
-  extends: .base
+    - set -a; . ./.docker-env; set +a
+    - skopeo login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
+    - MISSING_TAGS="$(./ci/probe-missing-tags.sh)"
+    - 'echo "Missing image tags: ${MISSING_TAGS:-<none>}"'
+    - >-
+      jsonnet
+      --ext-str TWINT_SDK_PHP_IMAGE_BASE="$TWINT_SDK_PHP_IMAGE_BASE"
+      --ext-str MISSING_TAGS="$MISSING_TAGS"
+      ci/pipeline.jsonnet > generated-pipeline.yml
   artifacts:
+    paths:
+      - generated-pipeline.yml
     reports:
       dotenv: .docker-env
 
-container-build:
+build:
   stage: build
-  image: "quay.io/podman/stable:v5.8.2-immutable@sha256:766815d247ce0edfd8774770371d293728b0b500a219f35de98b408100f5d412"
-  variables:
-    TWINT_SDK_PHP_IMAGE_CACHE: $CI_REGISTRY_IMAGE/php
-    # Required to make rootless podman work
-    STORAGE_DRIVER: vfs
-  resource_group: container-build-$PHP_VERSION
-  timeout: 2h
-  script:
-    - yum install -y skopeo
-    - podman login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - |
-      if skopeo inspect "docker://$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE" >/dev/null 2>&1; then
-        echo "Image $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE already exists, skipping build"
-        exit 0
-      fi
-    - podman login -u "$DOCKER_USER" -p "$DOCKER_TOKEN" docker.io
-    - PHP_BASE_IMAGE=$(cat resources-dev/php/${PHP_VERSION}-${TWINT_SDK_PHP_CURL_SSL_ENGINE})
-    - >-
-      podman build
-      --pull=newer
-      --build-context php_base_image=docker-image://$PHP_BASE_IMAGE
-      --cache-from $TWINT_SDK_PHP_IMAGE_CACHE
-      --cache-to $TWINT_SDK_PHP_IMAGE_CACHE
-      --env TWINT_SDK_PHP_CURL_SSL_ENGINE=$TWINT_SDK_PHP_CURL_SSL_ENGINE
-      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
-      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
-      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE
-      -f Dockerfile
-      $PWD
-    - podman push $TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-$TWINT_SDK_PHP_CURL_SSL_ENGINE
-  extends: .php
   needs:
-    - job: container-build-hash
+    - job: plan
       artifacts: true
+  trigger:
+    include:
+      - artifact: generated-pipeline.yml
+        job: plan
+    strategy: depend
 
 docs:
   stage: build
   image: sphinxdoc/sphinx:8.2.3@sha256:8d8bdb4649e6577f20ca9a84ef1e1d46911dc65678fe7908b2e2d3a39508e1c8
+  extends: .base
+  needs: []
   script:
     - mkdir -p build
     - sphinx-build -M html resources/docs build/docs -W
     - cp -r build/docs/html docs
-  extends: .base
-  needs: []
   artifacts:
     name: "Documentation"
     paths:
       - docs/**/*
-
-.container-build-hash-need: &container_build_hash_need
-  job: container-build-hash
-  artifacts: true
-
-static-analysis:
-  stage: check
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
-  variables:
-    COMPOSER_ALLOW_SUPERUSER: "true"
-  parallel:
-    matrix:
-      - { PHP_VERSION: *php_version, COMPOSER_DEPENDENCY_VERSION: [ "highest" ] }
-      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
-  script:
-    - mkdir -p build
-    - just install
-    - just static-analysis-src
-  extends: .base
-  needs:
-    - *container_build_hash_need
-    - job: container-build
-      optional: true
-      artifacts: false
-  artifacts:
-    reports:
-      codequality:
-        - build/phpstan-src.json
-        # See https://gitlab.com/gitlab-org/gitlab/-/issues/351546
-        #- build/phpstan-docs.json
-
-test:
-  stage: check
-  variables:
-    XDEBUG_MODE: coverage
-    COMPOSER_ALLOW_SUPERUSER: "true"
-  services:
-    - name: "wiremock/wiremock:3x@sha256:fd27e46090916e85326229e5102ee169ae729059f3374549615bd20a35fee1f2"
-      alias: wiremock
-  script:
-    - cp ${TWINT_SDK_CI_DOT_ENV} .env
-    - mkdir -p build
-    - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - just install
-    - just wiremock-setup
-    - just test
-    - if [ "$COMPOSER_DEPENDENCY_VERSION" = "locked" ]; then just test-minimal-runtime; fi
-  extends: .php-with-high-low-dependencies
-  needs:
-    - *container_build_hash_need
-    - job: container-build
-      optional: true
-      artifacts: false
-  coverage: '/Lines:\s+\d+(?:\.\d+)?%/'
-  artifacts:
-    reports:
-      junit: build/junit.xml
-      cobertura: build/coverage/cobertura.xml
-
-codegen:
-  stage: check
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-$PHP_VERSION-openssl"
-  variables:
-    COMPOSER_ALLOW_SUPERUSER: "true"
-  parallel:
-    matrix:
-      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version }
-      - { PHP_VERSION: *php_version_locked, COMPOSER_DEPENDENCY_VERSION: *dependency_version_locked }
-  script:
-    - just install
-    - just check-codegen
-    - just check-bundled-dependencies
-  extends: .base
-  needs:
-    - *container_build_hash_need
-    - job: container-build
-      optional: true
-      artifacts: false
-
-format-and-docs-check:
-  stage: check
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.1-openssl"
-  variables:
-    COMPOSER_ALLOW_SUPERUSER: "true"
-    PHP_VERSION: "8.1"
-    TWINT_SDK_PHP_CURL_SSL_ENGINE: "openssl"
-    COMPOSER_DEPENDENCY_VERSION: "locked"
-  services:
-    - name: "wiremock/wiremock:3x@sha256:fd27e46090916e85326229e5102ee169ae729059f3374549615bd20a35fee1f2"
-      alias: wiremock
-  script:
-    - cp ${TWINT_SDK_CI_DOT_ENV} .env
-    - mkdir -p build
-    - cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12
-    - just install
-    - just wiremock-setup
-    - just check-format
-    - just check-docs
-  extends: .base
-  needs:
-    - *container_build_hash_need
-    - job: container-build
-      optional: true
-      artifacts: false
 
 renovate:
   variables:
@@ -227,35 +81,3 @@ renovate-config-validator:
   tags:
     - d13-runner
   needs: []
-
-# Bridge job to work around GitLab's limit of 50 entries in `needs`. The test
-# matrix expands to 40 jobs which, combined with the other dependencies, would
-# push the release job over that limit.
-test-finished:
-  stage: pre-release
-  extends: .base
-  image: "alpine:3@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11"
-  needs:
-    - job: test
-  script:
-    - "true"
-
-release:
-  interruptible: false
-  image: "$TWINT_SDK_PHP_IMAGE_BASE-8.3-openssl"
-  extends: .base
-  needs:
-    - *container_build_hash_need
-    - job: container-build
-      optional: true
-      artifacts: false
-    - job: static-analysis
-    - job: test-finished
-    - job: codegen
-    - job: format-and-docs-check
-  stage: release
-  only: [ "tags" ]
-  variables:
-    GIT_DEPTH: 0
-  script:
-    - just release

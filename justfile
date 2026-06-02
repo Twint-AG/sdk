@@ -165,7 +165,7 @@ check-php-extensions: php-extensions
     git diff --exit-code {{ base_dir }}/php-extensions.txt
 
 container-checksum:
-    echo TWINT_SDK_PHP_IMAGE_BASE=$CI_REGISTRY_IMAGE/php:$(sha3sum resources-dev/php/* php-extensions.txt Dockerfile .gitlab-ci.yml | sha3sum | cut -d " " -f 1) > .docker-env
+    echo TWINT_SDK_PHP_IMAGE_BASE=$CI_REGISTRY_IMAGE/php:$(sha3sum resources-dev/php/* php-extensions.txt Dockerfile ci/container-build.libsonnet | sha3sum | cut -d " " -f 1) > .docker-env
 
 # Docker compose
 
