@@ -19,6 +19,14 @@ services:
     image: wiremock/wiremock:3x@sha256:fd27e46090916e85326229e5102ee169ae729059f3374549615bd20a35fee1f2
     entrypoint: [/docker-entrypoint.sh, --verbose]
 
+  jsonnet:
+    image: akamai/jsonnet:v2.33.7@sha256:cf6a134547ddfb3e886e3ca4c4411b8e97bb3ca119446fb63a7e8c352a15c1b9
+    entrypoint: []
+    working_dir: /src
+    volumes:
+      - ./:/src
+    profiles: [tools]
+
   sphinx:
     image: sphinxdoc/sphinx:8.2.3@sha256:8d8bdb4649e6577f20ca9a84ef1e1d46911dc65678fe7908b2e2d3a39508e1c8
     entrypoint: [bash, -c, "apt-get update -qq && apt-get install -y -qq curl >/dev/null && curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin && sleep infinity"]

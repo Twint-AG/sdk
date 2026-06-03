@@ -1,20 +1,27 @@
 local imageBase = std.extVar('TWINT_SDK_PHP_IMAGE_BASE');
-local missingTagsRaw = std.extVar('MISSING_TAGS');
+local missingTagsRaw = std.extVar('TWINT_SDK_PHP_MISSING_TAGS');
 local missingTags =
   if std.length(missingTagsRaw) == 0
   then []
   else std.split(missingTagsRaw, ',');
 
-local phpVersions = ['8.1', '8.2', '8.3', '8.4'];
+// The set of (PHP, SSL) build targets is derived from the filenames under
+// resources-dev/php/ — that directory is the single source of truth. The
+// plan job lists it and passes the result here as a comma-separated string.
+local combos = std.split(std.extVar('TWINT_SDK_PHP_VERSIONS'), ',');
+local splitCombo(c) = std.splitLimit(c, '-', 1);
+local phpVersions = std.set([splitCombo(c)[0] for c in combos]);
+local sslEngines = std.set([splitCombo(c)[1] for c in combos]);
 local phpVersionsLocked = ['8.1', '8.2'];
-local sslEngines = ['openssl', 'nss', 'nss-nobignum', 'gnutls'];
 
 local image(php, ssl) = '%s-%s-%s' % [imageBase, php, ssl];
 local combo(php, ssl) = '%s-%s' % [php, ssl];
 local missing(php, ssl) = std.member(missingTags, combo(php, ssl));
 local buildJobName(php, ssl) = 'container-' + combo(php, ssl);
 local buildNeed(php, ssl) =
-  if missing(php, ssl) then [{ job: buildJobName(php, ssl), artifacts: false }] else [];
+  if missing(php, ssl)
+  then [{ job: buildJobName(php, ssl), artifacts: false }]
+  else [];
 
 local base = {
   interruptible: true,
@@ -29,15 +36,20 @@ local wiremockService = [{
 
 local containerBuild = import 'container-build.libsonnet';
 
+local envFile = {
+  script+: [
+    'cp ${TWINT_SDK_CI_DOT_ENV} .env',
+    'cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12',
+  ],
+};
+
 // Everything needed to run jobs that exercise the SDK against wiremock:
 // the service, the SSL-engine env var, and the local fixture setup.
-local fixtures(ssl) = {
+local fixtures(ssl) = envFile {
   services: wiremockService,
   variables+: { TWINT_SDK_PHP_CURL_SSL_ENGINE: ssl },
-  script: [
-    'cp ${TWINT_SDK_CI_DOT_ENV} .env',
-    'mkdir -p build',
-    'cat ${TWINT_SDK_CI_CERT} | base64 -d > build/certificate.p12',
+  script+: [
+    'just wiremock-setup',
   ],
 };
 
@@ -50,13 +62,15 @@ local phpJob(php, ssl, dep, stage) = base {
     COMPOSER_DEPENDENCY_VERSION: dep,
   },
   needs: buildNeed(php, ssl),
+  script: [
+    'mkdir -p build',
+    'just install',
+  ],
 };
 
 local testJob(php, ssl, dep) = phpJob(php, ssl, dep, 'test') + fixtures(ssl) + {
   variables+: { XDEBUG_MODE: 'coverage' },
   script+: [
-    'just install',
-    'just wiremock-setup',
     'just test',
   ] + (if dep == 'locked' then ['just test-minimal-runtime'] else []),
   coverage: '/Lines:\\s+\\d+(?:\\.\\d+)?%/',
@@ -69,9 +83,7 @@ local testJob(php, ssl, dep) = phpJob(php, ssl, dep, 'test') + fixtures(ssl) + {
 };
 
 local staticAnalysisJob(php, dep) = phpJob(php, 'openssl', dep, 'check') + {
-  script: [
-    'mkdir -p build',
-    'just install',
+  script+: [
     'just static-analysis-src',
   ],
   artifacts: {
@@ -82,17 +94,14 @@ local staticAnalysisJob(php, dep) = phpJob(php, 'openssl', dep, 'check') + {
 };
 
 local codegenJob(php, dep) = phpJob(php, 'openssl', dep, 'codegen') + {
-  script: [
-    'just install',
+  script+: [
     'just check-codegen',
     'just check-bundled-dependencies',
   ],
 };
 
-local formatAndDocsCheckJob = phpJob('8.1', 'openssl', 'locked', 'check') + fixtures('openssl') + {
+local formatAndDocsCheckJob = phpJob('8.1', 'openssl', 'locked', 'check') + envFile + {
   script+: [
-    'just install',
-    'just wiremock-setup',
     'just check-format',
     'just check-docs',
   ],
@@ -112,17 +121,22 @@ local releaseJob = base {
 
 local containerJobs = {
   [buildJobName(php, ssl)]: containerBuild(php, ssl, image(php, ssl), base)
-  for php in phpVersions for ssl in sslEngines if missing(php, ssl)
+  for php in phpVersions
+  for ssl in sslEngines
+  if missing(php, ssl)
 };
 
 local testJobs =
   {
     ['test-%s-%s-%s' % [php, ssl, dep]]: testJob(php, ssl, dep)
-    for php in phpVersions for ssl in sslEngines for dep in ['lowest', 'highest']
+    for php in phpVersions
+    for ssl in sslEngines
+    for dep in ['lowest', 'highest']
   }
   + {
     ['test-%s-%s-locked' % [php, ssl]]: testJob(php, ssl, 'locked')
-    for php in phpVersionsLocked for ssl in sslEngines
+    for php in phpVersionsLocked
+    for ssl in sslEngines
   };
 
 local staticAnalysisJobs =
@@ -137,7 +151,8 @@ local staticAnalysisJobs =
 
 local codegenJobs = {
   ['codegen-%s-%s' % [php, dep]]: codegenJob(php, dep)
-  for php in phpVersionsLocked for dep in ['lowest', 'highest', 'locked']
+  for php in phpVersionsLocked
+  for dep in ['lowest', 'highest', 'locked']
 };
 
 { stages: ['build', 'test', 'check', 'codegen', 'release'] }

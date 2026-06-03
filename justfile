@@ -167,6 +167,18 @@ check-php-extensions: php-extensions
 container-checksum:
     echo TWINT_SDK_PHP_IMAGE_BASE=$CI_REGISTRY_IMAGE/php:$(sha3sum resources-dev/php/* php-extensions.txt Dockerfile ci/container-build.libsonnet | sha3sum | cut -d " " -f 1) > .docker-env
 
+# CI pipeline
+
+ci-format:
+    docker compose run --rm --no-deps jsonnet sh -c 'jsonnetfmt -i ci/*.jsonnet ci/*.libsonnet'
+
+ci-demo:
+    docker compose run --rm --no-deps jsonnet jsonnet \
+        --ext-str TWINT_SDK_PHP_IMAGE_BASE=demo/php \
+        --ext-str TWINT_SDK_PHP_MISSING_TAGS= \
+        --ext-str TWINT_SDK_PHP_VERSIONS="$(ls resources-dev/php | paste -sd, -)" \
+        ci/pipeline.jsonnet
+
 # Docker compose
 
 start: docker-compose-build

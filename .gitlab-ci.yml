@@ -24,12 +24,14 @@ plan:
     - just container-checksum
     - set -a; . ./.docker-env; set +a
     - skopeo login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" "$CI_REGISTRY"
-    - MISSING_TAGS="$(./ci/probe-missing-tags.sh)"
-    - 'echo "Missing image tags: ${MISSING_TAGS:-<none>}"'
+    - TWINT_SDK_PHP_MISSING_TAGS="$(./ci/probe-missing-tags.sh)"
+    - TWINT_SDK_PHP_VERSIONS="$(ls resources-dev/php | paste -sd, -)"
+    - 'echo "Missing image tags: ${TWINT_SDK_PHP_MISSING_TAGS:-<none>}"'
     - >-
       jsonnet
       --ext-str TWINT_SDK_PHP_IMAGE_BASE="$TWINT_SDK_PHP_IMAGE_BASE"
-      --ext-str MISSING_TAGS="$MISSING_TAGS"
+      --ext-str TWINT_SDK_PHP_MISSING_TAGS="$TWINT_SDK_PHP_MISSING_TAGS"
+      --ext-str TWINT_SDK_PHP_VERSIONS="$TWINT_SDK_PHP_VERSIONS"
       ci/pipeline.jsonnet > generated-pipeline.yml
   artifacts:
     paths:
