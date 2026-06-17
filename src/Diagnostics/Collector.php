@@ -87,8 +87,9 @@ final class Collector
                 /**
                  * @param callable(string): void $handler
                  */
-                public function __construct(callable $handler)
-                {
+                public function __construct(
+                    callable $handler
+                ) {
                     $this->handler = $handler;
                 }
 

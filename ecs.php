@@ -3,22 +3,25 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Basic\PsrAutoloadingFixer;
-use Symplify\EasyCodingStandard\Config\ECSConfig;
+use PhpCsFixer\Fixer\ClassNotation\FinalClassFixer;
+use PhpCsFixer\Fixer\PhpUnit\PhpUnitDataProviderNameFixer;
 
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->import(__DIR__ . '/ecs.base.php');
-    $ecsConfig->paths([__DIR__]);
-    $ecsConfig->skip([__DIR__ . '/resources/docs/_examples']);
-
-    $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
+return (require __DIR__ . '/ecs.base.php')
+    ->withPaths([__DIR__])
+    ->withSkip([
+        __DIR__ . '/vendor',
+        __DIR__ . '/build',
+        FinalClassFixer::class => [__DIR__ . '/src/Generated/'],
+        PhpUnitDataProviderNameFixer::class,
+        __DIR__ . '/resources/docs/_examples',
+    ])
+    ->withConfiguredRule(PsrAutoloadingFixer::class, [
         'dir' => 'src',
-    ]);
-    $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
+    ])
+    ->withConfiguredRule(PsrAutoloadingFixer::class, [
         'dir' => 'tests',
-    ]);
-    $ecsConfig->ruleWithConfiguration(PsrAutoloadingFixer::class, [
+    ])
+    ->withConfiguredRule(PsrAutoloadingFixer::class, [
         'dir' => 'tools',
-    ]);
-
-    $ecsConfig->cacheDirectory(__DIR__ . '/build/ecs/src');
-};
+    ])
+    ->withCache(__DIR__ . '/build/ecs/src');

@@ -63,115 +63,49 @@ use SlevomatCodingStandard\Sniffs\Attributes\AttributesOrderSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\DisallowAttributesJoiningSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\DisallowMultipleAttributesPerLineSniff;
 use SlevomatCodingStandard\Sniffs\Attributes\RequireAttributeAfterDocCommentSniff;
+use SlevomatCodingStandard\Sniffs\Classes\RequireMultiLineMethodSignatureSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DNFTypeHintFormatSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
-use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
-return static function (ECSConfig $ecsConfig): void {
-    $ecsConfig->paths([__DIR__]);
-    $ecsConfig->skip([
+return ECSConfig::configure()
+    ->withPaths([__DIR__])
+    ->withSkip([
         __DIR__ . '/vendor',
         __DIR__ . '/build',
         FinalClassFixer::class => [__DIR__ . '/src/Generated/'],
-    ]);
-    $ecsConfig->fileExtensions(['php', 'inc']);
-
-    $ecsConfig->rules(
-        [
-            NoUnusedImportsFixer::class,
-            FinalClassFixer::class,
-            OrderedImportsFixer::class,
-            FullyQualifiedStrictTypesFixer::class,
-            GlobalNamespaceImportFixer::class,
-            NoLeadingImportSlashFixer::class,
-            StaticLambdaFixer::class,
-            ReferenceUsedNamesOnlySniff::class,
-            NullableTypeForNullDefaultValueSniff::class,
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(DNFTypeHintFormatSniff::class, [
-        'enable' => true,
-        'enableForDocComments' => true,
-        'nullPosition' => 'last',
-        'withSpacesAroundOperators' => 'no',
-        'withSpacesInsideParentheses' => 'no',
-        'shortNullable' => 'yes',
-    ]);
-
-    $ecsConfig->rules(
-        [
-            StandaloneLinePromotedPropertyFixer::class,
-            BlankLineAfterOpeningTagFixer::class,
-            IndentationTypeFixer::class,
-            MethodChainingIndentationFixer::class,
-            CastSpacesFixer::class,
-            SingleTraitInsertPerStatementFixer::class,
-            FunctionTypehintSpaceFixer::class,
-            NoBlankLinesAfterClassOpeningFixer::class,
-            NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
-            NoLeadingNamespaceWhitespaceFixer::class,
-            NoSpacesAroundOffsetFixer::class,
-            NoWhitespaceInBlankLineFixer::class,
-            ReturnTypeDeclarationFixer::class,
-            SpaceAfterSemicolonFixer::class,
-            TernaryOperatorSpacesFixer::class,
-            MethodArgumentSpaceFixer::class,
-            LanguageConstructSpacingSniff::class,
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(ClassAttributesSeparationFixer::class, [
-        'elements' => [
-            'const' => 'one',
-            'property' => 'one',
-            'method' => 'one',
-        ],
-    ]);
-    $ecsConfig->ruleWithConfiguration(ConcatSpaceFixer::class, [
-        'spacing' => 'one',
-    ]);
-    $ecsConfig->ruleWithConfiguration(SuperfluousWhitespaceSniff::class, [
-        'ignoreBlankLines' => false,
-    ]);
-    $ecsConfig->ruleWithConfiguration(BinaryOperatorSpacesFixer::class, [
-        'operators' => [
-            '=>' => 'single_space',
-            '=' => 'single_space',
-        ],
-    ]);
-    $ecsConfig->ruleWithConfiguration(OperatorLinebreakFixer::class, [
-        'only_booleans' => true,
-        'position' => 'beginning',
-    ]);
-
-    $ecsConfig->sets([
-        SetList::CLEAN_CODE,
-        SetList::ARRAY,
-        SetList::DOCBLOCK,
-        SetList::NAMESPACES,
-        SetList::COMMENTS,
-        SetList::CONTROL_STRUCTURES,
-        SetList::SYMPLIFY,
-        SetList::PSR_12,
-    ]);
-
-    $ecsConfig->ruleWithConfiguration(OrderedClassElementsFixer::class, [
-        'order' => [
-            'use_trait',
-            'constant',
-            'property',
-            'construct',
-            'destruct',
-            'method_public_static',
-            'magic',
-            'method',
-        ],
-    ]);
-
-    // PHPUnit
-    $ecsConfig->rules([
+        PhpUnitDataProviderNameFixer::class,
+    ])
+    ->withFileExtensions(['php', 'inc'])
+    ->withRules([
+        NoUnusedImportsFixer::class,
+        FinalClassFixer::class,
+        FullyQualifiedStrictTypesFixer::class,
+        GlobalNamespaceImportFixer::class,
+        NoLeadingImportSlashFixer::class,
+        StaticLambdaFixer::class,
+        ReferenceUsedNamesOnlySniff::class,
+        NullableTypeForNullDefaultValueSniff::class,
+        StandaloneLinePromotedPropertyFixer::class,
+        BlankLineAfterOpeningTagFixer::class,
+        IndentationTypeFixer::class,
+        MethodChainingIndentationFixer::class,
+        CastSpacesFixer::class,
+        SingleTraitInsertPerStatementFixer::class,
+        FunctionTypehintSpaceFixer::class,
+        NoBlankLinesAfterClassOpeningFixer::class,
+        NoSinglelineWhitespaceBeforeSemicolonsFixer::class,
+        NoLeadingNamespaceWhitespaceFixer::class,
+        NoSpacesAroundOffsetFixer::class,
+        NoWhitespaceInBlankLineFixer::class,
+        ReturnTypeDeclarationFixer::class,
+        SpaceAfterSemicolonFixer::class,
+        TernaryOperatorSpacesFixer::class,
+        MethodArgumentSpaceFixer::class,
+        LanguageConstructSpacingSniff::class,
+        RequireMultiLineMethodSignatureSniff::class,
         PhpUnitConstructFixer::class,
         PhpUnitDataProviderNameFixer::class,
         PhpUnitDataProviderReturnTypeFixer::class,
@@ -185,50 +119,88 @@ return static function (ECSConfig $ecsConfig): void {
         PhpUnitMockShortWillReturnFixer::class,
         PhpUnitNamespacedFixer::class,
         PhpUnitStrictFixer::class,
-    ]);
-
-    $ecsConfig->skip([PhpUnitDataProviderNameFixer::class]);
-
-    $ecsConfig->ruleWithConfiguration(PhpUnitTestCaseStaticMethodCallsFixer::class, [
+        PhpdocSingleLineVarSpacingFixer::class,
+        PhpdocIndentFixer::class,
+        PhpdocOrderFixer::class,
+        PhpdocParamOrderFixer::class,
+        PhpdocOrderByValueFixer::class,
+        DocCommentAlignmentSniff::class,
+        PhpdocNoUselessInheritdocFixer::class,
+        AttributeEmptyParenthesesFixer::class,
+        RequireAttributeAfterDocCommentSniff::class,
+        DisallowMultipleAttributesPerLineSniff::class,
+        DisallowAttributesJoiningSniff::class,
+        AttributeAndTargetSpacingSniff::class,
+        StrictParamFixer::class,
+        StrictComparisonFixer::class,
+        DeclareStrictTypesFixer::class,
+    ])
+    ->withConfiguredRule(OrderedImportsFixer::class, [
+        'imports_order' => ['class', 'const', 'function'],
+    ])
+    ->withConfiguredRule(DNFTypeHintFormatSniff::class, [
+        'enable' => true,
+        'enableForDocComments' => true,
+        'nullPosition' => 'last',
+        'withSpacesAroundOperators' => 'no',
+        'withSpacesInsideParentheses' => 'no',
+        'shortNullable' => 'yes',
+    ])
+    ->withConfiguredRule(ClassAttributesSeparationFixer::class, [
+        'elements' => [
+            'const' => 'one',
+            'property' => 'one',
+            'method' => 'one',
+        ],
+    ])
+    ->withConfiguredRule(ConcatSpaceFixer::class, [
+        'spacing' => 'one',
+    ])
+    ->withConfiguredRule(SuperfluousWhitespaceSniff::class, [
+        'ignoreBlankLines' => false,
+    ])
+    ->withConfiguredRule(BinaryOperatorSpacesFixer::class, [
+        'operators' => [
+            '=>' => 'single_space',
+            '=' => 'single_space',
+        ],
+    ])
+    ->withConfiguredRule(OperatorLinebreakFixer::class, [
+        'only_booleans' => true,
+        'position' => 'beginning',
+    ])
+    ->withConfiguredRule(OrderedClassElementsFixer::class, [
+        'order' => [
+            'use_trait',
+            'constant',
+            'property',
+            'construct',
+            'destruct',
+            'method_public_static',
+            'magic',
+            'method',
+        ],
+    ])
+    ->withConfiguredRule(PhpUnitTestCaseStaticMethodCallsFixer::class, [
         'call_type' => 'self',
-    ]);
-
-    // Doc blocks
-    $ecsConfig->rules(
-        [
-            PhpdocSingleLineVarSpacingFixer::class,
-            PhpdocIndentFixer::class,
-            PhpdocOrderFixer::class,
-            PhpdocParamOrderFixer::class,
-            PhpdocOrderByValueFixer::class,
-            DocCommentAlignmentSniff::class,
-            PhpdocNoUselessInheritdocFixer::class,
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(GeneralPhpdocAnnotationRemoveFixer::class, [
+    ])
+    ->withConfiguredRule(GeneralPhpdocAnnotationRemoveFixer::class, [
         'annotations' => ['author', 'package', 'category'],
-    ]);
-    $ecsConfig->ruleWithConfiguration(PhpdocAlignFixer::class, [
+    ])
+    ->withConfiguredRule(PhpdocAlignFixer::class, [
         'align' => 'left',
-    ]);
-
-    // Attributes
-    $ecsConfig->rules(
-        [
-            ClassAttributesSeparationFixer::class,
-            AttributeEmptyParenthesesFixer::class,
-            RequireAttributeAfterDocCommentSniff::class,
-            DisallowMultipleAttributesPerLineSniff::class,
-            DisallowAttributesJoiningSniff::class,
-            AttributeAndTargetSpacingSniff::class,
-        ]
-    );
-    $ecsConfig->ruleWithConfiguration(AttributesOrderSniff::class, [
+    ])
+    ->withConfiguredRule(AttributesOrderSniff::class, [
         'orderAlphabetically' => true,
-    ]);
-
-    // Attributes
-    $ecsConfig->rules([StrictParamFixer::class, StrictComparisonFixer::class, DeclareStrictTypesFixer::class]);
-
-    $ecsConfig->parallel(120, 2, 10);
-};
+    ])
+    ->withPreparedSets(
+        psr12: true,
+        symplify: true,
+        arrays: true,
+        comments: true,
+        docblocks: true,
+        namespaces: true,
+        controlStructures: true,
+        cleanCode: true,
+    )
+    ->withParallel(120, 2, 10);
