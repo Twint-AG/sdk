@@ -28,7 +28,7 @@ RUN if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE}" != openssl ]; then \
     && rm -rf /var/lib/apt/lists/*; fi
 
 COPY php-extensions.txt /tmp/php-extensions.txt
-ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.11.1/install-php-extensions /usr/local/bin/
+ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.11.9/install-php-extensions /usr/local/bin/
 RUN EXTENSIONS="$(cat /tmp/php-extensions.txt)"; \
     if [ "${TWINT_SDK_PHP_CURL_SSL_ENGINE%-nobignum}" != "$TWINT_SDK_PHP_CURL_SSL_ENGINE" ]; then \
         EXTENSIONS="$(echo "$EXTENSIONS" | tr ' ' '\n' | grep -vxE 'gmp|bcmath' | tr '\n' ' ')"; \
