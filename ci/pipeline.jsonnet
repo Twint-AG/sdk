@@ -30,7 +30,7 @@ local base = {
 };
 
 local wiremockService = [{
-  name: 'wiremock/wiremock:3x@sha256:6189a83b30fd646e97d5950b027bc7a325fabfb6cae74e5123c5d491d0d62189',
+  name: 'wiremock/wiremock:3x@sha256:0d4ecb3e4dc8213fd7a4d37d6a78f6e6b553a6d2e15bd51b0999781282ac61b3',
   alias: 'wiremock',
 }];
 
