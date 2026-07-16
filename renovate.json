@@ -127,6 +127,11 @@
       "enabled": false
     },
     {
+      "description": "phpstan-extension >=2.1 conflicts with azjezz/psl, which veewee/xml and the php-soap stack still require on PHP 8.1",
+      "matchPackageNames": ["php-standard-library/phpstan-extension"],
+      "allowedVersions": "<2.1.0"
+    },
+    {
       "matchDepTypes": [
         "require-dev"
       ],

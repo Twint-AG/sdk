@@ -73,7 +73,7 @@
         "php-soap/psr18-transport": "^1.6.0",
         "laminas/laminas-code": "^4.16.0",
         "symfony/dotenv": "^6.4.39",
-        "phpstan/phpstan": "2.2.1",
+        "phpstan/phpstan": "2.2.5",
         "symplify/easy-coding-standard": "13.2.3",
         "slevomat/coding-standard": "8.29.0",
         "phpstan/phpstan-strict-rules": "2.0.11",
@@ -89,7 +89,7 @@
         "rregeer/phpunit-coverage-check": "0.3.1",
         "composer/semver": "^3.4.4",
         "maennchen/zipstream-php": "^3.1.1",
-        "phpstan/phpstan-phpunit": "2.0.16",
+        "phpstan/phpstan-phpunit": "2.0.18",
         "http-interop/http-factory-guzzle": "^1.2.1",
         "beste/in-memory-cache": "^1.4.0",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.37"
