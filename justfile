@@ -193,8 +193,8 @@ docker-compose-build: check-php-extensions
 
 restart: stop && start
 
-dev: start
-    docker compose exec -it php bash
+dev *args: start
+    docker compose exec -it php {{ if args == "" { "bash" } else { args } }}
 
 dev-docs: start
     docker compose exec -it sphinx bash
