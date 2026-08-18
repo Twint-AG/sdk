@@ -46,9 +46,12 @@ release_bot_email := "plugin@twint.ch"
 # `phpunit-empirical`; everything built on `phpunit` is hermetic and a stray request
 # fails rather than silently passing.
 #
-# `test-hermetic` gates coverage lower than `test` because the empirical lane is the only
-# place some code is reachable: the real-response paths in Client, and the
-# InvocationRecorder value objects. That code is still exercised, just not measured here.
+# Coverage is asserted at the full-suite level (coverage_level) only where both
+# lanes are visible: locally by `test`, and in CI by `check-coverage-merged`, which
+# combines the raw php-code-coverage files the lanes upload. `test-hermetic` keeps a
+# lower per-job gate because the empirical lane is the only place some code is
+# reachable: the real-response paths in Client, and the InvocationRecorder value
+# objects. That code is still exercised, just not measurable in the hermetic lane.
 
 empirical_group := "empirical"
 only_empirical := "--group=" + empirical_group
@@ -62,6 +65,15 @@ destructive_env := if ci != "" { "TWINT_SDK_TESTS_DESTRUCTIVE=1" } else { "" }
 response_log := "build/empirical-responses.log"
 empirical_env := "TWINT_SDK_TESTS_EMPIRICAL=1 TWINT_SDK_TESTS_EMPIRICAL_LOG=" + response_log
 
+# When TWINT_SDK_COVERAGE_PHP_FILE is set (CI does this on the jobs that feed the merged
+# gate), each lane additionally writes raw php-code-coverage data there for
+# `check-coverage-merged` to combine. The empirical lane measures coverage only for that
+# purpose; on its own it runs uninstrumented.
+coverage_level := "98"
+coverage_php_file := env_var_or_default("TWINT_SDK_COVERAGE_PHP_FILE", "")
+coverage_php := if coverage_php_file == "" { "" } else { "--coverage-php " + coverage_php_file }
+empirical_coverage := if coverage_php_file == "" { "--no-coverage" } else { "--coverage-php " + coverage_php_file }
+
 [private]
 phpunit *args:
     {{ destructive_env }} {{ vendor_bin }}/phpunit {{ args }}
@@ -72,21 +84,28 @@ phpunit-empirical *args:
     {{ empirical_env }} {{ destructive_env }} {{ vendor_bin }}/phpunit {{ args }}
 
 # Strips the absolute CI path so GitLab can map report entries back onto the repo.
-# Tolerates missing files: the empirical lane runs with --no-coverage.
+# Tolerates missing files: the empirical lane only measures coverage when it feeds
+# the merged gate.
 [private]
 normalize-reports:
     if [ -n "{{ ci }}" ]; then for f in build/coverage/cobertura.xml build/junit.xml; do if [ -e "$f" ]; then sed -i "s|${CI_PROJECT_DIR}/||g" "$f"; fi; done; fi
 
 # Both lanes, including the tests that hit the real TWINT API.
-test: phpunit-empirical && normalize-reports
-    {{ vendor_bin }}/coverage-check build/coverage/clover.xml 98
+test: (phpunit-empirical coverage_php) && normalize-reports
+    {{ vendor_bin }}/coverage-check build/coverage/clover.xml {{ coverage_level }}
 
 # Hermetic lane only: WireMock-backed and offline tests. What CI runs on the matrix.
-test-hermetic: (phpunit not_empirical) && normalize-reports
+test-hermetic: (phpunit not_empirical coverage_php) && normalize-reports
     {{ vendor_bin }}/coverage-check build/coverage/clover.xml 92
 
 # Empirical lane only: the tests that talk to the real TWINT API.
-test-empirical: (phpunit-empirical only_empirical "--no-coverage") && normalize-reports
+test-empirical: (phpunit-empirical only_empirical empirical_coverage) && normalize-reports
+
+# Full-suite gate for CI: merges the .cov files collected from both lanes' jobs and
+# asserts the level that no single CI lane can reach on its own.
+check-coverage-merged dir="build/cov":
+    {{ vendor_bin }}/phpcov merge --clover build/coverage/clover-merged.xml {{ dir }}
+    {{ vendor_bin }}/coverage-check build/coverage/clover-merged.xml {{ coverage_level }}
 
 test-unit: (phpunit "--testsuite=unit")
 

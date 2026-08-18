@@ -35,9 +35,20 @@ local empiricalCombos = [
 // phpVersionsLocked means a regenerated lock file only has to be recorded there.
 local empiricalDep(php) = if std.member(phpVersionsLocked, php) then 'locked' else 'highest';
 
-// Documentation examples drive the same mutual-TLS path as the empirical tests, so running
-// them on a single job is enough; pick the most widely deployed engine.
-local empiricalDocsEngine = if std.member(sslEngines, 'openssl') then 'openssl' else sslEngines[0];
+// Single-job work (documentation examples, the hermetic coverage feeder, the merge job)
+// is anchored to one engine; pick the most widely deployed one.
+local canonicalSslEngine = if std.member(sslEngines, 'openssl') then 'openssl' else sslEngines[0];
+
+// Coverage is merged across lanes: no single CI lane can reach the full-suite level on
+// its own, because some code is only reachable against the real API. One hermetic job
+// and every empirical job write raw php-code-coverage data, and coverage-merged
+// combines those files and asserts the full-suite level. The .cov files are serialized
+// php-code-coverage objects, which is why composer.json pins phpunit/php-code-coverage
+// exactly: every dependency flavor must produce merge-compatible files.
+local coverageFeeder(name) = {
+  variables+: { TWINT_SDK_COVERAGE_PHP_FILE: 'build/cov/%s.cov' % name },
+  artifacts+: { paths+: ['build/cov/'] },
+};
 
 local image(php, ssl) = '%s-%s-%s' % [imageBase, php, ssl];
 local combo(php, ssl) = '%s-%s' % [php, ssl];
@@ -110,10 +121,10 @@ local testJob(php, ssl, dep) = phpJob(php, ssl, dep, 'test') + fixtures(ssl) + {
 // No WireMock service and no `just wiremock-setup`: every test in this lane is
 // expected to reach the real API, and `just test-empirical` fails if one does not.
 local empiricalJob(combo) = phpJob(combo.php, combo.ssl, empiricalDep(combo.php), 'test') + envFile + {
-  variables+: { TWINT_SDK_PHP_CURL_SSL_ENGINE: combo.ssl },
+  variables+: { TWINT_SDK_PHP_CURL_SSL_ENGINE: combo.ssl, XDEBUG_MODE: 'coverage' },
   script+: [
     'just test-empirical',
-  ] + (if combo.ssl == empiricalDocsEngine then ['just run-docs-examples'] else []),
+  ] + (if combo.ssl == canonicalSslEngine then ['just run-docs-examples'] else []),
   // PAT is a shared external system; a transport hiccup should not fail the pipeline.
   retry: { max: 2, when: ['script_failure'] },
   artifacts: {
@@ -125,7 +136,7 @@ local empiricalJob(combo) = phpJob(combo.php, combo.ssl, empiricalDep(combo.php)
       junit: 'build/junit.xml',
     },
   },
-};
+} + coverageFeeder('empirical-' + combo.ssl);
 
 local staticAnalysisJob(php, dep) = phpJob(php, 'openssl', dep, 'check') + {
   script+: [
@@ -171,6 +182,10 @@ local containerJobs = {
   if missing(php, ssl)
 };
 
+// Any single hermetic job covers the whole hermetic suite, so one locked job is enough
+// to feed the merge; locked matches the merge job's own dependencies.
+local hermeticCoverageJobName = 'test-%s-%s-locked' % [phpVersionsLocked[0], canonicalSslEngine];
+
 local testJobs =
   {
     ['test-%s-%s-%s' % [php, ssl, dep]]: testJob(php, ssl, dep)
@@ -182,11 +197,26 @@ local testJobs =
     ['test-%s-%s-locked' % [php, ssl]]: testJob(php, ssl, 'locked')
     for php in phpVersionsLocked
     for ssl in sslEngines
+  }
+  + {
+    [hermeticCoverageJobName]+: coverageFeeder('hermetic'),
   };
 
+local empiricalJobName(combo) = 'empirical-%s-%s-%s' % [combo.php, combo.ssl, empiricalDep(combo.php)];
+
 local empiricalJobs = {
-  ['empirical-%s-%s-%s' % [combo.php, combo.ssl, empiricalDep(combo.php)]]: empiricalJob(combo)
+  [empiricalJobName(combo)]: empiricalJob(combo)
   for combo in empiricalCombos
+};
+
+// Downloads the .cov artifacts from the feeder jobs and asserts the merged, full-suite
+// coverage level -- the assertion the split lanes cannot make individually.
+local coverageMergedJob = phpJob(phpVersionsLocked[0], canonicalSslEngine, 'locked', 'check') + {
+  needs+: [{ job: hermeticCoverageJobName, artifacts: true }]
+          + [{ job: empiricalJobName(combo), artifacts: true } for combo in empiricalCombos],
+  script+: [
+    'just check-coverage-merged',
+  ],
 };
 
 local staticAnalysisJobs =
@@ -206,6 +236,8 @@ local codegenJobs = {
 };
 
 assert std.length(phpVersions) > 0 : 'resources-dev/php must define at least one PHP version';
+assert std.objectHas(testJobs, hermeticCoverageJobName) :
+       'the hermetic coverage feeder must be one of the generated test jobs';
 assert std.set([combo.ssl for combo in empiricalCombos]) == sslEngines :
        'every SSL engine must appear in the empirical lane: it is the only lane that performs a TLS handshake';
 
@@ -217,5 +249,6 @@ assert std.set([combo.ssl for combo in empiricalCombos]) == sslEngines :
 + codegenJobs
 + {
   'format-and-docs-check': formatAndDocsCheckJob,
+  'coverage-merged': coverageMergedJob,
   release: releaseJob,
 }
