@@ -10,7 +10,6 @@ use Exception;
 use JsonException;
 use Symfony\Component\Dotenv\Dotenv;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
-use Twint\Sdk\Value\Version;
 use WireMock\Client\ListStubMappingsResult;
 use WireMock\Client\WireMock;
 use WireMock\Serde\SerializationException;
@@ -63,7 +62,7 @@ function negate(string $operator): string
  * @throws JsonException
  * @return array{mappings: list<mixed>, meta: array{total: int}}
  */
-function clean(string $file): array
+function fixMappings(string $file): array
 {
     $content = non_empty_string()
         ->assert(file_get_contents($file));
@@ -145,14 +144,14 @@ function clean(string $file): array
  * @throws Exception
  * @throws SerializationException
  */
-function import(WireMock $wireMock, array $files): void
+function importMappings(WireMock $wireMock, array $files): void
 {
     $mergedStubs = [
         'mappings' => [],
     ];
 
     foreach ($files as $file) {
-        $stubs = clean($file);
+        $stubs = fixMappings($file);
 
         $mergedStubs['mappings'] = [...$mergedStubs['mappings'], ...$stubs['mappings']];
         $mergedStubs['meta'] = [
@@ -181,4 +180,8 @@ function import(WireMock $wireMock, array $files): void
 $wireMock = (new DefaultWireMockFactory())();
 $wireMock->isAlive();
 
-import($wireMock, [__DIR__ . '/../tests/fixtures/wiremock/stubs-v' . Version::V8_7_0()->dotVersion() . '.json']);
+importMappings(
+    $wireMock,
+    vec(non_empty_string())
+        ->assert(glob(__DIR__ . '/../tests/fixtures/wiremock/stubs-*.json'))
+);
