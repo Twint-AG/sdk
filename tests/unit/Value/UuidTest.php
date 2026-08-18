@@ -29,6 +29,9 @@ final class UuidTest extends ValueTest
         yield ['uuid:' . self::UUID];
     }
 
+    /**
+     * @param non-empty-string $uuid
+     */
     #[DataProvider('unusualUuids')]
     public function testValidationOfUnusualUuid(string $uuid): void
     {

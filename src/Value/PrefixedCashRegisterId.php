@@ -79,7 +79,7 @@ final class PrefixedCashRegisterId implements Stringable, Value, CashRegisterId
     }
 
     /**
-     * @return array{prefix: string, storeUuid: StoreUuid}
+     * @return array{prefix: non-empty-string, storeUuid: StoreUuid}
      */
     #[Override]
     public function jsonSerialize(): array

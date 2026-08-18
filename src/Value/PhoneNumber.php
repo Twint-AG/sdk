@@ -18,6 +18,9 @@ final class PhoneNumber implements Value, Stringable
      */
     use ComparableToEquality;
 
+    /**
+     * @param non-empty-string $phoneNumber
+     */
     public function __construct(
         private readonly string $phoneNumber
     ) {
@@ -37,6 +40,9 @@ final class PhoneNumber implements Value, Stringable
         return $this->phoneNumber <=> $other->phoneNumber;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function jsonSerialize(): string
     {

@@ -18,13 +18,16 @@ use Twint\Sdk\Value\TwoLetterIsoCountryCode;
 final class AddressTest extends ValueTest
 {
     /**
-     * @return iterable<array{string, string, string, string, string, string, string}>
+     * @return iterable<array{string, string, string, string, string, string, non-empty-string}>
      */
     public static function getParseExamples(): iterable
     {
         yield ['Joanna|Doe|Street 123|1234|City|CH', 'Joanna', 'Doe', 'Street 123', '1234', 'City', 'CH'];
     }
 
+    /**
+     * @param non-empty-string $isoCode
+     */
     #[DataProvider('getParseExamples')]
     public function testParse(
         string $str,

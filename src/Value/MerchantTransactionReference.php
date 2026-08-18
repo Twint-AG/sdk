@@ -65,6 +65,9 @@ abstract class MerchantTransactionReference implements Stringable, Value, OrderR
         return $this->value <=> $other->value;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function jsonSerialize(): string
     {

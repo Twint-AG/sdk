@@ -245,9 +245,8 @@ final class Client implements CoreCapabilities
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    $response->getOrder()
-                        ->getRequestedAmount()
-                        ->getCurrency(),
+                    non_empty_string()
+                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
@@ -288,9 +287,8 @@ final class Client implements CoreCapabilities
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    $response->getOrder()
-                        ->getRequestedAmount()
-                        ->getCurrency(),
+                    non_empty_string()
+                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
@@ -338,9 +336,8 @@ final class Client implements CoreCapabilities
                 OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
                 TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    $response->getOrder()
-                        ->getRequestedAmount()
-                        ->getCurrency(),
+                    non_empty_string()
+                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
@@ -488,8 +485,11 @@ final class Client implements CoreCapabilities
                     $key = $field->getName();
                     $data[$key] = match ($key) {
                         CustomerDataScopes::DATE_OF_BIRTH => Date::parse($field->getValue()),
-                        CustomerDataScopes::EMAIL => new Email($field->getValue()),
-                        CustomerDataScopes::PHONE_NUMBER => new PhoneNumber($field->getValue()),
+                        CustomerDataScopes::EMAIL => new Email(non_empty_string()->assert($field->getValue())),
+                        CustomerDataScopes::PHONE_NUMBER => new PhoneNumber(
+                            non_empty_string()
+                                ->assert($field->getValue())
+                        ),
                         CustomerDataScopes::SHIPPING_ADDRESS => Address::parse($field->getValue()),
                         default => null, // @codeCoverageIgnore
                     };

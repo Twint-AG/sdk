@@ -17,12 +17,18 @@ final class Url implements Stringable, Value
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
+    /**
+     * @param non-empty-string $url
+     */
     public function __construct(
         private readonly string $url
     ) {
         invariant(filter_var($url, FILTER_VALIDATE_URL) !== false, 'URL "%s" is not valid', $url);
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function __toString(): string
     {
@@ -37,6 +43,9 @@ final class Url implements Stringable, Value
         return $this->url <=> $other->url;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function jsonSerialize(): string
     {

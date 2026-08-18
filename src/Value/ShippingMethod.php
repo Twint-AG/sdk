@@ -54,6 +54,9 @@ final class ShippingMethod implements Value
         return $this->id;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function label(): string
     {
         return $this->label;
@@ -77,7 +80,7 @@ final class ShippingMethod implements Value
     }
 
     /**
-     * @return array{id: ShippingMethodId, label: string, price: Money}
+     * @return array{id: ShippingMethodId, label: non-empty-string, price: Money}
      */
     #[Override]
     public function jsonSerialize(): array

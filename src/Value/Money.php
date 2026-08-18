@@ -26,6 +26,9 @@ final class Money implements Stringable, Value, Enum
      */
     public const XXX = 'XXX';
 
+    /**
+     * @param non-empty-string $currency
+     */
     public function __construct(
         private readonly string $currency,
         private readonly float $amount,
@@ -96,7 +99,7 @@ final class Money implements Stringable, Value, Enum
     }
 
     /**
-     * @return array{currency: string, amount: float}
+     * @return array{currency: non-empty-string, amount: float}
      */
     #[Override]
     public function jsonSerialize(): array

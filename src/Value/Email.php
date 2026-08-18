@@ -19,8 +19,14 @@ final class Email implements Value, Stringable
      */
     use ComparableToEquality;
 
+    /**
+     * @var non-empty-string
+     */
     private readonly string $email;
 
+    /**
+     * @param non-empty-string $email
+     */
     public function __construct(string $email)
     {
         invariant(filter_var($email, FILTER_VALIDATE_EMAIL) !== false, 'Invalid email address: %s', $email);
@@ -41,6 +47,9 @@ final class Email implements Value, Stringable
         return $this->email <=> $other->email;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function jsonSerialize(): string
     {

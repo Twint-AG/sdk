@@ -7,6 +7,7 @@ namespace Twint\Sdk\Value;
 use Override;
 use Stringable;
 use function Psl\Type\instance_of;
+use function Psl\Type\non_empty_string;
 
 /**
  * @template-implements Value<self>
@@ -25,7 +26,7 @@ final class PairingUuid implements Stringable, Value
 
     public static function fromString(string $uuid): self
     {
-        return new self(new Uuid($uuid));
+        return new self(new Uuid(non_empty_string()->assert($uuid)));
     }
 
     #[Override]

@@ -20,8 +20,14 @@ final class Uuid implements Stringable, Value
 
     public const LENGTH = 36;
 
+    /**
+     * @var non-empty-string
+     */
     private readonly string $uuid;
 
+    /**
+     * @param non-empty-string $uuid
+     */
     public function __construct(string $uuid)
     {
         invariant(
@@ -32,6 +38,9 @@ final class Uuid implements Stringable, Value
         $this->uuid = strtolower($uuid);
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function __toString(): string
     {
@@ -46,6 +55,9 @@ final class Uuid implements Stringable, Value
         return $this->uuid <=> $other->uuid;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function jsonSerialize(): string
     {

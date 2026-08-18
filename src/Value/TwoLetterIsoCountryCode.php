@@ -19,12 +19,18 @@ final class TwoLetterIsoCountryCode implements Stringable, Value
      */
     use ComparableToEquality;
 
+    /**
+     * @param non-empty-string $code
+     */
     public function __construct(
         private readonly string $code
     ) {
         invariant(strlen($code) === 2, 'Country code must be exactly 2 characters long');
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
     public function __toString(): string
     {
@@ -39,8 +45,11 @@ final class TwoLetterIsoCountryCode implements Stringable, Value
         return $this->code <=> $other->code;
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Override]
-    public function jsonSerialize(): mixed
+    public function jsonSerialize(): string
     {
         return $this->code;
     }

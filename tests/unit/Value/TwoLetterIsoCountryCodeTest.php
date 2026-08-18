@@ -32,6 +32,7 @@ final class TwoLetterIsoCountryCodeTest extends ValueTest
     {
         $this->expectException(InvariantViolationException::class);
 
+        /** @var non-empty-string $countryCode */
         new TwoLetterIsoCountryCode($countryCode);
     }
 

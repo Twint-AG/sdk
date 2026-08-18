@@ -13,6 +13,7 @@ use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
 use Twint\Sdk\InvocationRecorder\Value\SoapRequest;
 use Twint\Sdk\InvocationRecorder\Value\SoapResponse;
 use Twint\Sdk\Value\Url;
+use function Psl\Type\non_empty_string;
 
 final class RecordingTransport implements Transport
 {
@@ -43,7 +44,7 @@ final class RecordingTransport implements Transport
     private static function convertRequest(SoapEngineRequest $request): SoapRequest
     {
         return new SoapRequest(
-            new Url($request->getLocation()),
+            new Url(non_empty_string()->assert($request->getLocation())),
             $request->getAction(),
             $request->getVersion(),
             $request->getOneWay(),
