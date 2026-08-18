@@ -1,6 +1,32 @@
 {
   "mappings": [
     {
+      "id": "fe1ea9f5-a1b9-57b7-b1f6-df6bc47695e2",
+      "name": "EnrollCashRegister",
+      "request": {
+        "urlPath": "/mer1/merchant/service/TWINTMerchantServiceV8_7",
+        "method": "POST",
+        "headers": {
+          "SOAPAction": {
+            "equalTo": "\"EnrollCashRegister\""
+          }
+        },
+        "pathParameters": {},
+        "formParameters": {}
+      },
+      "response": {
+        "status": 200,
+        "body": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:hdr=\"http://service.twint.ch/header/types/v8_7\" xmlns:mer=\"http://service.twint.ch/merchant/types/v8_7\">\n    <soapenv:Header>\n        <hdr:ResponseHeaderElement>\n            <hdr:MessageId>{{randomValue type='UUID'}}</hdr:MessageId>\n        </hdr:ResponseHeaderElement>\n    </soapenv:Header>\n    <soapenv:Body>\n        <mer:EnrollCashRegisterResponseElement>\n            <mer:BeaconSecurity>\n                <mer:BeaconUuid>{{randomValue type='UUID'}}</mer:BeaconUuid>\n                <mer:MajorId>1</mer:MajorId>\n                <mer:MinorId>1</mer:MinorId>\n                <mer:BeaconInitString>wiremock</mer:BeaconInitString>\n                <mer:BeaconSecret>wiremock</mer:BeaconSecret>\n            </mer:BeaconSecurity>\n        </mer:EnrollCashRegisterResponseElement>\n    </soapenv:Body>\n</soapenv:Envelope>",
+        "headers": {},
+        "transformers": [
+          "response-template"
+        ]
+      },
+      "uuid": "fe1ea9f5-a1b9-57b7-b1f6-df6bc47695e2",
+      "persistent": true,
+      "priority": 5
+    },
+    {
       "id": "1b754662-b2bf-49f0-9578-ebcbb1ffa4fe",
       "name": "StartOrder (Fast Checkout)",
       "request": {

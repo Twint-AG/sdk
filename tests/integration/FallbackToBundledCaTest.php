@@ -7,6 +7,7 @@ namespace Twint\Sdk\Tests\Integration;
 use Composer\CaBundle\CaBundle;
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\Clock\Clock;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -17,6 +18,7 @@ use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Io\FileStream;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\NonEmptyStream;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Value\ExistingPath;
 
@@ -25,6 +27,7 @@ use Twint\Sdk\Value\ExistingPath;
  * @internal
  */
 #[CoversClass(DefaultHttpClientFactory::class)]
+#[Group(Empirical::GROUP)]
 final class FallbackToBundledCaTest extends IntegrationTest
 {
     private const ENV_VAR_DESTRUCTIVE_TESTS_ENABLED = 'TWINT_SDK_TESTS_DESTRUCTIVE';

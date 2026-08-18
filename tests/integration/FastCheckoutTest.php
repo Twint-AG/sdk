@@ -6,8 +6,10 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Twint\Sdk\Capability\FastCheckout;
 use Twint\Sdk\Client;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\PairingStatus;
@@ -39,6 +41,7 @@ final class FastCheckoutTest extends IntegrationTest
         yield 'real case 1' => ['Kostenloser Versand (Voraussichtlicher Liefertermin: 3.–6. Dez)'];
     }
 
+    #[Group(Empirical::GROUP)]
     public function testFastCheckoutCheckIn(): void
     {
         self::retry(function () {
@@ -64,6 +67,7 @@ final class FastCheckoutTest extends IntegrationTest
      * @param non-empty-string $shippingMethodLabel
      */
     #[DataProvider('getShippingMethodLabels')]
+    #[Group(Empirical::GROUP)]
     public function testFastCheckoutCheckInWithShippingMethod(string $shippingMethodLabel): void
     {
         self::retry(function () use ($shippingMethodLabel) {
@@ -147,7 +151,7 @@ final class FastCheckoutTest extends IntegrationTest
 
             $order = $client->startFastCheckoutOrder(
                 $fastCheckoutState->pairingUuid(),
-                $this->createTransactionReference(),
+                self::createTransactionReference(),
                 Money::CHF(1.50)
             );
             self::assertNotNull($order);
@@ -215,6 +219,7 @@ final class FastCheckoutTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testFastCheckoutMerchantAbort(): void
     {
         self::retry(function () {

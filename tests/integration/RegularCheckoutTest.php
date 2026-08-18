@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use Twint\Sdk\Capability\OrderCheckout;
 use Twint\Sdk\Client;
+use Twint\Sdk\Factory\DefaultHttpClientFactory;
+use Twint\Sdk\Factory\DefaultSoapEngineFactory;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Tools\PHPUnit\Assertions;
 use Twint\Sdk\Value\Money;
 use Twint\Sdk\Value\OrderStatus;
@@ -24,6 +28,10 @@ use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
  * @internal
  */
 #[CoversClass(Client::class)]
+// Driving SOAP through WireMock exercises the full engine and PSR-18 stack; the only
+// other tests declaring these factories are in the empirical group.
+#[CoversClass(DefaultSoapEngineFactory::class)]
+#[CoversClass(DefaultHttpClientFactory::class)]
 final class RegularCheckoutTest extends IntegrationTest
 {
     use Assertions;
@@ -42,11 +50,12 @@ final class RegularCheckoutTest extends IntegrationTest
 
     private const WIREMOCK_SCENARIO_STATE_FAILURE_SETUP_GENERAL_ERROR = 'SetupFailureGeneralError';
 
+    #[Group(Empirical::GROUP)]
     public function testStartOrder(): void
     {
         self::retry(function () {
             $client = $this->createClient();
-            $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
+            $order = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
             self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $order->status());
             self::assertTrue($order->requiresPairing());
@@ -57,11 +66,12 @@ final class RegularCheckoutTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testMonitorOrderByOrderId(): void
     {
         self::retry(function () {
             $client = $this->createClient();
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
@@ -73,11 +83,12 @@ final class RegularCheckoutTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testMonitorOrderByMerchantTransactionReference(): void
     {
         self::retry(function () {
             $client = $this->createClient();
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
@@ -97,7 +108,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $version = Version::latest();
 
             $client = $this->createClient($version);
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $client->startOrder($transactionReference, Money::CHF(100));
 
@@ -122,7 +133,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
             $client = $this->createClient(Version::latest());
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
@@ -139,7 +150,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
             $client = $this->createClient(Version::latest());
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
@@ -159,11 +170,11 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->enableWireMockForSoapMethod('StartOrder');
 
             $client = $this->createClient(Version::latest());
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-            $reversalReference = $this->createTransactionReference();
+            $reversalReference = self::createTransactionReference();
             $reversed = $client->reverseOrder($reversalReference, $order->id(), Money::CHF(100));
 
             self::assertObjectNotEquals(
@@ -180,11 +191,11 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->enableWireMockForSoapMethod('StartOrder');
 
             $client = $this->createClient(Version::latest());
-            $transactionReference = $this->createTransactionReference();
+            $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
 
-            $reversalReference = $this->createTransactionReference();
+            $reversalReference = self::createTransactionReference();
             $reversed = $client->reverseOrder(
                 $reversalReference,
                 $order->merchantTransactionReference(),
@@ -200,12 +211,13 @@ final class RegularCheckoutTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testCancelOrderByOrderId(): void
     {
         self::retry(function () {
             $client = $this->createClient();
 
-            $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
+            $started = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
             $cancelled = $client->cancelOrder($started->id());
 
@@ -214,12 +226,13 @@ final class RegularCheckoutTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testCancelOrderByMerchantTransactionReference(): void
     {
         self::retry(function () {
             $client = $this->createClient();
 
-            $started = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
+            $started = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
             $cancelled = $client->cancelOrder($started->merchantTransactionReference());
 
@@ -237,7 +250,7 @@ final class RegularCheckoutTest extends IntegrationTest
 
             $client = $this->createClient(Version::latest());
 
-            $order = $client->startOrder($this->createTransactionReference(), Money::CHF(100));
+            $order = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_SUCCESS, self::WIREMOCK_SCENARIO_STATE_SUCCESS_SETUP);
@@ -267,7 +280,7 @@ final class RegularCheckoutTest extends IntegrationTest
                 ->resetAllScenarios();
 
             $client = $this->createClient(Version::latest());
-            $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
+            $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
@@ -303,7 +316,7 @@ final class RegularCheckoutTest extends IntegrationTest
                 ->resetAllScenarios();
 
             $client = $this->createClient(Version::latest());
-            $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
+            $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
@@ -339,7 +352,7 @@ final class RegularCheckoutTest extends IntegrationTest
                 ->resetAllScenarios();
 
             $client = $this->createClient(Version::latest());
-            $order = $client->startOrder($this->createTransactionReference(), Money::CHF(10));
+            $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);

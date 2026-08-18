@@ -36,22 +36,65 @@ release_bot_name := "TWINT Release Bot"
 release_bot_email := "plugin@twint.ch"
 
 # Testing
+#
+# Tests that talk to the real TWINT API (service-pat.twint.ch) are grouped as
+# "empirical". WireMock is served over plain HTTP, so those are the only tests that
+# exercise the client certificate and the mutual-TLS handshake, which is why they get a
+# CI lane of their own instead of running on the full PHP/SSL matrix.
+#
+# Reaching the real API is opt-in, so only the recipes that mean to use it depend on
+# `phpunit-empirical`; everything built on `phpunit` is hermetic and a stray request
+# fails rather than silently passing.
+#
+# `test-hermetic` gates coverage lower than `test` because the empirical lane is the only
+# place some code is reachable: the real-response paths in Client, and the
+# InvocationRecorder value objects. That code is still exercised, just not measured here.
+
+empirical_group := "empirical"
+only_empirical := "--group=" + empirical_group
+not_empirical := "--exclude-group=" + empirical_group
+
+# Only set in CI: these tests move the container's CA bundles out of the way.
+destructive_env := if ci != "" { "TWINT_SDK_TESTS_DESTRUCTIVE=1" } else { "" }
+
+# ext-soap reports any non-XML response as "looks like we got no XML document", so
+# whenever the real API is permitted its responses are recorded. Uploaded by the CI job.
+response_log := "build/empirical-responses.log"
+empirical_env := "TWINT_SDK_TESTS_EMPIRICAL=1 TWINT_SDK_TESTS_EMPIRICAL_LOG=" + response_log
 
 [private]
 phpunit *args:
-    {{ if ci != "" { "TWINT_SDK_TESTS_DESTRUCTIVE=1" } else { "" } }} {{ vendor_bin }}/phpunit {{ args }}
+    {{ destructive_env }} {{ vendor_bin }}/phpunit {{ args }}
 
-test: phpunit
+[private]
+phpunit-empirical *args:
+    rm -f {{ response_log }}
+    {{ empirical_env }} {{ destructive_env }} {{ vendor_bin }}/phpunit {{ args }}
+
+# Strips the absolute CI path so GitLab can map report entries back onto the repo.
+# Tolerates missing files: the empirical lane runs with --no-coverage.
+[private]
+normalize-reports:
+    if [ -n "{{ ci }}" ]; then for f in build/coverage/cobertura.xml build/junit.xml; do if [ -e "$f" ]; then sed -i "s|${CI_PROJECT_DIR}/||g" "$f"; fi; done; fi
+
+# Both lanes, including the tests that hit the real TWINT API.
+test: phpunit-empirical && normalize-reports
     {{ vendor_bin }}/coverage-check build/coverage/clover.xml 98
-    if [ -n "{{ ci }}" ]; then sed -i "s|${CI_PROJECT_DIR}/||g" build/coverage/cobertura.xml build/junit.xml; fi
+
+# Hermetic lane only: WireMock-backed and offline tests. What CI runs on the matrix.
+test-hermetic: (phpunit not_empirical) && normalize-reports
+    {{ vendor_bin }}/coverage-check build/coverage/clover.xml 92
+
+# Empirical lane only: the tests that talk to the real TWINT API.
+test-empirical: (phpunit-empirical only_empirical "--no-coverage") && normalize-reports
 
 test-unit: (phpunit "--testsuite=unit")
 
-test-integration: (phpunit "--testsuite=integration")
+test-integration: (phpunit-empirical "--testsuite=integration")
 
 test-minimal-runtime:
     composer remove --dev phpro/soap-client
-    {{ vendor_bin }}/phpunit --no-coverage
+    {{ vendor_bin }}/phpunit {{ not_empirical }} --no-coverage
 
 # Static analysis
 
@@ -213,6 +256,12 @@ check-doc-refs:
 check-docs: check-format-docs check-doc-refs static-analysis-docs
     for f in {{ docs_dir }}/_examples/*.example.php; do
         php -l "$f"
+    done
+
+# Executes the documentation examples against the real TWINT API (empirical lane).
+[script]
+run-docs-examples:
+    for f in {{ docs_dir }}/_examples/*.example.php; do
         {{ retry_staggered }} php -d auto_prepend_file={{ docs_dir }}/_examples/bootstrap.php "$f" > /dev/null
     done
 

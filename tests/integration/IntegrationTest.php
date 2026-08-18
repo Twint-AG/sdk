@@ -5,17 +5,24 @@ declare(strict_types=1);
 namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Client\ClientInterface;
 use Soap\Engine\Encoder;
 use Soap\Engine\HttpBinding\SoapRequest;
 use Soap\Engine\Transport;
 use Twint\Sdk\Capability\Capability;
 use Twint\Sdk\Certificate;
 use Twint\Sdk\Client;
+use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
 use Twint\Sdk\Io\ContentSensitiveFileWriter;
 use Twint\Sdk\Io\FileStream;
+use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\NonEmptyStream;
 use Twint\Sdk\Soap\RequestModifyingEncoder;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
+use Twint\Sdk\Tools\Hermeticism\HermeticHttpClient;
+use Twint\Sdk\Tools\Hermeticism\Hermeticism;
+use Twint\Sdk\Tools\Hermeticism\LoggingHttpClient;
 use Twint\Sdk\Tools\SystemEnvironment;
 use Twint\Sdk\Tools\WireMock\DefaultWireMockFactory;
 use Twint\Sdk\Util\Resilience;
@@ -93,8 +100,10 @@ abstract class IntegrationTest extends TestCase
                         $request->getOneWay()
                     )
                 ),
-                wrapTransport: [$this, 'wrapTransport']
+                wrapTransport: [$this, 'wrapTransport'],
+                createHttpClient: self::instrumentedHttpClientFactory(),
             ),
+            httpClientFactory: self::instrumentedHttpClientFactory(),
         );
 
         // @phpstan-ignore-next-line
@@ -106,27 +115,64 @@ abstract class IntegrationTest extends TestCase
         return StoreUuid::fromString(SystemEnvironment::get('TWINT_SDK_TEST_STORE_UUID'));
     }
 
-    final protected function createTransactionReference(): UnfiledMerchantTransactionReference
+    final protected static function createTransactionReference(): UnfiledMerchantTransactionReference
     {
         return new UnfiledMerchantTransactionReference(
             substr(hash('sha3-256', non_empty_string()->assert(random_bytes(32))), 0, 50)
         );
     }
 
+    private static function responseLogPath(): ?string
+    {
+        $path = $_SERVER[Empirical::LOG_ENV_VAR] ?? '';
+
+        return is_string($path) && $path !== '' ? $path : null;
+    }
+
     /**
+     * Guards every outgoing request against {@see Hermeticism}, and logs the responses
+     * when {@see Empirical::LOG_ENV_VAR} names a file to write them to.
+     *
+     * Applied at the PSR-18 layer rather than around the transport, because
+     * {@see self::wrapTransport()} is an overridable hook and a subclass replacing it
+     * would otherwise silently drop both.
+     *
+     * @return callable(FileWriter, ?Certificate\CertificateContainer=): ClientInterface
+     */
+    private static function instrumentedHttpClientFactory(): callable
+    {
+        $factory = new DefaultHttpClientFactory();
+
+        return static function (
+            FileWriter $writer,
+            ?Certificate\CertificateContainer $certificate = null
+        ) use ($factory): ClientInterface {
+            $client = new HermeticHttpClient($factory($writer, $certificate));
+            $logPath = self::responseLogPath();
+
+            return $logPath === null ? $client : new LoggingHttpClient($client, $logPath);
+        };
+    }
+
+    /**
+     * Every order operation is preceded by an EnrollCashRegister call, so a test that stubs
+     * any SOAP operation has to stub that one too or it still reaches the real API.
+     *
      * @param non-empty-string ...$methods
      */
     final protected function enableWireMockForSoapMethod(string ...$methods): void
     {
-        $this->wireMockMethods = array_values(array_unique([...$this->wireMockMethods, ...$methods]));
+        $this->wireMockMethods = array_values(
+            array_unique([...$this->wireMockMethods, ...$methods, 'EnrollCashRegister'])
+        );
     }
 
     final protected function wireMock(): WireMock
     {
-        return $this->wireMock ??= $this->createWireMock();
+        return $this->wireMock ??= self::createWireMock();
     }
 
-    protected function createWireMock(): WireMock
+    protected static function createWireMock(): WireMock
     {
         return (new DefaultWireMockFactory())();
     }

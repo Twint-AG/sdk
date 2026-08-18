@@ -6,6 +6,7 @@ namespace Twint\Sdk\Tests\Integration\InvocationRecorder;
 
 use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\PreCondition;
 use ReflectionClass;
 use Soap\Engine\Transport;
@@ -21,6 +22,7 @@ use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
 use Twint\Sdk\InvocationRecorder\Value\SoapRequest;
 use Twint\Sdk\InvocationRecorder\Value\SoapResponse;
 use Twint\Sdk\Tests\Integration\IntegrationTest;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 
@@ -48,6 +50,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
         $this->recordingClient = new InvocationRecordingClient(self::createClient(), $this->messageRecorder);
     }
 
+    #[Group(Empirical::GROUP)]
     public function testSystemStatus(): void
     {
         self::retry(function () {
@@ -90,6 +93,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testCancelOrderFailure(): void
     {
         self::retry(function () {
@@ -160,6 +164,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testStartOrder(): void
     {
         self::retry(function () {

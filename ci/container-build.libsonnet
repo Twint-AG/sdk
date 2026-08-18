@@ -9,7 +9,6 @@ function(php, ssl, imageTag, base) base {
     PHP_VERSION: php,
     TWINT_SDK_PHP_CURL_SSL_ENGINE: ssl,
     TWINT_SDK_PHP_IMAGE_CACHE: '$CI_REGISTRY_IMAGE/php',
-    STORAGE_DRIVER: 'vfs',
   },
   resource_group: 'container-build-' + php,
   timeout: '2h',

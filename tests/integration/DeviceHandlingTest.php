@@ -6,9 +6,11 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use Twint\Sdk\Capability\DeviceHandling;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
+use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\DetectedDevice;
 use Twint\Sdk\Value\NumericPairingToken;
@@ -157,6 +159,7 @@ final class DeviceHandlingTest extends IntegrationTest
         });
     }
 
+    #[Group(Empirical::GROUP)]
     public function testGetIosAppSchemes(): void
     {
         self::retry(function () {
@@ -176,6 +179,7 @@ final class DeviceHandlingTest extends IntegrationTest
      * @param PairingToken<scalar> $token
      */
     #[DataProvider('getTokens')]
+    #[Group(Empirical::GROUP)]
     public function testGetIosAppLink(PairingToken $token): void
     {
         self::retry(function () use ($token) {

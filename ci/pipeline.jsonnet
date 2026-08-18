@@ -14,6 +14,31 @@ local phpVersions = std.set([splitCombo(c)[0] for c in combos]);
 local sslEngines = std.set([splitCombo(c)[1] for c in combos]);
 local phpVersionsLocked = ['8.1', '8.2'];
 
+// The empirical lane is driven by the SSL engine, not by the PHP version. WireMock is served
+// over plain HTTP, so these are the only jobs that perform a TLS handshake, and the engine
+// decides how the client certificate is handled -- the one axis the hermetic lane cannot
+// cover. PHP breadth is already covered there, so each engine borrows a PHP version in
+// turn: one job per engine rather than their cross-product, because real-API jobs are
+// expensive against PAT.
+//
+// Iterating engines rather than versions means an engine can never end up without an empirical
+// job, however the PHP matrix changes.
+local empiricalCombos = [
+  { ssl: sslEngines[i], php: phpVersions[i % std.length(phpVersions)] }
+  for i in std.range(0, std.length(sslEngines) - 1)
+];
+
+// The lock file cannot be installed on every PHP version -- packages in it cap out
+// below the newest ones, which is what phpVersionsLocked records -- so a empirical job
+// takes locked dependencies where that works and highest elsewhere, matching what
+// the hermetic matrix already does for the same version. Deriving this from
+// phpVersionsLocked means a regenerated lock file only has to be recorded there.
+local empiricalDep(php) = if std.member(phpVersionsLocked, php) then 'locked' else 'highest';
+
+// Documentation examples drive the same mutual-TLS path as the empirical tests, so running
+// them on a single job is enough; pick the most widely deployed engine.
+local empiricalDocsEngine = if std.member(sslEngines, 'openssl') then 'openssl' else sslEngines[0];
+
 local image(php, ssl) = '%s-%s-%s' % [imageBase, php, ssl];
 local combo(php, ssl) = '%s-%s' % [php, ssl];
 local missing(php, ssl) = std.member(missingTags, combo(php, ssl));
@@ -71,13 +96,33 @@ local phpJob(php, ssl, dep, stage) = base {
 local testJob(php, ssl, dep) = phpJob(php, ssl, dep, 'test') + fixtures(ssl) + {
   variables+: { XDEBUG_MODE: 'coverage' },
   script+: [
-    'just test',
+    'just test-hermetic',
   ] + (if dep == 'locked' then ['just test-minimal-runtime'] else []),
   coverage: '/Lines:\\s+\\d+(?:\\.\\d+)?%/',
   artifacts: {
     reports: {
       junit: 'build/junit.xml',
       cobertura: 'build/coverage/cobertura.xml',
+    },
+  },
+};
+
+// No WireMock service and no `just wiremock-setup`: every test in this lane is
+// expected to reach the real API, and `just test-empirical` fails if one does not.
+local empiricalJob(combo) = phpJob(combo.php, combo.ssl, empiricalDep(combo.php), 'test') + envFile + {
+  variables+: { TWINT_SDK_PHP_CURL_SSL_ENGINE: combo.ssl },
+  script+: [
+    'just test-empirical',
+  ] + (if combo.ssl == empiricalDocsEngine then ['just run-docs-examples'] else []),
+  // PAT is a shared external system; a transport hiccup should not fail the pipeline.
+  retry: { max: 2, when: ['script_failure'] },
+  artifacts: {
+    when: 'always',
+    // The response log is the only record of what the API actually returned; ext-soap
+    // reduces every non-XML response to "looks like we got no XML document".
+    paths: ['build/empirical-responses.log'],
+    reports: {
+      junit: 'build/junit.xml',
     },
   },
 };
@@ -139,6 +184,11 @@ local testJobs =
     for ssl in sslEngines
   };
 
+local empiricalJobs = {
+  ['empirical-%s-%s-%s' % [combo.php, combo.ssl, empiricalDep(combo.php)]]: empiricalJob(combo)
+  for combo in empiricalCombos
+};
+
 local staticAnalysisJobs =
   {
     ['static-analysis-%s-highest' % php]: staticAnalysisJob(php, 'highest')
@@ -155,9 +205,14 @@ local codegenJobs = {
   for dep in ['lowest', 'highest', 'locked']
 };
 
+assert std.length(phpVersions) > 0 : 'resources-dev/php must define at least one PHP version';
+assert std.set([combo.ssl for combo in empiricalCombos]) == sslEngines :
+       'every SSL engine must appear in the empirical lane: it is the only lane that performs a TLS handshake';
+
 { stages: ['build', 'test', 'check', 'codegen', 'release'] }
 + containerJobs
 + testJobs
++ empiricalJobs
 + staticAnalysisJobs
 + codegenJobs
 + {
