@@ -20,10 +20,6 @@ class EnrollCashRegisterRequestType
 
     protected ?string $FormerCashRegisterId = null;
 
-    protected ?string $BeaconInventoryNumber = null;
-
-    protected ?string $BeaconDaemonVersion = null;
-
     public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
@@ -65,32 +61,6 @@ class EnrollCashRegisterRequestType
     {
         $new = clone $this;
         $new->FormerCashRegisterId = $FormerCashRegisterId;
-
-        return $new;
-    }
-
-    public function getBeaconInventoryNumber(): ?string
-    {
-        return $this->BeaconInventoryNumber;
-    }
-
-    public function withBeaconInventoryNumber(?string $BeaconInventoryNumber): static
-    {
-        $new = clone $this;
-        $new->BeaconInventoryNumber = $BeaconInventoryNumber;
-
-        return $new;
-    }
-
-    public function getBeaconDaemonVersion(): ?string
-    {
-        return $this->BeaconDaemonVersion;
-    }
-
-    public function withBeaconDaemonVersion(?string $BeaconDaemonVersion): static
-    {
-        $new = clone $this;
-        $new->BeaconDaemonVersion = $BeaconDaemonVersion;
 
         return $new;
     }

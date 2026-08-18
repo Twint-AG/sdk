@@ -4,71 +4,14 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Override;
-use Stringable;
-use Twint\Sdk\Util\Type;
-use function Psl\Type\instance_of;
-
-/**
- * @template-implements Value<self>
- * @template-implements Enum<self::*>
- */
-final class SystemStatus implements Stringable, Value, Enum
+enum SystemStatus: string
 {
-    /** @use ComparableToEquality<self> */
-    use ComparableToEquality;
+    case OK = 'OK';
 
-    public const OK = 'OK';
-
-    public const ERROR = 'ERROR';
-
-    /**
-     * @param self::* $status
-     */
-    public function __construct(
-        private readonly string $status,
-    ) {
-        Type::maybeUnionOfLiterals(...self::all())->assert($status);
-    }
-
-    #[Override]
-    public static function all(): array
-    {
-        return [self::OK, self::ERROR];
-    }
-
-    public static function OK(): self
-    {
-        return new self(self::OK);
-    }
-
-    public static function ERROR(): self
-    {
-        return new self(self::ERROR);
-    }
-
-    #[Override]
-    public function __toString(): string
-    {
-        return $this->status;
-    }
+    case ERROR = 'ERROR';
 
     public function isOk(): bool
     {
-        return $this->status === self::OK;
-    }
-
-    #[Override]
-    public function compare($other): int
-    {
-        instance_of(self::class)->assert($other);
-
-        return $this->status <=> $other->status;
-    }
-
-    #[Override]
-    public function jsonSerialize(): string
-    {
-        return $this->status;
+        return $this === self::OK;
     }
 }

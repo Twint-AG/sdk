@@ -12,7 +12,7 @@ use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 interface OrderReversal extends OrderMonitoring
 {
     /**
-     * @return Order<null, null, null>
+     * @return Order<null, null, null, null>
      */
     public function reverseOrder(
         UnfiledMerchantTransactionReference $reversalReference,

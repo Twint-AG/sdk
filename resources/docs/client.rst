@@ -20,8 +20,8 @@ provided by TWINT in the customer portal to identity the relevant store.
     :language: PHP
     :end-before: // Production start
 
-To select the production environment, use |fq-method-value-environment-production|. For the testing environment,
-use |fq-method-value-environment-testing|.
+To select the production environment, use |fq-case-value-environment-production|. For the testing environment,
+use |fq-case-value-environment-testing|.
 
 .. literalinclude:: _examples/client-instantiation.example.php
     :language: PHP

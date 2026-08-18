@@ -29,8 +29,6 @@ abstract class ValueTest extends TestCase
      */
     protected readonly object $value;
 
-    protected bool $constNamesEqualsValues = true;
-
     /**
      * @return iterable<string, array{string, string|int}>
      */
@@ -137,11 +135,16 @@ abstract class ValueTest extends TestCase
     {
         self::requireEnum();
 
-        if (!$this->constNamesEqualsValues) {
+        if (!$this->expectConstantNamesIdenticalToValues()) {
             self::markTestSkipped('Not applicable for this test');
         }
 
         self::assertSame($constantName, $constantValue);
+    }
+
+    protected function expectConstantNamesIdenticalToValues(): bool
+    {
+        return false;
     }
 
     #[DataProvider('getValueConstants')]
@@ -225,7 +228,6 @@ abstract class ValueTest extends TestCase
 
     private static function propertyToJsonValue(ReflectionProperty $property, JsonSerializable $value): mixed
     {
-        $property->setAccessible(true);
         $value = $property->getValue($value);
 
         while ($value instanceof JsonSerializable) {

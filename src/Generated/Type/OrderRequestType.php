@@ -19,8 +19,6 @@ class OrderRequestType
      */
     protected ?string $MerchantTransactionReference = null;
 
-    protected ?CurrencyAmountType $CustomerBenefit = null;
-
     protected ?string $EReceiptUrl = null;
 
     protected ?OrderLinkType $Link = null;
@@ -96,19 +94,6 @@ class OrderRequestType
     {
         $new = clone $this;
         $new->MerchantTransactionReference = $MerchantTransactionReference;
-
-        return $new;
-    }
-
-    public function getCustomerBenefit(): ?CurrencyAmountType
-    {
-        return $this->CustomerBenefit;
-    }
-
-    public function withCustomerBenefit(?CurrencyAmountType $CustomerBenefit): static
-    {
-        $new = clone $this;
-        $new->CustomerBenefit = $CustomerBenefit;
 
         return $new;
     }

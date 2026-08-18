@@ -34,21 +34,29 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     protected ?bool $QRCodeRendering = null;
 
     /**
+     * @var 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    protected ?string $PaymentLayerRendering = null;
+
+    /**
      * @param non-empty-array<int<0, 19>, string> $RequestedScopes
      * @param array<int<0, 19>, ShippingMethodReferenceType> $ShippingMethods
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
         CurrencyAmountType $NetAmount,
         array $RequestedScopes,
         array $ShippingMethods,
-        ?bool $QRCodeRendering
+        ?bool $QRCodeRendering,
+        ?string $PaymentLayerRendering
     ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->NetAmount = $NetAmount;
         $this->RequestedScopes = $RequestedScopes;
         $this->ShippingMethods = $ShippingMethods;
         $this->QRCodeRendering = $QRCodeRendering;
+        $this->PaymentLayerRendering = $PaymentLayerRendering;
     }
 
     public function getMerchantInformation(): MerchantInformationType
@@ -124,6 +132,25 @@ class RequestFastCheckoutCheckInRequestElement implements RequestInterface
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;
+
+        return $new;
+    }
+
+    /**
+     * @return 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    public function getPaymentLayerRendering(): ?string
+    {
+        return $this->PaymentLayerRendering;
+    }
+
+    /**
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
+     */
+    public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
+    {
+        $new = clone $this;
+        $new->PaymentLayerRendering = $PaymentLayerRendering;
 
         return $new;
     }

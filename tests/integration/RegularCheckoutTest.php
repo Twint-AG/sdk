@@ -6,7 +6,8 @@ namespace Twint\Sdk\Tests\Integration;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
-use Twint\Sdk\Capability\OrderCheckout;
+use Twint\Sdk\Capability\CustomUiOrderCheckout;
+use Twint\Sdk\Capability\HostedUiOrderCheckout;
 use Twint\Sdk\Client;
 use Twint\Sdk\Factory\DefaultHttpClientFactory;
 use Twint\Sdk\Factory\DefaultSoapEngineFactory;
@@ -24,7 +25,7 @@ use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 
 /**
- * @template-extends IntegrationTest<OrderCheckout>
+ * @template-extends IntegrationTest<CustomUiOrderCheckout&HostedUiOrderCheckout>
  * @internal
  */
 #[CoversClass(Client::class)]
@@ -57,12 +58,30 @@ final class RegularCheckoutTest extends IntegrationTest
             $client = $this->createClient();
             $order = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $order->status());
+            self::assertSame(OrderStatus::IN_PROGRESS, $order->status());
             self::assertTrue($order->requiresPairing());
             self::assertNotNull($order->pairingStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $order->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $order->pairingStatus());
             self::assertNotNull($order->pairingToken());
             self::assertNotNull($order->qrCode());
+            self::assertNull($order->paymentUrl());
+        });
+    }
+
+    #[Group(Empirical::GROUP)]
+    public function testStartHostedOrder(): void
+    {
+        self::retry(function () {
+            $client = $this->createClient();
+            $order = $client->startHostedOrder(self::createTransactionReference(), Money::CHF(100));
+
+            self::assertSame(OrderStatus::IN_PROGRESS, $order->status());
+            self::assertTrue($order->requiresPairing());
+            self::assertNotNull($order->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $order->pairingStatus());
+            self::assertNotNull($order->pairingToken());
+            self::assertNull($order->qrCode());
+            self::assertNotNull($order->paymentUrl());
         });
     }
 
@@ -78,8 +97,8 @@ final class RegularCheckoutTest extends IntegrationTest
             $monitorOrder = $client->monitorOrder($order->id());
 
             self::assertObjectEquals($order->id(), $monitorOrder->id());
-            self::assertObjectEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
-            self::assertObjectEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
+            self::assertSame($order->transactionStatus(), $monitorOrder->transactionStatus());
+            self::assertSame($order->pairingStatus(), $monitorOrder->pairingStatus());
         });
     }
 
@@ -95,8 +114,42 @@ final class RegularCheckoutTest extends IntegrationTest
             $monitorOrder = $client->monitorOrder($order->merchantTransactionReference());
 
             self::assertObjectEquals($order->id(), $monitorOrder->id());
-            self::assertObjectEquals($order->transactionStatus(), $monitorOrder->transactionStatus());
-            self::assertObjectEquals($order->pairingStatus(), $monitorOrder->pairingStatus());
+            self::assertSame($order->transactionStatus(), $monitorOrder->transactionStatus());
+            self::assertSame($order->pairingStatus(), $monitorOrder->pairingStatus());
+        });
+    }
+
+    public function testStartHostedOrderRendersAPaymentPageInsteadOfAQrCode(): void
+    {
+        self::retry(function () {
+            $this->enableWireMockForSoapMethod('StartOrder');
+
+            $version = Version::LATEST;
+
+            $client = $this->createClient($version);
+
+            $order = $client->startHostedOrder(self::createTransactionReference(), Money::CHF(100));
+
+            self::assertSame(OrderStatus::IN_PROGRESS, $order->status());
+            self::assertNull($order->qrCode());
+            self::assertNotNull($order->paymentUrl());
+            self::assertStringStartsWith('https://', (string) $order->paymentUrl());
+
+            $requests = $this->wireMock()
+                ->getAllServeEvents(null, 1)
+                ->getRequests();
+            self::assertCount(1, $requests);
+            /** @var non-empty-list<ServeEvent> $requests */
+            $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
+                ->xpath(namespaces([
+                    'mer' => (string) $version->soapNamespaceForMerchantTypes(),
+                ]));
+
+            self::assertSame(
+                1,
+                $xpath->evaluate('count(//mer:PaymentLayerRendering[text()="PAYMENT_PAGE"])', int())
+            );
+            self::assertSame(0, $xpath->evaluate('count(//mer:QRCodeRendering)', int()));
         });
     }
 
@@ -105,7 +158,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
-            $version = Version::latest();
+            $version = Version::LATEST;
 
             $client = $this->createClient($version);
             $transactionReference = self::createTransactionReference();
@@ -131,7 +184,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -139,7 +192,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $confirmedOrder = $client->confirmOrder($order->id(), Money::CHF(100));
 
             self::assertObjectEquals($order->id(), $confirmedOrder->id());
-            self::assertObjectEquals(OrderStatus::SUCCESS(), $confirmedOrder->status());
+            self::assertSame(OrderStatus::SUCCESS, $confirmedOrder->status());
         });
     }
 
@@ -148,7 +201,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder', 'ConfirmOrder');
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -159,7 +212,7 @@ final class RegularCheckoutTest extends IntegrationTest
                 $order->merchantTransactionReference(),
                 $confirmedOrder->merchantTransactionReference()
             );
-            self::assertObjectEquals($confirmedOrder->status(), OrderStatus::SUCCESS());
+            self::assertSame(OrderStatus::SUCCESS, $confirmedOrder->status());
         });
     }
 
@@ -168,7 +221,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -189,7 +242,7 @@ final class RegularCheckoutTest extends IntegrationTest
         self::retry(function () {
             $this->enableWireMockForSoapMethod('StartOrder');
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $transactionReference = self::createTransactionReference();
 
             $order = $client->startOrder($transactionReference, Money::CHF(100));
@@ -220,8 +273,8 @@ final class RegularCheckoutTest extends IntegrationTest
 
             $cancelled = $client->cancelOrder($started->id());
 
-            self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
-            self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
+            self::assertSame(OrderStatus::FAILURE, $cancelled->status());
+            self::assertSame(TransactionStatus::MERCHANT_ABORT, $cancelled->transactionStatus());
         });
     }
 
@@ -235,8 +288,8 @@ final class RegularCheckoutTest extends IntegrationTest
 
             $cancelled = $client->cancelOrder($started->merchantTransactionReference());
 
-            self::assertObjectEquals(OrderStatus::FAILURE(), $cancelled->status());
-            self::assertObjectEquals(TransactionStatus::MERCHANT_ABORT(), $cancelled->transactionStatus());
+            self::assertSame(OrderStatus::FAILURE, $cancelled->status());
+            self::assertSame(TransactionStatus::MERCHANT_ABORT, $cancelled->transactionStatus());
         });
     }
 
@@ -247,7 +300,7 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
 
             $order = $client->startOrder(self::createTransactionReference(), Money::CHF(100));
 
@@ -255,19 +308,19 @@ final class RegularCheckoutTest extends IntegrationTest
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_SUCCESS, self::WIREMOCK_SCENARIO_STATE_SUCCESS_SETUP);
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_RECEIVED, $started->transactionStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $started->pairingStatus());
 
             $awaitConfirmation = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $awaitConfirmation->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $awaitConfirmation->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $awaitConfirmation->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $awaitConfirmation->status());
+            self::assertSame(TransactionStatus::ORDER_PENDING, $awaitConfirmation->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $awaitConfirmation->pairingStatus());
 
             $confirmation = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::SUCCESS(), $confirmation->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_OK(), $confirmation->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $confirmation->pairingStatus());
+            self::assertSame(OrderStatus::SUCCESS, $confirmation->status());
+            self::assertSame(TransactionStatus::ORDER_OK, $confirmation->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $confirmation->pairingStatus());
         });
     }
 
@@ -278,21 +331,21 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_RECEIVED, $started->transactionStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $started->pairingStatus());
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_PENDING, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
 
             $this->wireMock()
                 ->setScenarioState(
@@ -301,9 +354,9 @@ final class RegularCheckoutTest extends IntegrationTest
                 );
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
-            self::assertObjectEquals(TransactionStatus::CLIENT_TIMEOUT(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::FAILURE, $started->status());
+            self::assertSame(TransactionStatus::CLIENT_TIMEOUT, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
         });
     }
 
@@ -314,21 +367,21 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_RECEIVED, $started->transactionStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $started->pairingStatus());
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_PENDING, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
 
             $this->wireMock()
                 ->setScenarioState(
@@ -337,9 +390,9 @@ final class RegularCheckoutTest extends IntegrationTest
                 );
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
-            self::assertObjectEquals(TransactionStatus::CLIENT_ABORT(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::FAILURE, $started->status());
+            self::assertSame(TransactionStatus::CLIENT_ABORT, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
         });
     }
 
@@ -350,21 +403,21 @@ final class RegularCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::latest());
+            $client = $this->createClient(Version::LATEST);
             $order = $client->startOrder(self::createTransactionReference(), Money::CHF(10));
 
             $this->wireMock()
                 ->setScenarioState(self::WIREMOCK_SCENARIO_NAME_FAILURE, self::WIREMOCK_SCENARIO_STATE_FAILURE_SETUP);
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_RECEIVED(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_RECEIVED, $started->transactionStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $started->pairingStatus());
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $started->status());
-            self::assertObjectEquals(TransactionStatus::ORDER_PENDING(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::IN_PROGRESS, $started->status());
+            self::assertSame(TransactionStatus::ORDER_PENDING, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
 
             $this->wireMock()
                 ->setScenarioState(
@@ -373,9 +426,9 @@ final class RegularCheckoutTest extends IntegrationTest
                 );
 
             $started = $client->monitorOrder($order->id());
-            self::assertObjectEquals(OrderStatus::FAILURE(), $started->status());
-            self::assertObjectEquals(TransactionStatus::GENERAL_ERROR(), $started->transactionStatus());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $started->pairingStatus());
+            self::assertSame(OrderStatus::FAILURE, $started->status());
+            self::assertSame(TransactionStatus::GENERAL_ERROR, $started->transactionStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $started->pairingStatus());
         });
     }
 }

@@ -6,39 +6,26 @@ namespace Twint\Sdk\Value;
 
 use Override;
 use Stringable;
-use Twint\Sdk\Util\Type;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Enum<self::*>
  * @template-implements Value<self>
  */
-final class Money implements Stringable, Value, Enum
+final class Money implements Stringable, Value
 {
     /** @use ComparableToEquality<self> */
     use ComparableToEquality;
 
-    public const CHF = 'CHF';
-
-    /**
-     * @internal
-     */
-    public const XXX = 'XXX';
-
-    /**
-     * @param non-empty-string $currency
-     */
     public function __construct(
-        private readonly string $currency,
+        private readonly Currency $currency,
         private readonly float $amount,
     ) {
-        Type::maybeUnionOfLiterals(...self::all())->assert($currency);
     }
 
     public static function CHF(float $amount): self
     {
-        return new self(self::CHF, $amount);
+        return new self(Currency::CHF, $amount);
     }
 
     /**
@@ -47,19 +34,13 @@ final class Money implements Stringable, Value, Enum
      */
     public static function XXX(float $amount): self
     {
-        return new self(self::XXX, $amount);
-    }
-
-    #[Override]
-    public static function all(): array
-    {
-        return [self::CHF, self::XXX];
+        return new self(Currency::XXX, $amount);
     }
 
     #[Override]
     public function __toString(): string
     {
-        return sprintf('%s %s', number_format($this->amount, 2, '.', ''), $this->currency);
+        return sprintf('%s %s', number_format($this->amount, 2, '.', ''), $this->currency->value);
     }
 
     public function amount(): float
@@ -67,7 +48,7 @@ final class Money implements Stringable, Value, Enum
         return $this->amount;
     }
 
-    public function currency(): string
+    public function currency(): Currency
     {
         return $this->currency;
     }
@@ -92,14 +73,14 @@ final class Money implements Stringable, Value, Enum
         instance_of(self::class)->assert($other);
 
         if ($this->currency !== $other->currency) {
-            return $this->currency <=> $other->currency;
+            return $this->currency->value <=> $other->currency->value;
         }
 
         return $this->amount <=> $other->amount;
     }
 
     /**
-     * @return array{currency: non-empty-string, amount: float}
+     * @return array{currency: Currency, amount: float}
      */
     #[Override]
     public function jsonSerialize(): array
@@ -115,8 +96,8 @@ final class Money implements Stringable, Value, Enum
         invariant(
             $this->currency === $other->currency,
             'Currencies must match. Expected "%s", got "%s"',
-            $this->currency,
-            $other->currency
+            $this->currency->value,
+            $other->currency->value
         );
     }
 }

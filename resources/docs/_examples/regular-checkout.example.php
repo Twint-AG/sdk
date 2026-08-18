@@ -24,6 +24,13 @@ $startedOrder = $client->startOrder(
 $orderId = $startedOrder->id();
 // Access order ID end
 
+// Start hosted order start
+$startedOrder = $client->startHostedOrder(
+    new UnfiledMerchantTransactionReference($orderReference),
+    Money::CHF(99.95)
+);
+// Start hosted order end
+
 // Access pairing token start
 $pairingToken = $startedOrder->pairingToken();
 // Access pairing token end
@@ -31,6 +38,10 @@ $pairingToken = $startedOrder->pairingToken();
 // Access QR code start
 $qrCode = $startedOrder->qrCode();
 // Access QR code end
+
+// Access payment URL start
+$qrCode = $startedOrder->paymentUrl();
+// Access payment URL end
 
 
 // Monitor order start

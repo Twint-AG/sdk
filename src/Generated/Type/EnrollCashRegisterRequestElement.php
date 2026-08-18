@@ -22,25 +22,17 @@ class EnrollCashRegisterRequestElement implements RequestInterface
 
     protected ?string $FormerCashRegisterId = null;
 
-    protected ?string $BeaconInventoryNumber = null;
-
-    protected ?string $BeaconDaemonVersion = null;
-
     /**
      * @param 'POS-Serviced'|'POS-Selfservice'|'POS-VendingMachine'|'EPOS'|'MPOS' $CashRegisterType
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
         string $CashRegisterType,
-        ?string $FormerCashRegisterId,
-        ?string $BeaconInventoryNumber,
-        ?string $BeaconDaemonVersion
+        ?string $FormerCashRegisterId
     ) {
         $this->MerchantInformation = $MerchantInformation;
         $this->CashRegisterType = $CashRegisterType;
         $this->FormerCashRegisterId = $FormerCashRegisterId;
-        $this->BeaconInventoryNumber = $BeaconInventoryNumber;
-        $this->BeaconDaemonVersion = $BeaconDaemonVersion;
     }
 
     public function getMerchantInformation(): MerchantInformationType
@@ -84,32 +76,6 @@ class EnrollCashRegisterRequestElement implements RequestInterface
     {
         $new = clone $this;
         $new->FormerCashRegisterId = $FormerCashRegisterId;
-
-        return $new;
-    }
-
-    public function getBeaconInventoryNumber(): ?string
-    {
-        return $this->BeaconInventoryNumber;
-    }
-
-    public function withBeaconInventoryNumber(?string $BeaconInventoryNumber): static
-    {
-        $new = clone $this;
-        $new->BeaconInventoryNumber = $BeaconInventoryNumber;
-
-        return $new;
-    }
-
-    public function getBeaconDaemonVersion(): ?string
-    {
-        return $this->BeaconDaemonVersion;
-    }
-
-    public function withBeaconDaemonVersion(?string $BeaconDaemonVersion): static
-    {
-        $new = clone $this;
-        $new->BeaconDaemonVersion = $BeaconDaemonVersion;
 
         return $new;
     }

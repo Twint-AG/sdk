@@ -26,6 +26,7 @@ use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\PaymentUrl;
 use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\SystemStatus;
@@ -73,6 +74,19 @@ final class InvocationRecordingClientTest extends TestCase
                 Money::CHF(1.99),
             ],
         ];
+        yield [
+            'startHostedFastCheckoutOrder',
+            [
+                PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
+                new UnfiledMerchantTransactionReference('123'),
+                Money::CHF(1.99),
+            ],
+        ];
+        yield ['startHostedOrder', [new UnfiledMerchantTransactionReference('1234'), Money::CHF(3.99)]];
+        yield [
+            'requestHostedFastCheckoutCheckIn',
+            [Money::CHF(2.99), new CustomerDataScopes(CustomerDataScopes::EMAIL), new ShippingMethods()],
+        ];
     }
 
     /**
@@ -84,8 +98,8 @@ final class InvocationRecordingClientTest extends TestCase
         $order = new Order(
             OrderId::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
             new FiledMerchantTransactionReference('456'),
-            OrderStatus::SUCCESS(),
-            TransactionStatus::ORDER_OK(),
+            OrderStatus::SUCCESS,
+            TransactionStatus::ORDER_OK,
             Money::CHF(1.99)
         );
 
@@ -93,8 +107,9 @@ final class InvocationRecordingClientTest extends TestCase
             $this->createConfiguredMock(
                 CoreCapabilities::class,
                 [
-                    'checkSystemStatus' => SystemStatus::OK(),
+                    'checkSystemStatus' => SystemStatus::OK,
                     'startOrder' => $order,
+                    'startHostedOrder' => $order,
                     'monitorOrder' => $order,
                     'confirmOrder' => $order,
                     'cancelOrder' => $order,
@@ -105,17 +120,26 @@ final class InvocationRecordingClientTest extends TestCase
                     'getAndroidAppUrl' => new Url('twint://payment?token=123'),
                     'requestFastCheckOutCheckIn' => new InteractiveFastCheckoutCheckIn(
                         PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
-                        PairingStatus::PAIRING_ACTIVE(),
+                        PairingStatus::PAIRING_ACTIVE,
                         new AlphanumericPairingToken('123456'),
-                        new QrCode('data:image/png;base64,0')
+                        new QrCode('data:image/png;base64,0'),
+                        null
+                    ),
+                    'requestHostedFastCheckoutCheckIn' => new InteractiveFastCheckoutCheckIn(
+                        PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
+                        PairingStatus::PAIRING_ACTIVE,
+                        new AlphanumericPairingToken('123456'),
+                        null,
+                        new PaymentUrl(new Url('https://twint.ch/hosted'))
                     ),
                     'monitorFastCheckoutCheckIn' => new FastCheckoutCheckIn(
                         PairingUuid::fromString('e598ad27-9200-4c0d-ae9e-657226643f7c'),
-                        PairingStatus::PAIRING_ACTIVE(),
+                        PairingStatus::PAIRING_ACTIVE,
                         null,
                         null
                     ),
                     'startFastCheckoutOrder' => $order,
+                    'startHostedFastCheckoutOrder' => $order,
                 ]
             ),
             new MessageRecorder()

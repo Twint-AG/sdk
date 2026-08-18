@@ -4,52 +4,37 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
 
 /**
- * @phpstan-import-type ExistingVersionId from Version
- * @phpstan-import-type VersionId from Version
- * @template-extends ValueTest<Version>
  * @internal
  */
 #[CoversClass(Version::class)]
-final class VersionTest extends ValueTest
+final class VersionTest extends TestCase
 {
-    protected bool $constNamesEqualsValues = false;
-
     /**
-     * @return iterable<array{VersionId}>
-     */
-    public static function getVersionIds(): iterable
-    {
-        yield [Version::V8_5_0];
-        yield [Version::V8_6_0];
-        yield [Version::V8_7_0];
-        yield [10_16_01];
-    }
-
-    /**
-     * @return iterable<array{VersionId, int, int, int, string, string}>
+     * @return iterable<array{Version, int, int, int, string, string}>
      */
     public static function getVersionExamples(): iterable
     {
         yield [Version::V8_5_0, 8, 5, 0, '8.5', '8_5'];
         yield [Version::V8_6_0, 8, 6, 0, '8.6', '8_6'];
         yield [Version::V8_7_0, 8, 7, 0, '8.7', '8_7'];
-        yield [10_16_01, 10, 16, 1, '10.16.1', '10_16_1'];
+        yield [Version::V9, 9, 0, 0, '9', '9'];
+        yield [Version::V10, 10, 0, 0, '10', '10'];
     }
 
     /**
-     * @return iterable<array{VersionId, Version}>
+     * @return iterable<array{Version, Version}>
      */
     public static function getAliasVersions(): iterable
     {
-        yield [Version::V8_7_0, Version::next()];
-        yield [Version::V8_7_0, Version::latest()];
+        yield [Version::V10, Version::NEXT];
+        yield [Version::V10, Version::LATEST];
     }
 
     /**
@@ -57,8 +42,8 @@ final class VersionTest extends ValueTest
      */
     public static function getNamespaceAccessorExamples(): iterable
     {
-        $eightSix = Version::V8_6_0();
-        $eightFive = Version::V8_5_0();
+        $eightSix = Version::V8_6_0;
+        $eightFive = Version::V8_5_0;
 
         yield ['http://service.twint.ch/base/types/v8_6', $eightSix->soapNamespaceForBaseTypes(...)];
         yield ['http://service.twint.ch/base/types/v8_5', $eightFive->soapNamespaceForBaseTypes(...)];
@@ -76,32 +61,15 @@ final class VersionTest extends ValueTest
         yield ['http://service.twint.ch/merchant/types/v8_5', $eightFive->soapNamespaceForMerchantTypes(...)];
     }
 
-    /**
-     * @param VersionId $versionId
-     */
-    #[DataProvider('getVersionIds')]
-    public function testInstantiation(int $versionId): void
-    {
-        $version = new Version($versionId);
-
-        self::assertSame($versionId, $version->id());
-    }
-
-    /**
-     * @param VersionId $versionId
-     */
     #[DataProvider('getVersionExamples')]
     public function testWorkingWithVersionParts(
-        int $versionId,
+        Version $version,
         int $major,
         int $minor,
         int $patch,
         string $dotVersion,
         string $underscoreVersion
     ): void {
-        $version = new Version($versionId);
-
-        self::assertSame($versionId, $version->id());
         self::assertSame($major, $version->major());
         self::assertSame($minor, $version->minor());
         self::assertSame($patch, $version->patch());
@@ -110,9 +78,9 @@ final class VersionTest extends ValueTest
     }
 
     #[DataProvider('getAliasVersions')]
-    public function testNamedConstructors(int $versionId, Version $version): void
+    public function testNamedConstructors(Version $expected, Version $actual): void
     {
-        self::assertSame($versionId, $version->id());
+        self::assertSame($expected, $actual);
     }
 
     /**
@@ -124,15 +92,8 @@ final class VersionTest extends ValueTest
         self::assertSame($expectation, (string) $accessor());
     }
 
-    #[Override]
-    protected function createValue(): object
+    public function testJsonSerialize(): void
     {
-        return Version::latest();
-    }
-
-    #[Override]
-    protected static function getValueType(): string
-    {
-        return Version::class;
+        self::assertJsonStringEqualsJsonString('80500', json_encode(Version::V8_5_0, JSON_THROW_ON_ERROR));
     }
 }

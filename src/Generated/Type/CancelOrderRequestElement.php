@@ -16,6 +16,14 @@ class CancelOrderRequestElement implements RequestInterface
     protected MerchantInformationType $MerchantInformation;
 
     /**
+     * The Billing Adapter defines the origin of the operation: MERCHANT or PRIVATE_CUSTOMER
+     *  The property is silently ignored if other clients define a value for this property.
+     *
+     * @var 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    protected ?string $OperationOrigin = null;
+
+    /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
      *  hold a universal unique identifier (UUID), commonly known as either a globally unique identifier (GUID) or UUID. The regular expression defined limits the contents of an attribute to either a
      *  single 32-digit hexadecimal string or a 32-digit hex string patterned as [8]-[4]-[4]-[4]-[12] digits.
@@ -28,12 +36,17 @@ class CancelOrderRequestElement implements RequestInterface
      */
     protected ?string $MerchantTransactionReference = null;
 
+    /**
+     * @param 'MERCHANT'|'PRIVATE_CUSTOMER'|null $OperationOrigin
+     */
     public function __construct(
         MerchantInformationType $MerchantInformation,
+        ?string $OperationOrigin,
         ?string $OrderUuid,
         ?string $MerchantTransactionReference
     ) {
         $this->MerchantInformation = $MerchantInformation;
+        $this->OperationOrigin = $OperationOrigin;
         $this->OrderUuid = $OrderUuid;
         $this->MerchantTransactionReference = $MerchantTransactionReference;
     }
@@ -47,6 +60,25 @@ class CancelOrderRequestElement implements RequestInterface
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
+
+        return $new;
+    }
+
+    /**
+     * @return 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    public function getOperationOrigin(): ?string
+    {
+        return $this->OperationOrigin;
+    }
+
+    /**
+     * @param 'MERCHANT'|'PRIVATE_CUSTOMER'|null $OperationOrigin
+     */
+    public function withOperationOrigin(?string $OperationOrigin): static
+    {
+        $new = clone $this;
+        $new->OperationOrigin = $OperationOrigin;
 
         return $new;
     }

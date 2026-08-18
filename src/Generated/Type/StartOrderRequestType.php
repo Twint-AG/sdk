@@ -13,11 +13,17 @@ class StartOrderRequestType
      */
     protected MerchantInformationType $MerchantInformation;
 
+    /**
+     * The Billing Adapter defines the origin of the operation: MERCHANT or PRIVATE_CUSTOMER
+     *  The property is silently ignored if other clients define a value for this property.
+     *
+     * @var 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    protected ?string $OperationOrigin = null;
+
     protected OrderRequestType $Order;
 
     protected ?CouponListType $Coupons = null;
-
-    protected ?string $OfflineAuthorization = null;
 
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -59,6 +65,25 @@ class StartOrderRequestType
         return $new;
     }
 
+    /**
+     * @return 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    public function getOperationOrigin(): ?string
+    {
+        return $this->OperationOrigin;
+    }
+
+    /**
+     * @param 'MERCHANT'|'PRIVATE_CUSTOMER'|null $OperationOrigin
+     */
+    public function withOperationOrigin(?string $OperationOrigin): static
+    {
+        $new = clone $this;
+        $new->OperationOrigin = $OperationOrigin;
+
+        return $new;
+    }
+
     public function getOrder(): OrderRequestType
     {
         return $this->Order;
@@ -81,19 +106,6 @@ class StartOrderRequestType
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
-
-        return $new;
-    }
-
-    public function getOfflineAuthorization(): ?string
-    {
-        return $this->OfflineAuthorization;
-    }
-
-    public function withOfflineAuthorization(?string $OfflineAuthorization): static
-    {
-        $new = clone $this;
-        $new->OfflineAuthorization = $OfflineAuthorization;
 
         return $new;
     }

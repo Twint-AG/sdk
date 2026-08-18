@@ -37,6 +37,12 @@ class ExpressMerchantAuthorizationType
      */
     protected ?string $UofPaymentType = null;
 
+    /**
+     * The Billing Adapter will pass here the due date, and optionally other data
+     *  that is presented in the transaction history of the private customer.
+     */
+    protected ?ScheduledPaymentData $ScheduledPaymentData = null;
+
     public function getTerminalId(): ?string
     {
         return $this->TerminalId;
@@ -156,6 +162,19 @@ class ExpressMerchantAuthorizationType
     {
         $new = clone $this;
         $new->UofPaymentType = $UofPaymentType;
+
+        return $new;
+    }
+
+    public function getScheduledPaymentData(): ?ScheduledPaymentData
+    {
+        return $this->ScheduledPaymentData;
+    }
+
+    public function withScheduledPaymentData(?ScheduledPaymentData $ScheduledPaymentData): static
+    {
+        $new = clone $this;
+        $new->ScheduledPaymentData = $ScheduledPaymentData;
 
         return $new;
     }

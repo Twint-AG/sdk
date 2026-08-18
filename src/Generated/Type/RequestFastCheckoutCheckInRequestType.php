@@ -31,6 +31,11 @@ class RequestFastCheckoutCheckInRequestType
 
     protected ?bool $QRCodeRendering = null;
 
+    /**
+     * @var 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    protected ?string $PaymentLayerRendering = null;
+
     public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
@@ -104,6 +109,25 @@ class RequestFastCheckoutCheckInRequestType
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;
+
+        return $new;
+    }
+
+    /**
+     * @return 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    public function getPaymentLayerRendering(): ?string
+    {
+        return $this->PaymentLayerRendering;
+    }
+
+    /**
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
+     */
+    public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
+    {
+        $new = clone $this;
+        $new->PaymentLayerRendering = $PaymentLayerRendering;
 
         return $new;
     }

@@ -13,8 +13,6 @@ class RequestCheckInRequestType
      */
     protected MerchantInformationType $MerchantInformation;
 
-    protected ?string $OfflineAuthorization = null;
-
     protected ?string $CouponCode = null;
 
     /**
@@ -35,6 +33,11 @@ class RequestCheckInRequestType
 
     protected ?bool $QRCodeRendering = null;
 
+    /**
+     * @var 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    protected ?string $PaymentLayerRendering = null;
+
     public function getMerchantInformation(): MerchantInformationType
     {
         return $this->MerchantInformation;
@@ -44,19 +47,6 @@ class RequestCheckInRequestType
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
-
-        return $new;
-    }
-
-    public function getOfflineAuthorization(): ?string
-    {
-        return $this->OfflineAuthorization;
-    }
-
-    public function withOfflineAuthorization(?string $OfflineAuthorization): static
-    {
-        $new = clone $this;
-        $new->OfflineAuthorization = $OfflineAuthorization;
 
         return $new;
     }
@@ -141,6 +131,25 @@ class RequestCheckInRequestType
     {
         $new = clone $this;
         $new->QRCodeRendering = $QRCodeRendering;
+
+        return $new;
+    }
+
+    /**
+     * @return 'QR_CODE'|'PAYMENT_PAGE'|null
+     */
+    public function getPaymentLayerRendering(): ?string
+    {
+        return $this->PaymentLayerRendering;
+    }
+
+    /**
+     * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
+     */
+    public function withPaymentLayerRendering(?string $PaymentLayerRendering): static
+    {
+        $new = clone $this;
+        $new->PaymentLayerRendering = $PaymentLayerRendering;
 
         return $new;
     }

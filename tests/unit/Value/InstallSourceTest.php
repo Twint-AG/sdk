@@ -4,28 +4,32 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\InstallSource;
+use ValueError;
 
 /**
- * @template-extends ValueTest<InstallSource>
  * @internal
  */
 #[CoversClass(InstallSource::class)]
-final class InstallSourceTest extends ValueTest
+final class InstallSourceTest extends TestCase
 {
-    protected bool $constNamesEqualsValues = false;
-
-    #[Override]
-    protected function createValue(): object
+    public function testWireValuesAreStable(): void
     {
-        return new InstallSource(InstallSource::DIRECT);
+        self::assertSame('D', InstallSource::DIRECT->value);
+        self::assertSame('S', InstallSource::STORE->value);
     }
 
-    #[Override]
-    protected static function getValueType(): string
+    public function testCreateFromInvalidString(): void
     {
-        return InstallSource::class;
+        $this->expectException(ValueError::class);
+
+        InstallSource::from('invalid');
+    }
+
+    public function testJsonSerialize(): void
+    {
+        self::assertJsonStringEqualsJsonString('"D"', json_encode(InstallSource::DIRECT, JSON_THROW_ON_ERROR));
     }
 }

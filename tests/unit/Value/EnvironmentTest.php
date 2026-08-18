@@ -4,32 +4,23 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\ExistingPath;
 use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
+use ValueError;
 
 /**
- * @template-extends ValueTest<Environment>
  * @internal
  */
 #[CoversClass(Environment::class)]
-final class EnvironmentTest extends ValueTest
+final class EnvironmentTest extends TestCase
 {
     /**
-     * @return iterable<array{Environment::*}>
-     */
-    public static function getEnvironmentNames(): iterable
-    {
-        yield [Environment::PRODUCTION];
-        yield [Environment::TESTING];
-    }
-
-    /**
-     * @return iterable<array{Environment::*, Url}>
+     * @return iterable<array{Environment, Url}>
      */
     public static function getAppSchemes(): iterable
     {
@@ -43,31 +34,14 @@ final class EnvironmentTest extends ValueTest
     public static function getSoapEndpoints(): iterable
     {
         yield [
-            Environment::PRODUCTION(),
-            new Version(Version::V8_5_0),
+            Environment::PRODUCTION,
+            Version::V8_5_0,
             new Url('https://service.twint.ch/merchant/service/TWINTMerchantServiceV8_5'),
         ];
         yield [
-            Environment::TESTING(),
-            new Version(Version::V8_6_0),
+            Environment::TESTING,
+            Version::V8_6_0,
             new Url('https://service-pat.twint.ch/merchant/service/TWINTMerchantServiceV8_6'),
-        ];
-    }
-
-    /**
-     * @return iterable<array{Environment, Version, Url}>
-     */
-    public static function getSoapTargetNamespaces(): iterable
-    {
-        yield [
-            Environment::PRODUCTION(),
-            new Version(Version::V8_5_0),
-            new Url('http://service.twint.ch/header/types/v8_5'),
-        ];
-        yield [
-            Environment::TESTING(),
-            new Version(Version::V8_6_0),
-            new Url('http://service.twint.ch/header/types/v8_6'),
         ];
     }
 
@@ -77,60 +51,43 @@ final class EnvironmentTest extends ValueTest
     public static function getSoapWsdlPaths(): iterable
     {
         yield [
-            Environment::PRODUCTION(),
-            new Version(Version::V8_5_0),
+            Environment::PRODUCTION,
+            Version::V8_5_0,
             new ExistingPath(__DIR__ . '/../../../resources/wsdl/v8.5/TWINTMerchantService_v8.5.wsdl'),
         ];
         yield [
-            Environment::TESTING(),
-            new Version(Version::V8_6_0),
+            Environment::TESTING,
+            Version::V8_6_0,
             new ExistingPath(__DIR__ . '/../../../resources/wsdl/v8.6/TWINTMerchantService_v8.6.wsdl'),
         ];
     }
 
-    /**
-     * @return iterable<array{Environment::*, Environment}>
-     */
-    public static function getEnvironments(): iterable
+    public function testFrom(): void
     {
-        yield [Environment::PRODUCTION, Environment::PRODUCTION()];
-        yield [Environment::TESTING, Environment::TESTING()];
-    }
-
-    /**
-     * @param Environment::* $environmentName
-     */
-    #[DataProvider('getEnvironmentNames')]
-    public function testInstantiate(string $environmentName): void
-    {
-        $environment = new Environment($environmentName);
-
-        self::assertSame($environmentName, (string) $environment);
+        self::assertSame(Environment::TESTING, Environment::from('TESTING'));
+        self::assertSame(Environment::PRODUCTION, Environment::from('PRODUCTION'));
     }
 
     public function testInvalidEnvironment(): void
     {
-        $this->expectExceptionMessage('Expected ""TESTING"|"PRODUCTION"", got "string"');
+        $this->expectException(ValueError::class);
 
-        /** @phpstan-ignore-next-line */
-        new Environment('INVALID');
+        Environment::from('INVALID');
     }
 
-    /**
-     * @param Environment::* $environmentName
-     */
+    public function testJsonSerialize(): void
+    {
+        self::assertJsonStringEqualsJsonString('"TESTING"', json_encode(Environment::TESTING, JSON_THROW_ON_ERROR));
+        self::assertJsonStringEqualsJsonString(
+            '"PRODUCTION"',
+            json_encode(Environment::PRODUCTION, JSON_THROW_ON_ERROR)
+        );
+    }
+
     #[DataProvider('getAppSchemes')]
-    public function testEnvironmentSpecificAppSchemeUrls(string $environmentName, Url $appSchemeUrl): void
+    public function testEnvironmentSpecificAppSchemeUrls(Environment $environment, Url $appSchemeUrl): void
     {
-        $environment = new Environment($environmentName);
-
         self::assertObjectEquals($appSchemeUrl, $environment->appSchemeUrl());
-    }
-
-    #[DataProvider('getEnvironments')]
-    public function testNamedConstructors(string $environmentName, Environment $environment): void
-    {
-        self::assertSame($environmentName, (string) $environment);
     }
 
     #[DataProvider('getSoapEndpoints')]
@@ -139,30 +96,9 @@ final class EnvironmentTest extends ValueTest
         self::assertObjectEquals($expectedUrl, $environment->soapEndpoint($version));
     }
 
-    #[DataProvider('getSoapTargetNamespaces')]
-    public function testGetSoapTargetNamespaces(
-        Environment $environment,
-        Version $version,
-        Url $expectedUrl
-    ): void {
-        self::assertObjectEquals($expectedUrl, $environment->soapTargetNamespace($version));
-    }
-
     #[DataProvider('getSoapWsdlPaths')]
     public function testSoapWsdlPaths(Environment $environment, Version $version, ExistingPath $wsdl): void
     {
         self::assertObjectEquals($wsdl, $environment->soapWsdlPath($version));
-    }
-
-    #[Override]
-    protected function createValue(): object
-    {
-        return Environment::TESTING();
-    }
-
-    #[Override]
-    protected static function getValueType(): string
-    {
-        return Environment::class;
     }
 }

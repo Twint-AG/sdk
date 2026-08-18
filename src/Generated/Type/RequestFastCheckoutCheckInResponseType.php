@@ -30,6 +30,8 @@ class RequestFastCheckoutCheckInResponseType implements ResultInterface
      */
     protected ?string $QRCode = null;
 
+    protected ?string $TwintURL = null;
+
     public function getCheckInNotification(): CheckInNotificationType
     {
         return $this->CheckInNotification;
@@ -65,6 +67,19 @@ class RequestFastCheckoutCheckInResponseType implements ResultInterface
     {
         $new = clone $this;
         $new->QRCode = $QRCode;
+
+        return $new;
+    }
+
+    public function getTwintURL(): ?string
+    {
+        return $this->TwintURL;
+    }
+
+    public function withTwintURL(?string $TwintURL): static
+    {
+        $new = clone $this;
+        $new->TwintURL = $TwintURL;
 
         return $new;
     }

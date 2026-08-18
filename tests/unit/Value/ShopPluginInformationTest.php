@@ -31,10 +31,10 @@ final class ShopPluginInformationTest extends ValueTest
         yield [
             new ShopPluginInformation(
                 StoreUuid::fromString(self::STORE_UUID),
-                ShopPlatform::MAGENTO(),
+                ShopPlatform::MAGENTO,
                 new PlatformVersion('2.4.7'),
                 new PluginVersion('1.1.1-alpha2'),
-                InstallSource::DIRECT()
+                InstallSource::DIRECT
             ),
             'mg|2.4.7|1.1.1-alpha2|D|f9fbdb7f',
         ];
@@ -42,10 +42,10 @@ final class ShopPluginInformationTest extends ValueTest
         yield [
             new ShopPluginInformation(
                 StoreUuid::fromString(self::STORE_UUID),
-                ShopPlatform::SHOPWARE(),
+                ShopPlatform::SHOPWARE,
                 new PlatformVersion('6.4.17.0'),
                 new PluginVersion('10.9.3.0-alpha5'),
-                InstallSource::STORE()
+                InstallSource::STORE
             ),
             'sw|6.4.17.0|10.9.3.0-alpha5|S|b62de8a7',
         ];
@@ -55,10 +55,10 @@ final class ShopPluginInformationTest extends ValueTest
     {
         $info = new ShopPluginInformation(
             StoreUuid::fromString(self::STORE_UUID),
-            ShopPlatform::MAGENTO(),
+            ShopPlatform::MAGENTO,
             new PlatformVersion(str_repeat('a', 50)),
             new PluginVersion(str_repeat('b', 50)),
-            InstallSource::DIRECT()
+            InstallSource::DIRECT
         );
 
         self::assertLessThanOrEqual(50, strlen((string) $info));
@@ -68,10 +68,10 @@ final class ShopPluginInformationTest extends ValueTest
     {
         $shopPluginInformation = new ShopPluginInformation(
             StoreUuid::fromString(self::STORE_UUID),
-            ShopPlatform::MAGENTO(),
+            ShopPlatform::MAGENTO,
             new PlatformVersion('2.4.7'),
             new PluginVersion('1.1.1-alpha2'),
-            InstallSource::DIRECT()
+            InstallSource::DIRECT
         );
 
         self::assertSame($shopPluginInformation, $shopPluginInformation->cashRegisterId());
@@ -81,10 +81,10 @@ final class ShopPluginInformationTest extends ValueTest
     {
         $shopPluginInformation = new ShopPluginInformation(
             StoreUuid::fromString(self::STORE_UUID),
-            ShopPlatform::MAGENTO(),
+            ShopPlatform::MAGENTO,
             new PlatformVersion('2.4.7'),
             new PluginVersion('1.1.1-alpha2'),
-            InstallSource::DIRECT()
+            InstallSource::DIRECT
         );
 
         self::assertObjectEquals(StoreUuid::fromString(self::STORE_UUID), $shopPluginInformation->storeUuid());
@@ -101,10 +101,10 @@ final class ShopPluginInformationTest extends ValueTest
     {
         return new ShopPluginInformation(
             StoreUuid::fromString(self::STORE_UUID),
-            ShopPlatform::MAGENTO(),
+            ShopPlatform::MAGENTO,
             new PlatformVersion('2.4.7'),
             new PluginVersion('1.1.1-alpha2'),
-            InstallSource::DIRECT()
+            InstallSource::DIRECT
         );
     }
 

@@ -11,7 +11,7 @@ use Twint\Sdk\Value\PairingStatus;
 interface OrderMonitoring extends Capability
 {
     /**
-     * @return Order<PairingStatus, null, null>
+     * @return Order<PairingStatus::*, null, null, null>
      */
     public function monitorOrder(OrderReference $orderReference): Order;
 }

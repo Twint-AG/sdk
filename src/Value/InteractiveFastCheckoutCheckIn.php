@@ -9,20 +9,27 @@ use Twint\Sdk\Util\Comparison;
 use function Psl\Type\instance_of;
 
 /**
- * @template-implements Value<self>
+ * @template TQrCode of QrCode|null
+ * @template TPaymentUrl of PaymentUrl|null
+ * @template-implements Value<self<TQrCode, TPaymentUrl>>
  */
 final class InteractiveFastCheckoutCheckIn implements Value, FastCheckoutState
 {
     /**
-     * @use ComparableToEquality<self>
+     * @use ComparableToEquality<self<TQrCode, TPaymentUrl>>
      */
     use ComparableToEquality;
 
+    /**
+     * @param TQrCode $qrCode
+     * @param TPaymentUrl $paymentUrl
+     */
     public function __construct(
         private readonly PairingUuid $pairingUuid,
         private readonly PairingStatus $pairingStatus,
         private readonly AlphanumericPairingToken $pairingToken,
-        private readonly QrCode $qrCode
+        private readonly ?QrCode $qrCode,
+        private readonly ?PaymentUrl $paymentUrl,
     ) {
     }
 
@@ -41,12 +48,23 @@ final class InteractiveFastCheckoutCheckIn implements Value, FastCheckoutState
     #[Override]
     public function isPaired(): bool
     {
-        return $this->pairingStatus->equals(PairingStatus::PAIRING_ACTIVE());
+        return $this->pairingStatus === PairingStatus::PAIRING_ACTIVE;
     }
 
-    public function qrCode(): QrCode
+    /**
+     * @return TQrCode
+     */
+    public function qrCode(): ?QrCode
     {
         return $this->qrCode;
+    }
+
+    /**
+     * @return TPaymentUrl
+     */
+    public function paymentUrl(): ?PaymentUrl
+    {
+        return $this->paymentUrl;
     }
 
     public function pairingToken(): AlphanumericPairingToken
@@ -61,9 +79,10 @@ final class InteractiveFastCheckoutCheckIn implements Value, FastCheckoutState
 
         return Comparison::comparePairs([
             [$this->pairingUuid, $other->pairingUuid],
-            [$this->qrCode, $other->qrCode],
             [$this->pairingToken, $other->pairingToken],
             [$this->pairingStatus, $other->pairingStatus],
+            [$this->qrCode, $other->qrCode],
+            [$this->paymentUrl, $other->paymentUrl],
         ]);
     }
 
@@ -72,7 +91,8 @@ final class InteractiveFastCheckoutCheckIn implements Value, FastCheckoutState
      *     pairingUuid: PairingUuid,
      *     pairingStatus: PairingStatus,
      *     pairingToken: AlphanumericPairingToken,
-     *     qrCode: QrCode,
+     *     qrCode: TQrCode,
+     *     paymentUrl: TPaymentUrl,
      * }
      */
     #[Override]
@@ -83,6 +103,7 @@ final class InteractiveFastCheckoutCheckIn implements Value, FastCheckoutState
             'pairingStatus' => $this->pairingStatus,
             'pairingToken' => $this->pairingToken,
             'qrCode' => $this->qrCode,
+            'paymentUrl' => $this->paymentUrl,
         ];
     }
 }

@@ -70,13 +70,13 @@ abstract class IntegrationTest extends TestCase
             ),
             new ShopPluginInformation(
                 self::getStoreUuid(),
-                ShopPlatform::OTHER(),
+                ShopPlatform::OTHER,
                 new PlatformVersion('dev-master'),
                 new PluginVersion('9.9.9-dev'),
-                InstallSource::DIRECT()
+                InstallSource::DIRECT
             ),
-            $version ?? Version::latest(),
-            Environment::TESTING(),
+            $version ?? Version::LATEST,
+            Environment::TESTING,
             new ContentSensitiveFileWriter(
                 new ExistingPath(__DIR__ . '/../../build/'),
                 static function (string $content) {

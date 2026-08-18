@@ -15,11 +15,17 @@ class StartOrderRequestElement implements RequestInterface
      */
     protected MerchantInformationType $MerchantInformation;
 
+    /**
+     * The Billing Adapter defines the origin of the operation: MERCHANT or PRIVATE_CUSTOMER
+     *  The property is silently ignored if other clients define a value for this property.
+     *
+     * @var 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    protected ?string $OperationOrigin = null;
+
     protected OrderRequestType $Order;
 
     protected ?CouponListType $Coupons = null;
-
-    protected ?string $OfflineAuthorization = null;
 
     /**
      * Base type: restriction of xs:string Pattern: [A-Fa-f0-9]{32}|(\{|\()?[A-Fa-f0-9]{8}-([A-Fa-f0-9]{4}-){3}[A-Fa-f0-9]{12}(\}|\))? This type is used by other XML schema attributes or elements that will
@@ -49,13 +55,14 @@ class StartOrderRequestElement implements RequestInterface
     protected ?string $OrderUpdateNotificationURL = null;
 
     /**
+     * @param 'MERCHANT'|'PRIVATE_CUSTOMER'|null $OperationOrigin
      * @param 'QR_CODE'|'PAYMENT_PAGE'|null $PaymentLayerRendering
      */
     public function __construct(
         MerchantInformationType $MerchantInformation,
+        ?string $OperationOrigin,
         OrderRequestType $Order,
         ?CouponListType $Coupons,
-        ?string $OfflineAuthorization,
         ?string $CustomerRelationUuid,
         ?string $PairingUuid,
         ?bool $UnidentifiedCustomer,
@@ -65,9 +72,9 @@ class StartOrderRequestElement implements RequestInterface
         ?string $OrderUpdateNotificationURL
     ) {
         $this->MerchantInformation = $MerchantInformation;
+        $this->OperationOrigin = $OperationOrigin;
         $this->Order = $Order;
         $this->Coupons = $Coupons;
-        $this->OfflineAuthorization = $OfflineAuthorization;
         $this->CustomerRelationUuid = $CustomerRelationUuid;
         $this->PairingUuid = $PairingUuid;
         $this->UnidentifiedCustomer = $UnidentifiedCustomer;
@@ -86,6 +93,25 @@ class StartOrderRequestElement implements RequestInterface
     {
         $new = clone $this;
         $new->MerchantInformation = $MerchantInformation;
+
+        return $new;
+    }
+
+    /**
+     * @return 'MERCHANT'|'PRIVATE_CUSTOMER'|null
+     */
+    public function getOperationOrigin(): ?string
+    {
+        return $this->OperationOrigin;
+    }
+
+    /**
+     * @param 'MERCHANT'|'PRIVATE_CUSTOMER'|null $OperationOrigin
+     */
+    public function withOperationOrigin(?string $OperationOrigin): static
+    {
+        $new = clone $this;
+        $new->OperationOrigin = $OperationOrigin;
 
         return $new;
     }
@@ -112,19 +138,6 @@ class StartOrderRequestElement implements RequestInterface
     {
         $new = clone $this;
         $new->Coupons = $Coupons;
-
-        return $new;
-    }
-
-    public function getOfflineAuthorization(): ?string
-    {
-        return $this->OfflineAuthorization;
-    }
-
-    public function withOfflineAuthorization(?string $OfflineAuthorization): static
-    {
-        $new = clone $this;
-        $new->OfflineAuthorization = $OfflineAuthorization;
 
         return $new;
     }

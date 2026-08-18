@@ -36,6 +36,8 @@ class StartOrderResponseType implements ResultInterface
      */
     protected string $PairingStatus;
 
+    protected ?string $ApiToken = null;
+
     public function getOrderUuid(): string
     {
         return $this->OrderUuid;
@@ -129,6 +131,19 @@ class StartOrderResponseType implements ResultInterface
     {
         $new = clone $this;
         $new->PairingStatus = $PairingStatus;
+
+        return $new;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->ApiToken;
+    }
+
+    public function withApiToken(?string $ApiToken): static
+    {
+        $new = clone $this;
+        $new->ApiToken = $ApiToken;
 
         return $new;
     }

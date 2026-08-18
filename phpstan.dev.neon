@@ -1,4 +1,4 @@
 includes:
-	- phpstan.neon
+    - phpstan.neon
 parameters:
-    phpVersion: 80300
+    phpVersion: 80500

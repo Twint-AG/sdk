@@ -31,13 +31,13 @@ final class ShopPluginInformation implements Stringable, CashRegisterId, Value
     public function __toString(): string
     {
         // Must be below 50 bytes
-        return $this->platform .                                            // 2 bytes
+        return $this->platform->value .                                     // 2 bytes
             '|' .                                                           // 1 byte
-            substr((string) $this->platformVersion, 0, 15) .                // max 15 bytes
+            substr((string) $this->platformVersion, 0, 15) .   // max 15 bytes
             '|' .                                                           // 1 byte
-            substr((string) $this->pluginVersion, 0, 15) .                  // max 15 bytes
+            substr((string) $this->pluginVersion, 0, 15) .     // max 15 bytes
             '|' .                                                           // 1 byte
-            $this->installSource .                                          // max 1 byte
+            $this->installSource->value .                                   // max 1 byte
             '|' .                                                           // 1 byte
             $this->uniqueId()                                               // 8 bytes
         ;                                                                   // = max 45 bytes
@@ -47,7 +47,10 @@ final class ShopPluginInformation implements Stringable, CashRegisterId, Value
     {
         // Variable output length hash
         return SHA3Shake::shake128(
-            implode('|', [$this->platform, $this->platformVersion, $this->pluginVersion, $this->installSource]),
+            implode(
+                '|',
+                [$this->platform->value, $this->platformVersion, $this->pluginVersion, $this->installSource->value]
+            ),
             8
         );
     }

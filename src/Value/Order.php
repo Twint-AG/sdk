@@ -12,17 +12,19 @@ use function Psl\Type\instance_of;
  * @template TPairingStatus of PairingStatus|null
  * @template TPairingToken of NumericPairingToken|null
  * @template TQrCode of QrCode|null
- * @template-implements Value<self<PairingStatus, TPairingToken, TQrCode>>
+ * @template TPaymentUrl of PaymentUrl|null
+ * @template-implements Value<self<PairingStatus, TPairingToken, TQrCode, TPaymentUrl>>
  */
 final class Order implements Value
 {
-    /** @use ComparableToEquality<self<PairingStatus, TPairingToken, TQrCode>> */
+    /** @use ComparableToEquality<self<PairingStatus, TPairingToken, TQrCode, TPaymentUrl>> */
     use ComparableToEquality;
 
     /**
      * @param TPairingStatus $pairingStatus
      * @param TPairingToken $pairingToken
      * @param TQrCode $qrCode
+     * @param TPaymentUrl $paymentUrl
      */
     public function __construct(
         private readonly OrderId $id,
@@ -33,6 +35,7 @@ final class Order implements Value
         private readonly ?PairingStatus $pairingStatus = null,
         private readonly ?NumericPairingToken $pairingToken = null,
         private readonly ?QrCode $qrCode = null,
+        private readonly ?PaymentUrl $paymentUrl = null,
     ) {
     }
 
@@ -61,7 +64,7 @@ final class Order implements Value
 
     public function requiresPairing(): bool
     {
-        return $this->pairingStatus !== null && $this->pairingStatus->equals(PairingStatus::PAIRING_IN_PROGRESS());
+        return $this->pairingStatus === PairingStatus::PAIRING_IN_PROGRESS;
     }
 
     /**
@@ -77,39 +80,50 @@ final class Order implements Value
         return $this->merchantTransactionReference;
     }
 
+    /**
+     * @return TQrCode
+     */
     public function qrCode(): ?QrCode
     {
         return $this->qrCode;
     }
 
+    /**
+     * @return TPaymentUrl
+     */
+    public function paymentUrl(): ?PaymentUrl
+    {
+        return $this->paymentUrl;
+    }
+
     public function isSuccessful(): bool
     {
-        return $this->status->equals(OrderStatus::SUCCESS());
+        return $this->status === OrderStatus::SUCCESS;
     }
 
     public function isFailure(): bool
     {
-        return $this->status->equals(OrderStatus::FAILURE());
+        return $this->status === OrderStatus::FAILURE;
     }
 
     public function isPending(): bool
     {
-        return $this->status->equals(OrderStatus::IN_PROGRESS());
+        return $this->status === OrderStatus::IN_PROGRESS;
     }
 
     public function userInteractionRequired(): bool
     {
-        return $this->status->equals(OrderStatus::IN_PROGRESS())
+        return $this->status === OrderStatus::IN_PROGRESS
             && (
-                $this->transactionStatus->equals(TransactionStatus::ORDER_PENDING())
-                || $this->transactionStatus->equals(TransactionStatus::ORDER_RECEIVED())
+                $this->transactionStatus === TransactionStatus::ORDER_PENDING
+                || $this->transactionStatus === TransactionStatus::ORDER_RECEIVED
             );
     }
 
     public function isConfirmationPending(): bool
     {
-        return $this->status->equals(OrderStatus::IN_PROGRESS())
-            && $this->transactionStatus->equals(TransactionStatus::ORDER_CONFIRMATION_PENDING());
+        return $this->status === OrderStatus::IN_PROGRESS
+            && $this->transactionStatus === TransactionStatus::ORDER_CONFIRMATION_PENDING;
     }
 
     public function amount(): Money
@@ -131,6 +145,7 @@ final class Order implements Value
             [$this->pairingStatus, $other->pairingStatus],
             [$this->pairingToken, $other->pairingToken],
             [$this->qrCode, $other->qrCode],
+            [$this->paymentUrl, $other->paymentUrl],
         ]);
     }
 
@@ -143,7 +158,8 @@ final class Order implements Value
      *     amount: Money,
      *     pairingStatus: PairingStatus|null,
      *     pairingToken: NumericPairingToken|null,
-     *     qrCode: QrCode|null
+     *     qrCode: TQrCode,
+     *     paymentUrl: TPaymentUrl,
      * }
      */
     #[Override]
@@ -158,6 +174,7 @@ final class Order implements Value
             'pairingStatus' => $this->pairingStatus,
             'pairingToken' => $this->pairingToken,
             'qrCode' => $this->qrCode,
+            'paymentUrl' => $this->paymentUrl,
         ];
     }
 }

@@ -8,12 +8,9 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\Attributes\PreCondition;
-use ReflectionClass;
 use Soap\Engine\Transport;
 use Throwable;
-use Twint\Sdk\Capability\CoreCapabilities;
 use Twint\Sdk\Client;
-use Twint\Sdk\InvocationRecorder\Capability\InvocationRecorder;
 use Twint\Sdk\InvocationRecorder\InvocationRecordingClient;
 use Twint\Sdk\InvocationRecorder\Soap\MessageRecorder;
 use Twint\Sdk\InvocationRecorder\Soap\RecordingTransport;
@@ -22,12 +19,13 @@ use Twint\Sdk\InvocationRecorder\Value\SoapMessage;
 use Twint\Sdk\InvocationRecorder\Value\SoapRequest;
 use Twint\Sdk\InvocationRecorder\Value\SoapResponse;
 use Twint\Sdk\Tests\Integration\IntegrationTest;
+use Twint\Sdk\Tools\ClientResetter;
 use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
 use Twint\Sdk\Value\Money;
 
 /**
- * @template-extends IntegrationTest<InvocationRecorder&CoreCapabilities>
+ * @template-extends IntegrationTest<Client>
  * @internal
  */
 #[CoversClass(InvocationRecordingClient::class)]
@@ -97,9 +95,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
     public function testCancelOrderFailure(): void
     {
         self::retry(function () {
-            $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-            $prop->setAccessible(true);
-            $prop->setValue(self::createClient(), []);
+            ClientResetter::reset(self::createClient());
 
             try {
                 $this->recordingClient->cancelOrder(new FiledMerchantTransactionReference('invalid-merchant-ref'));
@@ -168,9 +164,7 @@ final class InvocationRecordingClientTest extends IntegrationTest
     public function testStartOrder(): void
     {
         self::retry(function () {
-            $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-            $prop->setAccessible(true);
-            $prop->setValue(self::createClient(), []);
+            ClientResetter::reset(self::createClient());
 
             $transactionRef = self::createTransactionReference();
             $amount = Money::CHF(0.20);

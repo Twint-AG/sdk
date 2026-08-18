@@ -7,7 +7,7 @@ namespace Twint\Sdk\Tests\Integration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Group;
-use Twint\Sdk\Capability\FastCheckout;
+use Twint\Sdk\Capability\CustomUiFastCheckout;
 use Twint\Sdk\Client;
 use Twint\Sdk\Tools\Hermeticism\Empirical;
 use Twint\Sdk\Value\CustomerDataScopes;
@@ -24,11 +24,11 @@ use function Psl\Type\non_empty_string;
 use function VeeWee\Xml\Dom\Xpath\Configurator\namespaces;
 
 /**
- * @template-extends IntegrationTest<FastCheckout>
+ * @template-extends IntegrationTest<CustomUiFastCheckout>
  * @internal
  */
 #[CoversClass(Client::class)]
-final class FastCheckoutTest extends IntegrationTest
+final class CustomUiFastCheckoutTest extends IntegrationTest
 {
     /**
      * @return iterable<array{0: non-empty-string}>
@@ -45,7 +45,7 @@ final class FastCheckoutTest extends IntegrationTest
     public function testFastCheckoutCheckIn(): void
     {
         self::retry(function () {
-            $client = $this->createClient(Version::next());
+            $client = $this->createClient(Version::LATEST);
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
                 Money::CHF(1000),
@@ -58,8 +58,10 @@ final class FastCheckoutTest extends IntegrationTest
                 new ShippingMethods()
             );
 
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutPairing->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutPairing->pairingStatus());
             self::assertFalse($fastCheckoutPairing->isPaired());
+            self::assertNotNull($fastCheckoutPairing->qrCode());
+            self::assertNull($fastCheckoutPairing->paymentUrl());
         });
     }
 
@@ -71,7 +73,7 @@ final class FastCheckoutTest extends IntegrationTest
     public function testFastCheckoutCheckInWithShippingMethod(string $shippingMethodLabel): void
     {
         self::retry(function () use ($shippingMethodLabel) {
-            $client = $this->createClient(Version::next());
+            $client = $this->createClient(Version::LATEST);
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
                 Money::CHF(1000),
@@ -87,7 +89,7 @@ final class FastCheckoutTest extends IntegrationTest
                 )
             );
 
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutPairing->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutPairing->pairingStatus());
             self::assertFalse($fastCheckoutPairing->isPaired());
         });
     }
@@ -103,7 +105,7 @@ final class FastCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::next());
+            $client = $this->createClient(Version::LATEST);
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
                 Money::CHF(1000),
@@ -115,20 +117,20 @@ final class FastCheckoutTest extends IntegrationTest
                 ),
                 new ShippingMethods(new ShippingMethod(new ShippingMethodId('123'), 'Regular', Money::CHF(1.00)))
             );
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutPairing->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutPairing->pairingStatus());
             self::assertFalse($fastCheckoutPairing->isPaired());
 
             $this->wireMock()
                 ->setScenarioState('ShippingTwintIDSuccessScenario', 'SetupSuccess');
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutPairing->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutState->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
@@ -137,7 +139,7 @@ final class FastCheckoutTest extends IntegrationTest
                 ->setScenarioState('ShippingTwintIDSuccessScenario', 'SetupSuccessConfirm');
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutState->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_ACTIVE(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_ACTIVE, $fastCheckoutState->pairingStatus());
             self::assertTrue($fastCheckoutState->isPaired());
             self::assertNotNull($fastCheckoutState->shippingMethodId());
             self::assertNotNull($fastCheckoutState->customerData());
@@ -163,10 +165,12 @@ final class FastCheckoutTest extends IntegrationTest
             /** @var non-empty-list<ServeEvent> $requests */
             $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
                 ->xpath(namespaces([
-                    'mer' => (string) Version::next()->soapNamespaceForMerchantTypes(),
+                    'mer' => (string) Version::LATEST->soapNamespaceForMerchantTypes(),
                 ]));
 
             self::assertSame(1, $xpath->evaluate('count(//mer:Order[@confirmationNeeded="true"])', int()));
+            self::assertSame(1, $xpath->evaluate('count(//mer:QRCodeRendering[text()="true"])', int()));
+            self::assertSame(0, $xpath->evaluate('count(//mer:PaymentLayerRendering)', int()));
         });
     }
 
@@ -177,7 +181,7 @@ final class FastCheckoutTest extends IntegrationTest
             $this->wireMock()
                 ->resetAllScenarios();
 
-            $client = $this->createClient(Version::next());
+            $client = $this->createClient(Version::LATEST);
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
                 Money::CHF(1000),
@@ -189,20 +193,20 @@ final class FastCheckoutTest extends IntegrationTest
                 ),
                 new ShippingMethods()
             );
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutPairing->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutPairing->pairingStatus());
             self::assertFalse($fastCheckoutPairing->isPaired());
 
             $this->wireMock()
                 ->setScenarioState('ShippingTwintIDFailureScenario', 'SetupFailure');
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutPairing->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutState->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
@@ -211,7 +215,7 @@ final class FastCheckoutTest extends IntegrationTest
                 ->setScenarioState('ShippingTwintIDFailureScenario', 'SetupClientAbort');
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutState->pairingUuid());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
@@ -222,7 +226,7 @@ final class FastCheckoutTest extends IntegrationTest
     public function testFastCheckoutMerchantAbort(): void
     {
         self::retry(function () {
-            $client = $this->createClient(Version::next());
+            $client = $this->createClient(Version::LATEST);
 
             $fastCheckoutPairing = $client->requestFastCheckoutCheckIn(
                 Money::CHF(1000),
@@ -234,11 +238,11 @@ final class FastCheckoutTest extends IntegrationTest
                 ),
                 new ShippingMethods()
             );
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutPairing->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutPairing->pairingStatus());
             self::assertFalse($fastCheckoutPairing->isPaired());
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutPairing->pairingUuid());
-            self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());
@@ -246,7 +250,7 @@ final class FastCheckoutTest extends IntegrationTest
             $client->cancelFastCheckoutCheckIn($fastCheckoutState->pairingUuid());
 
             $fastCheckoutState = $client->monitorFastCheckoutCheckIn($fastCheckoutPairing->pairingUuid());
-            self::assertObjectEquals(PairingStatus::NO_PAIRING(), $fastCheckoutState->pairingStatus());
+            self::assertSame(PairingStatus::NO_PAIRING, $fastCheckoutState->pairingStatus());
             self::assertFalse($fastCheckoutState->isPaired());
             self::assertNull($fastCheckoutState->shippingMethodId());
             self::assertNull($fastCheckoutState->customerData());

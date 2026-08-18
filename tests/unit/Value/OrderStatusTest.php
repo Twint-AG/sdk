@@ -4,41 +4,31 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
-use Psl\Type\Exception\AssertException;
+use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\OrderStatus;
+use ValueError;
 
 /**
- * @template-extends ValueTest<OrderStatus>
  * @internal
  */
 #[CoversClass(OrderStatus::class)]
-final class OrderStatusTest extends ValueTest
+final class OrderStatusTest extends TestCase
 {
-    #[Override]
-    protected function createValue(): object
-    {
-        return OrderStatus::FAILURE();
-    }
-
-    #[Override]
-    protected static function getValueType(): string
-    {
-        return OrderStatus::class;
-    }
-
     public function testCreateFromInvalidString(): void
     {
-        $this->expectException(AssertException::class);
+        $this->expectException(ValueError::class);
 
-        OrderStatus::fromString('INVALID_STATUS');
+        OrderStatus::from('INVALID_STATUS');
     }
 
     public function testCreateFromString(): void
     {
-        $orderStatus = OrderStatus::fromString('IN_PROGRESS');
+        self::assertSame(OrderStatus::IN_PROGRESS, OrderStatus::from('IN_PROGRESS'));
+    }
 
-        self::assertObjectEquals(OrderStatus::IN_PROGRESS(), $orderStatus);
+    public function testJsonSerialize(): void
+    {
+        self::assertJsonStringEqualsJsonString('"SUCCESS"', json_encode(OrderStatus::SUCCESS, JSON_THROW_ON_ERROR));
     }
 }

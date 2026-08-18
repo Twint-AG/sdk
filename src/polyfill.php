@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+use Twint\Sdk\Capability\CustomUiFastCheckout;
+use Twint\Sdk\Capability\CustomUiOrderCheckout;
+use Twint\Sdk\Capability\FastCheckout;
+use Twint\Sdk\Capability\OrderCheckout;
 use Twint\Sdk\Certificate\PemCertificate;
 use Twint\Sdk\Certificate\Pkcs8Certificate;
 
@@ -32,3 +36,5 @@ if (PHP_VERSION_ID < 80400 && !class_exists(Deprecated::class)) {
 }
 
 class_alias(Pkcs8Certificate::class, PemCertificate::class);
+class_alias(CustomUiFastCheckout::class, FastCheckout::class);
+class_alias(CustomUiOrderCheckout::class, OrderCheckout::class);

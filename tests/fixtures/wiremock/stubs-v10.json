@@ -1,0 +1,2360 @@
+{
+    "mappings": [
+        {
+            "id": "f569c275-db1c-5eb3-98fe-579ee7c21b94",
+            "uuid": "f569c275-db1c-5eb3-98fe-579ee7c21b94",
+            "name": "EnrollCashRegister",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"EnrollCashRegister\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:hdr=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:mer=\"http:\/\/service.twint.ch\/merchant\/types\/v10\">\n    <soapenv:Header>\n        <hdr:ResponseHeaderElement>\n            <hdr:MessageId>{{randomValue type='UUID'}}<\/hdr:MessageId>\n        <\/hdr:ResponseHeaderElement>\n    <\/soapenv:Header>\n    <soapenv:Body>\n        <mer:EnrollCashRegisterResponseElement>\n            <mer:BeaconSecurity>\n                <mer:BeaconUuid>{{randomValue type='UUID'}}<\/mer:BeaconUuid>\n                <mer:MajorId>1<\/mer:MajorId>\n                <mer:MinorId>1<\/mer:MinorId>\n                <mer:BeaconInitString>wiremock<\/mer:BeaconInitString>\n                <mer:BeaconSecret>wiremock<\/mer:BeaconSecret>\n            <\/mer:BeaconSecurity>\n        <\/mer:EnrollCashRegisterResponseElement>\n    <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ]
+            },
+            "persistent": true,
+            "priority": 5
+        },
+        {
+            "id": "3d0b42f4-b675-51f3-965a-e9e836ea8d72",
+            "uuid": "3d0b42f4-b675-51f3-965a-e9e836ea8d72",
+            "name": "StartOrder (Fast Checkout)",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": [],
+                "bodyPatterns": [
+                    {
+                        "doesNotContain": "REVERSAL"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\n                  <v81:Reason code=\"80\">ORDER_PENDING<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "24922311-2ac5-57ea-9162-6a1caabb37ec"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDSuccessScenario",
+            "requiredScenarioState": "CreateOrder",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-09-05T11:53:32.655309429Z",
+                        "via": "ADMIN_API",
+                        "by": "4y9e2"
+                    },
+                    "response-example-attachment": "StartOrder (Fast Checkout)"
+                }
+            },
+            "postServeActions": [],
+            "serveEventListeners": []
+        },
+        {
+            "id": "b56e7d60-5a9c-5b1c-87ef-16e9723e1539",
+            "uuid": "b56e7d60-5a9c-5b1c-87ef-16e9723e1539",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>{{randomValue length=1 type='NUMERIC'}}<\/v81:ShippingMethodId>\r\n            <v81:CustomerData>\r\n                <v81:Field>\r\n                    <v81:Name>shipping_address<\/v81:Name>\r\n                    <v81:Value>John|Doe|Rue de l&apos;\u00c9cuyer 23A|8004|Z\u00fcrich|CH<\/v81:Value>\r\n                <\/v81:Field>\r\n                <v81:Field>\r\n                    <v81:Name>date_of_birth<\/v81:Name>\r\n                    <v81:Value>13\/12\/1998<\/v81:Value>\r\n                <\/v81:Field>\r\n                <v81:Field>\r\n                    <v81:Name>phone_number<\/v81:Name>\r\n                    <v81:Value>+41791234567<\/v81:Value>\r\n                <\/v81:Field>\r\n                <v81:Field>\r\n                    <v81:Name>email<\/v81:Name>\r\n                    <v81:Value>max.mustermann@twint.swiss<\/v81:Value>\r\n                <\/v81:Field>\r\n            <\/v81:CustomerData>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "29791e13-f6e2-5b43-8227-3a54118d9319"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDSuccessScenario",
+            "requiredScenarioState": "SetupSuccessConfirm",
+            "newScenarioState": "ConfirmOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": [],
+            "serveEventListeners": []
+        },
+        {
+            "id": "7d7be1d6-0baf-5cb2-a220-1e01f96e71e1",
+            "uuid": "7d7be1d6-0baf-5cb2-a220-1e01f96e71e1",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (Step 2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "cab9ee1f-d685-5e79-b713-70c22dc60262"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDSuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (Step 2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "c55fef2a-f79e-586a-80c3-9bb29a83b092",
+            "uuid": "c55fef2a-f79e-586a-80c3-9bb29a83b092",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "bddd605c-eaf1-5103-8ace-b9ed3801b40c"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDSuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_SuccessScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "28259537-b4e2-59d7-b39b-5a469b6d4925",
+            "uuid": "28259537-b4e2-59d7-b39b-5a469b6d4925",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Client Abort)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "85beed54-bfe2-5d96-864a-c680673327c7"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDFailureScenario",
+            "requiredScenarioState": "SetupClientAbort",
+            "newScenarioState": "ClientAbort",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Client Abort)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "79a1654e-0635-5cb8-a7f7-8041fb8e1d10",
+            "uuid": "79a1654e-0635-5cb8-a7f7-8041fb8e1d10",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "913b3fea-12ff-5994-b391-b743141f8507"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDFailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "514eeccb-fedf-5e3e-9cff-29aeacd1fe3d",
+            "uuid": "514eeccb-fedf-5e3e-9cff-29aeacd1fe3d",
+            "name": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "a49fb185-768a-5932-bdc1-41510eb8d826"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingTwintIDFailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_TwintID_Data_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "d455eaf9-9b12-50e2-a2d7-b259cf65b5d5",
+            "uuid": "d455eaf9-9b12-50e2-a2d7-b259cf65b5d5",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Client Abort)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "1064b39a-e609-50f2-bf08-f638f915f4f9"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingFailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ClientAbort",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Client Abort)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "f987675b-4319-5f69-bef0-cdc06b1e550f",
+            "uuid": "f987675b-4319-5f69-bef0-cdc06b1e550f",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "8a7d33f3-fc60-53ef-9e24-554ce0b461c8"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingFailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "25e8603b-d7b4-531f-ad64-fa419cb65bbf",
+            "uuid": "25e8603b-d7b4-531f-ad64-fa419cb65bbf",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "8d275ac1-c613-5f8b-b223-985cbc823ae0"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingFailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "1e45ade5-929b-589b-a6d4-e412039f4fda",
+            "uuid": "1e45ade5-929b-589b-a6d4-e412039f4fda",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Client Abort)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "e770e7a7-75aa-50f0-83bd-4fc4080b9945"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingFailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ClientAbort",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Client Abort)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "368dc30e-4d07-5aa4-a58f-8a8072b3a690",
+            "uuid": "368dc30e-4d07-5aa4-a58f-8a8072b3a690",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "9d75428f-3326-54df-a7d9-cdb2b57b0935"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingFailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "5989ff3d-e33c-5800-a669-befe9fe09574",
+            "uuid": "5989ff3d-e33c-5800-a669-befe9fe09574",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "d178a5a5-8118-59c8-aa21-4b2431d26a80"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingFailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "bb000878-5026-5982-925c-957f68ea8c88",
+            "uuid": "bb000878-5026-5982-925c-957f68ea8c88",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "2c747d07-1cbe-560e-be7d-868394ff7b08"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingSuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ConfirmOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "fe780d55-ea08-5e8f-ac59-61377a1e172f",
+            "uuid": "fe780d55-ea08-5e8f-ac59-61377a1e172f",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "9b752c82-cab2-5357-9f71-538489c53b98"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingSuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "76edc39a-70d6-5765-b509-0194bc5a7459",
+            "uuid": "76edc39a-70d6-5765-b509-0194bc5a7459",
+            "name": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:ShippingMethodId>12345<\/v81:ShippingMethodId>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "a9983f50-2e4e-55a4-bc03-88255d6384dd"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "ShippingSuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinShipping_NoTwintID_Data_SuccessScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "36942933-a63e-5f52-9169-f3e5915dd0cf",
+            "uuid": "36942933-a63e-5f52-9169-f3e5915dd0cf",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "2ec5455e-08de-57b1-b6f4-e5ffe953f11a"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingSuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ConfirmOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "31764166-836b-5780-b893-08221bbfa186",
+            "uuid": "31764166-836b-5780-b893-08221bbfa186",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "a08307bc-0a3f-5516-ac7f-bb930943bdc4"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingSuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "b5898076-a218-5bf8-8fbf-48903da9a0a2",
+            "uuid": "b5898076-a218-5bf8-8fbf-48903da9a0a2",
+            "name": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (Step1) ",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorFastCheckoutCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n        <\/v81:MonitorFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "8d0f8aa4-5067-5409-8fe2-d23bbeb6c9a6"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "NoShippingSuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorFastCheckinNo_Shipping_NoTwintID_Data_SuccessScenario (Step1) "
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "73e0ff4a-5682-5351-85d5-d96ef247fb1d",
+            "uuid": "73e0ff4a-5682-5351-85d5-d96ef247fb1d",
+            "name": "RequestFastCheckIn",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"RequestFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "doesNotContain": "PaymentLayerRendering"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:RequestFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/RequestCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/RequestCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:Token>\r\n                <v82:DisplayToken>{{randomValue length=5 type='NUMERIC'}}<\/v82:DisplayToken>\r\n                <v82:APIToken>{{randomValue type='UUID'}}<\/v82:APIToken>\r\n                <v82:QRCodeImage>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v82:QRCodeImage>\r\n            <\/v81:Token>\r\n            <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\r\n        <\/v81:RequestFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "8da0e279-4bc1-519c-82fe-873b14ddff3c"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "RequestFastCheckIn"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "6357816f-c925-5e93-93e6-a4c4af71f07b",
+            "uuid": "6357816f-c925-5e93-93e6-a4c4af71f07b",
+            "name": "RequestFastCheckIn (Hosted)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"RequestFastCheckoutCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "contains": "PaymentLayerRendering"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:RequestFastCheckoutCheckInResponseElement>\r\n            <v81:CheckInNotification>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/RequestCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/RequestCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <\/v81:CheckInNotification>\r\n            <v81:Token>\r\n                <v82:DisplayToken>{{randomValue length=5 type='NUMERIC'}}<\/v82:DisplayToken>\r\n                <v82:APIToken>{{randomValue type='UUID'}}<\/v82:APIToken>\r\n                <v82:QRCodeImage>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v82:QRCodeImage>\r\n            <\/v81:Token>\r\n            <v81:TwintURL>https:\/\/twint.example.com\/payment\/{{randomValue type='UUID'}}<\/v81:TwintURL>\r\n        <\/v81:RequestFastCheckoutCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ]
+            },
+            "persistent": true,
+            "priority": 5,
+            "postServeActions": []
+        },
+        {
+            "id": "aca3ebef-38d8-5533-9b22-48ce56f5d901",
+            "uuid": "aca3ebef-38d8-5533-9b22-48ce56f5d901",
+            "name": "MonitorCheckin_FailureScenario (Client Abort)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "c2abe402-7520-5ffe-810c-973ebebd8933"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ClientAbort",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_FailureScenario (Client Abort)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "646c41f7-fda1-5dc1-bdf4-43d87df03809",
+            "uuid": "646c41f7-fda1-5dc1-bdf4-43d87df03809",
+            "name": "MonitorCheckin_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "eb096e22-36fe-5253-bc5a-4010fd807a73"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "03e0ab42-8bcc-561f-827b-f43c6ab811b1",
+            "uuid": "03e0ab42-8bcc-561f-827b-f43c6ab811b1",
+            "name": "MonitorCheckin_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "4e181309-1934-543b-9ab2-dd2c07cbbd73"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "29e2e754-0260-5fc6-b52b-9b5afb3e7c98",
+            "uuid": "29e2e754-0260-5fc6-b52b-9b5afb3e7c98",
+            "name": "MonitorCheckin_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n         <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "e7f7bd11-8ef5-5922-916c-bff061aa6565"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ConfirmOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "3c0a6788-beb0-5fef-9865-ff9f08e33cd9",
+            "uuid": "3c0a6788-beb0-5fef-9865-ff9f08e33cd9",
+            "name": "MonitorCheckin_SuccessScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v8_6\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v8_6\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v8_6\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n           <v81:PairingUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/PairingUuid\/text()[1]'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "2b517cb1-c1d0-5fdc-92f3-4e56b62abdb8"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_SuccessScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "93c746ee-22ab-5c8c-85c6-7f4041e05e07",
+            "uuid": "93c746ee-22ab-5c8c-85c6-7f4041e05e07",
+            "name": "MonitorCheckin_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "74a8c261-11bf-5893-8cbd-be6ac34091e3"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin_SuccessScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "3f91a1fb-e161-5c60-9b03-4c68f78c6fb3",
+            "uuid": "3f91a1fb-e161-5c60-9b03-4c68f78c6fb3",
+            "name": "RequestCheckIn",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"RequestCheckin\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:RequestCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/RequestCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/RequestCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <v81:Token>{{randomValue length=5 type='NUMERIC'}}<\/v81:Token>\r\n            <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\r\n        <\/v81:RequestCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "21aa8a18-5594-5459-9769-a26e57e8cb93"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "RequestCheckIn"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "12b31f10-eaeb-5308-b986-3255c2b241cc",
+            "uuid": "12b31f10-eaeb-5308-b986-3255c2b241cc",
+            "name": "ConfirmOrder",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"ConfirmOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:ConfirmOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                {{#assign 'clientMerchantTransactionReference'}}{{xPath request.body '\/\/ConfirmOrderRequestElement\/MerchantTransactionReference\/text()[1]'}}{{\/assign}}\r\n                {{#assign 'randomMerchantTransactionReference'}}{{randomInt}}{{\/assign}}\r\n                <v81:MerchantTransactionReference>{{defaultIfEmpty clientMerchantTransactionReference randomMerchantTransactionReference}}<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                {{#assign 'clientOrderUuid'}}{{xPath request.body '\/\/ConfirmOrderRequestElement\/OrderUuid\/text()[1]'}}{{\/assign}}\r\n                {{#assign 'randomOrderUuid'}}{{randomValue type='UUID'}}{{\/assign}}\r\n                <v81:Uuid>{{defaultIfEmpty clientOrderUuid randomOrderUuid}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"0\">SUCCESS<\/v81:Status>\r\n                    <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:ConfirmOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "7d12dff6-3032-5865-bc4d-cb6ad870ffc0"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "ConfirmOrder"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "96c6db30-9f76-5cc8-b22d-6fbd9301795b",
+            "uuid": "96c6db30-9f76-5cc8-b22d-6fbd9301795b",
+            "name": "ReverseOrderWithMerchantTransactionID",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\"",
+                        "caseInsensitive": false
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "contains": "REVERSAL"
+                    },
+                    {
+                        "doesNotContain": "OrderUuid"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS<\/v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "48310ff0-3806-5e4c-8af9-06dcc115eba4"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "ReverseOrderWithMerchantTransactionID"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "c5ad5243-c6a8-5d47-8a13-4d123a3a70f1",
+            "uuid": "c5ad5243-c6a8-5d47-8a13-4d123a3a70f1",
+            "name": "ReverseOrderWithOrderUUID",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\"",
+                        "caseInsensitive": false
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "contains": "REVERSAL"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS<\/v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "bfa6af27-2927-5e9e-b8de-99f50d26f388"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "ReverseOrderWithOrderUUID"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "c8de9241-361a-5265-b211-d18b6b72b0e3",
+            "uuid": "c8de9241-361a-5265-b211-d18b6b72b0e3",
+            "name": "MonitorOrder_FailureScenario (Client Timeout Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"101\">CLIENT_TIMEOUT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "f5ea288a-e4ba-5857-861b-f708747e1292"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureClientTimeout",
+            "newScenarioState": "ClientTimeout",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Client Timeout Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "09f12b94-45d3-540d-bdc1-7f231087452d",
+            "uuid": "09f12b94-45d3-540d-bdc1-7f231087452d",
+            "name": "MonitorOrder_FailureScenario (General Error Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"100\">GENERAL_ERROR<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "75e4c8aa-af0c-5f25-988b-02496b91a305"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureGeneralError",
+            "newScenarioState": "GeneralError",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (General Error Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "b4f3597e-cd14-54c3-993c-ca5779c80d1e",
+            "uuid": "b4f3597e-cd14-54c3-993c-ca5779c80d1e",
+            "name": "MonitorOrder_FailureScenario (ClientAbort Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "contains": "\"MonitorOrder\""
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"0\">CLIENT_ABORT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "60d96e3b-5564-5b63-bdca-be7dea16133c"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureClientAborted",
+            "newScenarioState": "ClientAborted",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (ClientAbort Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "84f33047-37f1-5190-850f-8f1e36eb1885",
+            "uuid": "84f33047-37f1-5190-850f-8f1e36eb1885",
+            "name": "MonitorOrder_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"90\">ORDER_PENDING<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "695bc61d-db3a-5ae0-87a3-18d98a72cffa"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "44a17fbe-1a19-50e4-9e65-b2aa0d4ed0ca",
+            "uuid": "44a17fbe-1a19-50e4-9e65-b2aa0d4ed0ca",
+            "name": "MonitorOrder_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "5664ed2c-9fb6-5655-8343-1ad5bc6b4163"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "cf5722be-b98f-5282-b5d1-eb3d489b67ce",
+            "uuid": "cf5722be-b98f-5282-b5d1-eb3d489b67ce",
+            "name": "MonitorOrder_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"0\">SUCCESS<\/v81:Status>\r\n                    <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "22bafde1-c93e-5c6d-a488-a295c2bd0baa"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "ConfirmationOK",
+            "newScenarioState": "ConfirmationOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "72cf21b1-1bd0-5ffe-a487-e61c4ce6b12f",
+            "uuid": "72cf21b1-1bd0-5ffe-a487-e61c4ce6b12f",
+            "name": "MonitorOrder_SuccessScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"90\">ORDER_PENDING<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "8c0200c8-5798-5f7e-878c-58af31a9353e"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ConfirmationOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "cafe614c-5c4e-5c96-84bd-cd0ec6212aa1",
+            "uuid": "cafe614c-5c4e-5c96-84bd-cd0ec6212aa1",
+            "name": "MonitorOrder_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\"",
+                        "caseInsensitive": false
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "0a629b24-f897-5e35-8678-20bedcb170c4"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "06ea23c3-6a4c-56f5-84ce-17ea8aec1ed2",
+            "uuid": "06ea23c3-6a4c-56f5-84ce-17ea8aec1ed2",
+            "name": "StartOrder (Hosted UI)",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "bodyPatterns": [
+                    {
+                        "doesNotContain": "REVERSAL"
+                    },
+                    {
+                        "contains": "PAYMENT_PAGE"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\n                  <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\n              <v81:TwintURL>https:\/\/int.payment.twint.ch\/paymentpage\/{{randomValue type='UUID'}}<\/v81:TwintURL>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ]
+            },
+            "persistent": true,
+            "priority": 3
+        },
+        {
+            "id": "eabb3adf-509f-5c8b-bc95-3816f203ada8",
+            "uuid": "eabb3adf-509f-5c8b-bc95-3816f203ada8",
+            "name": "StartOrder",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": [],
+                "bodyPatterns": [
+                    {
+                        "doesNotContain": "REVERSAL"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\n                  <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "72f3519a-105e-5217-96bc-43d4f9cede39"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-09-05T11:50:18.302781752Z",
+                        "via": "ADMIN_API",
+                        "by": "4y9e2"
+                    },
+                    "response-example-attachment": "StartOrder"
+                }
+            },
+            "postServeActions": [],
+            "serveEventListeners": []
+        },
+        {
+            "id": "bb7718b2-cf06-5dcd-8658-3bfbe185bcb2",
+            "uuid": "bb7718b2-cf06-5dcd-8658-3bfbe185bcb2",
+            "name": "CancelOrder",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "contains": "\"CancelOrder\""
+                    }
+                }
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:CancelOrderResponseElement>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:Uuid>{{xPath request.body '\/\/CancelOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"102\">MERCHANT_ABORT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <!--1 or more repetitions:-->\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n        <\/v81:CancelOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "2d95c10b-7ac8-5a83-a2ac-97a9b169e725"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "CancelOrder"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "8b47b15a-06c3-5e8e-ab65-cf5ae89cdd2d",
+            "uuid": "8b47b15a-06c3-5e8e-ab65-cf5ae89cdd2d",
+            "name": "MonitorCheckin_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorCheckIn\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n        <\/v81:MonitorCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "88c95468-8875-5f1d-9ac0-048596b72316"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-04-25T10:06:39.484484129Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorCheckin"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "0658e7c1-1231-5893-8bac-64e220e676dc",
+            "uuid": "0658e7c1-1231-5893-8bac-64e220e676dc",
+            "name": "RequestCheckIn",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"RequestCheckin\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:RequestCheckInResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/RequestCheckInRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/RequestCheckInRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:PairingUuid>{{randomValue type='UUID'}}<\/v81:PairingUuid>\r\n            <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\r\n            <v81:Token>{{randomValue length=5 type='NUMERIC'}}<\/v81:Token>\r\n            <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\r\n        <\/v81:RequestCheckInResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "6cb54633-7624-531f-a415-6d633dfdad01"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-04-25T09:57:59.608977336Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "RequestCheckin"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "c2f9e646-b0be-5018-9ae2-055b7f39b8fc",
+            "uuid": "c2f9e646-b0be-5018-9ae2-055b7f39b8fc",
+            "name": "ConfirmOrder",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"ConfirmOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:ConfirmOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                {{#assign 'clientMerchantTransactionReference'}}{{xPath request.body '\/\/ConfirmOrderRequestElement\/MerchantTransactionReference\/text()[1]'}}{{\/assign}}\r\n                {{#assign 'randomMerchantTransactionReference'}}{{randomInt}}{{\/assign}}\r\n                <v81:MerchantTransactionReference>{{defaultIfEmpty clientMerchantTransactionReference randomMerchantTransactionReference}}<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                {{#assign 'clientOrderUuid'}}{{xPath request.body '\/\/ConfirmOrderRequestElement\/OrderUuid\/text()[1]'}}{{\/assign}}\r\n                {{#assign 'randomOrderUuid'}}{{randomValue type='UUID'}}{{\/assign}}\r\n                <v81:Uuid>{{defaultIfEmpty clientOrderUuid randomOrderUuid}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"0\">SUCCESS<\/v81:Status>\r\n                    <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:ConfirmOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "e26d3ebc-334e-5da4-9928-82e95a0d99ff"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-04-25T10:08:46.857898509Z",
+                        "via": "ADMIN_API",
+                        "by": "4y9e2"
+                    },
+                    "response-example-attachment": "ConfirmOrder"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "cae09b66-dbea-5b1b-8925-cff1fb20510f",
+            "uuid": "cae09b66-dbea-5b1b-8925-cff1fb20510f",
+            "name": "ReverseOrderWithMerchantTransactionID",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": [],
+                "bodyPatterns": [
+                    {
+                        "contains": "REVERSAL"
+                    },
+                    {
+                        "not": {
+                            "contains": "OrderUuid"
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS<\/v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "229f0de2-183e-58a7-b4a2-37bde43b4632"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "ReverseOrderWithMerchantTransactionID"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "f56a1262-97e1-518c-860a-b63a40467130",
+            "uuid": "f56a1262-97e1-518c-860a-b63a40467130",
+            "name": "ReverseOrderWithOrderUUID",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": [],
+                "bodyPatterns": [
+                    {
+                        "contains": "REVERSAL"
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"0\">SUCCESS<\/v81:Status>\n                  <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "7e71bbb7-e6f8-58b3-bc50-8c05e9d4d9f3"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-04-24T08:33:36.955962661Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "Reverse Order"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "9b5c0dd5-c493-560f-abd2-35cd49560624",
+            "uuid": "9b5c0dd5-c493-560f-abd2-35cd49560624",
+            "name": "MonitorOrder_FailureScenario (Client Timeout Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"101\">CLIENT_TIMEOUT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "38df493a-552b-5ac4-b46e-c3bf55652307"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureClientTimeout",
+            "newScenarioState": "ClientTimeout",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Client Timeout Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "3489bf4e-ace0-52c9-9a1c-eef74fdd80c5",
+            "uuid": "3489bf4e-ace0-52c9-9a1c-eef74fdd80c5",
+            "name": "MonitorOrder_FailureScenario (General Error Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"100\">GENERAL_ERROR<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "667d26f4-9809-51ff-b1a3-375c25f6e4fe"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureGeneralError",
+            "newScenarioState": "GeneralError",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (General Error Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "9a833bd8-a225-5c8f-8515-9a1517f02b39",
+            "uuid": "9a833bd8-a225-5c8f-8515-9a1517f02b39",
+            "name": "MonitorOrder_FailureScenario (ClientAbort Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "contains": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"0\">CLIENT_ABORT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "94009c44-0304-5dab-b4a2-9eff2e1ff979"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailureClientAborted",
+            "newScenarioState": "ClientAborted",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (ClientAbort Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "b8f7e8f0-2f7b-58ee-b28f-e5bd5d1d7c27",
+            "uuid": "b8f7e8f0-2f7b-58ee-b28f-e5bd5d1d7c27",
+            "name": "MonitorOrder_FailureScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"90\">ORDER_PENDING<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "47101ce6-4d3e-5cfa-81e4-195d5c7cc528"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "d25c08a1-009c-5770-9c39-449fa21246e2",
+            "uuid": "d25c08a1-009c-5770-9c39-449fa21246e2",
+            "name": "MonitorOrder_FailureScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "cfffe701-a89d-5590-b439-f75d3defec29"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "FailureScenario",
+            "requiredScenarioState": "SetupFailure",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_FailureScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "5bcd8e5e-9de3-5e65-9a1f-0a863a26d752",
+            "uuid": "5bcd8e5e-9de3-5e65-9a1f-0a863a26d752",
+            "name": "MonitorOrder_SuccessScenario (OK Step)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"0\">SUCCESS<\/v81:Status>\r\n                    <v81:Reason code=\"0\">ORDER_OK<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "5bc6d659-5522-5b58-aca1-0561a3d11f14"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "ConfirmationOK",
+            "newScenarioState": "ConfirmationOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (OK Step)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "cc94021e-d42a-57e3-acf7-9ca9e83e5b6d",
+            "uuid": "cc94021e-d42a-57e3-acf7-9ca9e83e5b6d",
+            "name": "MonitorOrder_SuccessScenario (Step2)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"90\">ORDER_PENDING<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>PAIRING_ACTIVE<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "3802d16e-6440-5a61-9b2d-1284932a5d91"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "AwaitConfirmation",
+            "newScenarioState": "ConfirmationOK",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (Step2)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "6e5c289f-332c-55c6-9672-9f75e265efe8",
+            "uuid": "6e5c289f-332c-55c6-9672-9f75e265efe8",
+            "name": "MonitorOrder_SuccessScenario (Step1)",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"MonitorOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:MonitorOrderResponseElement>\r\n            <v81:MerchantInformation>\r\n                <v82:MerchantUuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/MerchantUuid\/text()[1]'}}<\/v82:MerchantUuid>\r\n                <v82:CashRegisterId>{{xPath request.body '\/\/MonitorOrderRequestElement\/CashRegisterId\/text()[1]'}}<\/v82:CashRegisterId>\r\n            <\/v81:MerchantInformation>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:PaymentAuthorizationType>FINAL_AUTH<\/v81:PaymentAuthorizationType>\r\n                <v81:Uuid>{{xPath request.body '\/\/MonitorOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\r\n                    <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <v81:AuthorizedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:AuthorizedAmount>\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n            <v81:PairingStatus>NO_PAIRING<\/v81:PairingStatus>\r\n        <\/v81:MonitorOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "92aa86c3-08e5-505a-b139-067c77f0278e"
+            },
+            "persistent": true,
+            "priority": 5,
+            "scenarioName": "SuccessScenario",
+            "requiredScenarioState": "SetupSuccess",
+            "newScenarioState": "AwaitConfirmation",
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "MonitorOrder_SuccessScenario (Step1)"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "2ff2ada4-8bcf-599e-abb1-78a23602bb9a",
+            "uuid": "2ff2ada4-8bcf-599e-abb1-78a23602bb9a",
+            "name": "StartOrder",
+            "request": {
+                "urlPath": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "equalTo": "\"StartOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": [],
+                "bodyPatterns": [
+                    {
+                        "not": {
+                            "contains": "REVERSAL"
+                        }
+                    }
+                ]
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\n      <soapenv:Header>\n          <v8:ResponseHeaderElement>\n              <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\n          <\/v8:ResponseHeaderElement>\n      <\/soapenv:Header>\n      <soapenv:Body>\n          <v81:StartOrderResponseElement>\n              <v81:OrderUuid>{{randomValue type='UUID'}}<\/v81:OrderUuid>\n              <v81:OrderStatus>\n                  <v81:Status code=\"1\">IN_PROGRESS<\/v81:Status>\n                  <v81:Reason code=\"80\">ORDER_RECEIVED<\/v81:Reason>\n              <\/v81:OrderStatus>\n              <v81:Token>{{randomInt lower=0}}<\/v81:Token>\n              <v81:CustomerInformation>\n              <\/v81:CustomerInformation>\n              <v81:PairingStatus>PAIRING_IN_PROGRESS<\/v81:PairingStatus>\n              <v81:QRCode>data:image\/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAdAQAAAAB+6FqiAAAAcElEQVR4XmP4\/\/\/\/DwY04oP4gQqG7zfjKxi+RFwEEiGBQCIYSHy\/cr+C4YOoQwXD\/2\/1Pxi+uzQDxfJyfjB8ZTtSwfBp6aQfDJ8DZYGmfJQBqhO2Aiq5k\/WD4UsAUPZLXBaQiDkIFLs\/BWQHUAkWywHxKVTo7R9lFgAAAABJRU5ErkJggg==<\/v81:QRCode>\n          <\/v81:StartOrderResponseElement>\n      <\/soapenv:Body>\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "442f9c23-9a26-5e97-8a2c-ca63850c6cc6"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "updated": {
+                        "at": "2024-04-24T08:31:38.696866639Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "StartOrder"
+                }
+            },
+            "postServeActions": []
+        },
+        {
+            "id": "009c6192-9613-5fe6-81ba-6a4888c52ee6",
+            "uuid": "009c6192-9613-5fe6-81ba-6a4888c52ee6",
+            "name": "CancelOrder",
+            "request": {
+                "url": "\/mer1\/merchant\/service\/TWINTMerchantServiceV10",
+                "method": "POST",
+                "headers": {
+                    "SOAPAction": {
+                        "contains": "\"CancelOrder\""
+                    }
+                },
+                "pathParameters": [],
+                "formParameters": []
+            },
+            "response": {
+                "status": 200,
+                "body": "<soapenv:Envelope xmlns:soapenv=\"http:\/\/schemas.xmlsoap.org\/soap\/envelope\/\" xmlns:v8=\"http:\/\/service.twint.ch\/header\/types\/v10\" xmlns:v81=\"http:\/\/service.twint.ch\/merchant\/types\/v10\" xmlns:v82=\"http:\/\/service.twint.ch\/base\/types\/v10\">\r\n    <soapenv:Header>\r\n        <v8:ResponseHeaderElement>\r\n            <v8:MessageId>{{randomValue type='UUID'}}<\/v8:MessageId>\r\n        <\/v8:ResponseHeaderElement>\r\n    <\/soapenv:Header>\r\n    <soapenv:Body>\r\n        <v81:CancelOrderResponseElement>\r\n            <v81:Order type=\"PAYMENT_IMMEDIATE\" confirmationNeeded=\"false\">\r\n                <v81:PostingType>GOODS<\/v81:PostingType>\r\n                <v81:RequestedAmount>\r\n                    <v82:Amount>195<\/v82:Amount>\r\n                    <v82:Currency>CHF<\/v82:Currency>\r\n                <\/v81:RequestedAmount>\r\n                <v81:MerchantTransactionReference>111222<\/v81:MerchantTransactionReference>\r\n                <v81:Uuid>{{xPath request.body '\/\/CancelOrderRequestElement\/OrderUuid\/text()[1]'}}<\/v81:Uuid>\r\n                <v81:Status>\r\n                    <v81:Status code=\"2\">FAILURE<\/v81:Status>\r\n                    <v81:Reason code=\"102\">MERCHANT_ABORT<\/v81:Reason>\r\n                <\/v81:Status>\r\n                <v81:CreationTimestamp>{{now}}<\/v81:CreationTimestamp>\r\n                <!--1 or more repetitions:-->\r\n                <v81:PaymentAmount>\r\n                    <v81:PaymentMethod>DEBIT<\/v81:PaymentMethod>\r\n                    <v81:Amount>\r\n                        <v82:Amount>195<\/v82:Amount>\r\n                        <v82:Currency>CHF<\/v82:Currency>\r\n                    <\/v81:Amount>\r\n                <\/v81:PaymentAmount>\r\n            <\/v81:Order>\r\n        <\/v81:CancelOrderResponseElement>\r\n    <\/soapenv:Body>\r\n<\/soapenv:Envelope>",
+                "headers": [],
+                "transformers": [
+                    "response-template"
+                ],
+                "uuid": "0bc299ce-bdd1-58f3-bcc4-de9a1db6dafd"
+            },
+            "persistent": true,
+            "priority": 5,
+            "metadata": {
+                "mocklab": {
+                    "created": {
+                        "at": "2024-04-01T14:31:32.409150933Z",
+                        "via": "ADMIN_API",
+                        "by": "w7z21"
+                    },
+                    "response-example-attachment": "CancelOrder"
+                }
+            },
+            "postServeActions": []
+        }
+    ],
+    "meta": {
+        "total": 100
+    }
+}

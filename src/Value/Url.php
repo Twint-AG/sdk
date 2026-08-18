@@ -43,6 +43,13 @@ final class Url implements Stringable, Value
         return $this->url <=> $other->url;
     }
 
+    public function withQueryParameter(string $name, string $value): self
+    {
+        $separator = str_contains($this->url, '?') ? '&' : '?';
+
+        return new self($this->url . $separator . urlencode($name) . '=' . urlencode($value));
+    }
+
     /**
      * @return non-empty-string
      */

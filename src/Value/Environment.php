@@ -4,63 +4,11 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Value;
 
-use Deprecated;
-use Override;
-use Stringable;
-use Twint\Sdk\Util\Type;
-use function Psl\Type\instance_of;
-
-/**
- * @template-implements Enum<self::*>
- * @template-implements Value<self>
- */
-final class Environment implements Stringable, Value, Enum
+enum Environment: string
 {
-    /** @use ComparableToEquality<self> */
-    use ComparableToEquality;
+    case TESTING = 'TESTING';
 
-    public const TESTING = 'TESTING';
-
-    public const PRODUCTION = 'PRODUCTION';
-
-    /**
-     * @param self::* $value
-     */
-    public function __construct(
-        private readonly string $value
-    ) {
-        Type::maybeUnionOfLiterals(...self::all())->assert($value);
-    }
-
-    #[Override]
-    public static function all(): array
-    {
-        return [self::TESTING, self::PRODUCTION];
-    }
-
-    public static function PRODUCTION(): self
-    {
-        return new self(self::PRODUCTION);
-    }
-
-    public static function TESTING(): self
-    {
-        return new self(self::TESTING);
-    }
-
-    #[Override]
-    public function __toString(): string
-    {
-        return $this->value;
-    }
-
-    #[Override]
-    public function compare($other): int
-    {
-        instance_of(self::class)->assert($other);
-
-        return $this->value <=> $other->value;
-    }
+    case PRODUCTION = 'PRODUCTION';
 
     public function appSchemeUrl(): Url
     {
@@ -81,23 +29,9 @@ final class Environment implements Stringable, Value, Enum
         );
     }
 
-    #[Deprecated(
-        'This method is deprecated and will be removed in the next major version. Use \Twint\Sdk\Value\Version::soapNamespaceForHeaderTypes instead.',
-        '1.1'
-    )]
-    public function soapTargetNamespace(Version $version): Url
-    {
-        @trigger_error(
-            'This method is deprecated and will be removed in the next major version. Use \Twint\Sdk\Value\Version::soapNamespaceForHeaderTypes instead.',
-            E_USER_DEPRECATED
-        );
-
-        return $version->soapNamespaceForHeaderTypes();
-    }
-
     private function getServiceHost(): string
     {
-        return match ($this->value) {
+        return match ($this) {
             self::TESTING => 'service-pat.twint.ch',
             self::PRODUCTION => 'service.twint.ch',
         };
@@ -105,15 +39,9 @@ final class Environment implements Stringable, Value, Enum
 
     private function appSchemeHost(): string
     {
-        return match ($this->value) {
+        return match ($this) {
             self::TESTING => 'app.scheme-pat.twint.ch',
             self::PRODUCTION => 'app.scheme.twint.ch',
         };
-    }
-
-    #[Override]
-    public function jsonSerialize(): string
-    {
-        return $this->value;
     }
 }

@@ -11,10 +11,10 @@ use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 
-interface OrderCheckout extends OrderAdministration
+interface CustomUiOrderCheckout extends OrderAdministration
 {
     /**
-     * @return Order<PairingStatus, NumericPairingToken, QrCode>
+     * @return Order<PairingStatus::*, NumericPairingToken, QrCode, null>
      */
     public function startOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order;
 }

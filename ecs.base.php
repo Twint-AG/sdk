@@ -174,6 +174,7 @@ return ECSConfig::configure()
     ])
     ->withConfiguredRule(ClassAttributesSeparationFixer::class, [
         'elements' => [
+            'case' => 'one',
             'const' => 'one',
             'property' => 'one',
             'method' => 'one',
@@ -199,6 +200,7 @@ return ECSConfig::configure()
         'order' => [
             'use_trait',
             'constant',
+            'case',
             'property',
             'construct',
             'destruct',

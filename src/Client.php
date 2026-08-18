@@ -44,6 +44,7 @@ use Twint\Sdk\Soap\ExtSoapErrorClassifier;
 use Twint\Sdk\Value\Address;
 use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\CashRegisterId;
+use Twint\Sdk\Value\Currency;
 use Twint\Sdk\Value\CustomerData;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Date;
@@ -64,6 +65,7 @@ use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
 use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\PairingUuid;
+use Twint\Sdk\Value\PaymentUrl;
 use Twint\Sdk\Value\PhoneNumber;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\QrCode;
@@ -76,6 +78,8 @@ use Twint\Sdk\Value\TransactionStatus;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
 use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Version;
+use TypeError;
+use ValueError;
 use function Psl\invariant;
 use function Psl\Type\instance_of;
 use function Psl\Type\non_empty_string;
@@ -157,8 +161,8 @@ final class Client implements CoreCapabilities
                     )
                 );
 
-            return new SystemStatus($response->getStatus());
-        } catch (SoapException $e) {
+            return SystemStatus::from($response->getStatus());
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -171,6 +175,30 @@ final class Client implements CoreCapabilities
     {
         $this->enrollCashRegister();
 
+        return $this->doStartOrder($orderReference, $requestedAmount, 'custom');
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function startHostedOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order
+    {
+        $this->enrollCashRegister();
+
+        return $this->doStartOrder($orderReference, $requestedAmount, 'hosted');
+    }
+
+    /**
+     * @param 'custom'|'hosted' $uiType
+     * @throws SdkError
+     * @return ($uiType is 'custom' ? Order<PairingStatus::*, NumericPairingToken, QrCode, null> : Order<PairingStatus::*, NumericPairingToken, null, PaymentUrl>)
+     */
+    private function doStartOrder(
+        UnfiledMerchantTransactionReference $orderReference,
+        Money $requestedAmount,
+        string $uiType
+    ): Order {
         try {
             $response = $this->soapClient()
                 ->startOrder(
@@ -178,39 +206,60 @@ final class Client implements CoreCapabilities
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
+                        OperationOrigin: null,
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
                                     ->withAmount($requestedAmount->amount())
-                                    ->withCurrency($requestedAmount->currency())
+                                    ->withCurrency($requestedAmount->currency()->value)
                             )
                             ->withMerchantTransactionReference((string) $orderReference)
                             ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
                             ->withConfirmationNeeded(true),
                         Coupons: null,
-                        OfflineAuthorization: null,
                         CustomerRelationUuid: null,
                         PairingUuid: null,
                         UnidentifiedCustomer: true,
                         ExpressMerchantAuthorization: null,
-                        QRCodeRendering: true,
-                        PaymentLayerRendering: null,
+                        QRCodeRendering: $uiType === 'custom' ? true : null,
+                        PaymentLayerRendering: $uiType === 'hosted' ? 'PAYMENT_PAGE' : null,
                         OrderUpdateNotificationURL: null
                     )
                 );
 
+            $orderId = OrderId::fromString($response->getOrderUuid());
+            $filedMerchantTransactionReference = new FiledMerchantTransactionReference((string) $orderReference);
+            $orderStatus = OrderStatus::from($response->getOrderStatus()->getStatus()->get_());
+            $transactionStatus = TransactionStatus::from($response->getOrderStatus()->getReason()->get_());
+            $pairingStatus = PairingStatus::from($response->getPairingStatus());
+            $pairingToken = new NumericPairingToken(uint()->assert($response->getToken()));
+
+            if ($uiType === 'custom') {
+                return new Order(
+                    $orderId,
+                    $filedMerchantTransactionReference,
+                    $orderStatus,
+                    $transactionStatus,
+                    $requestedAmount,
+                    $pairingStatus,
+                    $pairingToken,
+                    new QrCode(non_empty_string()->assert($response->getQRCode()))
+                );
+            }
+
             return new Order(
-                OrderId::fromString($response->getOrderUuid()),
-                new FiledMerchantTransactionReference((string) $orderReference),
-                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                $orderId,
+                $filedMerchantTransactionReference,
+                $orderStatus,
+                $transactionStatus,
                 $requestedAmount,
-                PairingStatus::fromString($response->getPairingStatus()),
-                new NumericPairingToken(uint()->assert($response->getToken())),
-                new QrCode(non_empty_string()->assert($response->getQRCode()))
+                $pairingStatus,
+                $pairingToken,
+                null,
+                new PaymentUrl(new Url(non_empty_string()->assert($response->getTwintURL())))
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -242,18 +291,17 @@ final class Client implements CoreCapabilities
                     non_empty_string()
                         ->assert($response->getOrder()->getMerchantTransactionReference())
                 ),
-                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                OrderStatus::from($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    non_empty_string()
-                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
+                    Currency::from($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
                 ),
-                PairingStatus::fromString($response->getPairingStatus()),
+                PairingStatus::from($response->getPairingStatus()),
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -273,6 +321,7 @@ final class Client implements CoreCapabilities
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
+                        OperationOrigin: null,
                         OrderUuid: $orderReference->asOrderUuidString(),
                         MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
                     )
@@ -284,17 +333,16 @@ final class Client implements CoreCapabilities
                     non_empty_string()
                         ->assert($response->getOrder()->getMerchantTransactionReference())
                 ),
-                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                OrderStatus::from($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    non_empty_string()
-                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
+                    Currency::from($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
                 ),
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             if ($this->errorClassifier->isOfType($e, ErrorClassifier::STATUS_TRANSITION_ERROR)) {
                 throw CancellationFailed::fromThrowable($e);
             }
@@ -322,7 +370,7 @@ final class Client implements CoreCapabilities
                         MerchantTransactionReference: $orderReference->asMerchantTransactionReferenceString(),
                         RequestedAmount: (new CurrencyAmountType())
                             ->withAmount($requestedAmount->amount())
-                            ->withCurrency($requestedAmount->currency()),
+                            ->withCurrency($requestedAmount->currency()->value),
                         PartialConfirmation: false
                     )
                 );
@@ -333,17 +381,16 @@ final class Client implements CoreCapabilities
                     non_empty_string()
                         ->assert($response->getOrder()->getMerchantTransactionReference())
                 ),
-                OrderStatus::fromString($response->getOrder()->getStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrder()->getStatus()->getReason()->get_()),
+                OrderStatus::from($response->getOrder()->getStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrder()->getStatus()->getReason()->get_()),
                 new Money(
-                    non_empty_string()
-                        ->assert($response->getOrder()->getRequestedAmount()->getCurrency()),
+                    Currency::from($response->getOrder()->getRequestedAmount()->getCurrency()),
                     $response->getOrder()
                         ->getRequestedAmount()
                         ->getAmount()
                 ),
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -366,11 +413,12 @@ final class Client implements CoreCapabilities
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
+                        OperationOrigin: null,
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
                                     ->withAmount($reversalAmount->amount())
-                                    ->withCurrency($reversalAmount->currency())
+                                    ->withCurrency($reversalAmount->currency()->value)
                             )
                             ->withMerchantTransactionReference((string) $reversalReference)
                             ->withLink(
@@ -384,25 +432,24 @@ final class Client implements CoreCapabilities
                             ->withPostingType(self::POSTING_TYPE_GOODS)
                             ->withConfirmationNeeded(false),
                         Coupons: null,
-                        OfflineAuthorization: null,
                         CustomerRelationUuid: null,
                         PairingUuid: null,
                         UnidentifiedCustomer: true,
                         ExpressMerchantAuthorization: null,
                         QRCodeRendering: null,
                         PaymentLayerRendering: null,
-                        OrderUpdateNotificationURL: null
+                        OrderUpdateNotificationURL: null,
                     )
                 );
 
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
                 new FiledMerchantTransactionReference((string) $reversalReference),
-                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                OrderStatus::from($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrderStatus()->getReason()->get_()),
                 $reversalAmount
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -416,6 +463,32 @@ final class Client implements CoreCapabilities
         CustomerDataScopes $scopes,
         ShippingMethods $shippingMethods
     ): InteractiveFastCheckoutCheckIn {
+        return $this->doRequestFastCheckoutCheckIn($amountWithoutShipping, $scopes, $shippingMethods, 'custom');
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function requestHostedFastCheckoutCheckIn(
+        Money $amountWithoutShipping,
+        CustomerDataScopes $scopes,
+        ShippingMethods $shippingMethods
+    ): InteractiveFastCheckoutCheckIn {
+        return $this->doRequestFastCheckoutCheckIn($amountWithoutShipping, $scopes, $shippingMethods, 'hosted');
+    }
+
+    /**
+     * @param 'custom'|'hosted' $uiType
+     * @throws SdkError
+     * @return ($uiType is 'custom' ? InteractiveFastCheckoutCheckIn<QrCode, null> : InteractiveFastCheckoutCheckIn<null, PaymentUrl>)
+     */
+    private function doRequestFastCheckoutCheckIn(
+        Money $amountWithoutShipping,
+        CustomerDataScopes $scopes,
+        ShippingMethods $shippingMethods,
+        string $uiType
+    ): InteractiveFastCheckoutCheckIn {
         $this->enrollCashRegister();
 
         try {
@@ -427,7 +500,7 @@ final class Client implements CoreCapabilities
                             ->withCashRegisterId((string) $this->cashRegisterId),
                         NetAmount: (new CurrencyAmountType())
                             ->withAmount($amountWithoutShipping->amount())
-                            ->withCurrency($amountWithoutShipping->currency()),
+                            ->withCurrency($amountWithoutShipping->currency()->value),
                         // @phpstan-ignore-next-line
                         RequestedScopes: $scopes->toList(),
                         // @phpstan-ignore-next-line
@@ -438,24 +511,38 @@ final class Client implements CoreCapabilities
                                 ->withShippingMethodAmount(
                                     (new CurrencyAmountType())
                                         ->withAmount($method->price()->amount())
-                                        ->withCurrency($method->price()->currency())
+                                        ->withCurrency($method->price()->currency()->value)
                                 ),
                             iterator_to_array($shippingMethods)
                         ),
-                        QRCodeRendering: true,
+                        QRCodeRendering: $uiType === 'custom' ? true : null,
+                        PaymentLayerRendering: $uiType === 'hosted' ? 'PAYMENT_PAGE' : null,
                     )
                 );
 
-            return new InteractiveFastCheckoutCheckIn(
-                PairingUuid::fromString(
-                    non_empty_string()
-                        ->assert($response->getCheckInNotification()->getPairingUuid())
-                ),
-                PairingStatus::fromString($response->getCheckInNotification()->getPairingStatus()),
-                AlphanumericPairingToken::fromString($response->getToken()->getDisplayToken()),
-                new QrCode(non_empty_string()->assert($response->getQRCode())),
+            $pairingUuid = PairingUuid::fromString(
+                non_empty_string()
+                    ->assert($response->getCheckInNotification()->getPairingUuid())
             );
-        } catch (SoapException $e) {
+            $pairingStatus = PairingStatus::from($response->getCheckInNotification()->getPairingStatus());
+            $pairingToken = AlphanumericPairingToken::fromString($response->getToken()->getDisplayToken());
+            if ($uiType === 'custom') {
+                return new InteractiveFastCheckoutCheckIn(
+                    $pairingUuid,
+                    $pairingStatus,
+                    $pairingToken,
+                    new QrCode(non_empty_string()->assert($response->getQRCode())),
+                    null
+                );
+            }
+            return new InteractiveFastCheckoutCheckIn(
+                $pairingUuid,
+                $pairingStatus,
+                $pairingToken,
+                null,
+                new PaymentUrl(new Url(non_empty_string()->assert($response->getTwintURL())))
+            );
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -500,13 +587,13 @@ final class Client implements CoreCapabilities
 
             return new FastCheckoutCheckIn(
                 $pairingUuid,
-                PairingStatus::fromString($response->getCheckInNotification()->getPairingStatus()),
+                PairingStatus::from($response->getCheckInNotification()->getPairingStatus()),
                 $response->getShippingMethodId() !== null
                     ? new ShippingMethodId($response->getShippingMethodId())
                     : null,
                 $customerData
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -538,7 +625,7 @@ final class Client implements CoreCapabilities
                     $status->getStatus()
                 ));
             }
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -561,18 +648,18 @@ final class Client implements CoreCapabilities
                         MerchantInformation: (new MerchantInformationType())
                             ->withMerchantUuid((string) $this->storeUuid)
                             ->withCashRegisterId((string) $this->cashRegisterId),
+                        OperationOrigin: null,
                         Order: (new OrderRequestType())
                             ->withRequestedAmount(
                                 (new CurrencyAmountType())
                                     ->withAmount($requestedAmount->amount())
-                                    ->withCurrency($requestedAmount->currency())
+                                    ->withCurrency($requestedAmount->currency()->value)
                             )
                             ->withMerchantTransactionReference((string) $orderReference)
                             ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
                             ->withPostingType(self::POSTING_TYPE_GOODS)
                             ->withConfirmationNeeded(true),
                         Coupons: null,
-                        OfflineAuthorization: null,
                         CustomerRelationUuid: null,
                         PairingUuid: (string) $pairingUuid,
                         UnidentifiedCustomer: true,
@@ -586,14 +673,69 @@ final class Client implements CoreCapabilities
             return new Order(
                 OrderId::fromString($response->getOrderUuid()),
                 new FiledMerchantTransactionReference((string) $orderReference),
-                OrderStatus::fromString($response->getOrderStatus()->getStatus()->get_()),
-                TransactionStatus::fromString($response->getOrderStatus()->getReason()->get_()),
+                OrderStatus::from($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrderStatus()->getReason()->get_()),
                 $requestedAmount,
-                PairingStatus::fromString($response->getPairingStatus()),
+                PairingStatus::from($response->getPairingStatus()),
                 null,
                 null
             );
-        } catch (SoapException $e) {
+        } catch (SoapException | ValueError | TypeError $e) {
+            throw ApiFailure::fromThrowable($e);
+        }
+    }
+
+    /**
+     * @throws SdkError
+     */
+    #[Override]
+    public function startHostedFastCheckoutOrder(
+        PairingUuid $pairingUuid,
+        UnfiledMerchantTransactionReference $orderReference,
+        Money $requestedAmount
+    ): Order {
+        $this->enrollCashRegister();
+
+        try {
+            $response = $this->soapClient()
+                ->startOrder(
+                    new StartOrderRequestElement(
+                        MerchantInformation: (new MerchantInformationType())
+                            ->withMerchantUuid((string) $this->storeUuid)
+                            ->withCashRegisterId((string) $this->cashRegisterId),
+                        OperationOrigin: null,
+                        Order: (new OrderRequestType())
+                            ->withRequestedAmount(
+                                (new CurrencyAmountType())
+                                    ->withAmount($requestedAmount->amount())
+                                    ->withCurrency($requestedAmount->currency()->value)
+                            )
+                            ->withMerchantTransactionReference((string) $orderReference)
+                            ->withType(self::ORDER_KIND_PAYMENT_IMMEDIATE)
+                            ->withPostingType(self::POSTING_TYPE_GOODS)
+                            ->withConfirmationNeeded(true),
+                        Coupons: null,
+                        CustomerRelationUuid: null,
+                        PairingUuid: (string) $pairingUuid,
+                        UnidentifiedCustomer: true,
+                        ExpressMerchantAuthorization: null,
+                        QRCodeRendering: null,
+                        PaymentLayerRendering: 'PAYMENT_PAGE',
+                        OrderUpdateNotificationURL: null
+                    )
+                );
+
+            return new Order(
+                OrderId::fromString($response->getOrderUuid()),
+                new FiledMerchantTransactionReference((string) $orderReference),
+                OrderStatus::from($response->getOrderStatus()->getStatus()->get_()),
+                TransactionStatus::from($response->getOrderStatus()->getReason()->get_()),
+                $requestedAmount,
+                PairingStatus::from($response->getPairingStatus()),
+                null,
+                null
+            );
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }
@@ -726,7 +868,7 @@ final class Client implements CoreCapabilities
     {
         $cashRegisterId = (string) $this->cashRegisterId;
 
-        if (in_array($cashRegisterId, self::$enrolledCashRegisters[(string) $this->environment] ?? [], true)) {
+        if (in_array($cashRegisterId, self::$enrolledCashRegisters[$this->environment->value] ?? [], true)) {
             return;
         }
 
@@ -739,13 +881,11 @@ final class Client implements CoreCapabilities
                             ->withCashRegisterId($cashRegisterId),
                         CashRegisterType: self::CASH_REGISTER_TYPE_EPOS,
                         FormerCashRegisterId: null,
-                        BeaconInventoryNumber: null,
-                        BeaconDaemonVersion: null
                     )
                 );
 
-            self::$enrolledCashRegisters[(string) $this->environment][] = $cashRegisterId;
-        } catch (SoapException $e) {
+            self::$enrolledCashRegisters[$this->environment->value][] = $cashRegisterId;
+        } catch (SoapException | ValueError | TypeError $e) {
             throw ApiFailure::fromThrowable($e);
         }
     }

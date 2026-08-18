@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://service.twint.ch/common/types/v9"
+        xmlns:base="http://service.twint.ch/base/types/v9"
+        targetNamespace="http://service.twint.ch/common/types/v9"
+        elementFormDefault="qualified"
+        version="9.0">
+
+  <xs:import schemaLocation="twint_base_types_v9.xsd" namespace="http://service.twint.ch/base/types/v9"/>
+  <xs:import schemaLocation="twint_header_types_v9.xsd" namespace="http://service.twint.ch/header/types/v9"/>
+  <xs:import schemaLocation="twint_fault_types_v9.xsd" namespace="http://service.twint.ch/fault/types/v9"/>
+</xs:schema>

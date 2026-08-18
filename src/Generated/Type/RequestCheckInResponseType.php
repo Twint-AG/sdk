@@ -20,6 +20,10 @@ class RequestCheckInResponseType implements ResultInterface
      */
     protected ?string $QRCode = null;
 
+    protected ?string $TwintURL = null;
+
+    protected ?string $ApiToken = null;
+
     public function getCheckInNotification(): CheckInNotificationType
     {
         return $this->CheckInNotification;
@@ -55,6 +59,32 @@ class RequestCheckInResponseType implements ResultInterface
     {
         $new = clone $this;
         $new->QRCode = $QRCode;
+
+        return $new;
+    }
+
+    public function getTwintURL(): ?string
+    {
+        return $this->TwintURL;
+    }
+
+    public function withTwintURL(?string $TwintURL): static
+    {
+        $new = clone $this;
+        $new->TwintURL = $TwintURL;
+
+        return $new;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->ApiToken;
+    }
+
+    public function withApiToken(?string $ApiToken): static
+    {
+        $new = clone $this;
+        $new->ApiToken = $ApiToken;
 
         return $new;
     }

@@ -41,7 +41,7 @@ final class FastCheckoutCheckIn implements Value, FastCheckoutState
     #[Override]
     public function isPaired(): bool
     {
-        return $this->pairingStatus->equals(PairingStatus::PAIRING_ACTIVE());
+        return $this->pairingStatus === PairingStatus::PAIRING_ACTIVE;
     }
 
     /**

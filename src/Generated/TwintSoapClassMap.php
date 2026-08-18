@@ -38,6 +38,10 @@ class TwintSoapClassMap
             new ClassMap('FindOrderResponseType', Type\FindOrderResponseType::class),
             new ClassMap('EnrollCashRegisterRequestType', Type\EnrollCashRegisterRequestType::class),
             new ClassMap('EnrollCashRegisterResponseType', Type\EnrollCashRegisterResponseType::class),
+            new ClassMap('MessageHeaderType', Type\MessageHeaderType::class),
+            new ClassMap('MerchantReferenceType', Type\MerchantReferenceType::class),
+            new ClassMap('TerminalReferenceWithStatusType', Type\TerminalReferenceWithStatusType::class),
+            new ClassMap('TerminalReferenceType', Type\TerminalReferenceType::class),
             new ClassMap('CheckSystemStatusRequestType', Type\CheckSystemStatusRequestType::class),
             new ClassMap('CheckSystemStatusResponseType', Type\CheckSystemStatusResponseType::class),
             new ClassMap(
@@ -90,7 +94,6 @@ class TwintSoapClassMap
             new ClassMap('BNPLDataType', Type\BNPLDataType::class),
             new ClassMap('PaymentAmountType', Type\PaymentAmountType::class),
             new ClassMap('OrderLinkType', Type\OrderLinkType::class),
-            new ClassMap('BeaconSecurityType', Type\BeaconSecurityType::class),
             new ClassMap('GetCertificateValidityRequestType', Type\GetCertificateValidityRequestType::class),
             new ClassMap('GetCertificateValidityResponseType', Type\GetCertificateValidityResponseType::class),
             new ClassMap('RenewCertificateRequestType', Type\RenewCertificateRequestType::class),
@@ -139,6 +142,7 @@ class TwintSoapClassMap
             new ClassMap('CurrencyAmountType', Type\CurrencyAmountType::class),
             new ClassMap('MerchantInformationBaseType', Type\MerchantInformationBaseType::class),
             new ClassMap('MerchantInformationType', Type\MerchantInformationType::class),
+            new ClassMap('ScheduledPaymentData', Type\ScheduledPaymentData::class),
             new ClassMap('TWINTTokenType', Type\TWINTTokenType::class),
             new ClassMap('RegistrationRequestType', Type\RegistrationRequestType::class),
             new ClassMap('InternationalizedString', Type\InternationalizedString::class),
@@ -155,7 +159,6 @@ class TwintSoapClassMap
             new ClassMap('InvalidCashRegister', Type\InvalidCashRegister::class),
             new ClassMap('InvalidAmount', Type\InvalidAmount::class),
             new ClassMap('InvalidCurrency', Type\InvalidCurrency::class),
-            new ClassMap('InvalidOfflineAuthorization', Type\InvalidOfflineAuthorization::class),
             new ClassMap('InvalidOrder', Type\InvalidOrder::class),
             new ClassMap('InvalidCustomerRelationKey', Type\InvalidCustomerRelationKey::class),
             new ClassMap('InvalidVoucherCategory', Type\InvalidVoucherCategory::class),
@@ -185,6 +188,8 @@ class TwintSoapClassMap
             new ClassMap('InvalidPreAuthOrder', Type\InvalidPreAuthOrder::class),
             new ClassMap('InvalidShippingMethod', Type\InvalidShippingMethod::class),
             new ClassMap('InvalidCustomerDataScope', Type\InvalidCustomerDataScope::class),
+            new ClassMap('UnauthorizedObjection', Type\UnauthorizedObjection::class),
+            new ClassMap('InvalidScheduledProcessingDate', Type\InvalidScheduledProcessingDate::class),
         );
     }
 }

@@ -33,7 +33,8 @@ Start order
 -----------
 
 To start a new order the |method-client-start-order| method of the |class-client| class is called. The method returns an
-|class-value-order| object that contains order ID, order status, pairing token and the QR code.
+|class-value-order| object that contains order ID, order status, pairing token and the QR code. Use this if you want to
+render the UI by yourself.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
@@ -49,12 +50,28 @@ The pairing token is used to enable the customer to confirm the payment in the T
     :start-after: // Access pairing token start
     :end-before: // Access pairing token end
 
-The QR code is a visual representation of the pairing token that can be displayed to the customer.
+The QR code is a visual representation of the pairing token that can be displayed to the customer. This is only
+available for orders that have been created with |method-client-start-order|.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
     :start-after: // Access QR code start
     :end-before: // Access QR code end
+
+To start an order with hosted UI, use |method-client-start-hosted-order| instead. The method returns an order with a
+payment URL that should be used to redirect the customer to the hosted payment page.
+
+.. literalinclude:: _examples/regular-checkout.example.php
+    :language: PHP
+    :start-after: // Start hosted order start
+    :end-before: // Start hosted order end
+
+The payment redirect URL can be accessed using |method-value-order-payment-url|.
+
+.. literalinclude:: _examples/regular-checkout.example.php
+    :language: PHP
+    :start-after: // Access payment URL start
+    :end-before: // Access payment URL end
 
 .. warning::
     As of today, the only supported currency is Swiss Francs (CHF).
@@ -101,7 +118,7 @@ Concluding the order
 --------------------
 
 Once the order is confirmed, the order is concluded and the amount is transferred. The order status will be updated
-to |const-value-order-status-success|.
+to |case-value-order-status-success|.
 
 .. literalinclude:: _examples/regular-checkout.example.php
     :language: PHP
@@ -185,7 +202,7 @@ TWINT offers the possibility to implement an express checkout (internally called
 checkout is a simplified checkout process where the customer is redirected to the TWINT app to confirm the payment
 and the customer data is provided by TWINT to the merchant.
 
-The necessary capabilities are provided by the |interface-capability-fast-checkout| interface.
+The necessary capabilities are provided by the |interface-capability-custom-ui-fast-checkout| interface.
 
 Starting an express checkout check-in
 -------------------------------------
@@ -272,6 +289,53 @@ costs as selected by the user.
 
 Now continue with the regular checkout flow, starting at `Monitor order`_. The major difference being, that the order is
 already confirmed.
+
+Implementing hosted TWINT express checkout
+==========================================
+
+The express checkout can also be rendered using the hosted UI provided by TWINT, similar to the hosted regular
+checkout. The necessary capabilities are provided by the |interface-capability-hosted-ui-fast-checkout| interface.
+
+Starting a hosted express checkout check-in
+-------------------------------------------
+
+To start a hosted express checkout, use |method-client-request-hosted-fast-checkout-check-in| instead of
+|method-client-request-fast-checkout-check-in|. The parameters are the same, but the returned
+|class-value-interactive-fast-checkout-check-in| object provides a |method-value-interactive-fast-checkout-check-in-payment-url|
+instead of a QR code.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Request hosted fast checkout check-in start
+    :end-before: Request hosted fast checkout check-in end
+
+The payment URL can be accessed using |method-value-interactive-fast-checkout-check-in-payment-url|.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Access hosted fast checkout payment URL start
+    :end-before: Access hosted fast checkout payment URL end
+
+Building redirect URLs
+----------------------
+
+For the hosted payment page, success and cancellation redirect URLs can be appended to the payment URL using
+|method-value-payment-url-with-success-url| and |method-value-payment-url-with-cancel-url|. After the customer
+completes or cancels the payment on the hosted page, they will be redirected to the respective URL.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Build redirect URLs start
+    :end-before: Build redirect URLs end
+
+Once the check-in is started, continue with monitoring and customer data access as described in the regular express
+checkout flow above. To create the order, use |method-client-start-hosted-fast-checkout-order| instead of
+|method-client-start-fast-checkout-order|.
+
+.. literalinclude:: _examples/express-checkout.example.php
+    :language: PHP
+    :start-after: Start hosted fast checkout order start
+    :end-before: Start hosted fast checkout order end
 
 Introspecting API interactions
 ==============================

@@ -14,7 +14,6 @@ use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
-use ReflectionClass;
 use Soap\Engine\Engine;
 use SoapFault;
 use Twint\Sdk\Certificate\CertificateContainer;
@@ -32,10 +31,15 @@ use Twint\Sdk\Io\FileWriter;
 use Twint\Sdk\Io\InMemoryStream;
 use Twint\Sdk\Io\TemporaryFileWriter;
 use Twint\Sdk\Soap\ErrorClassifier;
+use Twint\Sdk\Tools\ClientResetter;
+use Twint\Sdk\Value\AlphanumericPairingToken;
 use Twint\Sdk\Value\CustomerDataScopes;
 use Twint\Sdk\Value\Environment;
 use Twint\Sdk\Value\FiledMerchantTransactionReference;
+use Twint\Sdk\Value\IosAppScheme;
 use Twint\Sdk\Value\Money;
+use Twint\Sdk\Value\NumericPairingToken;
+use Twint\Sdk\Value\PairingToken;
 use Twint\Sdk\Value\PairingUuid;
 use Twint\Sdk\Value\PrefixedCashRegisterId;
 use Twint\Sdk\Value\ShippingMethods;
@@ -87,6 +91,33 @@ final class ClientTest extends TestCase
                 Money::CHF(100),
             ],
         ];
+        yield ['startHostedOrder', [new UnfiledMerchantTransactionReference('ref'), Money::CHF(100)]];
+        yield [
+            'requestHostedFastCheckoutCheckIn',
+            [Money::CHF(10), new CustomerDataScopes(CustomerDataScopes::DATE_OF_BIRTH), new ShippingMethods()],
+        ];
+    }
+
+    /**
+     * @return iterable<string, array{0: non-empty-string, 1: PairingToken<scalar>, 2: non-empty-string}>
+     */
+    public static function getIosAppLinks(): iterable
+    {
+        yield 'numeric pairing token' => [
+            'twint-issuer42://',
+            new NumericPairingToken(12345),
+            'twint-issuer42://applinks/?al_applink_data={"app_action_type":"TWINT_PAYMENT",'
+            . '"extras":{"code":"12345"},"referer_app_link":{"target_url":"","url":"",'
+            . '"app_name":"EXTERNAL_WEB_BROWSER"},"version":"6.0"}',
+        ];
+
+        yield 'alphanumeric pairing token' => [
+            'twint-issuer7://',
+            new AlphanumericPairingToken('AB12CD'),
+            'twint-issuer7://applinks/?al_applink_data={"app_action_type":"TWINT_PAYMENT",'
+            . '"extras":{"code":"AB12CD"},"referer_app_link":{"target_url":"","url":"",'
+            . '"app_name":"EXTERNAL_WEB_BROWSER"},"version":"6.0"}',
+        ];
     }
 
     /**
@@ -109,8 +140,8 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
@@ -132,15 +163,13 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
 
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-        $prop->setAccessible(true);
-        $prop->setValue($client, []);
+        ClientResetter::reset($client);
 
         $this->expectException(ApiFailure::class);
 
@@ -182,15 +211,13 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             new PrefixedCashRegisterId(StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'), 'Magento'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
 
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-        $prop->setAccessible(true);
-        $prop->setValue($client, []);
+        ClientResetter::reset($client);
 
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
     }
@@ -230,15 +257,13 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
 
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-        $prop->setAccessible(true);
-        $prop->setValue($client, []);
+        ClientResetter::reset($client);
 
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
     }
@@ -259,16 +284,13 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
 
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-        $prop->setAccessible(true);
-        $prop->setValue($client, []);
-
+        ClientResetter::reset($client);
 
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
         $client->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
@@ -277,8 +299,8 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine
         );
@@ -306,8 +328,8 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608a'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $engine,
             errorClassifier: $errorClassifier
@@ -319,9 +341,6 @@ final class ClientTest extends TestCase
 
     public function testEnrollmentIsRepeatedForDifferentEnvironments(): void
     {
-        $prop = (new ReflectionClass(Client::class))->getProperty('enrolledCashRegisters');
-        $prop->setAccessible(true);
-
         $storeUuid = StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c');
 
         // TESTING client: expects EnrollCashRegister + StartOrder
@@ -339,13 +358,13 @@ final class ClientTest extends TestCase
         $testingClient = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             $storeUuid,
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             new TemporaryFileWriter(),
             static fn () => $testingEngine,
         );
 
-        $prop->setValue($testingClient, []);
+        ClientResetter::reset($testingClient);
 
         $testingClient->startOrder(new UnfiledMerchantTransactionReference('ref'), Money::CHF(100));
 
@@ -372,8 +391,8 @@ final class ClientTest extends TestCase
         $productionClient = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             $storeUuid,
-            Version::latest(),
-            Environment::PRODUCTION(),
+            Version::LATEST,
+            Environment::PRODUCTION,
             new TemporaryFileWriter(),
             static fn () => $productionEngine,
         );
@@ -402,8 +421,8 @@ final class ClientTest extends TestCase
         new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             fn (): FileWriter => $this->createMock(FileWriter::class)
         );
     }
@@ -413,8 +432,8 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             httpClientFactory: static fn () => throw new class(
                 'Mocked error'
             ) extends Exception implements ClientExceptionInterface {},
@@ -429,8 +448,8 @@ final class ClientTest extends TestCase
         $client = new Client(
             CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
             StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
-            Version::latest(),
-            Environment::TESTING(),
+            Version::LATEST,
+            Environment::TESTING,
             httpClientFactory: fn () => $this->createConfiguredMock(ClientInterface::class, [
                 'sendRequest' => $this->createConfiguredMock(ResponseInterface::class, [
                     'getStatusCode' => 200,
@@ -447,5 +466,60 @@ final class ClientTest extends TestCase
 
         $this->expectException(ApiFailure::class);
         $client->getIosAppSchemes();
+    }
+
+    /**
+     * @param non-empty-string $scheme
+     * @param PairingToken<scalar> $token
+     * @param non-empty-string $expectedUrl
+     */
+    #[DataProvider('getIosAppLinks')]
+    public function testIosAppUrlCarriesThePairingTokenOnTheIssuerScheme(
+        string $scheme,
+        PairingToken $token,
+        string $expectedUrl
+    ): void {
+        self::assertSame(
+            $expectedUrl,
+            (string) self::createClientWithoutTransport()->getIosAppUrl(
+                new IosAppScheme($scheme, 'Some Issuer'),
+                $token
+            )
+        );
+    }
+
+    public function testIosAppUrlIsBuiltWithoutTalkingToTheApi(): void
+    {
+        $engine = $this->createMock(Engine::class);
+        $engine->expects(self::never())
+            ->method('request');
+        $httpClient = $this->createMock(ClientInterface::class);
+        $httpClient->expects(self::never())
+            ->method('sendRequest');
+
+        $client = new Client(
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::LATEST,
+            Environment::TESTING,
+            new TemporaryFileWriter(),
+            static fn () => $engine,
+            static fn () => $httpClient,
+        );
+
+        $url = $client->getIosAppUrl(new IosAppScheme('twint-issuer1://', 'Some Issuer'), new NumericPairingToken(1));
+
+        self::assertStringStartsWith('twint-issuer1://applinks/?', (string) $url);
+    }
+
+    private static function createClientWithoutTransport(): Client
+    {
+        return new Client(
+            CertificateContainer::fromPem(new Pkcs8Certificate(new InMemoryStream('cert'), 'pass')),
+            StoreUuid::fromString('3094877c-352c-4bed-b542-bb69c7c4608c'),
+            Version::LATEST,
+            Environment::TESTING,
+            new TemporaryFileWriter(),
+        );
     }
 }

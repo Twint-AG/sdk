@@ -42,11 +42,6 @@ parameters:
                 - tests/*
             identifier: staticMethod.alreadyNarrowedType
         -
-            message: "#^Method Twint\\\\Sdk\\\\Value\\\\Environment::(appSchemeHost|getServiceHost)\\(\\) throws checked exception UnhandledMatchError.*#"
-            paths:
-                - src/Value/Environment.php
-            identifier: missingType.checkedException
-        -
             message: "#^Call to function Psl\\\\invariant\\(\\) with bool .* will always evaluate to false.$#"
             path: resources/config/soap.php
             reportUnmatched: false

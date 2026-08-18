@@ -10,6 +10,7 @@ use Twint\Sdk\Value\ShippingMethodId;
 use Twint\Sdk\Value\ShippingMethods;
 use Twint\Sdk\Value\StoreUuid;
 use Twint\Sdk\Value\UnfiledMerchantTransactionReference;
+use Twint\Sdk\Value\Url;
 
 $client = new Client(
     $certificateContainer,
@@ -17,6 +18,40 @@ $client = new Client(
     $version,
     $environment
 );
+
+// Request hosted fast checkout check-in start
+$initialCheckIn = $client->requestHostedFastCheckoutCheckIn(
+    Money::CHF(9.95),
+    new CustomerDataScopes(
+        CustomerDataScopes::EMAIL,
+        CustomerDataScopes::PHONE_NUMBER,
+        CustomerDataScopes::SHIPPING_ADDRESS,
+        CustomerDataScopes::DATE_OF_BIRTH
+    ),
+    new ShippingMethods(
+        new ShippingMethod(
+            new ShippingMethodId('regular-shipping-method-id'),
+            'Regular Shipping',
+            Money::CHF(5.00)
+        ),
+        new ShippingMethod(
+            new ShippingMethodId('express-shipping-method-id'),
+            'Express Shipping',
+            Money::CHF(10.00)
+        )
+    )
+);
+// Request hosted fast checkout check-in end
+
+// Access hosted fast checkout payment URL start
+$paymentUrl = $initialCheckIn->paymentUrl();
+// Access hosted fast checkout payment URL end
+
+// Build redirect URLs start
+$redirectUrl = $initialCheckIn->paymentUrl()
+    ->withSuccessUrl(new Url('https://example.com/checkout/success'))
+    ->withCancelUrl(new Url('https://example.com/checkout/cancel'));
+// Build redirect URLs end
 
 $initialCheckIn = $client->requestFastCheckoutCheckIn(
     Money::CHF(9.95),
@@ -93,6 +128,16 @@ if ($checkIn->isPaired()) {
     );
 }
 // Start fast checkout order end
+
+// Start hosted fast checkout order start
+if ($checkIn->isPaired()) {
+    $order = $client->startHostedFastCheckoutOrder(
+        $initialCheckIn->pairingUuid(),
+        new UnfiledMerchantTransactionReference($orderReference),
+        Money::CHF(14.95)
+    );
+}
+// Start hosted fast checkout order end
 
 // Cancel fast checkout check-in start
 $client->cancelFastCheckoutCheckIn(

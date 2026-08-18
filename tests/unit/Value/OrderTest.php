@@ -14,12 +14,14 @@ use Twint\Sdk\Value\Order;
 use Twint\Sdk\Value\OrderId;
 use Twint\Sdk\Value\OrderStatus;
 use Twint\Sdk\Value\PairingStatus;
+use Twint\Sdk\Value\PaymentUrl;
 use Twint\Sdk\Value\QrCode;
 use Twint\Sdk\Value\TransactionStatus;
+use Twint\Sdk\Value\Url;
 use Twint\Sdk\Value\Uuid;
 
 /**
- * @template-extends ValueTest<Order<null, null, null>>
+ * @template-extends ValueTest<Order<PairingStatus::NO_PAIRING, NumericPairingToken, QrCode, PaymentUrl>>
  * @internal
  */
 #[CoversClass(Order::class)]
@@ -33,15 +35,17 @@ final class OrderTest extends ValueTest
 
     private const PAIRING_TOKEN = 1235;
 
+    private const PAYMENT_URL = 'https://example.com/';
+
     /**
      * @return iterable<string, array{bool, PairingStatus|null}>
      */
     public static function getPairingRequiredCases(): iterable
     {
         yield 'No pairing status' => [false, null];
-        yield 'Pairing status is NO_PAIRING' => [false, PairingStatus::NO_PAIRING()];
-        yield 'Pairing status is PAIRING_IN_PROGRESS' => [true, PairingStatus::PAIRING_IN_PROGRESS()];
-        yield 'Pairing status is PAIRING_ACTIVE' => [false, PairingStatus::PAIRING_ACTIVE()];
+        yield 'Pairing status is NO_PAIRING' => [false, PairingStatus::NO_PAIRING];
+        yield 'Pairing status is PAIRING_IN_PROGRESS' => [true, PairingStatus::PAIRING_IN_PROGRESS];
+        yield 'Pairing status is PAIRING_ACTIVE' => [false, PairingStatus::PAIRING_ACTIVE];
     }
 
     /**
@@ -49,10 +53,10 @@ final class OrderTest extends ValueTest
      */
     public static function getStatusExamples(): iterable
     {
-        yield 'Success' => [OrderStatus::SUCCESS(), TransactionStatus::ORDER_OK(), true, false, false, false, false];
+        yield 'Success' => [OrderStatus::SUCCESS, TransactionStatus::ORDER_OK, true, false, false, false, false];
         yield 'Failure' => [
-            OrderStatus::FAILURE(),
-            TransactionStatus::CLIENT_ABORT(),
+            OrderStatus::FAILURE,
+            TransactionStatus::CLIENT_ABORT,
             false,
             true,
             false,
@@ -60,8 +64,8 @@ final class OrderTest extends ValueTest
             false,
         ];
         yield 'In progress 1' => [
-            OrderStatus::IN_PROGRESS(),
-            TransactionStatus::ORDER_PENDING(),
+            OrderStatus::IN_PROGRESS,
+            TransactionStatus::ORDER_PENDING,
             false,
             false,
             true,
@@ -69,8 +73,8 @@ final class OrderTest extends ValueTest
             false,
         ];
         yield 'In progress 2' => [
-            OrderStatus::IN_PROGRESS(),
-            TransactionStatus::ORDER_RECEIVED(),
+            OrderStatus::IN_PROGRESS,
+            TransactionStatus::ORDER_RECEIVED,
             false,
             false,
             true,
@@ -78,8 +82,8 @@ final class OrderTest extends ValueTest
             false,
         ];
         yield 'Confirmation required' => [
-            OrderStatus::IN_PROGRESS(),
-            TransactionStatus::ORDER_CONFIRMATION_PENDING(),
+            OrderStatus::IN_PROGRESS,
+            TransactionStatus::ORDER_CONFIRMATION_PENDING,
             false,
             false,
             true,
@@ -94,9 +98,13 @@ final class OrderTest extends ValueTest
         return new Order(
             new OrderId(new Uuid(self::ORDER_ID)),
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
-            OrderStatus::FAILURE(),
-            TransactionStatus::GENERAL_ERROR(),
+            OrderStatus::FAILURE,
+            TransactionStatus::GENERAL_ERROR,
             Money::CHF(0.20),
+            PairingStatus::NO_PAIRING,
+            new NumericPairingToken(self::PAIRING_TOKEN),
+            new QrCode(self::IMAGE),
+            new PaymentUrl(new Url(self::PAYMENT_URL)),
         );
     }
 
@@ -111,10 +119,10 @@ final class OrderTest extends ValueTest
         $order = new Order(
             new OrderId(new Uuid(self::ORDER_ID)),
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
-            OrderStatus::FAILURE(),
-            TransactionStatus::GENERAL_ERROR(),
+            OrderStatus::FAILURE,
+            TransactionStatus::GENERAL_ERROR,
             Money::CHF(0.21),
-            PairingStatus::PAIRING_IN_PROGRESS(),
+            PairingStatus::PAIRING_IN_PROGRESS,
             new NumericPairingToken(self::PAIRING_TOKEN),
             new QrCode(self::IMAGE)
         );
@@ -124,9 +132,9 @@ final class OrderTest extends ValueTest
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
             $order->merchantTransactionReference()
         );
-        self::assertObjectEquals(OrderStatus::FAILURE(), $order->status());
-        self::assertObjectEquals(TransactionStatus::GENERAL_ERROR(), $order->transactionStatus());
-        self::assertObjectEquals(PairingStatus::PAIRING_IN_PROGRESS(), $order->pairingStatus());
+        self::assertSame(OrderStatus::FAILURE, $order->status());
+        self::assertSame(TransactionStatus::GENERAL_ERROR, $order->transactionStatus());
+        self::assertSame(PairingStatus::PAIRING_IN_PROGRESS, $order->pairingStatus());
         self::assertSame(self::PAIRING_TOKEN, $order->pairingToken()->token());
         self::assertSame(self::IMAGE, (string) $order->qrCode());
     }
@@ -137,8 +145,8 @@ final class OrderTest extends ValueTest
         $order = new Order(
             new OrderId(new Uuid(self::ORDER_ID)),
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
-            OrderStatus::IN_PROGRESS(),
-            TransactionStatus::ORDER_PENDING(),
+            OrderStatus::IN_PROGRESS,
+            TransactionStatus::ORDER_PENDING,
             Money::CHF(0.20),
             $pairingStatus
         );
@@ -171,13 +179,33 @@ final class OrderTest extends ValueTest
         self::assertSame($confirmationPending, $order->isConfirmationPending());
     }
 
+    public function testAccessingFieldsWithPaymentUrl(): void
+    {
+        $order = new Order(
+            new OrderId(new Uuid(self::ORDER_ID)),
+            new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
+            OrderStatus::IN_PROGRESS,
+            TransactionStatus::ORDER_RECEIVED,
+            Money::CHF(0.21),
+            PairingStatus::PAIRING_IN_PROGRESS,
+            new NumericPairingToken(self::PAIRING_TOKEN),
+            null,
+            new PaymentUrl(new Url('https://twint.ch/pay'))
+        );
+
+        self::assertObjectEquals(OrderId::fromString(self::ORDER_ID), $order->id());
+        self::assertNull($order->qrCode());
+        self::assertObjectEquals(new PaymentUrl(new Url('https://twint.ch/pay')), $order->paymentUrl());
+        self::assertSame(self::PAIRING_TOKEN, $order->pairingToken()->token());
+    }
+
     public function testAccessAmount(): void
     {
         $order = new Order(
             new OrderId(new Uuid(self::ORDER_ID)),
             new FiledMerchantTransactionReference(self::MERCHANT_TRANSACTION_REFERENCE),
-            OrderStatus::FAILURE(),
-            TransactionStatus::GENERAL_ERROR(),
+            OrderStatus::FAILURE,
+            TransactionStatus::GENERAL_ERROR,
             Money::CHF(0.21),
         );
 

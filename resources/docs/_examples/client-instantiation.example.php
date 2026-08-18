@@ -13,8 +13,8 @@ use function Psl\Type\string;
 $client = new Client(
     $certificateContainer,
     StoreUuid::fromString($storeUuid),
-    Version::latest(),
-    Environment::TESTING()
+    Version::LATEST,
+    Environment::TESTING
 );
 
 
@@ -22,8 +22,8 @@ $client = new Client(
 $client = new Client(
     $certificateContainer,
     StoreUuid::fromString($storeUuid),
-    Version::latest(),
-    Environment::PRODUCTION()
+    Version::LATEST,
+    Environment::PRODUCTION
 );
 // Production end
 
@@ -32,8 +32,8 @@ $client = new Client(
 $client = new Client(
     $certificateContainer,
     StoreUuid::fromString($storeUuid),
-    Version::latest(),
-    Environment::PRODUCTION(),
+    Version::LATEST,
+    Environment::PRODUCTION,
     new ContentSensitiveFileWriter(
         new ExistingPath($certificatePath),
         static fn (string $content) => string()

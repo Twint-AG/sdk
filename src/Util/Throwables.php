@@ -65,18 +65,6 @@ final class Throwables
         $index = $t instanceof Error ? 0 : 1;
 
         return self::$previousPropertiesReflected[$index] ??=
-            self::makePropertyWritable(new ReflectionClass($classMap[$index]));
-    }
-
-    /**
-     * @param ReflectionClass<Error|Exception> $class
-     * @throws ReflectionException
-     */
-    private static function makePropertyWritable(ReflectionClass $class): ReflectionProperty
-    {
-        $property = $class->getProperty('previous');
-        $property->setAccessible(true);
-
-        return $property;
+            (new ReflectionClass($classMap[$index]))->getProperty('previous');
     }
 }

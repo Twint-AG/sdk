@@ -66,7 +66,7 @@ function createEngine(Config $config, WsdlLoader $loader, MetadataOptions $metad
 {
     if (class_exists(CodeGeneratorEngineFactory::class)) {
         $engine = CodeGeneratorEngineFactory::create(
-            'file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()),
+            'file:///' . (string) Environment::PRODUCTION->soapWsdlPath(Version::NEXT),
             new FlatteningLoader(new StreamWrapperLoader()),
             $metadataOptions
         );
@@ -78,7 +78,7 @@ function createEngine(Config $config, WsdlLoader $loader, MetadataOptions $metad
     invariant(method_exists($config, 'setMetadataOptions'), 'Config::setMetadataOptions exists');
 
     $engine = DefaultEngineFactory::create(
-        EngineOptions::defaults('file:///' . (string) Environment::PRODUCTION()->soapWsdlPath(Version::next()))
+        EngineOptions::defaults('file:///' . (string) Environment::PRODUCTION->soapWsdlPath(Version::NEXT))
             ->withWsdlLoader($loader),
     );
     $config->setMetadataOptions($metadataOptions);

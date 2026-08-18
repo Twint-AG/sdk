@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Generated\Type;
 
-class InvalidOfflineAuthorization
+class InvalidScheduledProcessingDate
 {
     protected ErrorCode $ErrorCode;
 

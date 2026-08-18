@@ -8,6 +8,7 @@ use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use Psl\Exception\InvariantViolationException;
+use Twint\Sdk\Value\Currency;
 use Twint\Sdk\Value\Money;
 
 /**
@@ -22,21 +23,21 @@ final class MoneyTest extends ValueTest
      */
     public static function getComparisons(): iterable
     {
-        yield [new Money(Money::CHF, 1000.12), new Money(Money::CHF, 1000.12), 0];
-        yield [new Money(Money::CHF, 1000.12), new Money(Money::CHF, 1000.13), -1];
-        yield [new Money(Money::CHF, 1000.13), new Money(Money::CHF, 1000.12), 1];
-        yield [new Money(Money::CHF, 1000.12), new Money(Money::XXX, 1000.12), -1];
+        yield [new Money(Currency::CHF, 1000.12), new Money(Currency::CHF, 1000.12), 0];
+        yield [new Money(Currency::CHF, 1000.12), new Money(Currency::CHF, 1000.13), -1];
+        yield [new Money(Currency::CHF, 1000.13), new Money(Currency::CHF, 1000.12), 1];
+        yield [new Money(Currency::CHF, 1000.12), new Money(Currency::XXX, 1000.12), -1];
     }
 
     public function testConvertToString(): void
     {
-        self::assertSame('1000.12 CHF', (string) new Money(Money::CHF, 1000.12));
+        self::assertSame('1000.12 CHF', (string) new Money(Currency::CHF, 1000.12));
     }
 
     public function testCommercialRoundingForFormatting(): void
     {
-        self::assertSame('1000.13 CHF', (string) new Money(Money::CHF, 1000.125));
-        self::assertSame('1000.12 CHF', (string) new Money(Money::CHF, 1000.124));
+        self::assertSame('1000.13 CHF', (string) new Money(Currency::CHF, 1000.125));
+        self::assertSame('1000.12 CHF', (string) new Money(Currency::CHF, 1000.124));
     }
 
     public function testCurrencySpecificInstantiation(): void
@@ -46,9 +47,9 @@ final class MoneyTest extends ValueTest
 
     public function testAccessors(): void
     {
-        $money = new Money(Money::CHF, 1000.12);
+        $money = new Money(Currency::CHF, 1000.12);
         self::assertSame(1000.12, $money->amount());
-        self::assertSame(Money::CHF, $money->currency());
+        self::assertSame(Currency::CHF, $money->currency());
     }
 
     #[DataProvider('getComparisons')]
@@ -59,7 +60,7 @@ final class MoneyTest extends ValueTest
 
     public function testAdd(): void
     {
-        self::assertObjectEquals(new Money(Money::CHF, 2000.24), Money::CHF(1000.12)->add(Money::CHF(1000.12)));
+        self::assertObjectEquals(new Money(Currency::CHF, 2000.24), Money::CHF(1000.12)->add(Money::CHF(1000.12)));
     }
 
     public function testAddThrowsExceptionIfCurrenciesDoNotMatch(): void
@@ -71,7 +72,7 @@ final class MoneyTest extends ValueTest
 
     public function testSubtract(): void
     {
-        self::assertObjectEquals(new Money(Money::CHF, 0), Money::CHF(1000.12)->subtract(Money::CHF(1000.12)));
+        self::assertObjectEquals(new Money(Currency::CHF, 0), Money::CHF(1000.12)->subtract(Money::CHF(1000.12)));
     }
 
     public function testSubtractThrowsExceptionIfCurrenciesDoNotMatch(): void

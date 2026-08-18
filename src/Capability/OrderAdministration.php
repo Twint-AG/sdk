@@ -11,12 +11,12 @@ use Twint\Sdk\Value\OrderReference;
 interface OrderAdministration extends OrderMonitoring, OrderReversal
 {
     /**
-     * @return Order<null, null, null>
+     * @return Order<null, null, null, null>
      */
     public function cancelOrder(OrderReference $orderReference): Order;
 
     /**
-     * @return Order<null, null, null>
+     * @return Order<null, null, null, null>
      */
     public function confirmOrder(OrderReference $orderReference, Money $requestedAmount): Order;
 }

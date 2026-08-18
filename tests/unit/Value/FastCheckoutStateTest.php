@@ -25,7 +25,7 @@ final class FastCheckoutStateTest extends ValueTest
     {
         return new FastCheckoutCheckIn(
             PairingUuid::fromString('00000000-0000-0000-0000-000000000000'),
-            new PairingStatus(PairingStatus::NO_PAIRING),
+            PairingStatus::NO_PAIRING,
             null,
             null,
         );
@@ -41,7 +41,7 @@ final class FastCheckoutStateTest extends ValueTest
     {
         $pairing = new FastCheckoutCheckIn(
             PairingUuid::fromString('00000000-0000-0000-0000-000000000000'),
-            new PairingStatus(PairingStatus::PAIRING_ACTIVE),
+            PairingStatus::PAIRING_ACTIVE,
             new ShippingMethodId('shipping_method_id'),
             new CustomerData([
                 'email' => new Email('foo@host.com'),
@@ -53,7 +53,7 @@ final class FastCheckoutStateTest extends ValueTest
             $pairing->pairingUuid()
         );
         self::assertTrue($pairing->isPaired());
-        self::assertObjectEquals(new PairingStatus(PairingStatus::PAIRING_ACTIVE), $pairing->pairingStatus());
+        self::assertSame(PairingStatus::PAIRING_ACTIVE, $pairing->pairingStatus());
 
         self::assertTrue($pairing->hasShippingMethodId());
         self::assertObjectEquals(new ShippingMethodId('shipping_method_id'), $pairing->shippingMethodId());

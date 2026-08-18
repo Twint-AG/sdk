@@ -10,6 +10,8 @@ class GetOrderResponseType implements ResultInterface
 {
     protected OrderType $Order;
 
+    protected ?string $ApiToken = null;
+
     public function getOrder(): OrderType
     {
         return $this->Order;
@@ -19,6 +21,19 @@ class GetOrderResponseType implements ResultInterface
     {
         $new = clone $this;
         $new->Order = $Order;
+
+        return $new;
+    }
+
+    public function getApiToken(): ?string
+    {
+        return $this->ApiToken;
+    }
+
+    public function withApiToken(?string $ApiToken): static
+    {
+        $new = clone $this;
+        $new->ApiToken = $ApiToken;
 
         return $new;
     }

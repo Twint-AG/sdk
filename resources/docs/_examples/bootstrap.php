@@ -40,8 +40,8 @@ $certificateContainer = CertificateContainer::fromPkcs12(
     )
 );
 
-$version = Version::next();
-$environment = Environment::TESTING();
+$version = Version::NEXT;
+$environment = Environment::TESTING;
 
 function handle(): void
 {

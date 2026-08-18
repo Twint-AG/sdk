@@ -4,28 +4,34 @@ declare(strict_types=1);
 
 namespace Twint\Sdk\Tests\Unit\Value;
 
-use Override;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\TestCase;
 use Twint\Sdk\Value\ShopPlatform;
+use ValueError;
 
 /**
- * @template-extends ValueTest<ShopPlatform>
  * @internal
  */
 #[CoversClass(ShopPlatform::class)]
-final class ShopPlatformTest extends ValueTest
+final class ShopPlatformTest extends TestCase
 {
-    protected bool $constNamesEqualsValues = false;
-
-    #[Override]
-    protected function createValue(): object
+    public function testWireValuesAreStable(): void
     {
-        return ShopPlatform::MAGENTO();
+        self::assertSame('mg', ShopPlatform::MAGENTO->value);
+        self::assertSame('sw', ShopPlatform::SHOPWARE->value);
+        self::assertSame('wc', ShopPlatform::WOOCOMMERCE->value);
+        self::assertSame('ot', ShopPlatform::OTHER->value);
     }
 
-    #[Override]
-    protected static function getValueType(): string
+    public function testCreateFromInvalidString(): void
     {
-        return ShopPlatform::class;
+        $this->expectException(ValueError::class);
+
+        ShopPlatform::from('invalid');
+    }
+
+    public function testJsonSerialize(): void
+    {
+        self::assertJsonStringEqualsJsonString('"mg"', json_encode(ShopPlatform::MAGENTO, JSON_THROW_ON_ERROR));
     }
 }

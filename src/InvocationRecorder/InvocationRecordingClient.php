@@ -82,6 +82,12 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
+    public function startHostedOrder(UnfiledMerchantTransactionReference $orderReference, Money $requestedAmount): Order
+    {
+        return $this->record2(__FUNCTION__, [$this->client, 'startHostedOrder'], $orderReference, $requestedAmount);
+    }
+
+    #[Override]
     public function monitorOrder(OrderReference $orderReference): Order
     {
         return $this->record1(__FUNCTION__, [$this->client, 'monitorOrder'], $orderReference);
@@ -220,6 +226,21 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
     }
 
     #[Override]
+    public function requestHostedFastCheckoutCheckIn(
+        Money $amountWithoutShipping,
+        CustomerDataScopes $scopes,
+        ShippingMethods $shippingMethods
+    ): InteractiveFastCheckoutCheckIn {
+        return $this->record3(
+            __FUNCTION__,
+            [$this->client, 'requestHostedFastCheckoutCheckIn'],
+            $amountWithoutShipping,
+            $scopes,
+            $shippingMethods
+        );
+    }
+
+    #[Override]
     public function monitorFastCheckoutCheckIn(PairingUuid $pairingUuid): FastCheckoutCheckIn
     {
         return $this->record1(__FUNCTION__, [$this->client, 'monitorFastCheckoutCheckIn'], $pairingUuid);
@@ -240,6 +261,21 @@ final class InvocationRecordingClient implements CoreCapabilities, InvocationRec
         return $this->record3(
             __FUNCTION__,
             [$this->client, 'startFastCheckoutOrder'],
+            $pairingUuid,
+            $orderReference,
+            $requestedAmount
+        );
+    }
+
+    #[Override]
+    public function startHostedFastCheckoutOrder(
+        PairingUuid $pairingUuid,
+        UnfiledMerchantTransactionReference $orderReference,
+        Money $requestedAmount
+    ): Order {
+        return $this->record3(
+            __FUNCTION__,
+            [$this->client, 'startHostedFastCheckoutOrder'],
             $pairingUuid,
             $orderReference,
             $requestedAmount

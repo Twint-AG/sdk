@@ -10,6 +10,7 @@ use ReflectionClassConstant;
 use ReflectionMethod;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
+use Roave\BetterReflection\Reflection\ReflectionEnum;
 use Roave\BetterReflection\Reflector\DefaultReflector;
 use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
@@ -107,6 +108,20 @@ foreach ($classes as $class) {
             toName('fq-const', $class, $constant->getName()),
             sprintf('%s::%s', $class->getName(), $constant->getName())
         );
+    }
+    if ($class instanceof ReflectionEnum) {
+        foreach ($class->getCases() as $case) {
+            $lines[] = sprintf(
+                '.. |%s| replace:: ``%s``',
+                toName('case', $class, $case->getName()),
+                $case->getName()
+            );
+            $lines[] = sprintf(
+                '.. |%s| replace:: ``%s``',
+                toName('fq-case', $class, $case->getName()),
+                sprintf('%s::%s', $class->getName(), $case->getName())
+            );
+        }
     }
 }
 

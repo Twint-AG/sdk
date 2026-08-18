@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twint\Sdk\Util;
 
 use Twint\Sdk\Value\Comparable;
+use UnitEnum;
 
 /**
  * @phpstan-import-type ComparisonResult from Comparable
@@ -12,11 +13,11 @@ use Twint\Sdk\Value\Comparable;
 final class Comparison
 {
     /**
-     * Compares pairs of Comparable objects.
+     * Compares pairs of Comparable objects, native enum cases or scalars.
      *
      * Returns the first non-zero result of the comparison or 0 if all pairs are equal.
      *
-     * @template T of Comparable|scalar|null
+     * @template T of Comparable|UnitEnum|scalar|null
      * @param list<array{T, T}> $pairs
      * @return ComparisonResult
      */

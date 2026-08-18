@@ -22,8 +22,6 @@ final class DetectedDeviceTest extends ValueTest
 
     private const ANDROID_USER_AGENT = 'Some Android UA';
 
-    protected bool $constNamesEqualsValues = false;
-
     /**
      * @return iterable<array{DetectedDevice, int, bool, bool, bool, bool}>
      */
@@ -86,5 +84,11 @@ final class DetectedDeviceTest extends ValueTest
 
         self::assertSame(DetectedDevice::UNKNOWN, $detectedDevice->deviceType());
         self::assertSame(self::UNKNOWN_USER_AGENT, $detectedDevice->userAgent());
+    }
+
+    #[Override]
+    protected function expectConstantNamesIdenticalToValues(): bool
+    {
+        return false;
     }
 }
