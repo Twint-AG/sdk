@@ -70,7 +70,17 @@ use SlevomatCodingStandard\Sniffs\Classes\RequireMultiLineMethodSignatureSniff;
 use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DNFTypeHintFormatSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\NullableTypeForNullDefaultValueSniff;
+use Symplify\CodingStandard\Fixer\Annotation\RemoveMethodNameDuplicateDescriptionFixer;
+use Symplify\CodingStandard\Fixer\Annotation\RemovePHPStormAnnotationFixer;
+use Symplify\CodingStandard\Fixer\Annotation\RemovePropertyVariableNameDescriptionFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayListItemNewlineFixer;
+use Symplify\CodingStandard\Fixer\ArrayNotation\ArrayOpenerAndCloserNewlineFixer;
+use Symplify\CodingStandard\Fixer\Commenting\RemoveUselessDefaultCommentFixer;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
+use Symplify\CodingStandard\Fixer\Spacing\MethodChainingNewlineFixer;
+use Symplify\CodingStandard\Fixer\Spacing\SpaceAfterCommaHereNowDocFixer;
 use Symplify\CodingStandard\Fixer\Spacing\StandaloneLinePromotedPropertyFixer;
+use Symplify\CodingStandard\Fixer\Strict\BlankLineAfterStrictTypesFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
@@ -140,6 +150,16 @@ return ECSConfig::configure()
         StrictComparisonFixer::class,
         DeclareStrictTypesFixer::class,
         StringableInterfaceFixer::class,
+        LineLengthFixer::class,
+        ArrayListItemNewlineFixer::class,
+        ArrayOpenerAndCloserNewlineFixer::class,
+        MethodChainingNewlineFixer::class,
+        SpaceAfterCommaHereNowDocFixer::class,
+        BlankLineAfterStrictTypesFixer::class,
+        RemovePHPStormAnnotationFixer::class,
+        RemoveUselessDefaultCommentFixer::class,
+        RemoveMethodNameDuplicateDescriptionFixer::class,
+        RemovePropertyVariableNameDescriptionFixer::class,
     ])
     ->withConfiguredRule(OrderedImportsFixer::class, [
         'imports_order' => ['class', 'const', 'function'],
@@ -201,7 +221,6 @@ return ECSConfig::configure()
     ])
     ->withPreparedSets(
         psr12: true,
-        symplify: true,
         arrays: true,
         comments: true,
         docblocks: true,

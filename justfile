@@ -158,7 +158,7 @@ codegen-generate-classmap: codegen-clean
 
 [parallel]
 codegen: codegen-generate-types codegen-generate-client codegen-generate-classmap
-    until {{ ecs_check }} {{ codegen_dir }} >/dev/null; do {{ ecs_check }} --fix {{ codegen_dir }} >/dev/null; done
+    until {{ ecs_check }} --paths={{ codegen_dir }} >/dev/null; do {{ ecs_check }} --fix --paths={{ codegen_dir }} >/dev/null; done
 
 check-codegen: codegen
     @echo "Check if codegen changed the generated code"

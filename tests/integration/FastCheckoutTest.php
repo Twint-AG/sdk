@@ -161,7 +161,6 @@ final class FastCheckoutTest extends IntegrationTest
                 ->getRequests();
             self::assertCount(1, $requests);
             /** @var non-empty-list<ServeEvent> $requests */
-
             $xpath = Document::fromXmlString(non_empty_string()->assert($requests[0]->getRequest()->getBody()))
                 ->xpath(namespaces([
                     'mer' => (string) Version::next()->soapNamespaceForMerchantTypes(),

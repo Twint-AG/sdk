@@ -88,8 +88,7 @@ abstract class IntegrationTest extends TestCase
             new DefaultSoapEngineFactory(
                 wrapEncoder: fn (Encoder $encoder) => new RequestModifyingEncoder(
                     $encoder,
-                    fn (SoapRequest $request, string $method) =>
-                    new SoapRequest(
+                    fn (SoapRequest $request, string $method) => new SoapRequest(
                         $request->getRequest(),
                         in_array($method, $this->wireMockMethods, true)
                             ? rtrim(SystemEnvironment::get('TWINT_SDK_TEST_WIREMOCK_BASE_URL'), '/')

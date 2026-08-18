@@ -44,8 +44,7 @@ final class DocumentationScopePrepender extends NodeVisitorAbstract
     {
         $duplicateUse = $this->nodeFinder->findFirst(
             $this->prependNodes,
-            static fn (Node $maybeUse) =>
-                $maybeUse instanceof Use_
+            static fn (Node $maybeUse) => $maybeUse instanceof Use_
                 && self::getNamespaceName($maybeUse) === self::getNamespaceName($use)
                 && $maybeUse->type === $use->type
         );
