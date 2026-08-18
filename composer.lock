@@ -8408,7 +8408,7 @@
             "version": "dev-cloud-support",
             "source": {
                 "type": "git",
-                "url": "https://github.com/lstrojny/wiremock-php.git",
+                "url": "git@github.com:lstrojny/wiremock-php.git",
                 "reference": "d3060aba77d141992e7e980ab1850582a5a97eec"
             },
             "dist": {
@@ -8463,10 +8463,7 @@
             ],
             "description": "PHP API for WireMock JSON interface",
             "homepage": "http://github.com/rowanhill/wiremock-php",
-            "support": {
-                "source": "https://github.com/lstrojny/wiremock-php/tree/cloud-support"
-            },
-            "time": "2026-04-20T19:16:28+00:00"
+            "time": "2024-04-09T14:46:48+00:00"
         }
     ],
     "aliases": [
