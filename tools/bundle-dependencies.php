@@ -21,7 +21,6 @@ use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
 use Roave\BetterReflection\Reflector\Reflector;
 use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\AutoloadSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\MemoizingSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Filesystem\Filesystem;
@@ -51,13 +50,6 @@ function createReflector(): Reflector
     return new DefaultReflector(
         new MemoizingSourceLocator(
             new AggregateSourceLocator([
-                new FileIteratorSourceLocator(
-                    Finder::create()
-                        ->name('*.php')
-                        ->in(Path::join(PROJECT_ROOT, '/src'))
-                        ->getIterator(),
-                    $betterReflection->astLocator()
-                ),
                 new PhpInternalSourceLocator($betterReflection->astLocator(), $betterReflection->sourceStubber()),
                 new AutoloadSourceLocator($betterReflection->astLocator(), $betterReflection->phpParser()),
             ])
@@ -77,8 +69,6 @@ function createTraverser(): NodeTraverser
 
     return $traverser;
 }
-
-$parser = createParser();
 
 /**
  * @param non-empty-string $path
@@ -116,6 +106,7 @@ function readComposerJson(string $path): array
 }
 
 /**
+ * @param array<non-empty-string, string> $srcFileContents
  * @param non-empty-string $packageName
  * @param non-empty-string $target
  * @throws Exception
@@ -124,6 +115,8 @@ function readComposerJson(string $path): array
 function copyPackage(
     Filesystem $fs,
     Parser $parser,
+    Reflector $reflector,
+    array $srcFileContents,
     VersionParser $versionParser,
     string $packageName,
     string $target
@@ -144,7 +137,7 @@ function copyPackage(
             $namespace,
             Path::makeRelative($sourceDirectory, PROJECT_ROOT)
         );
-        copySymbols($fs, $parser, $namespace, $targetDirectory, $sourceDirectory);
+        copySymbols($fs, $parser, $reflector, $srcFileContents, $namespace, $targetDirectory, $sourceDirectory);
         $psr4[$namespace] = Path::join($targetDirectory, str_replace('\\', '/', $namespace));
     }
 
@@ -157,7 +150,7 @@ function copyPackage(
             $namespace,
             Path::makeRelative($sourceDirectory, PROJECT_ROOT)
         );
-        copySymbols($fs, $parser, $namespace, $targetDirectory, $sourceDirectory);
+        copySymbols($fs, $parser, $reflector, $srcFileContents, $namespace, $targetDirectory, $sourceDirectory);
         $psr4[$namespace] = $targetDirectory;
     }
 
@@ -181,6 +174,7 @@ function ignoreSymbolNotFound(IdentifierNotFound $e): bool
 }
 
 /**
+ * @param array<non-empty-string, string> $srcFileContents
  * @param non-empty-string $namespace
  * @param non-empty-string $targetDirectory
  * @param non-empty-string $sourceDirectory
@@ -189,6 +183,8 @@ function ignoreSymbolNotFound(IdentifierNotFound $e): bool
 function copySymbols(
     Filesystem $fs,
     Parser $parser,
+    Reflector $reflector,
+    array $srcFileContents,
     string $namespace,
     string $targetDirectory,
     string $sourceDirectory
@@ -197,41 +193,56 @@ function copySymbols(
     $symbolCollector = new SymbolCollectingVisitor($namespace);
     $traverser->addVisitor($symbolCollector);
 
-    $reflector = createReflector();
-
     $fs->remove($targetDirectory);
 
-    $visited = [];
-    $classes = $reflector->reflectAllClasses();
+    $namespacePrefix = rtrim($namespace, '\\');
 
-    while ($classes !== []) {
-        $class = array_shift($classes);
-
-        if (in_array($class->getName(), $visited, true)) {
+    // Phase 1: Scan pre-read /src files for references to the target namespace
+    foreach ($srcFileContents as $content) {
+        if (!str_contains($content, $namespacePrefix)) {
             continue;
         }
 
-        $visited[] = $class->getName();
+        $ast = $parser->parse($content);
+        $traverser->traverse(vec(instance_of(Node::class))->assert($ast));
+    }
 
-        $ast = $parser->parse(read(non_empty_string()->assert($class->getFileName())));
+    // Phase 2: Follow symbol references transitively through vendor code
+    $visited = [];
+    $queue = $symbolCollector->getSymbols();
 
+    while ($queue !== []) {
+        $symbol = array_pop($queue);
+
+        if (isset($visited[$symbol])) {
+            continue;
+        }
+
+        $visited[$symbol] = true;
+
+        try {
+            $class = $reflector->reflectClass($symbol);
+        } catch (IdentifierNotFound $e) {
+            if (!ignoreSymbolNotFound($e)) {
+                throw $e;
+            }
+            continue;
+        }
+
+        $fileName = non_empty_string()
+            ->assert($class->getFileName());
+        $content = $srcFileContents[$fileName] ?? read($fileName);
+        $ast = $parser->parse($content);
         $traverser->traverse(vec(instance_of(Node::class))->assert($ast));
 
-        foreach ($symbolCollector->getSymbols() as $symbol) {
-            if (in_array($symbol, $visited, true)) {
-                continue;
-            }
-
-            try {
-                $classes[] = $reflector->reflectClass($symbol);
-            } catch (IdentifierNotFound $e) {
-                if (!ignoreSymbolNotFound($e)) {
-                    throw $e;
-                }
+        foreach ($symbolCollector->getSymbols() as $newSymbol) {
+            if (!isset($visited[$newSymbol])) {
+                $queue[] = $newSymbol;
             }
         }
     }
 
+    // Phase 3: Copy all discovered symbol files
     foreach ($symbolCollector->getSymbols() as $symbol) {
         try {
             $class = $reflector->reflectClass($symbol);
@@ -294,14 +305,25 @@ foreach ($rootComposerJson['require'] ?? [] as $requireRootPackage => $packageDe
 
 $fs = new Filesystem();
 
+$srcFileContents = [];
+foreach (Finder::create()->name('*.php')->in(Path::join(PROJECT_ROOT, '/src')) as $file) {
+    $srcFileContents[non_empty_string()->assert($file->getPathname())] = $file->getContents();
+}
+
+$reflector = createReflector();
+$parser = createParser();
+
 foreach (PACKAGES_TO_BUNDLE as $packageToBundle) {
     [$psr4Autoload, $packageDependencies] = copyPackage(
         $fs,
         $parser,
+        $reflector,
+        $srcFileContents,
         $versionParser,
         $packageToBundle,
         Path::join(PROJECT_ROOT, 'vendor-bundled')
     );
+
     foreach ($packageDependencies as $packageDependency => $packageDependencyConstraint) {
         if (in_array($packageDependency, PACKAGES_TO_BUNDLE, true)) {
             continue;
