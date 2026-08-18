@@ -75,7 +75,7 @@
         "symfony/dotenv": "^6.4.43",
         "phpstan/phpstan": "2.2.8",
         "symplify/easy-coding-standard": "13.2.17",
-        "slevomat/coding-standard": "8.29.0",
+        "slevomat/coding-standard": "8.31.1",
         "phpstan/phpstan-strict-rules": "2.0.12",
         "php-standard-library/phpstan-extension": "2.0.4",
         "symfony/event-dispatcher": "^6.4.43",
