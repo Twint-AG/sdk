@@ -47,7 +47,7 @@
         "ext-intl": "*",
         "php-soap/engine": "^2.7",
         "php-soap/ext-soap-engine": "^1.4",
-        "guzzlehttp/guzzle": "^7.4",
+        "guzzlehttp/guzzle": "^7.4 || ^8.0",
         "webimpress/safe-writer": "^2.0",
         "twint-ag/psl-compat": "^1.0 || ^2.0",
         "psr/clock": "^1.0",
@@ -90,7 +90,7 @@
         "composer/semver": "^3.4.4",
         "maennchen/zipstream-php": "^3.1.1",
         "phpstan/phpstan-phpunit": "2.0.18",
-        "http-interop/http-factory-guzzle": "^1.2.1",
+        "guzzlehttp/psr7": "^2.0 || ^3.0",
         "beste/in-memory-cache": "^1.4.0",
         "kubawerlos/php-cs-fixer-custom-fixers": "^3.37.2"
     },
