@@ -305,14 +305,41 @@ release:
     mkdir -p ~/.ssh
     chmod 400 "$TWINT_GITHUB_DEPLOY_KEY"
     ssh-keyscan {{ release_host }} >> ~/.ssh/known_hosts
-    GIT_SSH_COMMAND="ssh -i $TWINT_GITHUB_DEPLOY_KEY" git push --force {{ release_repository }} HEAD^:latest "$CI_COMMIT_TAG":"$CI_COMMIT_TAG"
+    GIT_SSH_COMMAND="ssh -i $TWINT_GITHUB_DEPLOY_KEY" git push --force {{ release_repository }} "$CI_COMMIT_TAG":"$CI_COMMIT_TAG"
+    # latest must only track the highest release line: a 1.x patch cut after
+    # 2.0 exists must not clobber it. ls-remote instead of local tags because
+    # CI clones are shallow.
+    highest="$(git ls-remote --tags origin | awk -F/ '{print $NF}' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)"
+    if [ "$CI_COMMIT_TAG" = "$highest" ]; then
+        GIT_SSH_COMMAND="ssh -i $TWINT_GITHUB_DEPLOY_KEY" git push --force {{ release_repository }} HEAD^:latest
+    else
+        echo "Not updating latest: $CI_COMMIT_TAG is not the highest release ($highest)"
+    fi
 
 [script]
 tag version:
-    test "$(git rev-parse --abbrev-ref HEAD)" = develop
+    branch="$(git rev-parse --abbrev-ref HEAD)"
+    version_major="{{ version }}"
+    version_major="${version_major%%.*}"
+    case "$branch" in
+        develop)
+            ;;
+        develop-*.x)
+            branch_major="${branch#develop-}"
+            branch_major="${branch_major%.x}"
+            if [ "$version_major" != "$branch_major" ]; then
+                echo "Refusing to tag {{ version }} from $branch: major version mismatch" >&2
+                exit 1
+            fi
+            ;;
+        *)
+            echo "Refusing to tag from $branch: releases are cut from develop or develop-<major>.x" >&2
+            exit 1
+            ;;
+    esac
     git diff --exit-code
     git diff --exit-code --cached
-    git pull origin develop
+    git pull origin "$branch"
     sed -e "s@9.9.9-dev@{{ version }}@g" -i {{ base_dir }}/src/SdkVersion.php
     GIT_COMMITTER_NAME="{{ release_bot_name }}" GIT_COMMITTER_EMAIL="{{ release_bot_email }}" GIT_AUTHOR_NAME="{{ release_bot_name }}" GIT_AUTHOR_EMAIL="{{ release_bot_email }}" git commit --no-gpg-sign -m "chore(release-management): bump to {{ version }}" {{ base_dir }}/src/SdkVersion.php
     GIT_COMMITTER_NAME="{{ release_bot_name }}" GIT_COMMITTER_EMAIL="{{ release_bot_email }}" git tag --no-sign -a {{ version }} -m "chore(release-management): tag {{ version }}"
