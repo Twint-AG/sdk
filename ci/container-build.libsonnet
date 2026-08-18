@@ -4,7 +4,7 @@
 // orchestration shouldn't invalidate the image cache.
 function(php, ssl, imageTag, base) base {
   stage: 'build',
-  image: 'quay.io/podman/stable:v5.8.2-immutable@sha256:766815d247ce0edfd8774770371d293728b0b500a219f35de98b408100f5d412',
+  image: 'quay.io/podman/stable:v5.8.4-immutable@sha256:b0173238dceedf46a10d2c3a7bf9b217a85dce19706d2d9c80b01345839ae779',
   variables: {
     PHP_VERSION: php,
     TWINT_SDK_PHP_CURL_SSL_ENGINE: ssl,
